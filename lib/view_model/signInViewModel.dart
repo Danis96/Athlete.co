@@ -28,8 +28,10 @@ class SignInViewModel implements SignInInterface {
     switch (_twitterLoginStatus) {
       case TwitterLoginStatus.loggedIn:
         _currentUserTwitterSession = _twitterLoginResult.session;
-        Navigator.of(context)
-            .push(MaterialPageRoute(builder: (_) => ChooseAthlete()));
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (_) => ChooseAthlete(
+                  currentUser: _currentUser,
+                )));
         break;
 
       case TwitterLoginStatus.cancelledByUser:
@@ -53,7 +55,7 @@ class SignInViewModel implements SignInInterface {
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
   @override
-  Future<String> signInWithGoogle(BuildContext context) async {
+   signInWithGoogle(BuildContext context) async {
     final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
     final GoogleSignInAuthentication googleSignInAuthentication =
         await googleSignInAccount.authentication;
@@ -73,14 +75,15 @@ class SignInViewModel implements SignInInterface {
     final FirebaseUser currentUser = await _firebaseAuth.currentUser();
     assert(user.uid == currentUser.uid);
 
-    return 'signInWithGoogle succeeded: $user';
+    Navigator.of(context)
+                .push(MaterialPageRoute(builder: (_) => ChooseAthlete( currentUser: currentUser,)));
   }
 
   /// google sign out
   @override
   signOutGoogle(BuildContext context) async {
     await googleSignIn.signOut();
-
+    Navigator.of(context).pop();
     print("User Sign Out");
   }
 }
