@@ -76,7 +76,7 @@ class SignInViewModel implements SignInInterface {
     assert(user.uid == currentUser.uid);
 
     Navigator.of(context)
-                .push(MaterialPageRoute(builder: (_) => ChooseAthlete( currentUser: currentUser,)));
+                .pushReplacement(MaterialPageRoute(builder: (_) => ChooseAthlete( currentUser: currentUser,)));
   }
 
   /// google sign out

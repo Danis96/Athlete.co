@@ -1,3 +1,4 @@
+import 'package:attt/utils/size_config.dart';
 import 'package:attt/view_model/signInViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
@@ -7,26 +8,27 @@ class Signin extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Scaffold(
       body: Center(
         child: Container(
           child: Column(
             children: <Widget>[
               SizedBox(
-                height: 120.0, //SizeConfig.blockSizeVertical * 10,
+                height: SizeConfig.blockSizeVertical * 19,
               ),
               Container(
                 child: Image.asset('assets/images/logo.png'),
               ),
               SizedBox(
-                height: 310.0, //SizeConfig.blockSizeVertical * 10,,
+                height: SizeConfig.blockSizeVertical * 48,
               ),
               Container(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      width: 257,
+                      width: SizeConfig.blockSizeHorizontal * 71,
                       child: SignInButton(
                         Buttons.Google,
                         padding: EdgeInsets.symmetric(horizontal: 7),
@@ -35,7 +37,7 @@ class Signin extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      width: 276,
+                      width: SizeConfig.blockSizeHorizontal * 77,
                       child: SignInButton(
                         Buttons.Facebook,
                         padding: EdgeInsets.symmetric(horizontal: 7),
@@ -44,7 +46,7 @@ class Signin extends StatelessWidget {
                       ),
                     ),
                     Container(
-                      width: 262,
+                      width: SizeConfig.blockSizeHorizontal * 73,
                       child: SignInButton(
                         Buttons.Twitter,
                         padding: EdgeInsets.symmetric(horizontal: 7),
@@ -54,15 +56,15 @@ class Signin extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                      height: 8.0,
+                      height: SizeConfig.blockSizeVertical * 1.25,
                     ),
                     Container(
-                      width: 344,
+                      width: SizeConfig.blockSizeHorizontal * 96,
                       child: Text(
                         'By continuing, you agree to the\nTerms of Service & Privacy Policy.',
                         style: TextStyle(
                           color: Color.fromRGBO(255, 255, 255, 0.8),
-                          fontSize: 12,
+                          fontSize: SizeConfig.safeBlockHorizontal * 3.5,
                           fontFamily: 'Roboto',
                         ),
                         textAlign: TextAlign.center,
