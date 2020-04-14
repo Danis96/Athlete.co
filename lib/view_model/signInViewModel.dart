@@ -3,16 +3,18 @@ import 'package:attt/view/chooseAthlete/pages/chooseAthlete.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_twitter_login/flutter_twitter_login.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class SignInViewModel implements SignInInterface {
   FirebaseUser _currentUser;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
+  /// twitter sign in classes
   TwitterLoginResult _twitterLoginResult;
   TwitterLoginStatus _twitterLoginStatus;
   TwitterSession _currentUserTwitterSession;
 
- /// sign in with twitter
+  /// sign in with twitter
   @override
   signInWithTwitter(BuildContext context) async {
     /// waiting for keys
@@ -45,5 +47,40 @@ class SignInViewModel implements SignInInterface {
     AuthResult result =
         await _firebaseAuth.signInWithCredential(_authCredential);
     _currentUser = result.user;
+  }
+
+  /// sign in with google
+  final GoogleSignIn googleSignIn = GoogleSignIn();
+
+  @override
+  Future<String> signInWithGoogle(BuildContext context) async {
+    final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+    final GoogleSignInAuthentication googleSignInAuthentication =
+        await googleSignInAccount.authentication;
+
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: googleSignInAuthentication.accessToken,
+      idToken: googleSignInAuthentication.idToken,
+    );
+
+    final AuthResult authResult =
+        await _firebaseAuth.signInWithCredential(credential);
+    final FirebaseUser user = authResult.user;
+
+    assert(!user.isAnonymous);
+    assert(await user.getIdToken() != null);
+
+    final FirebaseUser currentUser = await _firebaseAuth.currentUser();
+    assert(user.uid == currentUser.uid);
+
+    return 'signInWithGoogle succeeded: $user';
+  }
+
+  /// google sign out
+  @override
+  signOutGoogle(BuildContext context) async {
+    await googleSignIn.signOut();
+
+    print("User Sign Out");
   }
 }

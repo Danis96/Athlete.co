@@ -1,4 +1,6 @@
+import 'package:attt/interface/signinInterface.dart';
 import 'package:attt/view/chooseAthlete/pages/chooseAthlete.dart';
+import 'package:attt/view_model/signInViewModel.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -93,10 +95,16 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => ChooseAthlete())),
+        onPressed: () {
+          SignInViewModel().signInWithGoogle(context).whenComplete(() {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (_) => ChooseAthlete()));
+          });
+        },
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
+
