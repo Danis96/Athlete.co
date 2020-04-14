@@ -1,8 +1,9 @@
 import 'package:attt/utils/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:attt/utils/colors.dart';
 
 class ChooseAthlete extends StatelessWidget {
-   ChooseAthlete({Key key}) : super(key: key);
+  ChooseAthlete({Key key}) : super(key: key);
 
   String name = 'Danis';
 
@@ -13,7 +14,7 @@ class ChooseAthlete extends StatelessWidget {
       body: ListView(
         children: <Widget>[
           nameHeadline(name, context),
-          Container(),
+          trainersList(),
         ],
       ),
     );
@@ -23,11 +24,14 @@ class ChooseAthlete extends StatelessWidget {
 Widget nameHeadline(String name, BuildContext context) {
   SizeConfig().init(context);
   return Container(
-    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5,
-                            left: SizeConfig.blockSizeHorizontal * 5 ),
+    margin: EdgeInsets.only(
+        top: SizeConfig.blockSizeVertical * 5,
+        left: SizeConfig.blockSizeHorizontal * 5),
     child: Row(
       children: <Widget>[
         Container(
+          height: SizeConfig.blockSizeVertical * 10,
+          width: SizeConfig.blockSizeHorizontal * 21,
           padding: EdgeInsets.all(10),
           child: CircleAvatar(
             radius: 28.0,
@@ -36,9 +40,27 @@ Widget nameHeadline(String name, BuildContext context) {
           ),
         ),
         Container(
-          child: Text('Hi $name, \nselect your athlete.'),
+          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 2),
+          child: Text(
+            'Hi $name, \nselect your athlete.',
+            style: TextStyle(
+                fontSize: SizeConfig.safeBlockHorizontal * 5.5,
+                fontWeight: FontWeight.w500),
+          ),
         ),
       ],
     ),
   );
+}
+
+
+Widget trainersList() {
+   return ListView.builder(
+     shrinkWrap: true,
+     itemCount: 5,
+     itemBuilder: (BuildContext context, int index) {
+        return Text('Treneri');
+     }
+     
+     );
 }
