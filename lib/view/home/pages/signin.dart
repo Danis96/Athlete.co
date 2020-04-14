@@ -1,3 +1,4 @@
+import 'package:attt/view_model/signInViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 
@@ -30,7 +31,7 @@ class Signin extends StatelessWidget {
                         Buttons.Google,
                         padding: EdgeInsets.symmetric(horizontal: 7),
                         text: 'CONTINUE WITH GOOGLE',
-                        onPressed: () {},
+                        onPressed: () => SignInViewModel().signInWithGoogle(context),
                       ),
                     ),
                     Container(
@@ -48,7 +49,8 @@ class Signin extends StatelessWidget {
                         Buttons.Twitter,
                         padding: EdgeInsets.symmetric(horizontal: 7),
                         text: 'CONTINUE WITH TWITTER',
-                        onPressed: () {},
+                        /// za ovo cekam jos keys
+                        onPressed: () => SignInViewModel().signInWithTwitter(context),
                       ),
                     ),
                     SizedBox(
