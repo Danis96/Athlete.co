@@ -1,4 +1,4 @@
-import 'package:attt/interface/signinInterface.dart';
+
 import 'package:attt/view/chooseAthlete/pages/chooseAthlete.dart';
 import 'package:attt/view_model/signInViewModel.dart';
 import 'package:flutter/material.dart';
@@ -96,10 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          SignInViewModel().signInWithGoogle(context).whenComplete(() {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (_) => ChooseAthlete()));
-          });
+          SignInViewModel().signInWithGoogle(context);
         },
         tooltip: 'Increment',
         child: Icon(Icons.add),
