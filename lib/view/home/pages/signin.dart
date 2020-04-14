@@ -42,7 +42,7 @@ class Signin extends StatelessWidget {
                         Buttons.Facebook,
                         padding: EdgeInsets.symmetric(horizontal: 7),
                         text: 'CONTINUE WITH FACEBOOK',
-                        onPressed: () {},
+                        onPressed: () => SignInViewModel().login(context),
                       ),
                     ),
                     Container(
