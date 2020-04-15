@@ -12,21 +12,16 @@ Widget nameHeadline(String name,String usersPhoto, BuildContext context) {
         left: SizeConfig.blockSizeHorizontal * 5),
     child: Row(
       children: <Widget>[
-        GestureDetector(
-          onTap: () {
-                SignInViewModel().signOutGoogle(context);
-          },
-                  child: Container(
+        Container(
             height: SizeConfig.blockSizeVertical * 10,
             width: SizeConfig.blockSizeHorizontal * 21,
             padding: EdgeInsets.all(10),
             child: CircleAvatar(
               radius: 28.0,
               backgroundImage: NetworkImage(
-                  usersPhoto),
+        usersPhoto),
             ),
           ),
-        ),
         Container(
           margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 2),
           child: Text(

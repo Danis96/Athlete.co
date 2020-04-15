@@ -97,20 +97,11 @@ class SignInViewModel implements SignInInterface {
     return currentUser;
   }
 
-  Future<Null> login(BuildContext context) async {
+  Future<Null> signInWithFacebook(BuildContext context) async {
     final FacebookLoginResult result = await facebookSignIn.logIn(['email']);
 
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
-        // _showMessage('''
-        //  Logged in!
-
-        //  Token: ${accessToken.token}
-        //  User id: ${accessToken.userId}
-        //  Expires: ${accessToken.expires}
-        //  Permissions: ${accessToken.permissions}
-        //  Declined permissions: ${accessToken.declinedPermissions}
-        //  ''');
         var firebaseUser =
             await firebaseAuthWithFacebook(token: result.accessToken);
             _currentUser = firebaseUser;
@@ -121,12 +112,9 @@ class SignInViewModel implements SignInInterface {
                 )));
         break;
       case FacebookLoginStatus.cancelledByUser:
-        //_showMessage('Login cancelled by the user.');
         print('Canceled by user!');
         break;
       case FacebookLoginStatus.error:
-        //_showMessage('Something went wrong with the login process.\n'
-        //  'Here\'s the error Facebook gave us: ${result.errorMessage}');
         print('ERROR: ' + result.errorMessage.toString());
         break;
     }
@@ -135,7 +123,6 @@ class SignInViewModel implements SignInInterface {
   @override
   signOutGoogle(BuildContext context) async {
     await googleSignIn.signOut();
-      Navigator.of(context).pop();
       print("User Sign Out");
   }
 }
