@@ -1,10 +1,9 @@
-
-
+import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view_model/signInViewModel.dart';
 import 'package:flutter/material.dart';
 
-Widget nameHeadline(String name,String usersPhoto, BuildContext context) {
+Widget nameHeadline(String name, String usersPhoto, BuildContext context) {
   SizeConfig().init(context);
   return Container(
     margin: EdgeInsets.only(
@@ -12,14 +11,19 @@ Widget nameHeadline(String name,String usersPhoto, BuildContext context) {
         left: SizeConfig.blockSizeHorizontal * 5),
     child: Row(
       children: <Widget>[
-        Container(
-            height: 80,
-            width: 80,
+        GestureDetector(
+          onTap: () {
+            platform == 'Google'
+                ? SignInViewModel().signOutGoogle(context)
+                : SignInViewModel().signOutFacebook(context);
+          },
+          child: Container(
+            height: SizeConfig.blockSizeVertical * 10,
+            width: SizeConfig.blockSizeHorizontal * 21,
             padding: EdgeInsets.all(10),
             child: CircleAvatar(
               radius: 28.0,
-              backgroundImage: NetworkImage(
-        usersPhoto),
+              backgroundImage: NetworkImage(usersPhoto),
             ),
           ),
         Container(

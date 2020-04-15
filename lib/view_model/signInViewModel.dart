@@ -1,10 +1,13 @@
 import 'package:attt/interface/signinInterface.dart';
+import 'package:attt/utils/globals.dart';
 import 'package:attt/view/chooseAthlete/pages/chooseAthlete.dart';
+import 'package:attt/view/home/pages/signin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_twitter_login/flutter_twitter_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignInViewModel implements SignInInterface {
   FirebaseUser _currentUser;
@@ -33,7 +36,9 @@ class SignInViewModel implements SignInInterface {
         _currentUserTwitterSession = _twitterLoginResult.session;
         Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (_) => ChooseAthlete(
-                  currentUser: _currentUser,
+                  name: userName,
+                  email: userEmail,
+                  photo: userPhoto,
                 )));
         break;
 
@@ -80,17 +85,26 @@ class SignInViewModel implements SignInInterface {
     final FirebaseUser currentUser = await _firebaseAuth.currentUser();
     assert(user.uid == currentUser.uid);
 
+    userEmail = currentUser.email;
+    userName = currentUser.displayName;
+    userPhoto = currentUser.photoUrl;
+    platform = 'Google';
+    loginUser();
+
     Navigator.of(context).pushReplacement(MaterialPageRoute(
         builder: (_) => ChooseAthlete(
-              currentUser: currentUser,
+              name: userName,
+              email: userEmail,
+              photo: userPhoto,
             )));
   }
 
   /// sign in with google
   static final FacebookLogin facebookSignIn = new FacebookLogin();
 
+  @override
   Future<FirebaseUser> firebaseAuthWithFacebook(
-      {@required FacebookAccessToken token}) async {
+      {@required FacebookAccessToken token, BuildContext context}) async {
     AuthCredential credential =
         FacebookAuthProvider.getCredential(accessToken: token.token);
     AuthResult facebookAuthResult =
@@ -98,22 +112,32 @@ class SignInViewModel implements SignInInterface {
     final FirebaseUser user = facebookAuthResult.user;
     final FirebaseUser currentUser = await _firebaseAuth.currentUser();
     assert(user.uid == currentUser.uid);
+    userEmail = currentUser.email;
+    userName = currentUser.displayName;
+    userPhoto = currentUser.photoUrl;
+    platform = 'Facebook';
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (_) => ChooseAthlete(
+              name: userName,
+              email: userEmail,
+              photo: userPhoto,
+            )));
+    loginUser();
     return currentUser;
   }
-
+  
+  @override
   Future<Null> signInWithFacebook(BuildContext context) async {
     final FacebookLoginResult result = await facebookSignIn.logIn(['email']);
-
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
-        var firebaseUser =
-            await firebaseAuthWithFacebook(token: result.accessToken);
-            _currentUser = firebaseUser;
-        print('Logovani user je: ' + firebaseUser.displayName + ' sa E-mailom: ' + firebaseUser.email);
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (_) => ChooseAthlete(
-                  currentUser: _currentUser,
-                )));
+        var firebaseUser = await firebaseAuthWithFacebook(
+            token: result.accessToken, context: context);
+        _currentUser = firebaseUser;
+        print('Logovani user je: ' +
+            firebaseUser.displayName +
+            ' sa E-mailom: ' +
+            firebaseUser.email);
         break;
       case FacebookLoginStatus.cancelledByUser:
         print('Canceled by user!');
@@ -129,11 +153,62 @@ class SignInViewModel implements SignInInterface {
   @override
   signOutGoogle(BuildContext context) async {
     await googleSignIn.signOut();
+    _currentUser = null;
+    logout();
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (_) => Signin()));
+    print("User Sign Out");
   }
 
   @override
-  signOutFacebook(BuildContext context) {
-     print('fb sign out');
+  signOutFacebook(BuildContext context) async {
+    await facebookSignIn.logOut();
+    _currentUser = null;
+    logout();
+    Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (_) => Signin()));
+    print("User Sign Out Faceboook");
+  }
+
+  @override
+  void autoLogIn(BuildContext context) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    userEmail = prefs.getString('email');
+    userName = prefs.getString('displayName');
+    userPhoto = prefs.getString('photoURL');
+
+    if (userEmail != null) {
+      isLoggedIn = true;
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (_) => ChooseAthlete(
+                name: userName,
+                email: userEmail,
+                photo: userPhoto,
+              )));
+      return;
+    }
+  }
+
+  @override
+  Future<Null> logout() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('email', null);
+    prefs.setString('displayName', null);
+    prefs.setString('photoURL', null);
+
+    isLoggedIn = false;
+  }
+
+  @override
+  Future<Null> loginUser() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('email', userEmail);
+    prefs.setString('displayName', userName);
+    prefs.setString('photoURL', userPhoto);
+
+    print('LOGOVALI SMOOOOOOOOOOO SEEEEEEEEEEEEEEEEEEEEEE: ' + userEmail);
+
+    isLoggedIn = true;
   }
 
   @override

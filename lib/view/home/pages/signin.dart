@@ -3,9 +3,23 @@ import 'package:attt/view_model/signInViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 
-class Signin extends StatelessWidget {
+class Signin extends StatefulWidget {
   const Signin({Key key}) : super(key: key);
 
+  @override
+  _SigninState createState() => _SigninState();
+}
+
+class _SigninState extends State<Signin> {
+
+  bool isLoggedIn = false;
+  String name = '';
+
+  @override
+  void initState() {
+    super.initState();
+    SignInViewModel().autoLogIn(context);
+  }
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -40,8 +54,7 @@ class Signin extends StatelessWidget {
                       child: SignInButton(
                         Buttons.Facebook,
                         text: 'CONTINUE WITH FACEBOOK',
-                        onPressed: () =>
-                            SignInViewModel().signInWithFacebook(context),
+                        onPressed: () => SignInViewModel().signInWithFacebook(context),
                       ),
                     ),
                     Container(
