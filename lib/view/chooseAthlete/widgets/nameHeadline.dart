@@ -11,13 +11,7 @@ Widget nameHeadline(String name, String usersPhoto, BuildContext context) {
         left: SizeConfig.blockSizeHorizontal * 5),
     child: Row(
       children: <Widget>[
-        GestureDetector(
-          onTap: () {
-            platform == 'Google'
-                ? SignInViewModel().signOutGoogle(context)
-                : SignInViewModel().signOutFacebook(context);
-          },
-          child: Container(
+        Container(
             height: SizeConfig.blockSizeVertical * 10,
             width: SizeConfig.blockSizeHorizontal * 21,
             padding: EdgeInsets.all(10),
