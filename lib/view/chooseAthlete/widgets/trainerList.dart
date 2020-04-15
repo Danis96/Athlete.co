@@ -1,6 +1,5 @@
 import 'package:attt/models/trainerModel.dart';
 import 'package:attt/utils/size_config.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:attt/view/chooseAthlete/widgets/trainerContainer.dart';
 import 'package:attt/view_model/chooseAthleteViewModel.dart';
