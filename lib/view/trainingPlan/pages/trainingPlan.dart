@@ -9,19 +9,21 @@ class TrainingPlan extends StatelessWidget {
   final String trainerName;
   final String trainingPlanName;
   final String trainingPlanDuration;
-  final FirebaseUser currentUser;
+  final String name, photo, email;
   TrainingPlan(
       {this.trainerName,
       this.trainingPlanDuration,
       this.trainingPlanName,
-      this.currentUser});
+      this.photo,
+      this.name,
+      this.email});
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Hi ' + currentUser.displayName),
+        title: Text('Hi ' + name),
       ),
       body: Center(
         child: Column(
@@ -32,7 +34,7 @@ class TrainingPlan extends StatelessWidget {
               padding: EdgeInsets.all(10),
               child: CircleAvatar(
                 radius: 28.0,
-                backgroundImage: NetworkImage(currentUser.photoUrl),
+                backgroundImage: NetworkImage(photo),
               ),
             ),
             Container(
@@ -58,6 +60,3 @@ class TrainingPlan extends StatelessWidget {
     );
   }
 }
-
-
-
