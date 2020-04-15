@@ -13,8 +13,8 @@ Widget nameHeadline(String name,String usersPhoto, BuildContext context) {
     child: Row(
       children: <Widget>[
         Container(
-            height: SizeConfig.blockSizeVertical * 10,
-            width: SizeConfig.blockSizeHorizontal * 21,
+            height: 80,
+            width: 80,
             padding: EdgeInsets.all(10),
             child: CircleAvatar(
               radius: 28.0,
