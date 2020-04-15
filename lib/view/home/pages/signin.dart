@@ -28,7 +28,7 @@ class Signin extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      width: SizeConfig.blockSizeHorizontal * 71,
+                      width: SizeConfig.blockSizeHorizontal * 72,
                       child: SignInButton(
                         Buttons.Google,
                         padding: EdgeInsets.symmetric(horizontal: 7),
@@ -42,7 +42,7 @@ class Signin extends StatelessWidget {
                         Buttons.Facebook,
                         padding: EdgeInsets.symmetric(horizontal: 7),
                         text: 'CONTINUE WITH FACEBOOK',
-                        onPressed: () => SignInViewModel().login(context),
+                        onPressed: () => SignInViewModel().signInWithFacebook(context),
                       ),
                     ),
                     Container(

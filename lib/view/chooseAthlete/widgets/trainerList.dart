@@ -1,14 +1,16 @@
 import 'package:attt/models/trainerModel.dart';
 import 'package:attt/utils/size_config.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:attt/view/chooseAthlete/widgets/trainerContainer.dart';
 import 'package:attt/view_model/chooseAthleteViewModel.dart';
 
-Widget trainersList(BuildContext context) {
+Widget trainersList(BuildContext context, FirebaseUser currentUser) {
   String _trainerName;
   String _trainingPlanName;
   String _trainingPlanDuration;
   List<dynamic> _trainerData = [];
+
 
   SizeConfig().init(context);
   return Container(
@@ -28,13 +30,9 @@ Widget trainersList(BuildContext context) {
                   _trainingPlanName = _trainerData[index].trainingPlanName;
                   _trainingPlanDuration =
                       _trainerData[index].trainingPlanDuration;
-                  
-                  print(_trainerName);
-                  print(_trainingPlanDuration);
-                  print(_trainingPlanName);
                   return Center(
                       child: trainerContainer(context, _trainerName,
-                          _trainingPlanDuration, _trainingPlanName));
+                          _trainingPlanDuration, _trainingPlanName, currentUser));
                 });
           } else {
             return Center(
