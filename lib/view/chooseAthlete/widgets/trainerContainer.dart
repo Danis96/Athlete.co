@@ -1,6 +1,5 @@
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:attt/view/chooseAthlete/widgets/trainerInfo.dart';
 
@@ -17,14 +16,18 @@ Widget trainerContainer(BuildContext context, String tName, String tPD,
   String _trainingPlanDuration = tPD;
 
   return GestureDetector(
-    onTap: () => Navigator.of(context).push(MaterialPageRoute(
+    onTap: () => Navigator.of(context).push(
+      MaterialPageRoute(
         builder: (_) => TrainingPlan(
-            trainerName: _trainerName,
-            trainingPlanDuration: _trainingPlanDuration,
-            trainingPlanName: _trainingPlanName,
-            name: name,
-            photo: photo,
-            email: email))),
+          trainerName: _trainerName,
+          trainingPlanDuration: _trainingPlanDuration,
+          trainingPlanName: _trainingPlanName,
+          name: name,
+          photo: photo,
+          email: email,
+        ),
+      ),
+    ),
     child: Container(
       margin: EdgeInsets.only(
         top: SizeConfig.blockSizeVertical * 1,

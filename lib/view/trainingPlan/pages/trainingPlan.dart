@@ -1,8 +1,5 @@
 import 'package:attt/utils/size_config.dart';
-import 'package:attt/view/home/pages/signin.dart';
 import 'package:attt/view/trainingPlan/widgets/showAlertDialog.dart';
-import 'package:attt/view_model/signInViewModel.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class TrainingPlan extends StatelessWidget {
