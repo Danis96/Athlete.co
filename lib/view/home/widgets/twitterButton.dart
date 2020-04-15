@@ -17,15 +17,23 @@ Widget twitterButton(BuildContext context) {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              height: SizeConfig.blockSizeVertical * 5.5,
-              color: Color(0xFF1DA1F2),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white,
+              ),
+              height: 24,
+              width: 24,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
-                child: Icon(FontAwesomeIcons.twitter),
+                child: Icon(
+                  FontAwesomeIcons.twitter,
+                  color: Color(0xFF1DA1F2),
+                  size: 15,
+                ),
               ),
             ),
             SizedBox(
-              width: SizeConfig.blockSizeHorizontal * 1.25,
+              width: SizeConfig.blockSizeHorizontal * 3,
             ),
             Text(
               'CONTINUE WITH TWITTER',

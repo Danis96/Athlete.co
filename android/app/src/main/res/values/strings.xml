@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Athlete.co</string>
-    <string name="facebook_app_id">221772712218976</string>
-    <string name="fb_login_protocol_scheme">fb221772712218976</string>
+    <string name="facebook_app_id">544521803159979</string>
+    <string name="fb_login_protocol_scheme">fb544521803159979</string>
 </resources>

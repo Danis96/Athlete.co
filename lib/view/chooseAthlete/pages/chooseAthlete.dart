@@ -15,6 +15,7 @@ class ChooseAthlete extends StatelessWidget {
     String usersPhoto = photo;
 
     return Scaffold(
+      backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
       body: ListView(
         children: <Widget>[
           nameHeadline(usersName, usersPhoto, context),

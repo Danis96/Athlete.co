@@ -10,12 +10,12 @@ class CustomSplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return SplashScreen(
-      backgroundColor: ThemeData.dark().backgroundColor,
+      backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
       seconds: 2,
+      title: Text(''),
       navigateAfterSeconds: new Signin(),
-      image: Image.asset('assets/images/logo.png'),
       photoSize: SizeConfig.safeBlockHorizontal * 50,
-      loaderColor: ThemeData.dark().backgroundColor,
+      loaderColor: Color.fromRGBO(28, 28, 28, 1.0),
     );
   }
 }

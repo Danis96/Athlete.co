@@ -13,4 +13,5 @@ abstract class SignInInterface {
   logout();
   loginUser();
   signOutTwitter(BuildContext context);
+  redirectToPrivacyAndTerms();
 }

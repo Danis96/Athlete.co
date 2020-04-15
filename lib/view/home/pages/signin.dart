@@ -24,6 +24,7 @@ class _SigninState extends State<Signin> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
+      backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
       body: Center(
         child: Container(
           child: Column(
