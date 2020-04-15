@@ -1,7 +1,6 @@
 import 'package:attt/interface/signinInterface.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/view/chooseAthlete/pages/chooseAthlete.dart';
-import 'package:attt/view/home/pages/signin.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_twitter_login/flutter_twitter_login.dart';
@@ -88,12 +87,15 @@ class SignInViewModel implements SignInInterface {
     platform = 'Google';
     loginUser();
 
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
         builder: (_) => ChooseAthlete(
-              name: userName,
-              email: userEmail,
-              photo: userPhoto,
-            )));
+          name: userName,
+          email: userEmail,
+          photo: userPhoto,
+        ),
+      ),
+    );
   }
 
   /// sign in with google
@@ -113,12 +115,15 @@ class SignInViewModel implements SignInInterface {
     userName = currentUser.displayName;
     userPhoto = currentUser.photoUrl;
     platform = 'Facebook';
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
         builder: (_) => ChooseAthlete(
-              name: userName,
-              email: userEmail,
-              photo: userPhoto,
-            )));
+          name: userName,
+          email: userEmail,
+          photo: userPhoto,
+        ),
+      ),
+    );
     loginUser();
     return currentUser;
   }
@@ -169,12 +174,15 @@ class SignInViewModel implements SignInInterface {
     userPhoto = prefs.getString('photoURL');
     if (userEmail != null) {
       isLoggedIn = true;
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
           builder: (_) => ChooseAthlete(
-                name: userName,
-                email: userEmail,
-                photo: userPhoto,
-              )));
+            name: userName,
+            email: userEmail,
+            photo: userPhoto,
+          ),
+        ),
+      );
     }
   }
 

@@ -1,6 +1,4 @@
-import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
-import 'package:attt/view_model/signInViewModel.dart';
 import 'package:flutter/material.dart';
 
 Widget nameHeadline(String name, String usersPhoto, BuildContext context) {

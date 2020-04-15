@@ -2,8 +2,6 @@ import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/home/widgets/buttonList.dart';
 import 'package:attt/view_model/signInViewModel.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class Signin extends StatefulWidget {
   const Signin({Key key}) : super(key: key);
