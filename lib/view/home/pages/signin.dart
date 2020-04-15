@@ -25,13 +25,12 @@ class Signin extends StatelessWidget {
               ),
               Container(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Container(
                       width: SizeConfig.blockSizeHorizontal * 72,
                       child: SignInButton(
                         Buttons.Google,
-                        text: 'Continue with GOOGLE',
+                        text: 'CONTINUE WITH GOOGLE',
                         onPressed: () =>
                             SignInViewModel().signInWithGoogle(context),
                       ),
@@ -40,7 +39,7 @@ class Signin extends StatelessWidget {
                       width: SizeConfig.blockSizeHorizontal * 79,
                       child: SignInButton(
                         Buttons.Facebook,
-                        text: 'Continue with FACEBOOK',
+                        text: 'CONTINUE WITH FACEBOOK',
                         onPressed: () =>
                             SignInViewModel().signInWithFacebook(context),
                       ),
@@ -49,7 +48,7 @@ class Signin extends StatelessWidget {
                       width: SizeConfig.blockSizeHorizontal * 73,
                       child: SignInButton(
                         Buttons.Twitter,
-                        text: 'Continue with TWITTER',
+                        text: 'CONTINUE WITH TWITTER',
                         /// za ovo cekam jos keys
                         onPressed: () =>
                             SignInViewModel().signInWithTwitter(context),

@@ -15,11 +15,13 @@ class SignInViewModel implements SignInInterface {
   TwitterLoginStatus _twitterLoginStatus;
   TwitterSession _currentUserTwitterSession;
 
+  TwitterLogin twitterLogin;
+
   /// sign in with twitter
   @override
   signInWithTwitter(BuildContext context) async {
     /// waiting for keys
-    final TwitterLogin twitterLogin =
+    twitterLogin =
         new TwitterLogin(consumerKey: '', consumerSecret: '');
 
     _twitterLoginResult = await twitterLogin.authorize();
@@ -51,6 +53,8 @@ class SignInViewModel implements SignInInterface {
         await _firebaseAuth.signInWithCredential(_authCredential);
     _currentUser = result.user;
   }
+
+ 
 
   /// sign in with google
   final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -120,9 +124,20 @@ class SignInViewModel implements SignInInterface {
     }
   }
 
+  
+
   @override
   signOutGoogle(BuildContext context) async {
     await googleSignIn.signOut();
-      print("User Sign Out");
+  }
+
+  @override
+  signOutFacebook(BuildContext context) {
+     print('fb sign out');
+  }
+
+  @override
+  signOutTwitter(BuildContext context) async {
+    await twitterLogin.logOut();
   }
 }
