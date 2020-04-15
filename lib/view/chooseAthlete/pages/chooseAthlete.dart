@@ -23,7 +23,7 @@ class ChooseAthlete extends StatelessWidget {
       body: ListView(
         children: <Widget>[
           nameHeadline(usersName, usersPhoto ,context),
-          trainersList(context),
+          trainersList(context, currentUser),
         ],
       ),
     );

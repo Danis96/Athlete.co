@@ -12,4 +12,5 @@ abstract class SignInInterface {
   void autoLogIn(BuildContext context);
   Future<Null> logout();
   Future<Null> loginUser();
+  signOutTwitter(BuildContext context);
 }

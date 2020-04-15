@@ -35,26 +35,24 @@ class _SigninState extends State<Signin> {
                 child: Image.asset('assets/images/logo.png'),
               ),
               SizedBox(
-                height: SizeConfig.blockSizeVertical * 48,
+                height: SizeConfig.blockSizeVertical * 42,
               ),
               Container(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Container(
-                      width: SizeConfig.blockSizeHorizontal * 71,
+                      width: SizeConfig.blockSizeHorizontal * 72,
                       child: SignInButton(
                         Buttons.Google,
-                        padding: EdgeInsets.symmetric(horizontal: 7),
                         text: 'CONTINUE WITH GOOGLE',
-                        onPressed: () => SignInViewModel().signInWithGoogle(context),
+                        onPressed: () =>
+                            SignInViewModel().signInWithGoogle(context),
                       ),
                     ),
                     Container(
-                      width: SizeConfig.blockSizeHorizontal * 77,
+                      width: SizeConfig.blockSizeHorizontal * 79,
                       child: SignInButton(
                         Buttons.Facebook,
-                        padding: EdgeInsets.symmetric(horizontal: 7),
                         text: 'CONTINUE WITH FACEBOOK',
                         onPressed: () => SignInViewModel().signInWithFacebook(context),
                       ),
@@ -63,10 +61,10 @@ class _SigninState extends State<Signin> {
                       width: SizeConfig.blockSizeHorizontal * 73,
                       child: SignInButton(
                         Buttons.Twitter,
-                        padding: EdgeInsets.symmetric(horizontal: 7),
                         text: 'CONTINUE WITH TWITTER',
                         /// za ovo cekam jos keys
-                        onPressed: () => SignInViewModel().signInWithTwitter(context),
+                        onPressed: () =>
+                            SignInViewModel().signInWithTwitter(context),
                       ),
                     ),
                     SizedBox(

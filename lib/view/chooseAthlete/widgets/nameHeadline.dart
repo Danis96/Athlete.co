@@ -26,7 +26,6 @@ Widget nameHeadline(String name, String usersPhoto, BuildContext context) {
               backgroundImage: NetworkImage(usersPhoto),
             ),
           ),
-        ),
         Container(
           margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 2),
           child: Text(
