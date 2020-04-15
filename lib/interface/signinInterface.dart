@@ -6,6 +6,10 @@ abstract class SignInInterface {
   signInWithTwitter(BuildContext context);
   signInWithGoogle(BuildContext context);
   signOutGoogle(BuildContext context);
-  Future<FirebaseUser> firebaseAuthWithFacebook({@required FacebookAccessToken token});
-  Future<Null> login(BuildContext context);
+  Future<FirebaseUser> firebaseAuthWithFacebook({@required FacebookAccessToken token, BuildContext context});
+  Future<Null> signInWithFacebook(BuildContext context);
+  signOutFacebook(BuildContext context);
+  void autoLogIn(BuildContext context);
+  Future<Null> logout();
+  Future<Null> loginUser();
 }
