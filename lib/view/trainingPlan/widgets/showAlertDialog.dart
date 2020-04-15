@@ -22,7 +22,7 @@ showAlertDialog(BuildContext context) {
       /// twitter sign out
       SignInViewModel().signOutTwitter(context);
 
-      Navigator.of(context).push(MaterialPageRoute(builder: (_) => Signin()));
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => Signin()));
     },
   );
 
