@@ -206,8 +206,6 @@ class SignInViewModel implements SignInInterface {
     prefs.setString('displayName', userName);
     prefs.setString('photoURL', userPhoto);
 
-    print('LOGOVALI SMOOOOOOOOOOO SEEEEEEEEEEEEEEEEEEEEEE: ' + userEmail);
-
     isLoggedIn = true;
   }
 

@@ -9,22 +9,22 @@ import 'package:attt/view/chooseAthlete/widgets/trainerInfo.dart';
 /// [tPN] - training plan name
 
 Widget trainerContainer(BuildContext context, String tName, String tPD,
-    String tPN, FirebaseUser currentUser) {
+    String tPN, String name, String photo, String email) {
   SizeConfig().init(context);
 
   String _trainerName = tName;
   String _trainingPlanName = tPN;
   String _trainingPlanDuration = tPD;
 
-
   return GestureDetector(
     onTap: () => Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => TrainingPlan(
-              trainerName: _trainerName,
-              trainingPlanDuration: _trainingPlanDuration,
-              trainingPlanName: _trainingPlanName,
-              currentUser: currentUser
-            ))),
+            trainerName: _trainerName,
+            trainingPlanDuration: _trainingPlanDuration,
+            trainingPlanName: _trainingPlanName,
+            name: name,
+            photo: photo,
+            email: email))),
     child: Container(
       margin: EdgeInsets.only(
         top: SizeConfig.blockSizeVertical * 1,

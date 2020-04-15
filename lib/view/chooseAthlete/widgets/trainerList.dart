@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:attt/view/chooseAthlete/widgets/trainerContainer.dart';
 import 'package:attt/view_model/chooseAthleteViewModel.dart';
 
-Widget trainersList(BuildContext context, FirebaseUser currentUser) {
+Widget trainersList(BuildContext context, String name, String photo, String email) {
   String _trainerName;
   String _trainingPlanName;
   String _trainingPlanDuration;
@@ -32,7 +32,7 @@ Widget trainersList(BuildContext context, FirebaseUser currentUser) {
                       _trainerData[index].trainingPlanDuration;
                   return Center(
                       child: trainerContainer(context, _trainerName,
-                          _trainingPlanDuration, _trainingPlanName, currentUser));
+                          _trainingPlanDuration, _trainingPlanName, name, photo, email));
                 });
           } else {
             return Center(
