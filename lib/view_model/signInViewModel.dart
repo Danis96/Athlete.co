@@ -24,8 +24,7 @@ class SignInViewModel implements SignInInterface {
   @override
   signInWithTwitter(BuildContext context) async {
     /// waiting for keys
-    twitterLogin =
-        new TwitterLogin(consumerKey: '', consumerSecret: '');
+    twitterLogin = new TwitterLogin(consumerKey: '', consumerSecret: '');
 
     _twitterLoginResult = await twitterLogin.authorize();
     _currentUserTwitterSession = _twitterLoginResult.session;
@@ -58,8 +57,6 @@ class SignInViewModel implements SignInInterface {
         await _firebaseAuth.signInWithCredential(_authCredential);
     _currentUser = result.user;
   }
-
- 
 
   /// sign in with google
   final GoogleSignIn googleSignIn = GoogleSignIn();
@@ -125,9 +122,9 @@ class SignInViewModel implements SignInInterface {
     loginUser();
     return currentUser;
   }
-  
+
   @override
-  Future<Null> signInWithFacebook(BuildContext context) async {
+  signInWithFacebook(BuildContext context) async {
     final FacebookLoginResult result = await facebookSignIn.logIn(['email']);
     switch (result.status) {
       case FacebookLoginStatus.loggedIn:
@@ -148,15 +145,11 @@ class SignInViewModel implements SignInInterface {
     }
   }
 
-  
-
   @override
   signOutGoogle(BuildContext context) async {
     await googleSignIn.signOut();
     _currentUser = null;
     logout();
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (_) => Signin()));
     print("User Sign Out");
   }
 
@@ -165,18 +158,15 @@ class SignInViewModel implements SignInInterface {
     await facebookSignIn.logOut();
     _currentUser = null;
     logout();
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (_) => Signin()));
     print("User Sign Out Faceboook");
   }
 
   @override
-  void autoLogIn(BuildContext context) async {
+  autoLogIn(BuildContext context) async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     userEmail = prefs.getString('email');
     userName = prefs.getString('displayName');
     userPhoto = prefs.getString('photoURL');
-
     if (userEmail != null) {
       isLoggedIn = true;
       Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -185,27 +175,24 @@ class SignInViewModel implements SignInInterface {
                 email: userEmail,
                 photo: userPhoto,
               )));
-      return;
     }
   }
 
   @override
-  Future<Null> logout() async {
+  logout() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('email', null);
     prefs.setString('displayName', null);
     prefs.setString('photoURL', null);
-
     isLoggedIn = false;
   }
 
   @override
-  Future<Null> loginUser() async {
+  loginUser() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('email', userEmail);
     prefs.setString('displayName', userName);
     prefs.setString('photoURL', userPhoto);
-
     isLoggedIn = true;
   }
 
