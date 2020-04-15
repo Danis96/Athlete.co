@@ -10,7 +10,7 @@ class Athlete extends StatelessWidget {
     return MaterialApp(
       title: 'Athlete.co',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark(),
+      theme: ThemeData.light(),
       home: CustomSplashScreen(),
     );
   }

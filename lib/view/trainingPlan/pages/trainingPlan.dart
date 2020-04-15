@@ -19,8 +19,10 @@ class TrainingPlan extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
+      backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
       appBar: AppBar(
-        title: Text('Hi ' + name),
+        backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
+        title: Text('Hi ' + name, style: TextStyle(color: Colors.white)),
       ),
       body: Center(
         child: Column(
@@ -35,13 +37,18 @@ class TrainingPlan extends StatelessWidget {
               ),
             ),
             Container(
-              child: Text('Your training plan is: $trainingPlanName'),
+              child: Text(
+                'Your training plan is: $trainingPlanName',
+                style: TextStyle(color: Colors.white),
+              ),
             ),
             Container(
-              child: Text('Duration is: $trainingPlanDuration weeks'),
+              child: Text('Duration is: $trainingPlanDuration weeks',
+                  style: TextStyle(color: Colors.white)),
             ),
             Container(
-              child: Text('The man who will train you is: $trainerName'),
+              child: Text('The man who will train you is: $trainerName',
+                  style: TextStyle(color: Colors.white)),
             ),
             Container(
               child: RaisedButton(

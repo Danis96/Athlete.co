@@ -24,6 +24,7 @@ Widget trainerInfo(BuildContext context, String tName, String tPD, String tPN) {
           child: Text(
             _trainingPlanDuration + ' weeks',
             style: TextStyle(
+                color: Colors.white,
                 fontWeight: FontWeight.w500,
                 fontSize: SizeConfig.safeBlockVertical * 2),
           ),
@@ -33,6 +34,7 @@ Widget trainerInfo(BuildContext context, String tName, String tPD, String tPN) {
             child: Text(
               _trainerName.toUpperCase(),
               style: TextStyle(
+                color: Colors.white,
                 fontStyle: FontStyle.italic,
                 fontWeight: FontWeight.w700,
                 fontSize: SizeConfig.safeBlockHorizontal * 5,
@@ -41,8 +43,9 @@ Widget trainerInfo(BuildContext context, String tName, String tPD, String tPN) {
         Container(
           padding: EdgeInsets.all(3),
           child: Text(
-             _trainingPlanName.toUpperCase(),
+            _trainingPlanName.toUpperCase(),
             style: TextStyle(
+                color: Colors.white,
                 fontWeight: FontWeight.w500,
                 fontSize: SizeConfig.safeBlockVertical * 1.8),
           ),

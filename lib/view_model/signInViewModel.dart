@@ -7,6 +7,7 @@ import 'package:flutter_twitter_login/flutter_twitter_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SignInViewModel implements SignInInterface {
   FirebaseUser _currentUser;
@@ -110,9 +111,11 @@ class SignInViewModel implements SignInInterface {
     ///signInWithFacebook() method after Facebook Login process succesfully completed.
     AuthCredential credential =
         FacebookAuthProvider.getCredential(accessToken: token.token);
+
     ///Signing in user to Firebase using FirebaseAuth and credentials from previous step
     AuthResult facebookAuthResult =
         await _firebaseAuth.signInWithCredential(credential);
+
     ///Creating a user from Firebase Authentication process's result
     final FirebaseUser user = facebookAuthResult.user;
     final FirebaseUser currentUser = await _firebaseAuth.currentUser();
@@ -123,7 +126,7 @@ class SignInViewModel implements SignInInterface {
     userName = currentUser.displayName;
     userPhoto = currentUser.photoUrl;
     platform = 'Facebook';
-    
+
     ///Navigating logged user into application
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
@@ -134,7 +137,7 @@ class SignInViewModel implements SignInInterface {
         ),
       ),
     );
-    
+
     ///Logging user to shared preference with aim to
     ///
     ///have the user later for autologging
@@ -146,25 +149,30 @@ class SignInViewModel implements SignInInterface {
   @override
   signInWithFacebook(BuildContext context) async {
     ///Logging user using Facebook Account
-    final FacebookLoginResult result = await facebookSignIn.logIn(['email']);
-    ///Checking login status of a user after his commjnication 
+    FacebookLoginResult result = await facebookSignIn.logIn(['email']);
+
+    ///Checking login status of a user after his commjnication
     ///with application and Facebook login
     switch (result.status) {
+
       ///Case when user is successfully logged in
       case FacebookLoginStatus.loggedIn:
+
         ///Creating a user according to logged Facebook account
         ///This user is later used for gathering information from database
         var firebaseUser = await firebaseAuthWithFacebook(
             token: result.accessToken, context: context);
         _currentUser = firebaseUser;
         break;
+
       ///Case when user canceles the loggin process
       case FacebookLoginStatus.cancelledByUser:
-        print('Canceled by user!');
+        result = null;
         break;
+
       ///Case of any error occured during loggin process
       case FacebookLoginStatus.error:
-        print('ERROR: ' + result.errorMessage.toString());
+        result = null;
         break;
     }
   }
@@ -192,6 +200,7 @@ class SignInViewModel implements SignInInterface {
   autoLogIn(BuildContext context) async {
     ///Creating instance of Shared Preference
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+
     ///Getting users info from shared preference
     userEmail = prefs.getString('email');
     userName = prefs.getString('displayName');
@@ -223,6 +232,7 @@ class SignInViewModel implements SignInInterface {
   logout() async {
     ///Creating instance of Shared Preference
     final SharedPreferences prefs = await SharedPreferences.getInstance();
+
     ///Setting records and user's info in Shared Preference to null
     prefs.setString('email', null);
     prefs.setString('displayName', null);
@@ -230,7 +240,7 @@ class SignInViewModel implements SignInInterface {
     isLoggedIn = false;
   }
 
-  ///Method that logins a user and writes user's info 
+  ///Method that logins a user and writes user's info
   ///
   ///into Shared Preference. This method is called whenever user clicks
   ///on any of Sign in buttons
@@ -238,7 +248,8 @@ class SignInViewModel implements SignInInterface {
   loginUser() async {
     ///Creating instance of Shared Preference
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    ///Setting records and user's info in Shared Preference to current 
+
+    ///Setting records and user's info in Shared Preference to current
     ///
     ///user's info
     prefs.setString('email', userEmail);
@@ -250,5 +261,16 @@ class SignInViewModel implements SignInInterface {
   @override
   signOutTwitter(BuildContext context) async {
     await twitterLogin.logOut();
+  }
+
+  ///Method which redirects user to Privacy Policy and Terms of Services
+  @override
+  redirectToPrivacyAndTerms() async {
+    const url = 'http://athlete.blogger.ba/arhiva/2020/04/15/4207556';
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not launch $url';
+    }
   }
 }

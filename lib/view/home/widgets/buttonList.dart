@@ -12,15 +12,15 @@ Widget buttonList(BuildContext context) {
       children: <Widget>[
         googleButton(context),
         SizedBox(
-          height: SizeConfig.blockSizeVertical + 1.25,
+          height: SizeConfig.blockSizeVertical + 1.7,
         ),
         facebookButton(context),
         SizedBox(
-          height: SizeConfig.blockSizeVertical * 1.25,
+          height: SizeConfig.blockSizeVertical * 1.7,
         ),
         twitterButton(context),
         SizedBox(
-          height: SizeConfig.blockSizeVertical * 1.25,
+          height: SizeConfig.blockSizeVertical * 1.7,
         ),
         privacyTerms(context)
       ],

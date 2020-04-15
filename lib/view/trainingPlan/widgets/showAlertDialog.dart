@@ -5,13 +5,19 @@ import 'package:flutter/material.dart';
 showAlertDialog(BuildContext context) {
   // set up the buttons
   Widget cancelButton = FlatButton(
-    child: Text("Cancel"),
+    child: Text(
+      "Cancel",
+      style: TextStyle(color: Colors.white),
+    ),
     onPressed: () {
       Navigator.of(context).pop();
     },
   );
   Widget continueButton = FlatButton(
-    child: Text("Continue"),
+    child: Text(
+      "Continue",
+      style: TextStyle(color: Colors.white),
+    ),
     onPressed: () {
       /// google sign out
       SignInViewModel().signOutGoogle(context);
@@ -22,14 +28,25 @@ showAlertDialog(BuildContext context) {
       /// twitter sign out
       SignInViewModel().signOutTwitter(context);
 
-      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (_) => Signin()));
+      /// sign out from Shared Preference
+      SignInViewModel().logout();
+
+      Navigator.of(context)
+          .pushReplacement(MaterialPageRoute(builder: (_) => Signin()));
     },
   );
 
   // set up the AlertDialog
   AlertDialog alert = AlertDialog(
-    title: Text("Are you sure?"),
-    content: Text("If you Sign Out all your progress will be lost."),
+    backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
+    title: Text(
+      "Are you sure?",
+      style: TextStyle(color: Colors.white),
+    ),
+    content: Text(
+      "If you Sign Out all your progress will be lost.",
+      style: TextStyle(color: Colors.white),
+    ),
     actions: [
       cancelButton,
       continueButton,
