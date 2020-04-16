@@ -26,4 +26,3 @@ After some time, the application will be built on the device/emulator connected 
        One for google sign in, one for facebook., one for twitter.<br/><br/>*
    	User Story 3 -We created a autologin functionality. If user is signed in and quit the app, he doesn't have to sign up again.<br/><br/>*
     User Story 4 - In this user story we needed to show to the user available trainers and their training plan name, and duration, so that user can choose one from it.<br/><br/>*
-The user has the forget password option, which sends him a mail request to reset the password.
