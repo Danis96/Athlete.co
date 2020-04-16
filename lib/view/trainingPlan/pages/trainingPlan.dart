@@ -1,14 +1,19 @@
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/trainingPlan/widgets/showAlertDialog.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class TrainingPlan extends StatelessWidget {
+  final DocumentSnapshot userDocument;
+  final DocumentSnapshot userTrainerDocument;
   final String trainerName;
   final String trainingPlanName;
   final String trainingPlanDuration;
   final String name, photo, email;
   TrainingPlan(
       {this.trainerName,
+      this.userTrainerDocument,
+      this.userDocument,
       this.trainingPlanDuration,
       this.trainingPlanName,
       this.photo,
@@ -38,16 +43,16 @@ class TrainingPlan extends StatelessWidget {
             ),
             Container(
               child: Text(
-                'Your training plan is: $trainingPlanName',
+                "Your training plan is: " + userTrainerDocument.data['training_plan_name'].toString(),
                 style: TextStyle(color: Colors.white),
               ),
             ),
             Container(
-              child: Text('Duration is: $trainingPlanDuration weeks',
+              child: Text("Duration is: " + userTrainerDocument.data['training_plan_duration'],
                   style: TextStyle(color: Colors.white)),
             ),
             Container(
-              child: Text('The man who will train you is: $trainerName',
+              child: Text("The man who will train you is: " + userTrainerDocument.data['trainer_name'].toString(),
                   style: TextStyle(color: Colors.white)),
             ),
             Container(

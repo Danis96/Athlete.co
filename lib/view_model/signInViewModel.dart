@@ -2,6 +2,8 @@ import 'package:attt/interface/signinInterface.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/text.dart';
 import 'package:attt/view/chooseAthlete/pages/chooseAthlete.dart';
+import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_twitter_login/flutter_twitter_login.dart';
@@ -14,6 +16,14 @@ class SignInViewModel implements SignInInterface {
   FirebaseUser _currentUser;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
+  List<DocumentSnapshot> currentUserDocuments = [];
+  List<DocumentSnapshot> currentUserTrainerDocuments = [];
+  DocumentSnapshot currentUserDocument;
+  DocumentSnapshot currentUserTrainerDocument;
+  String currentUserTrainerName;
+  String currentUserTrainingPlanDuration;
+  String currentUserTrainingPlan;
+
   /// twitter sign in classes
   TwitterLoginResult _twitterLoginResult;
   TwitterLoginStatus _twitterLoginStatus;
@@ -22,9 +32,9 @@ class SignInViewModel implements SignInInterface {
   TwitterLogin twitterLogin;
 
   /// sign in with twitter
-  /// 
-  /// we simply switch over [_twitterLoginStatus] and for every case 
-  /// we do something 
+  ///
+  /// we simply switch over [_twitterLoginStatus] and for every case
+  /// we do something
   @override
   signInWithTwitter(BuildContext context) async {
     /// waiting for keys
@@ -34,18 +44,11 @@ class SignInViewModel implements SignInInterface {
     _currentUserTwitterSession = _twitterLoginResult.session;
     _twitterLoginStatus = _twitterLoginResult.status;
 
-   
     switch (_twitterLoginStatus) {
 
       /// if logging is success we navigate to [ChooseAthlete page]
       case TwitterLoginStatus.loggedIn:
         _currentUserTwitterSession = _twitterLoginResult.session;
-        Navigator.of(context).pushReplacement(MaterialPageRoute(
-            builder: (_) => ChooseAthlete(
-                  name: userName,
-                  email: userEmail,
-                  photo: userPhoto,
-                )));
         break;
 
       case TwitterLoginStatus.cancelledByUser:
@@ -56,7 +59,7 @@ class SignInViewModel implements SignInInterface {
         print('An error occurred signing with Twitter.');
         break;
     }
-    
+
     ///  we get credentials and define them to [authToken & authTokenSecret]
     AuthCredential _authCredential = TwitterAuthProvider.getCredential(
         authToken: _currentUserTwitterSession?.token ?? '',
@@ -64,16 +67,69 @@ class SignInViewModel implements SignInInterface {
     AuthResult result =
         await _firebaseAuth.signInWithCredential(_authCredential);
     _currentUser = result.user;
+
+    ///Checking if user already exists in database
+    ///
+    ///If user exists, users info is collected
+    ///If user does not exist, user is created
+    bool userExist = await doesUserAlreadyExist(userEmail);
+    if (!userExist) {
+      createUser(userName, userEmail, userPhoto);
+    } else {
+      currentUserDocuments = await getCurrentUserDocument(userEmail);
+      currentUserDocument = currentUserDocuments[0];
+      if (currentUserDocument.data['trainer'] != null &&
+          currentUserDocument.data['trainer'] != '') {
+        currentUserTrainerDocuments =
+            await getCurrentUserTrainer(currentUserDocument.data['trainer']);
+        currentUserTrainerDocument = currentUserTrainerDocuments[0];
+        currentUserTrainerName =
+            currentUserTrainerDocument.data['trainer_name'];
+        currentUserTrainingPlanDuration =
+            currentUserTrainerDocument.data['training_plan_duration'];
+        currentUserTrainingPlan =
+            currentUserTrainerDocument.data['training_plan_name'];
+      }
+    }
+
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (_) => userExist
+              ? currentUserDocument.data['trainer'] != null &&
+                      currentUserDocument.data['trainer'] != ''
+                  ? TrainingPlan(
+                      userTrainerDocument: currentUserTrainerDocument,
+                      userDocument: currentUserDocument,
+                      trainerName: currentUserTrainerName,
+                      trainingPlanDuration: currentUserTrainingPlanDuration,
+                      trainingPlanName: currentUserTrainingPlan,
+                      name: userName,
+                      photo: userPhoto,
+                      email: userEmail,
+                    )
+                  : ChooseAthlete(
+                      userDocument: currentUserDocument,
+                      name: userName,
+                      email: userEmail,
+                      photo: userPhoto,
+                    )
+              : ChooseAthlete(
+                  userDocument: currentUserDocument,
+                  name: userName,
+                  email: userEmail,
+                  photo: userPhoto,
+                ),
+        ),
+        (Route<dynamic> route) => false);
   }
 
   /// sign in with google
-  /// 
+  ///
   /// instance [googleSignIn]
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
   @override
   signInWithGoogle(BuildContext context) async {
-
     final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
     final GoogleSignInAuthentication googleSignInAuthentication =
         await googleSignInAccount.authentication;
@@ -101,15 +157,59 @@ class SignInViewModel implements SignInInterface {
     platform = MyText().googlePlatform;
     loginUser();
 
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (_) => ChooseAthlete(
-          name: userName,
-          email: userEmail,
-          photo: userPhoto,
+    ///Checking if user already exists in database
+    ///
+    ///If user exists, users info is collected
+    ///If user does not exist, user is created
+    bool userExist = await doesUserAlreadyExist(userEmail);
+    if (!userExist) {
+      createUser(userName, userEmail, userPhoto);
+    } else {
+      currentUserDocuments = await getCurrentUserDocument(userEmail);
+      currentUserDocument = currentUserDocuments[0];
+      if (currentUserDocument.data['trainer'] != null &&
+          currentUserDocument.data['trainer'] != '') {
+        currentUserTrainerDocuments =
+            await getCurrentUserTrainer(currentUserDocument.data['trainer']);
+        currentUserTrainerDocument = currentUserTrainerDocuments[0];
+        currentUserTrainerName =
+            currentUserTrainerDocument.data['trainer_name'];
+        currentUserTrainingPlanDuration =
+            currentUserTrainerDocument.data['training_plan_duration'];
+        currentUserTrainingPlan =
+            currentUserTrainerDocument.data['training_plan_name'];
+      }
+    }
+
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (_) => userExist
+              ? currentUserDocument.data['trainer'] != null &&
+                      currentUserDocument.data['trainer'] != ''
+                  ? TrainingPlan(
+                      userTrainerDocument: currentUserTrainerDocument,
+                      userDocument: currentUserDocument,
+                      trainerName: currentUserTrainerName,
+                      trainingPlanDuration: currentUserTrainingPlanDuration,
+                      trainingPlanName: currentUserTrainingPlan,
+                      name: userName,
+                      photo: userPhoto,
+                      email: userEmail,
+                    )
+                  : ChooseAthlete(
+                      userDocument: currentUserDocument,
+                      name: userName,
+                      email: userEmail,
+                      photo: userPhoto,
+                    )
+              : ChooseAthlete(
+                  userDocument: currentUserDocument,
+                  name: userName,
+                  email: userEmail,
+                  photo: userPhoto,
+                ),
         ),
-      ),
-    );
+        (Route<dynamic> route) => false);
   }
 
   ///Facebook Login instance used for Facebook Login process
@@ -140,16 +240,60 @@ class SignInViewModel implements SignInInterface {
     userPhoto = currentUser.photoUrl;
     platform = MyText().facebookPlatform;
 
+    ///Checking if user already exists in database
+    ///
+    ///If user exists, users info is collected
+    ///If user does not exist, user is created
+    bool userExist = await doesUserAlreadyExist(userEmail);
+    if (!userExist) {
+      createUser(userName, userEmail, userPhoto);
+    } else {
+      currentUserDocuments = await getCurrentUserDocument(userEmail);
+      currentUserDocument = currentUserDocuments[0];
+      if (currentUserDocument.data['trainer'] != null &&
+          currentUserDocument.data['trainer'] != '') {
+        currentUserTrainerDocuments =
+            await getCurrentUserTrainer(currentUserDocument.data['trainer']);
+        currentUserTrainerDocument = currentUserTrainerDocuments[0];
+        currentUserTrainerName =
+            currentUserTrainerDocument.data['trainer_name'];
+        currentUserTrainingPlanDuration =
+            currentUserTrainerDocument.data['training_plan_duration'];
+        currentUserTrainingPlan =
+            currentUserTrainerDocument.data['training_plan_name'];
+      }
+    }
+
     ///Navigating logged user into application
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (_) => ChooseAthlete(
-          name: userName,
-          email: userEmail,
-          photo: userPhoto,
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (_) => userExist
+              ? currentUserDocument.data['trainer'] != null &&
+                      currentUserDocument.data['trainer'] != ''
+                  ? TrainingPlan(
+                      userTrainerDocument: currentUserTrainerDocument,
+                      userDocument: currentUserDocument,
+                      trainerName: currentUserTrainerName,
+                      trainingPlanDuration: currentUserTrainingPlanDuration,
+                      trainingPlanName: currentUserTrainingPlan,
+                      name: userName,
+                      photo: userPhoto,
+                      email: userEmail,
+                    )
+                  : ChooseAthlete(
+                      userDocument: currentUserDocument,
+                      name: userName,
+                      email: userEmail,
+                      photo: userPhoto,
+                    )
+              : ChooseAthlete(
+                  userDocument: currentUserDocument,
+                  name: userName,
+                  email: userEmail,
+                  photo: userPhoto,
+                ),
         ),
-      ),
-    );
+        (Route<dynamic> route) => false);
 
     ///Logging user to shared preference with aim to
     ///
@@ -219,21 +363,49 @@ class SignInViewModel implements SignInInterface {
     userName = prefs.getString('displayName');
     userPhoto = prefs.getString('photoURL');
 
+    currentUserDocuments = await getCurrentUserDocument(userEmail);
+    currentUserDocument = currentUserDocuments[0];
+
+    if (currentUserDocument.data['trainer'] != null &&
+        currentUserDocument.data['trainer'] != '') {
+      currentUserTrainerDocuments =
+          await getCurrentUserTrainer(currentUserDocument.data['trainer']);
+      currentUserTrainerDocument = currentUserTrainerDocuments[0];
+      currentUserTrainerName = currentUserTrainerDocument.data['trainer_name'];
+      currentUserTrainingPlanDuration =
+          currentUserTrainerDocument.data['training_plan_duration'];
+      currentUserTrainingPlan =
+          currentUserTrainerDocument.data['training_plan_name'];
+    }
+
     ///Checking if there is a user logged in, only if there are
     ///
     ///records in shared preference, user is directly redirected
     ///to ChooseAthelete Screen
     if (userEmail != null && userName != null && userPhoto != null) {
       isLoggedIn = true;
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (_) => ChooseAthlete(
-            name: userName,
-            email: userEmail,
-            photo: userPhoto,
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(
+            builder: (_) => currentUserDocument.data['trainer'] != null &&
+                    currentUserDocument.data['trainer'] != ''
+                ? TrainingPlan(
+                    userTrainerDocument: currentUserTrainerDocument,
+                    userDocument: currentUserDocument,
+                    trainerName: currentUserTrainerName,
+                    trainingPlanDuration: currentUserTrainingPlanDuration,
+                    trainingPlanName: currentUserTrainingPlan,
+                    name: userName,
+                    photo: userPhoto,
+                    email: userEmail,
+                  )
+                : ChooseAthlete(
+                    userDocument: currentUserDocument,
+                    name: userName,
+                    email: userEmail,
+                    photo: userPhoto,
+                  ),
           ),
-        ),
-      );
+          (Route<dynamic> route) => false);
     }
   }
 
@@ -285,5 +457,72 @@ class SignInViewModel implements SignInInterface {
     } else {
       throw 'Could not launch $url';
     }
+  }
+
+  ///Method for creating user in databse and it is called when user is
+  ///
+  ///signing in and when the user does not already exists
+  @override
+  createUser(String name, String email, String image) async {
+    final databaseReference = Firestore.instance;
+    await databaseReference.collection("Users").document(email).setData({
+      'display_name': name,
+      'image': image,
+      'email': email,
+      'trainer': '',
+      'trainers_finished': [],
+      'weeks_finished': [],
+      'workouts_finished': [],
+    });
+  }
+
+  ///Method for checking if user already exists in database or not
+  ///
+  ///and it is called on every sign in actions
+  @override
+  Future<bool> doesUserAlreadyExist(String email) async {
+    final QuerySnapshot result = await Firestore.instance
+        .collection('Users')
+        .where('email', isEqualTo: email)
+        .limit(1)
+        .getDocuments();
+    final List<DocumentSnapshot> documents = result.documents;
+    return documents.length == 1;
+  }
+
+  ///Method for getting from database document of current user
+  @override
+  Future<List<DocumentSnapshot>> getCurrentUserDocument(String email) async {
+    var firestore = Firestore.instance;
+    QuerySnapshot qn = await firestore
+        .collection('Users')
+        .where('email', isEqualTo: email)
+        .getDocuments();
+    return qn.documents;
+  }
+
+  ///Method for getting from database document of trainer
+  ///
+  ///of current user
+  @override
+  Future<List<DocumentSnapshot>> getCurrentUserTrainer(String trainer) async {
+    final QuerySnapshot result = await Firestore.instance
+        .collection('Trainers')
+        .where('trainer_name', isEqualTo: trainer)
+        .limit(1)
+        .getDocuments();
+    return result.documents;
+  }
+
+  ///Method for updating and writing the trainer that user chooses from
+  ///
+  ///the list
+  @override
+  updateUserWithTrainer(
+      DocumentSnapshot userDocument, String email, String trainer) async {
+    final db = Firestore.instance;
+    await db.collection('Users').document(email).updateData({
+      'trainer': trainer,
+    });
   }
 }
