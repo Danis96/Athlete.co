@@ -1,4 +1,6 @@
+import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/size_config.dart';
+import 'package:attt/utils/text.dart';
 import 'package:attt/view_model/signInViewModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -9,9 +11,9 @@ Widget privacyTerms(BuildContext context) {
     width: SizeConfig.blockSizeHorizontal * 96,
     child: RichText(
       text: TextSpan(
-        text: 'By continuing, you agree to the\n',
+        text: MyText().byContinuing,
         style: TextStyle(
-          color: Color.fromRGBO(255, 255, 255, 0.8),
+          color: MyColors().lightWhite,
           fontSize: SizeConfig.safeBlockHorizontal * 3,
           fontFamily: 'Roboto',
         ),
@@ -19,9 +21,9 @@ Widget privacyTerms(BuildContext context) {
           TextSpan(
             recognizer: TapGestureRecognizer()
               ..onTap = () => SignInViewModel().redirectToPrivacyAndTerms(),
-            text: 'Terms of Service',
+            text: MyText().terms,
             style: TextStyle(
-                color: Color.fromRGBO(255, 255, 255, 0.8),
+                color:  MyColors().lightWhite,
                 fontSize: SizeConfig.safeBlockHorizontal * 3,
                 fontFamily: 'Roboto',
                 decoration: TextDecoration.underline),
@@ -29,7 +31,7 @@ Widget privacyTerms(BuildContext context) {
           TextSpan(
             text: ' & ',
             style: TextStyle(
-              color: Color.fromRGBO(255, 255, 255, 0.8),
+              color:  MyColors().lightWhite,
               fontSize: SizeConfig.safeBlockHorizontal * 3,
               fontFamily: 'Roboto',
             ),
@@ -37,9 +39,9 @@ Widget privacyTerms(BuildContext context) {
           TextSpan(
             recognizer: TapGestureRecognizer()
               ..onTap = () => SignInViewModel().redirectToPrivacyAndTerms(),
-            text: 'Privacy Policy.',
+            text: MyText().privacy,
             style: TextStyle(
-                color: Color.fromRGBO(255, 255, 255, 0.8),
+                color:  MyColors().lightWhite,
                 fontSize: SizeConfig.safeBlockHorizontal * 3,
                 fontFamily: 'Roboto',
                 decoration: TextDecoration.underline),

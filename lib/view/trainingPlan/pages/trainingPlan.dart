@@ -28,8 +28,8 @@ class TrainingPlan extends StatelessWidget {
         child: Column(
           children: <Widget>[
             Container(
-              height: SizeConfig.blockSizeVertical * 12.5,
-              width: SizeConfig.blockSizeHorizontal * 22,
+              height: 90.0,
+              width: 90,
               padding: EdgeInsets.all(10),
               child: CircleAvatar(
                 radius: 28.0,

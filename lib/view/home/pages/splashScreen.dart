@@ -1,3 +1,4 @@
+import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/home/pages/signin.dart';
 import 'package:flutter/material.dart';
@@ -10,12 +11,12 @@ class CustomSplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return SplashScreen(
-      backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
+      backgroundColor: MyColors().lightBlack,
       seconds: 2,
       title: Text(''),
       navigateAfterSeconds: new Signin(),
       photoSize: SizeConfig.safeBlockHorizontal * 50,
-      loaderColor: Color.fromRGBO(28, 28, 28, 1.0),
+      loaderColor: MyColors().lightBlack,
     );
   }
 }

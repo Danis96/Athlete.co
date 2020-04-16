@@ -1,3 +1,4 @@
+import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,7 @@ class ChooseAthlete extends StatelessWidget {
     String usersPhoto = photo;
 
     return Scaffold(
-      backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
+      backgroundColor: MyColors().lightBlack,
       body: ListView(
         children: <Widget>[
           nameHeadline(usersName, usersPhoto, context),

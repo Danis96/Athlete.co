@@ -1,3 +1,4 @@
+import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +37,7 @@ Widget trainerContainer(BuildContext context, String tName, String tPD,
         children: <Widget>[
           Container(
             decoration: BoxDecoration(
-                color: Colors.black,
+                color: MyColors().black,
                 borderRadius: new BorderRadius.only(
                   topLeft: const Radius.circular(8),
                   topRight: const Radius.circular(8),

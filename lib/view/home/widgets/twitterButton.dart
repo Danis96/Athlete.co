@@ -1,4 +1,6 @@
+import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/size_config.dart';
+import 'package:attt/utils/text.dart';
 import 'package:attt/view_model/signInViewModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +13,7 @@ Widget twitterButton(BuildContext context) {
     child: Container(
         height: SizeConfig.blockSizeVertical * 6.25,
         width: SizeConfig.blockSizeHorizontal * 73,
-        color: Color(0xFF1DA1F2),
+        color: MyColors().twitterColor,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -19,7 +21,7 @@ Widget twitterButton(BuildContext context) {
             Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white,
+                color: MyColors().white,
               ),
               height: 24,
               width: 24,
@@ -27,7 +29,7 @@ Widget twitterButton(BuildContext context) {
                 borderRadius: BorderRadius.circular(8.0),
                 child: Icon(
                   FontAwesomeIcons.twitter,
-                  color: Color(0xFF1DA1F2),
+                  color: MyColors().twitterColor,
                   size: 15,
                 ),
               ),
@@ -36,9 +38,9 @@ Widget twitterButton(BuildContext context) {
               width: SizeConfig.blockSizeHorizontal * 3,
             ),
             Text(
-              'CONTINUE WITH TWITTER',
+              MyText().tButton,
               style: TextStyle(
-                  color: Colors.white,
+                  color: MyColors().white,
                   fontSize: SizeConfig.safeBlockHorizontal * 4,
                   fontFamily: 'Roboto'),
             ),
