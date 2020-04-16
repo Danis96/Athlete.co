@@ -1,4 +1,6 @@
+import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/size_config.dart';
+import 'package:attt/utils/text.dart';
 import 'package:attt/view_model/signInViewModel.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +11,7 @@ Widget googleButton(BuildContext context) {
     child: Container(
         height: SizeConfig.blockSizeVertical * 6.25,
         width: SizeConfig.blockSizeHorizontal * 72,
-        color: Colors.white,
+        color: MyColors().white,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -19,7 +21,7 @@ Widget googleButton(BuildContext context) {
                 borderRadius: BorderRadius.circular(8.0),
                 child: Image(
                   image: AssetImage(
-                    'assets/logos/google_light.png',
+                    MyText().googleIconUrl,
                     package: 'flutter_signin_button',
                   ),
                   height: SizeConfig.blockSizeVertical * 5.5,
@@ -27,9 +29,9 @@ Widget googleButton(BuildContext context) {
               ),
             ),
             Text(
-              'CONTINUE WITH GOOGLE',
+             MyText().gButton,
               style: TextStyle(
-                  color: Colors.black,
+                  color: MyColors().black,
                   fontSize: SizeConfig.safeBlockHorizontal * 4,
                   fontFamily: 'Roboto'),
             ),

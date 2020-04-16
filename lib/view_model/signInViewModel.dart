@@ -1,5 +1,6 @@
 import 'package:attt/interface/signinInterface.dart';
 import 'package:attt/utils/globals.dart';
+import 'package:attt/utils/text.dart';
 import 'package:attt/view/chooseAthlete/pages/chooseAthlete.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,9 @@ class SignInViewModel implements SignInInterface {
   TwitterLogin twitterLogin;
 
   /// sign in with twitter
+  /// 
+  /// we simply switch over [_twitterLoginStatus] and for every case 
+  /// we do something 
   @override
   signInWithTwitter(BuildContext context) async {
     /// waiting for keys
@@ -30,7 +34,10 @@ class SignInViewModel implements SignInInterface {
     _currentUserTwitterSession = _twitterLoginResult.session;
     _twitterLoginStatus = _twitterLoginResult.status;
 
+   
     switch (_twitterLoginStatus) {
+
+      /// if logging is success we navigate to [ChooseAthlete page]
       case TwitterLoginStatus.loggedIn:
         _currentUserTwitterSession = _twitterLoginResult.session;
         Navigator.of(context).pushReplacement(MaterialPageRoute(
@@ -49,7 +56,8 @@ class SignInViewModel implements SignInInterface {
         print('An error occurred signing with Twitter.');
         break;
     }
-
+    
+    ///  we get credentials and define them to [authToken & authTokenSecret]
     AuthCredential _authCredential = TwitterAuthProvider.getCredential(
         authToken: _currentUserTwitterSession?.token ?? '',
         authTokenSecret: _currentUserTwitterSession?.secret ?? '');
@@ -59,19 +67,24 @@ class SignInViewModel implements SignInInterface {
   }
 
   /// sign in with google
+  /// 
+  /// instance [googleSignIn]
   final GoogleSignIn googleSignIn = GoogleSignIn();
 
   @override
   signInWithGoogle(BuildContext context) async {
+
     final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
     final GoogleSignInAuthentication googleSignInAuthentication =
         await googleSignInAccount.authentication;
 
+    /// we get credentials over [GoogleAuthProvider] and get [accessToken & idToken]
     final AuthCredential credential = GoogleAuthProvider.getCredential(
       accessToken: googleSignInAuthentication.accessToken,
       idToken: googleSignInAuthentication.idToken,
     );
 
+    /// we collect that result and we collect activeUsers info
     final AuthResult authResult =
         await _firebaseAuth.signInWithCredential(credential);
     final FirebaseUser user = authResult.user;
@@ -85,7 +98,7 @@ class SignInViewModel implements SignInInterface {
     userEmail = currentUser.email;
     userName = currentUser.displayName;
     userPhoto = currentUser.photoUrl;
-    platform = 'Google';
+    platform = MyText().googlePlatform;
     loginUser();
 
     Navigator.of(context).pushReplacement(
@@ -125,7 +138,7 @@ class SignInViewModel implements SignInInterface {
     userEmail = currentUser.email;
     userName = currentUser.displayName;
     userPhoto = currentUser.photoUrl;
-    platform = 'Facebook';
+    platform = MyText().facebookPlatform;
 
     ///Navigating logged user into application
     Navigator.of(context).pushReplacement(

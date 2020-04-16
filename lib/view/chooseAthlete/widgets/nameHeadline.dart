@@ -1,4 +1,6 @@
+import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/size_config.dart';
+import 'package:attt/utils/text.dart';
 import 'package:flutter/material.dart';
 
 Widget nameHeadline(String name, String usersPhoto, BuildContext context) {
@@ -10,8 +12,8 @@ Widget nameHeadline(String name, String usersPhoto, BuildContext context) {
     child: Row(
       children: <Widget>[
         Container(
-          height: SizeConfig.blockSizeVertical * 12.5,
-          width: SizeConfig.blockSizeHorizontal * 22,
+          height: 90.0,
+          width: 90,
           padding: EdgeInsets.all(10),
           child: CircleAvatar(
             radius: 28.0,
@@ -21,9 +23,9 @@ Widget nameHeadline(String name, String usersPhoto, BuildContext context) {
         Container(
           margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 2),
           child: Text(
-            'Hi $name, \nselect your athlete.',
+            MyText().headlineHi + name +',' + MyText().headlineSelect,
             style: TextStyle(
-                color: Colors.white,
+                color: MyColors().white,
                 fontSize: SizeConfig.safeBlockHorizontal * 5.5,
                 fontWeight: FontWeight.w500),
           ),

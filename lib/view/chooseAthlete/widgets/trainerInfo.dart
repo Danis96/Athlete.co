@@ -1,4 +1,6 @@
+import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/size_config.dart';
+import 'package:attt/utils/text.dart';
 import 'package:flutter/material.dart';
 
 /// [tName] - trainer Name
@@ -14,38 +16,41 @@ Widget trainerInfo(BuildContext context, String tName, String tPD, String tPN) {
 
   return Container(
     height: SizeConfig.blockSizeVertical * 35,
-    padding: EdgeInsets.all(10),
+    padding: EdgeInsets.all(20),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         Container(
+          width: SizeConfig.blockSizeHorizontal * 40,
           padding: EdgeInsets.all(3),
           child: Text(
-            _trainingPlanDuration + ' weeks',
+            _trainingPlanDuration + MyText().weeks,
             style: TextStyle(
-                color: Colors.white,
+                color: MyColors().white,
                 fontWeight: FontWeight.w500,
                 fontSize: SizeConfig.safeBlockVertical * 2),
           ),
         ),
         Container(
+          width: SizeConfig.blockSizeHorizontal * 70,
             padding: EdgeInsets.all(3),
             child: Text(
               _trainerName.toUpperCase(),
               style: TextStyle(
-                color: Colors.white,
+                color: MyColors().white,
                 fontStyle: FontStyle.italic,
                 fontWeight: FontWeight.w700,
-                fontSize: SizeConfig.safeBlockHorizontal * 5,
+                fontSize: SizeConfig.safeBlockHorizontal * 6,
               ),
             )),
         Container(
+          width: SizeConfig.blockSizeHorizontal * 70,
           padding: EdgeInsets.all(3),
           child: Text(
             _trainingPlanName.toUpperCase(),
             style: TextStyle(
-                color: Colors.white,
+                color: MyColors().white,
                 fontWeight: FontWeight.w500,
                 fontSize: SizeConfig.safeBlockVertical * 1.8),
           ),

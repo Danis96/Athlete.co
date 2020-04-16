@@ -1,4 +1,6 @@
+import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/size_config.dart';
+import 'package:attt/utils/text.dart';
 import 'package:attt/view_model/signInViewModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +13,7 @@ Widget facebookButton(BuildContext context) {
     child: Container(
         height: SizeConfig.blockSizeVertical * 6.25,
         width: SizeConfig.blockSizeHorizontal * 79,
-        color: Color(0xFF3B5998),
+        color:MyColors().facebookColor ,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -31,7 +33,7 @@ Widget facebookButton(BuildContext context) {
                 borderRadius: BorderRadius.circular(8.0),
                 child: Icon(
                   FontAwesomeIcons.facebookF,
-                  color: Color(0xFF3B5998),
+                  color: MyColors().facebookColor,
                   size: 20,
                 ),
               ),
@@ -40,9 +42,9 @@ Widget facebookButton(BuildContext context) {
               width: SizeConfig.blockSizeHorizontal * 3,
             ),
             Text(
-              'CONTINUE WITH FACEBOOK',
+              MyText().fbButton.toUpperCase(),
               style: TextStyle(
-                  color: Colors.white,
+                  color: MyColors().white,
                   fontSize: SizeConfig.safeBlockHorizontal * 4,
                   fontFamily: 'Roboto'),
             ),
