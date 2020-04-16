@@ -45,14 +45,14 @@ Widget trainerInfo(BuildContext context, String tName, String tPD, String tPN) {
               ),
             )),
         Container(
-          width: SizeConfig.blockSizeHorizontal * 70,
+          width: SizeConfig.blockSizeHorizontal * 67,
           padding: EdgeInsets.all(3),
           child: Text(
             _trainingPlanName.toUpperCase(),
             style: TextStyle(
                 color: MyColors().white,
                 fontWeight: FontWeight.w500,
-                fontSize: SizeConfig.safeBlockVertical * 1.8),
+                fontSize: SizeConfig.safeBlockVertical * 1.9),
           ),
         ),
       ],
