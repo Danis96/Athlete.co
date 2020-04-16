@@ -33,8 +33,9 @@ showAlertDialog(BuildContext context) {
       /// sign out from Shared Preference
       SignInViewModel().logout();
 
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (_) => Signin()));
+      Navigator.of(context).pushAndRemoveUntil(
+          MaterialPageRoute(builder: (_) => Signin()),
+          (Route<dynamic> route) => false);
     },
   );
 

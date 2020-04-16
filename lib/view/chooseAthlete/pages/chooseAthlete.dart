@@ -1,13 +1,15 @@
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:attt/view/chooseAthlete/widgets/nameHeadline.dart';
 import 'package:attt/view/chooseAthlete/widgets/trainerList.dart';
 
 class ChooseAthlete extends StatelessWidget {
   final String name, email, photo;
-  ChooseAthlete({Key key, this.email, this.name, this.photo}) : super(key: key);
+  final DocumentSnapshot userDocument;
+  ChooseAthlete({Key key, this.email, this.name, this.photo, this.userDocument}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +22,7 @@ class ChooseAthlete extends StatelessWidget {
       body: ListView(
         children: <Widget>[
           nameHeadline(usersName, usersPhoto, context),
-          trainersList(context, userName, userPhoto, userEmail),
+          trainersList(context, userName, userPhoto, userEmail, userDocument),
         ],
       ),
     );
