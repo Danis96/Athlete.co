@@ -25,5 +25,5 @@ After some time, the application will be built on the device/emulator connected 
    	User Story 2 – We created a splash screen, and sign in screen. In sign in screen we have logo of the app, and we have 3 buttons for sign up methods.
        One for google sign in, one for facebook., one for twitter.<br/><br/>*
    	User Story 3 -We created a autologin functionality. If user is signed in and quit the app, he doesn't have to sign up again.<br/><br/>*
-    User Story 4 - In this user story we needed to show to the user available trainers and theri training plan name, and duration, so that user can choose one from it.<br/><br/>*
+    User Story 4 - In this user story we needed to show to the user available trainers and their training plan name, and duration, so that user can choose one from it.<br/><br/>*
 The user has the forget password option, which sends him a mail request to reset the password.
