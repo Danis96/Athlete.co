@@ -74,7 +74,7 @@ class TrainingPlan extends StatelessWidget {
                     child: CircleAvatar(
                       radius: 28.0,
                       backgroundImage:
-                          NetworkImage(userDocument.data['image'].toString()),
+                          NetworkImage(photo),
                     ),
                   ),
                   SizedBox(
@@ -126,8 +126,9 @@ class TrainingPlan extends StatelessWidget {
                 height: SizeConfig.blockSizeVertical * 2.5,
               ),
               Container(
-                height: SizeConfig.blockSizeVertical * 4.5,
-                width: SizeConfig.blockSizeHorizontal * 44,
+                height: SizeConfig.blockSizeVertical * 4.7,
+                width: SizeConfig.blockSizeHorizontal * 49,
+                padding: EdgeInsets.all(7.0),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(4)),
                     color: Color.fromRGBO(37, 211, 102, 1.0)),
