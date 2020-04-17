@@ -1,5 +1,6 @@
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/trainingPlan/widgets/showAlertDialog.dart';
+import 'package:attt/view/workout/pages/workout.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -43,16 +44,21 @@ class TrainingPlan extends StatelessWidget {
             ),
             Container(
               child: Text(
-                "Your training plan is: " + userTrainerDocument.data['training_plan_name'].toString(),
+                "Your training plan is: " +
+                    userTrainerDocument.data['training_plan_name'].toString(),
                 style: TextStyle(color: Colors.white),
               ),
             ),
             Container(
-              child: Text("Duration is: " + userTrainerDocument.data['training_plan_duration'],
+              child: Text(
+                  "Duration is: " +
+                      userTrainerDocument.data['training_plan_duration'],
                   style: TextStyle(color: Colors.white)),
             ),
             Container(
-              child: Text("The man who will train you is: " + userTrainerDocument.data['trainer_name'].toString(),
+              child: Text(
+                  "The man who will train you is: " +
+                      userTrainerDocument.data['trainer_name'].toString(),
                   style: TextStyle(color: Colors.white)),
             ),
             Container(
@@ -62,7 +68,16 @@ class TrainingPlan extends StatelessWidget {
                   showAlertDialog(context);
                 },
               ),
-            )
+            ),
+            Container(
+              child: RaisedButton(
+                onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                    builder: (_) => Workout(
+                          trainerName: userTrainerDocument.data['trainer_name'],
+                        ))),
+                child: Text('Workouts'),
+              ),
+            ),
           ],
         ),
       ),
