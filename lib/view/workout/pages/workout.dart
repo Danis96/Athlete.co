@@ -6,7 +6,8 @@ import 'package:flutter/material.dart';
 
 class Workout extends StatelessWidget {
   final String trainerName;
-  Workout({Key key, this.trainerName}) : super(key: key);
+  final String workoutName;
+  Workout({Key key, this.trainerName, this.workoutName}) : super(key: key);
 
   String _seriesName,
       _exerciseName,
@@ -61,11 +62,3 @@ class Workout extends StatelessWidget {
     );
   }
 }
-
-
-
-
-
-
-
-

@@ -50,6 +50,8 @@ class TrainingPlan extends StatelessWidget {
       return qn.documents;
     }
 
+    String trainerName = userTrainerDocument.data['trainer_name'];
+
     SizeConfig().init(context);
     return Scaffold(
       backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
@@ -153,7 +155,6 @@ class TrainingPlan extends StatelessWidget {
                   ],
                 ),
               ),
-
               FutureBuilder(
                   future: getWeeks(userTrainerDocument.data['trainer_name']),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -180,76 +181,102 @@ class TrainingPlan extends StatelessWidget {
                                           itemCount: snapshot2.data.length,
                                           itemBuilder: (BuildContext context,
                                               int index2) {
-                                            return Container(
-                                              margin: EdgeInsets.only(
-                                                  bottom: SizeConfig
-                                                          .blockSizeVertical *
-                                                      1.25),
-                                              width: double.infinity,
-                                              height:
-                                                  SizeConfig.blockSizeVertical *
-                                                      12.5,
-                                              decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.all(
-                                                    Radius.circular(4),
+                                            return GestureDetector(
+                                              onTap: () {
+                                                print(trainerName +
+                                                    ' ' +
+                                                    snapshot2.data[index2]
+                                                        ['name']);
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (BuildContext
+                                                                context) =>
+                                                            Workout(
+                                                              trainerName:
+                                                                  trainerName,
+                                                              workoutName:
+                                                                  snapshot2.data[
+                                                                          index2]
+                                                                      ['name'],
+                                                            )));
+                                              },
+                                              child: Container(
+                                                margin: EdgeInsets.only(
+                                                    bottom: SizeConfig
+                                                            .blockSizeVertical *
+                                                        1.25),
+                                                width: double.infinity,
+                                                height: SizeConfig
+                                                        .blockSizeVertical *
+                                                    12.5,
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                      Radius.circular(4),
+                                                    ),
+                                                    color: Colors.black),
+                                                child: Padding(
+                                                  padding: EdgeInsets.only(
+                                                    top: SizeConfig
+                                                            .blockSizeVertical *
+                                                        3,
+                                                    bottom: SizeConfig
+                                                            .blockSizeVertical *
+                                                        3,
+                                                    left: SizeConfig
+                                                            .blockSizeHorizontal *
+                                                        5.2,
+                                                    right: SizeConfig
+                                                            .blockSizeHorizontal *
+                                                        5.2,
                                                   ),
-                                                  color: Colors.black),
-                                              child: Padding(
-                                                padding: EdgeInsets.only(
-                                                  top: SizeConfig
-                                                          .blockSizeVertical *
-                                                      3,
-                                                  bottom: SizeConfig
-                                                          .blockSizeVertical *
-                                                      3,
-                                                  left: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                      5.2,
-                                                  right: SizeConfig
-                                                          .blockSizeHorizontal *
-                                                      5.2,
-                                                ),
-                                                child: Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    Text(
-                                                      snapshot2.data[index2]
-                                                              ['name']
-                                                          .toString()
-                                                          .toUpperCase(),
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontFamily: 'Roboto',
-                                                          fontSize: SizeConfig
-                                                                  .blockSizeVertical *
-                                                              2.5,
-                                                          fontStyle:
-                                                              FontStyle.italic,
-                                                          fontWeight:
-                                                              FontWeight.w500),
-                                                    ),
-                                                    SizedBox(
-                                                      height: SizeConfig
-                                                              .blockSizeVertical *
-                                                          0.4,
-                                                    ),
-                                                    Text(
-                                                      snapshot2.data[index2]
-                                                              ['tag']
-                                                          .toString()
-                                                          .toUpperCase(),
-                                                      style: TextStyle(
-                                                          color: Colors.white,
-                                                          fontFamily: 'Roboto',
-                                                          fontSize: SizeConfig
-                                                                  .blockSizeVertical *
-                                                              2.1,
-                                                          fontWeight:
-                                                              FontWeight.w500),
-                                                    ),
-                                                  ],
+                                                  child: Column(
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    children: <Widget>[
+                                                      Text(
+                                                        snapshot2.data[index2]
+                                                                ['name']
+                                                            .toString()
+                                                            .toUpperCase(),
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontFamily:
+                                                                'Roboto',
+                                                            fontSize: SizeConfig
+                                                                    .blockSizeVertical *
+                                                                2.5,
+                                                            fontStyle: FontStyle
+                                                                .italic,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                      ),
+                                                      SizedBox(
+                                                        height: SizeConfig
+                                                                .blockSizeVertical *
+                                                            0.4,
+                                                      ),
+                                                      Text(
+                                                        snapshot2.data[index2]
+                                                                ['tag']
+                                                            .toString()
+                                                            .toUpperCase(),
+                                                        style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontFamily:
+                                                                'Roboto',
+                                                            fontSize: SizeConfig
+                                                                    .blockSizeVertical *
+                                                                2.1,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500),
+                                                      ),
+                                                    ],
+                                                  ),
                                                 ),
                                               ),
                                             );
@@ -306,7 +333,9 @@ class TrainingPlan extends StatelessWidget {
                                     right: SizeConfig.blockSizeHorizontal * 5.2,
                                   ),
                                   child: Text(
-                                    snapshot.data[index]['name'].toString().toUpperCase(),
+                                    snapshot.data[index]['name']
+                                        .toString()
+                                        .toUpperCase(),
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontFamily: 'Roboto',
@@ -325,212 +354,6 @@ class TrainingPlan extends StatelessWidget {
                       );
                     }
                   }),
-              // Container(
-              //   width: double.infinity,
-              //   height: SizeConfig.blockSizeVertical * 12.5,
-              //   decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.all(
-              //         Radius.circular(4),
-              //       ),
-              //       color: Colors.black),
-              //   child: Padding(
-              //     padding: EdgeInsets.only(
-              //       top: SizeConfig.blockSizeVertical * 3,
-              //       bottom: SizeConfig.blockSizeVertical * 3,
-              //       left: SizeConfig.blockSizeHorizontal * 5.2,
-              //       right: SizeConfig.blockSizeHorizontal * 5.2,
-              //     ),
-              //     child: Column(
-              //       crossAxisAlignment: CrossAxisAlignment.start,
-              //       children: <Widget>[
-              //         Text(
-              //           "WORKOUT 1",
-              //           style: TextStyle(
-              //               color: Colors.white,
-              //               fontFamily: 'Roboto',
-              //               fontSize: SizeConfig.blockSizeVertical * 2.5,
-              //               fontStyle: FontStyle.italic,
-              //               fontWeight: FontWeight.w500),
-              //         ),
-              //         SizedBox(
-              //           height: SizeConfig.blockSizeVertical * 0.4,
-              //         ),
-              //         Text(
-              //           "UPPER BODY",
-              //           style: TextStyle(
-              //               color: Colors.white,
-              //               fontFamily: 'Roboto',
-              //               fontSize: SizeConfig.blockSizeVertical * 2.1,
-              //               fontWeight: FontWeight.w500),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
-              // SizedBox(
-              //   height: SizeConfig.blockSizeVertical * 1.25,
-              // ),
-              // Container(
-              //   width: double.infinity,
-              //   height: SizeConfig.blockSizeVertical * 12.5,
-              //   decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.all(
-              //         Radius.circular(4),
-              //       ),
-              //       color: Colors.black),
-              //   child: Padding(
-              //     padding: EdgeInsets.only(
-              //       top: SizeConfig.blockSizeVertical * 3,
-              //       bottom: SizeConfig.blockSizeVertical * 3,
-              //       left: SizeConfig.blockSizeHorizontal * 5.2,
-              //       right: SizeConfig.blockSizeHorizontal * 5.2,
-              //     ),
-              //     child: Column(
-              //       crossAxisAlignment: CrossAxisAlignment.start,
-              //       children: <Widget>[
-              //         Text(
-              //           "WORKOUT 2",
-              //           style: TextStyle(
-              //               color: Colors.white,
-              //               fontFamily: 'Roboto',
-              //               fontSize: SizeConfig.blockSizeVertical * 2.5,
-              //               fontStyle: FontStyle.italic,
-              //               fontWeight: FontWeight.w500),
-              //         ),
-              //         SizedBox(
-              //           height: SizeConfig.blockSizeVertical * 0.4,
-              //         ),
-              //         Text(
-              //           "LOWER BODY",
-              //           style: TextStyle(
-              //               color: Colors.white,
-              //               fontFamily: 'Roboto',
-              //               fontSize: SizeConfig.blockSizeVertical * 2.1,
-              //               fontWeight: FontWeight.w500),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
-              // SizedBox(
-              //   height: SizeConfig.blockSizeVertical * 1.25,
-              // ),
-              // Container(
-              //   width: double.infinity,
-              //   height: SizeConfig.blockSizeVertical * 12.5,
-              //   decoration: BoxDecoration(
-              //       borderRadius: BorderRadius.all(
-              //         Radius.circular(4),
-              //       ),
-              //       color: Colors.black),
-              //   child: Padding(
-              //     padding: EdgeInsets.only(
-              //       top: SizeConfig.blockSizeVertical * 3,
-              //       bottom: SizeConfig.blockSizeVertical * 3,
-              //       left: SizeConfig.blockSizeHorizontal * 5.2,
-              //       right: SizeConfig.blockSizeHorizontal * 5.2,
-              //     ),
-              //     child: Column(
-              //       crossAxisAlignment: CrossAxisAlignment.start,
-              //       children: <Widget>[
-              //         Text(
-              //           "WORKOUT 3",
-              //           style: TextStyle(
-              //               color: Colors.white,
-              //               fontFamily: 'Roboto',
-              //               fontSize: SizeConfig.blockSizeVertical * 2.5,
-              //               fontStyle: FontStyle.italic,
-              //               fontWeight: FontWeight.w500),
-              //         ),
-              //         SizedBox(
-              //           height: SizeConfig.blockSizeVertical * 0.4,
-              //         ),
-              //         Text(
-              //           "FULL BODY",
-              //           style: TextStyle(
-              //               color: Colors.white,
-              //               fontFamily: 'Roboto',
-              //               fontSize: SizeConfig.blockSizeVertical * 2.1,
-              //               fontWeight: FontWeight.w500),
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-              // ),
-              // SizedBox(
-              //   height: SizeConfig.blockSizeVertical * 3,
-              // ),
-              // Divider(
-              //   height: SizeConfig.blockSizeVertical * 0.16,
-              //   thickness: SizeConfig.blockSizeVertical * 0.16,
-              //   color: Color.fromRGBO(255, 255, 255, 0.2),
-              // ),
-              // SizedBox(
-              //   height: SizeConfig.blockSizeVertical * 3.75,
-              // ),
-              // Container(
-              //   width: double.infinity,
-              //   height: SizeConfig.blockSizeVertical * 8.75,
-              //   decoration: BoxDecoration(
-              //     borderRadius: BorderRadius.all(
-              //       Radius.circular(4),
-              //     ),
-              //     border: Border.all(
-              //       width: 1,
-              //       color: Color.fromRGBO(255, 255, 255, 0.2),
-              //     ),
-              //   ),
-              //   child: Padding(
-              //     padding: EdgeInsets.only(
-              //       top: SizeConfig.blockSizeVertical * 3,
-              //       bottom: SizeConfig.blockSizeVertical * 3,
-              //       left: SizeConfig.blockSizeHorizontal * 5.2,
-              //       right: SizeConfig.blockSizeHorizontal * 5.2,
-              //     ),
-              //     child: Text(
-              //       "WEEK 3",
-              //       style: TextStyle(
-              //           color: Colors.white,
-              //           fontFamily: 'Roboto',
-              //           fontSize: SizeConfig.blockSizeVertical * 2.5,
-              //           fontStyle: FontStyle.italic,
-              //           fontWeight: FontWeight.w500),
-              //     ),
-              //   ),
-              // ),
-              // SizedBox(
-              //   height: SizeConfig.blockSizeVertical * 1.25,
-              // ),
-              // Container(
-              //   width: double.infinity,
-              //   height: SizeConfig.blockSizeVertical * 8.75,
-              //   decoration: BoxDecoration(
-              //     borderRadius: BorderRadius.all(
-              //       Radius.circular(4),
-              //     ),
-              //     border: Border.all(
-              //       width: 1,
-              //       color: Color.fromRGBO(255, 255, 255, 0.2),
-              //     ),
-              //   ),
-              //   child: Padding(
-              //     padding: EdgeInsets.only(
-              //       top: SizeConfig.blockSizeVertical * 3,
-              //       bottom: SizeConfig.blockSizeVertical * 3,
-              //       left: SizeConfig.blockSizeHorizontal * 5.2,
-              //       right: SizeConfig.blockSizeHorizontal * 5.2,
-              //     ),
-              //     child: Text(
-              //       "WEEK 4",
-              //       style: TextStyle(
-              //           color: Colors.white,
-              //           fontFamily: 'Roboto',
-              //           fontSize: SizeConfig.blockSizeVertical * 2.5,
-              //           fontStyle: FontStyle.italic,
-              //           fontWeight: FontWeight.w500),
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ),
