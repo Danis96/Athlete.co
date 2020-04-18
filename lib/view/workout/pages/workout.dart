@@ -6,10 +6,15 @@ import 'package:flutter/material.dart';
 
 class Workout extends StatelessWidget {
   final String trainerID;
-  final String workoutName;
-
-  final String workoutID, weekID;
-  Workout({Key key, this.trainerID, this.workoutName, this.workoutID, this.weekID}) : super(key: key);
+  final String workoutName, workoutID, weekID, warmupDesc;
+  Workout(
+      {Key key,
+      this.trainerID,
+      this.workoutName,
+      this.workoutID,
+      this.weekID,
+      this.warmupDesc})
+      : super(key: key);
 
   String _seriesName,
       _exerciseName,
@@ -26,7 +31,7 @@ class Workout extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         /// workout name
-        title: Text('Workout 1'.toUpperCase()),
+        title: Text(workoutName.toUpperCase()),
         backgroundColor: MyColors().lightBlack,
         elevation: 0,
         leading: IconButton(
@@ -43,25 +48,25 @@ class Workout extends StatelessWidget {
         shrinkWrap: true,
         children: <Widget>[
           /// warmup
-          warmup(context),
+          warmup(context, warmupDesc),
 
           /// workoutList
           workoutList(
-              trainerID,
-              _seriesName,
-              _series,
-              _exercises,
-              _exerciseName,
-              _exerciseTips,
-              _exerciseVideo,
-              _exerciseImage,
-              _exerciseIsReps,
-              _exerciseReps,
-              _exerciseRest,
-              _exerciseSets,
-              weekID,
-              workoutID, 
-              ),
+            trainerID,
+            _seriesName,
+            _series,
+            _exercises,
+            _exerciseName,
+            _exerciseTips,
+            _exerciseVideo,
+            _exerciseImage,
+            _exerciseIsReps,
+            _exerciseReps,
+            _exerciseRest,
+            _exerciseSets,
+            weekID,
+            workoutID,
+          ),
         ],
       ),
     );

@@ -2,7 +2,7 @@ import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
-Widget warmup(BuildContext context) {
+Widget warmup(BuildContext context, String warmupDesc) {
   SizeConfig().init(context);
   return Container(
     color: MyColors().black,
@@ -28,7 +28,7 @@ Widget warmup(BuildContext context) {
 
             /// ono sto izvucem za warmup
             child: Text(
-              "10 Minute: Band Pull Aparts , Figure of 8's, Crab Walk",
+              warmupDesc,
                 style: TextStyle(color: MyColors().lightWhite)))
       ],
     ),
