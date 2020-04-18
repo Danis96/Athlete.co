@@ -1,5 +1,6 @@
 import 'package:attt/interface/workoutInerface.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/widgets.dart';
 
 class WorkoutViewModel implements WorkoutInterface {
   @override
@@ -39,6 +40,11 @@ class WorkoutViewModel implements WorkoutInterface {
         .collection('series')
         .getDocuments();
       return qn.documents;
+  }
+
+  @override
+  xBack(BuildContext context) {
+     Navigator.of(context).pop();
   }
 
 }
