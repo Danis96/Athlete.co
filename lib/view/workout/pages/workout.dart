@@ -5,9 +5,11 @@ import 'package:attt/view/workout/widgets/workoutList.dart';
 import 'package:flutter/material.dart';
 
 class Workout extends StatelessWidget {
-  final String trainerName;
+  final String trainerID;
   final String workoutName;
-  Workout({Key key, this.trainerName, this.workoutName}) : super(key: key);
+
+  final String workoutID, weekID;
+  Workout({Key key, this.trainerID, this.workoutName, this.workoutID, this.weekID}) : super(key: key);
 
   String _seriesName,
       _exerciseName,
@@ -45,7 +47,7 @@ class Workout extends StatelessWidget {
 
           /// workoutList
           workoutList(
-              trainerName,
+              trainerID,
               _seriesName,
               _series,
               _exercises,
@@ -56,7 +58,10 @@ class Workout extends StatelessWidget {
               _exerciseIsReps,
               _exerciseReps,
               _exerciseRest,
-              _exerciseSets),
+              _exerciseSets,
+              weekID,
+              workoutID, 
+              ),
         ],
       ),
     );

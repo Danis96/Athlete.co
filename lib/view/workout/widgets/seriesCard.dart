@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 Widget seriesCard(
   BuildContext context,
   String _seriesName,
-  String trainerName,
+  String trainerID,
   List<dynamic> _exercises,
   String _exerciseName,
   String _exerciseTips,
@@ -18,6 +18,9 @@ Widget seriesCard(
   int _exerciseReps,
   int _exerciseRest,
   int _exerciseSets,
+  String weekID,
+  String workoutID,
+  String seriesID,
 ) {
   SizeConfig().init(context);
   return Container(
@@ -34,7 +37,7 @@ Widget seriesCard(
                   fontSize: SizeConfig.blockSizeHorizontal * 5)),
         ),
         FutureBuilder(
-            future: WorkoutViewModel().getExercises(trainerName),
+            future: WorkoutViewModel().getExercises(trainerID, weekID, workoutID, seriesID),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 _exercises = snapshot.data
@@ -46,6 +49,7 @@ Widget seriesCard(
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: _exercises.length,
                     itemBuilder: (BuildContext context, int index) {
+                      
                       _exerciseName = _exercises[index].name;
                       _exerciseImage = _exercises[index].image;
                       _exerciseIsReps = _exercises[index].isReps;

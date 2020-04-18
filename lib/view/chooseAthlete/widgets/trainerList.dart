@@ -7,6 +7,7 @@ import 'package:attt/view_model/chooseAthleteViewModel.dart';
 
 Widget trainersList(BuildContext context, String name, String photo,
     String email, DocumentSnapshot userDocument) {
+  String _trainerID;
   String _trainerName;
   String _trainingPlanName;
   String _trainingPlanDuration;
@@ -26,6 +27,7 @@ Widget trainersList(BuildContext context, String name, String photo,
                 shrinkWrap: true,
                 itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
+                  _trainerID = _trainerData[index].trainerID;
                   _trainerName = _trainerData[index].trainerName;
                   _trainingPlanName = _trainerData[index].trainingPlanName;
                   _trainingPlanDuration =
@@ -33,6 +35,7 @@ Widget trainersList(BuildContext context, String name, String photo,
                   return Center(
                       child: trainerContainer(
                           context,
+                          _trainerID,
                           _trainerName,
                           _trainingPlanDuration,
                           _trainingPlanName,

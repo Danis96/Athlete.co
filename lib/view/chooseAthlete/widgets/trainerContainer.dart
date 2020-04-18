@@ -12,6 +12,7 @@ import 'package:attt/view/chooseAthlete/widgets/trainerInfo.dart';
 
 Widget trainerContainer(
     BuildContext context,
+    String trainerID,
     String tName,
     String tPD,
     String tPN,
@@ -21,6 +22,7 @@ Widget trainerContainer(
     DocumentSnapshot userDocument) {
   SizeConfig().init(context);
 
+  String _trainerID = trainerID;
   String _trainerName = tName;
   String _trainingPlanName = tPN;
   String _trainingPlanDuration = tPD;
@@ -39,6 +41,7 @@ Widget trainerContainer(
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
               builder: (_) => TrainingPlan(
+                    trainerID: _trainerID,
                     userTrainerDocument: currentUserTrainerDocument,
                     userDocument: userDocument,
                     trainerName: _trainerName,

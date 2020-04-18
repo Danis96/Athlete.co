@@ -1,5 +1,4 @@
 import 'package:attt/utils/size_config.dart';
-import 'package:attt/view_model/chooseAthleteViewModel.dart';
 import 'package:attt/view/workout/pages/workout.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -8,12 +7,13 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class TrainingPlan extends StatelessWidget {
   final DocumentSnapshot userDocument;
   final DocumentSnapshot userTrainerDocument;
-  final String trainerName;
+  final String trainerName, trainerID;
   final String trainingPlanName;
   final String trainingPlanDuration;
   final String name, photo, email;
   TrainingPlan(
-      {this.trainerName,
+      {this.trainerID,
+      this.trainerName,
       this.userTrainerDocument,
       this.userDocument,
       this.trainingPlanDuration,
@@ -22,35 +22,37 @@ class TrainingPlan extends StatelessWidget {
       this.name,
       this.email});
 
+  String weekID, workoutID;
+
   @override
   Widget build(BuildContext context) {
-    Future getWeeks(String trainerName) async {
+
+
+    Future getWeeks(String trainerID) async {
       var firestore = Firestore.instance;
       QuerySnapshot qn = await firestore
           .collection('Trainers')
-          .document(trainerName)
+          /// treba i trainerID
+          .document(trainerID)
           .collection('weeks')
           .getDocuments();
       return qn.documents;
     }
 
-    Future getWorkouts(String trainerName, String weekName) async {
+    Future getWorkouts(String trainerID, String weekID) async {
       var firestore = Firestore.instance;
       QuerySnapshot qn = await firestore
           .collection('Trainers')
-
-          /// treba mi
-          .document(trainerName)
+          /// treba mi trainerID
+          .document(trainerID)
           .collection('weeks')
-
-          /// treba mi
-          .document(weekName)
+          /// treba mi weekID
+          .document(weekID)
           .collection('workouts')
           .getDocuments();
       return qn.documents;
     }
 
-    String trainerName = userTrainerDocument.data['trainer_name'];
 
     SizeConfig().init(context);
     return Scaffold(
@@ -73,8 +75,7 @@ class TrainingPlan extends StatelessWidget {
                     padding: EdgeInsets.all(10),
                     child: CircleAvatar(
                       radius: 28.0,
-                      backgroundImage:
-                          NetworkImage(photo),
+                      backgroundImage: NetworkImage(photo),
                     ),
                   ),
                   SizedBox(
@@ -157,7 +158,7 @@ class TrainingPlan extends StatelessWidget {
                 ),
               ),
               FutureBuilder(
-                  future: getWeeks(userTrainerDocument.data['trainer_name']),
+                  future: getWeeks(userTrainerDocument.data['trainerID']),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.hasData) {
                       return ListView.builder(
@@ -165,11 +166,15 @@ class TrainingPlan extends StatelessWidget {
                           shrinkWrap: true,
                           itemCount: snapshot.data.length,
                           itemBuilder: (BuildContext context, int index) {
+
+                            
+                           
+
                             if (index == 0) {
                               return FutureBuilder(
                                 future: getWorkouts(
-                                    userTrainerDocument.data['trainer_name'],
-                                    snapshot.data[index]['name']),
+                                    userTrainerDocument.data['trainerID'],
+                                    snapshot.data[index].data['weekID']),
                                 builder: (BuildContext context,
                                     AsyncSnapshot snapshot2) {
                                   if (snapshot2.hasData) {
@@ -184,22 +189,21 @@ class TrainingPlan extends StatelessWidget {
                                               int index2) {
                                             return GestureDetector(
                                               onTap: () {
-                                                print(trainerName +
-                                                    ' ' +
-                                                    snapshot2.data[index2]
-                                                        ['name']);
                                                 Navigator.push(
                                                     context,
                                                     MaterialPageRoute(
                                                         builder: (BuildContext
                                                                 context) =>
                                                             Workout(
-                                                              trainerName:
-                                                                  trainerName,
+                                                              trainerID:
+                                                                  userTrainerDocument.data['trainerID'],
                                                               workoutName:
                                                                   snapshot2.data[
                                                                           index2]
                                                                       ['name'],
+                                                              weekID: snapshot.data[index].data['weekID'],
+                                                              workoutID: snapshot2
+                                                .data[index2].data['workoutID'],
                                                             )));
                                               },
                                               child: Container(
