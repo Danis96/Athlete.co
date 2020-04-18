@@ -1,11 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Exercise {
-  final String name, image, tips, video;
+  final String name, image, tips, video, exerciseID;
   final int isReps, reps, sets, rest;
 
   Exercise(
-      {this.name,
+      {this.exerciseID,
+      this.name,
       this.image,
       this.isReps,
       this.reps,
@@ -16,6 +17,7 @@ class Exercise {
 
   factory Exercise.fromDocument(DocumentSnapshot doc) {
     return Exercise(
+        exerciseID: doc['exerciseID'],
         name: doc['name'],
         image: doc['image'],
         isReps: doc['isReps'],
