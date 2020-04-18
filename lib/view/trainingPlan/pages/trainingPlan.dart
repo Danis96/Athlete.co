@@ -22,7 +22,8 @@ class TrainingPlan extends StatelessWidget {
       this.name,
       this.email});
 
-  String weekID, workoutID;
+/// treba danisu warmup
+  String warmup;
 
   @override
   Widget build(BuildContext context) {
@@ -204,6 +205,7 @@ class TrainingPlan extends StatelessWidget {
                                                               weekID: snapshot.data[index].data['weekID'],
                                                               workoutID: snapshot2
                                                 .data[index2].data['workoutID'],
+                                                warmupDesc: snapshot2.data[index2].data['warmup'],
                                                             )));
                                               },
                                               child: Container(
