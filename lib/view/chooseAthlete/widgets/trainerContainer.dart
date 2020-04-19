@@ -1,4 +1,5 @@
 import 'package:attt/utils/colors.dart';
+import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:attt/view_model/signInViewModel.dart';
@@ -26,6 +27,8 @@ Widget trainerContainer(
   String _trainerName = tName;
   String _trainingPlanName = tPN;
   String _trainingPlanDuration = tPD;
+
+  totalWeeks = int.parse(_trainingPlanDuration);
 
   return GestureDetector(
     onTap: () async {

@@ -4,6 +4,7 @@ import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/text.dart';
 import 'package:attt/view/chooseAthlete/pages/chooseAthlete.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
+import 'package:attt/view_model/trainingPlanViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -83,14 +84,22 @@ class SignInViewModel implements SignInInterface {
       createUser(userName, userEmail, userPhoto, 'Twitter');
       currentUserDocuments = await getCurrentUserDocument(userEmail);
       currentUserDocument = currentUserDocuments[0];
+      List<dynamic> listOfWeeksFinished =
+          currentUserDocument.data['weeks_finished'];
+      currentWeek = listOfWeeksFinished.length + 1;
     } else {
       currentUserDocuments = await getCurrentUserDocument(userEmail);
       currentUserDocument = currentUserDocuments[0];
+      List<dynamic> listOfWeeksFinished =
+          currentUserDocument.data['weeks_finished'];
+      currentWeek = listOfWeeksFinished.length + 1;
       if (currentUserDocument.data['trainer'] != null &&
           currentUserDocument.data['trainer'] != '') {
         currentUserTrainerDocuments =
             await getCurrentUserTrainer(currentUserDocument.data['trainer']);
         currentUserTrainerDocument = currentUserTrainerDocuments[0];
+        totalWeeks = await getCurrentUserTrainerWeeks(
+            currentUserTrainerDocument.data['trainerID']);
         currentUserTrainerName =
             currentUserTrainerDocument.data['trainer_name'];
         currentUserTrainingPlanDuration =
@@ -169,7 +178,6 @@ class SignInViewModel implements SignInInterface {
     userEmail = currentUser.email;
     userName = currentUser.displayName;
     userPhoto = currentUser.photoUrl;
-    platform = MyText().googlePlatform;
 
     ///Checking if user already exists in database
     ///
@@ -180,14 +188,22 @@ class SignInViewModel implements SignInInterface {
       createUser(userName, userEmail, userPhoto, 'Google');
       currentUserDocuments = await getCurrentUserDocument(userEmail);
       currentUserDocument = currentUserDocuments[0];
+      List<dynamic> listOfWeeksFinished =
+          currentUserDocument.data['weeks_finished'];
+      currentWeek = listOfWeeksFinished.length + 1;
     } else {
       currentUserDocuments = await getCurrentUserDocument(userEmail);
       currentUserDocument = currentUserDocuments[0];
+      List<dynamic> listOfWeeksFinished =
+          currentUserDocument.data['weeks_finished'];
+      currentWeek = listOfWeeksFinished.length + 1;
       if (currentUserDocument.data['trainer'] != null &&
           currentUserDocument.data['trainer'] != '') {
         currentUserTrainerDocuments =
             await getCurrentUserTrainer(currentUserDocument.data['trainer']);
         currentUserTrainerDocument = currentUserTrainerDocuments[0];
+        totalWeeks = await getCurrentUserTrainerWeeks(
+            currentUserTrainerDocument.data['trainerID']);
         currentUserTrainerName =
             currentUserTrainerDocument.data['trainer_name'];
         currentUserTrainingPlanDuration =
@@ -259,7 +275,6 @@ class SignInViewModel implements SignInInterface {
     userEmail = currentUser.email;
     userName = currentUser.displayName;
     userPhoto = currentUser.photoUrl;
-    platform = MyText().facebookPlatform;
 
     ///Checking if user already exists in database
     ///
@@ -270,14 +285,22 @@ class SignInViewModel implements SignInInterface {
       createUser(userName, userEmail, userPhoto, 'Facebook');
       currentUserDocuments = await getCurrentUserDocument(userEmail);
       currentUserDocument = currentUserDocuments[0];
+      List<dynamic> listOfWeeksFinished =
+          currentUserDocument.data['weeks_finished'];
+      currentWeek = listOfWeeksFinished.length + 1;
     } else {
       currentUserDocuments = await getCurrentUserDocument(userEmail);
       currentUserDocument = currentUserDocuments[0];
+      List<dynamic> listOfWeeksFinished =
+          currentUserDocument.data['weeks_finished'];
+      currentWeek = listOfWeeksFinished.length + 1;
       if (currentUserDocument.data['trainer'] != null &&
           currentUserDocument.data['trainer'] != '') {
         currentUserTrainerDocuments =
             await getCurrentUserTrainer(currentUserDocument.data['trainer']);
         currentUserTrainerDocument = currentUserTrainerDocuments[0];
+        totalWeeks = await getCurrentUserTrainerWeeks(
+            currentUserTrainerDocument.data['trainerID']);
         currentUserTrainerName =
             currentUserTrainerDocument.data['trainer_name'];
         currentUserTrainingPlanDuration =
@@ -399,12 +422,17 @@ class SignInViewModel implements SignInInterface {
 
     currentUserDocuments = await getCurrentUserDocument(userEmail);
     currentUserDocument = currentUserDocuments[0];
+    List<dynamic> listOfWeeksFinished =
+        currentUserDocument.data['weeks_finished'];
+    currentWeek = listOfWeeksFinished.length + 1;
 
     if (currentUserDocument.data['trainer'] != null &&
         currentUserDocument.data['trainer'] != '') {
       currentUserTrainerDocuments =
           await getCurrentUserTrainer(currentUserDocument.data['trainer']);
       currentUserTrainerDocument = currentUserTrainerDocuments[0];
+      totalWeeks = await getCurrentUserTrainerWeeks(
+          currentUserTrainerDocument.data['trainerID']);
       currentUserTrainerName = currentUserTrainerDocument.data['trainer_name'];
       currentUserTrainingPlanDuration =
           currentUserTrainerDocument.data['training_plan_duration'];
@@ -547,6 +575,16 @@ class SignInViewModel implements SignInInterface {
         .limit(1)
         .getDocuments();
     return result.documents;
+  }
+
+  @override
+  Future<int> getCurrentUserTrainerWeeks(String trainerID) async {
+    final QuerySnapshot result = await Firestore.instance
+        .collection('Trainers')
+        .document(trainerID)
+        .collection('weeks')
+        .getDocuments();
+    return result.documents.length;
   }
 
   ///Method for updating and writing the trainer that user chooses from

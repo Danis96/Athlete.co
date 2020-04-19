@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 Widget whatsAppButton() {
   return GestureDetector(
-    onTap: () => TrainingPlanViewModel().whatsAppOpen(),
+    onTap: () => TrainingPlanViewModel().whatsAppOpen('+38762623629', 'Hello from Athlete.co!!!'),
     child: Container(
       height: SizeConfig.blockSizeVertical * 4.7,
       width: SizeConfig.blockSizeHorizontal * 49,
