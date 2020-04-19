@@ -13,6 +13,7 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
         /// treba i trainerID
         .document(trainerID)
         .collection('weeks')
+        .orderBy('name')
         .getDocuments();
     return qn.documents;
   }

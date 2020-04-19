@@ -52,7 +52,8 @@ class TrainingPlan extends StatelessWidget {
                 height: SizeConfig.blockSizeVertical * 2.5,
               ),
               whatsAppButton(),
-              listOfWeeks(userTrainerDocument),
+              listOfWeeks(
+                  userTrainerDocument, userDocument.data['weeks_finished']),
             ],
           ),
         ),
