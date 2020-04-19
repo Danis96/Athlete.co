@@ -12,6 +12,8 @@ Widget trainersList(BuildContext context, String name, String photo,
   String _trainingPlanName;
   String _trainingPlanDuration;
   List<dynamic> _trainerData = [];
+  List<dynamic> trainersFinished = [];
+  trainersFinished = userDocument.data['trainers_finished'];
 
   SizeConfig().init(context);
   return Container(
@@ -32,17 +34,24 @@ Widget trainersList(BuildContext context, String name, String photo,
                   _trainingPlanName = _trainerData[index].trainingPlanName;
                   _trainingPlanDuration =
                       _trainerData[index].trainingPlanDuration;
-                  return Center(
-                      child: trainerContainer(
-                          context,
-                          _trainerID,
-                          _trainerName,
-                          _trainingPlanDuration,
-                          _trainingPlanName,
-                          name,
-                          photo,
-                          email,
-                          userDocument));
+                  if (trainersFinished.contains(_trainerName)) {
+                    return Container(
+                      height: 0,
+                      width: 0,
+                    );
+                  } else {
+                    return Center(
+                        child: trainerContainer(
+                            context,
+                            _trainerID,
+                            _trainerName,
+                            _trainingPlanDuration,
+                            _trainingPlanName,
+                            name,
+                            photo,
+                            email,
+                            userDocument));
+                  }
                 });
           } else {
             return Center(
