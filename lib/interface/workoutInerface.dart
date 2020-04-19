@@ -1,5 +1,4 @@
-
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 abstract class WorkoutInterface {
   Future getSeries(String trainerID, String weekID, String workoutID);

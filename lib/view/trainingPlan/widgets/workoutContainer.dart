@@ -1,5 +1,5 @@
 import 'package:attt/utils/size_config.dart';
-import 'package:attt/view/workout/pages/workout.dart';
+import 'package:attt/view_model/trainingPlanViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -11,18 +11,13 @@ Widget workoutContainer(
     int index,
     BuildContext context) {
   return GestureDetector(
-    onTap: () {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (BuildContext context) => Workout(
-                    trainerID: userTrainerDocument.data['trainerID'],
-                    workoutName: snapshot2.data[index2]['name'],
-                    weekID: snapshot.data[index].data['weekID'],
-                    workoutID: snapshot2.data[index2].data['workoutID'],
-                    warmupDesc: snapshot2.data[index2].data['warmup'],
-                  )));
-    },
+    onTap: () => TrainingPlanViewModel().navigateToWorkout(
+        userTrainerDocument.data['trainerID'],
+        snapshot2.data[index2]['name'],
+        snapshot.data[index].data['weekID'],
+        snapshot2.data[index2].data['workoutID'],
+        snapshot2.data[index2].data['warmup'],
+        context),
     child: Container(
       margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 1.25),
       width: double.infinity,
