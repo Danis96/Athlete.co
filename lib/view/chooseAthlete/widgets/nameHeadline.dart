@@ -4,6 +4,12 @@ import 'package:attt/utils/text.dart';
 import 'package:flutter/material.dart';
 
 Widget nameHeadline(String name, String usersPhoto, BuildContext context) {
+  
+  /// take name of users account and 
+  /// split it to get just the name
+  List<String> nameSurname = name.split(' ');
+  String justName = nameSurname[0];
+
   SizeConfig().init(context);
   return Container(
     margin: EdgeInsets.only(
@@ -23,7 +29,7 @@ Widget nameHeadline(String name, String usersPhoto, BuildContext context) {
         Container(
           margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 2),
           child: Text(
-            MyText().headlineHi + name +',' + MyText().headlineSelect,
+            MyText().headlineHi + justName +',' + MyText().headlineSelect,
             style: TextStyle(
                 color: MyColors().white,
                 fontSize: SizeConfig.safeBlockHorizontal * 5.5,
@@ -34,3 +40,4 @@ Widget nameHeadline(String name, String usersPhoto, BuildContext context) {
     ),
   );
 }
+

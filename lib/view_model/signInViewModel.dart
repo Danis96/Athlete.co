@@ -1,4 +1,5 @@
 import 'package:attt/interface/signinInterface.dart';
+import 'package:attt/utils/dialog.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/text.dart';
 import 'package:attt/view/chooseAthlete/pages/chooseAthlete.dart';
@@ -11,6 +12,9 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+/// dialog key
+final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 
 class SignInViewModel implements SignInInterface {
   FirebaseUser _currentUser;
@@ -37,6 +41,8 @@ class SignInViewModel implements SignInInterface {
   /// we do something
   @override
   signInWithTwitter(BuildContext context) async {
+    Dialogs.showLoadingDialog(context, _keyLoader);
+
     /// waiting for keys
     twitterLogin = new TwitterLogin(consumerKey: '', consumerSecret: '');
 
@@ -92,6 +98,9 @@ class SignInViewModel implements SignInInterface {
       }
     }
 
+    /// close modal dialog
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (_) => userExist
@@ -130,6 +139,9 @@ class SignInViewModel implements SignInInterface {
 
   @override
   signInWithGoogle(BuildContext context) async {
+    /// open dialog
+    Dialogs.showLoadingDialog(context, _keyLoader);
+
     final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
     final GoogleSignInAuthentication googleSignInAuthentication =
         await googleSignInAccount.authentication;
@@ -180,6 +192,9 @@ class SignInViewModel implements SignInInterface {
             currentUserTrainerDocument.data['training_plan_name'];
       }
     }
+
+    /// close dialog
+    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
@@ -305,6 +320,9 @@ class SignInViewModel implements SignInInterface {
   ///Method which initializes the Facebook Login
   @override
   signInWithFacebook(BuildContext context) async {
+    /// open dialog
+    Dialogs.showLoadingDialog(context, _keyLoader);
+
     ///Logging user using Facebook Account
     FacebookLoginResult result = await facebookSignIn.logIn(['email']);
 
@@ -320,16 +338,25 @@ class SignInViewModel implements SignInInterface {
         var firebaseUser = await firebaseAuthWithFacebook(
             token: result.accessToken, context: context);
         _currentUser = firebaseUser;
+
+        /// close dialog
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         break;
 
       ///Case when user canceles the loggin process
       case FacebookLoginStatus.cancelledByUser:
         result = null;
+
+        /// close dialog
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         break;
 
       ///Case of any error occured during loggin process
       case FacebookLoginStatus.error:
         result = null;
+
+        /// close dialog
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         break;
     }
   }
