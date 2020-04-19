@@ -4,7 +4,9 @@ import 'package:attt/view_model/trainingPlanViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-Widget listOfWeeks(DocumentSnapshot userTrainerDocument) {
+Widget listOfWeeks(
+    DocumentSnapshot userTrainerDocument, List<dynamic> finishedWeeks) {
+  int counter = 0;
   return FutureBuilder(
       future: TrainingPlanViewModel()
           .getWeeks(userTrainerDocument.data['trainerID']),
@@ -15,10 +17,19 @@ Widget listOfWeeks(DocumentSnapshot userTrainerDocument) {
               shrinkWrap: true,
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
-                if (index == 0) {
-                  return listOfWorkouts(userTrainerDocument, snapshot, index);
+                if (finishedWeeks.contains(snapshot.data[index]['name'])) {
+                  counter = counter + 1;
+                  return Container(
+                    height: 0,
+                    width: 0,
+                  );
                 } else {
-                  return weekContainer(snapshot, index);
+                  if (index == counter) {
+                    return listOfWorkouts(userTrainerDocument, snapshot, index);
+                  } else {
+                    if(index < counter + 3)
+                    return weekContainer(snapshot, index);
+                  }
                 }
               });
         } else {
