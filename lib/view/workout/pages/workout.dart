@@ -1,5 +1,6 @@
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/size_config.dart';
+import 'package:attt/view/workout/widgets/bottomStartButton.dart';
 import 'package:attt/view/workout/widgets/warmUp.dart';
 import 'package:attt/view/workout/widgets/workoutList.dart';
 import 'package:attt/view_model/workoutViewModel.dart';
@@ -44,6 +45,7 @@ class Workout extends StatelessWidget {
           iconSize: 30.0,
         ),
       ),
+      bottomNavigationBar: bottomButtonStart(context),
       backgroundColor: MyColors().lightBlack,
       body: ListView(
         shrinkWrap: true,

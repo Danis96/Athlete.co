@@ -49,7 +49,6 @@ Widget seriesCard(
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: _exercises.length,
                     itemBuilder: (BuildContext context, int index) {
-                      
                       _exerciseName = _exercises[index].name;
                       _exerciseImage = _exercises[index].image;
                       _exerciseIsReps = _exercises[index].isReps;

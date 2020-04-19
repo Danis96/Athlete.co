@@ -12,7 +12,7 @@ Widget twitterButton(BuildContext context) {
     onTap: () => SignInViewModel().signInWithTwitter(context),
     child: Container(
         height: SizeConfig.blockSizeVertical * 6.25,
-        width: SizeConfig.blockSizeHorizontal * 73,
+        width: SizeConfig.blockSizeHorizontal * 72,
         color: MyColors().twitterColor,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,

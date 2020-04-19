@@ -12,7 +12,7 @@ Widget facebookButton(BuildContext context) {
     onTap: () => SignInViewModel().signInWithFacebook(context),
     child: Container(
         height: SizeConfig.blockSizeVertical * 6.25,
-        width: SizeConfig.blockSizeHorizontal * 79,
+         width: SizeConfig.blockSizeHorizontal * 72,
         color:MyColors().facebookColor ,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,

@@ -29,7 +29,7 @@ Widget warmup(BuildContext context, String warmupDesc) {
             /// ono sto izvucem za warmup
             child: Text(
               warmupDesc,
-                style: TextStyle(color: MyColors().lightWhite)))
+                style: TextStyle(color: MyColors().lightWhite, fontSize: SizeConfig.blockSizeHorizontal * 3.5)))
       ],
     ),
   );
