@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 
 Widget listOfWeeks(
     DocumentSnapshot userTrainerDocument, List<dynamic> finishedWeeks) {
-  int counter = 0;
   return FutureBuilder(
       future: TrainingPlanViewModel()
           .getWeeks(userTrainerDocument.data['trainerID']),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
+          int counter = 0;
           return ListView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
