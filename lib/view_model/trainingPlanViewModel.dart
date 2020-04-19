@@ -51,9 +51,7 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
   }
 
   @override
-  whatsAppOpen() async {
-    String phoneNumber = '+38762623629';
-    String message = 'Hello from Athlete.co!!!';
+  whatsAppOpen(String phoneNumber, String message) async {
     var whatsappUrl = "whatsapp://send?phone=$phoneNumber&text=$message";
     if (await canLaunch(whatsappUrl)) {
       await launch(whatsappUrl);

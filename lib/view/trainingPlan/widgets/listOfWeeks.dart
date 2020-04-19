@@ -1,3 +1,4 @@
+import 'package:attt/utils/globals.dart';
 import 'package:attt/view/trainingPlan/widgets/listOfWorkouts.dart';
 import 'package:attt/view/trainingPlan/widgets/weekContainer.dart';
 import 'package:attt/view_model/trainingPlanViewModel.dart';
@@ -27,8 +28,8 @@ Widget listOfWeeks(
                   if (index == counter) {
                     return listOfWorkouts(userTrainerDocument, snapshot, index);
                   } else {
-                    if(index < counter + 3)
-                    return weekContainer(snapshot, index);
+                    if (index < counter + 3)
+                      return weekContainer(snapshot, index);
                   }
                 }
               });

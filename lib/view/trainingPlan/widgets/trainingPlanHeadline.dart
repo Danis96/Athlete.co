@@ -1,3 +1,4 @@
+import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ Widget trainingPlanHeadline(DocumentSnapshot userDocument) {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
-            'Week 2 of 18',
+            'Week $currentWeek of $totalWeeks',
             style: TextStyle(
                 color: Colors.white,
                 fontFamily: 'Roboto',

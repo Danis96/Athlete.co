@@ -5,5 +5,5 @@ abstract class TrainingPlanInterface {
   Future getWorkouts(String trainerID, String weekID);
   navigateToWorkout(String trainerID, String workoutName, String weekID,
       String workoutID, String warmupDesc, BuildContext context);
-  whatsAppOpen();
+  whatsAppOpen(String phoneNumber, String message);
 }
