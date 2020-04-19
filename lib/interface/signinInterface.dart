@@ -7,7 +7,8 @@ abstract class SignInInterface {
   signInWithTwitter(BuildContext context);
   signInWithGoogle(BuildContext context);
   signOutGoogle(BuildContext context);
-  Future<FirebaseUser> firebaseAuthWithFacebook({@required FacebookAccessToken token, BuildContext context});
+  Future<FirebaseUser> firebaseAuthWithFacebook(
+      {@required FacebookAccessToken token, BuildContext context});
   signInWithFacebook(BuildContext context);
   signOutFacebook(BuildContext context);
   autoLogIn(BuildContext context);
@@ -15,9 +16,10 @@ abstract class SignInInterface {
   loginUser();
   signOutTwitter(BuildContext context);
   redirectToPrivacyAndTerms();
-  createUser(String name, String email, String image);
+  createUser(String name, String email, String image, String platform);
   Future<List<DocumentSnapshot>> getCurrentUserDocument(String email);
   Future<bool> doesUserAlreadyExist(String email);
   Future<List<DocumentSnapshot>> getCurrentUserTrainer(String trainer);
-  updateUserWithTrainer(DocumentSnapshot userDocument, String email, String trainer);
+  updateUserWithTrainer(
+      DocumentSnapshot userDocument, String email, String trainer);
 }
