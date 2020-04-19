@@ -2,6 +2,7 @@ import 'package:attt/interface/trainingPlanInterface.dart';
 import 'package:attt/view/workout/pages/workout.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class TrainingPlanViewModel implements TrainingPlanInterface {
   @override
@@ -47,5 +48,17 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
                 weekID: weekID,
                 workoutID: workoutID,
                 warmupDesc: warmupDesc)));
+  }
+
+  @override
+  whatsAppOpen() async {
+    String phoneNumber = '+38762623629';
+    String message = 'Hello from Athlete.co!!!';
+    var whatsappUrl = "whatsapp://send?phone=$phoneNumber&text=$message";
+    if (await canLaunch(whatsappUrl)) {
+      await launch(whatsappUrl);
+    } else {
+      throw 'Could not launch $whatsappUrl';
+    }
   }
 }
