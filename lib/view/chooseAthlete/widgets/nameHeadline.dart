@@ -1,9 +1,10 @@
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/utils/text.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-Widget nameHeadline(String name, String usersPhoto, BuildContext context) {
+Widget nameHeadline(String name, String usersPhoto, BuildContext context, DocumentSnapshot userDocument) {
   
   /// take name of users account and 
   /// split it to get just the name
@@ -23,7 +24,7 @@ Widget nameHeadline(String name, String usersPhoto, BuildContext context) {
           padding: EdgeInsets.all(10),
           child: CircleAvatar(
             radius: 28.0,
-            backgroundImage: NetworkImage(usersPhoto),
+            backgroundImage: NetworkImage(userDocument.data['image']),
           ),
         ),
         Container(

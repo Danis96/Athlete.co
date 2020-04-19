@@ -80,7 +80,9 @@ class SignInViewModel implements SignInInterface {
     ///If user does not exist, user is created
     bool userExist = await doesUserAlreadyExist(userEmail);
     if (!userExist) {
-      createUser(userName, userEmail, userPhoto);
+      createUser(userName, userEmail, userPhoto, 'Twitter');
+      currentUserDocuments = await getCurrentUserDocument(userEmail);
+      currentUserDocument = currentUserDocuments[0];
     } else {
       currentUserDocuments = await getCurrentUserDocument(userEmail);
       currentUserDocument = currentUserDocuments[0];
@@ -163,11 +165,11 @@ class SignInViewModel implements SignInInterface {
     final FirebaseUser currentUser = await _firebaseAuth.currentUser();
     assert(user.uid == currentUser.uid);
 
+    loginUser();
     userEmail = currentUser.email;
     userName = currentUser.displayName;
     userPhoto = currentUser.photoUrl;
     platform = MyText().googlePlatform;
-    loginUser();
 
     ///Checking if user already exists in database
     ///
@@ -175,7 +177,9 @@ class SignInViewModel implements SignInInterface {
     ///If user does not exist, user is created
     bool userExist = await doesUserAlreadyExist(userEmail);
     if (!userExist) {
-      createUser(userName, userEmail, userPhoto);
+      createUser(userName, userEmail, userPhoto, 'Google');
+      currentUserDocuments = await getCurrentUserDocument(userEmail);
+      currentUserDocument = currentUserDocuments[0];
     } else {
       currentUserDocuments = await getCurrentUserDocument(userEmail);
       currentUserDocument = currentUserDocuments[0];
@@ -249,6 +253,8 @@ class SignInViewModel implements SignInInterface {
     final FirebaseUser currentUser = await _firebaseAuth.currentUser();
     assert(user.uid == currentUser.uid);
 
+    loginUser();
+
     ///Populating variables used later in application
     userEmail = currentUser.email;
     userName = currentUser.displayName;
@@ -261,7 +267,9 @@ class SignInViewModel implements SignInInterface {
     ///If user does not exist, user is created
     bool userExist = await doesUserAlreadyExist(userEmail);
     if (!userExist) {
-      createUser(userName, userEmail, userPhoto);
+      createUser(userName, userEmail, userPhoto, 'Facebook');
+      currentUserDocuments = await getCurrentUserDocument(userEmail);
+      currentUserDocument = currentUserDocuments[0];
     } else {
       currentUserDocuments = await getCurrentUserDocument(userEmail);
       currentUserDocument = currentUserDocuments[0];
@@ -313,7 +321,6 @@ class SignInViewModel implements SignInInterface {
     ///Logging user to shared preference with aim to
     ///
     ///have the user later for autologging
-    loginUser();
     return currentUser;
   }
 
@@ -340,7 +347,7 @@ class SignInViewModel implements SignInInterface {
         _currentUser = firebaseUser;
 
         /// close dialog
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+        //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         break;
 
       ///Case when user canceles the loggin process
@@ -490,7 +497,7 @@ class SignInViewModel implements SignInInterface {
   ///
   ///signing in and when the user does not already exists
   @override
-  createUser(String name, String email, String image) async {
+  createUser(String name, String email, String image, String platform) async {
     final databaseReference = Firestore.instance;
     await databaseReference.collection("Users").document(email).setData({
       'display_name': name,
@@ -500,6 +507,7 @@ class SignInViewModel implements SignInInterface {
       'trainers_finished': [],
       'weeks_finished': [],
       'workouts_finished': [],
+      'platform': platform
     });
   }
 

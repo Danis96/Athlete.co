@@ -21,7 +21,7 @@ class ChooseAthlete extends StatelessWidget {
       backgroundColor: MyColors().lightBlack,
       body: ListView(
         children: <Widget>[
-          nameHeadline(usersName, usersPhoto, context),
+          nameHeadline(usersName, usersPhoto, context, userDocument),
           trainersList(context, userName, userPhoto, userEmail, userDocument),
         ],
       ),
