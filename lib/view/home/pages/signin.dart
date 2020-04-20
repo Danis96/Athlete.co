@@ -1,6 +1,7 @@
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/utils/text.dart';
 import 'package:attt/view/home/widgets/buttonList.dart';
+import 'package:attt/view/home/widgets/logo.dart';
 import 'package:attt/view_model/signInViewModel.dart';
 import 'package:flutter/material.dart';
 
@@ -33,9 +34,7 @@ class _SigninState extends State<Signin> {
               SizedBox(
                 height: SizeConfig.blockSizeVertical * 19,
               ),
-              Container(
-                child: Image.asset(MyText().logoUrl),
-              ),
+              logo(context),
               SizedBox(
                 height: SizeConfig.blockSizeVertical * 40,
               ),

@@ -43,11 +43,11 @@ class TrainingPlan extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              trainingPlanHeadline(userDocument),
+              trainingPlanHeadline(userDocument, userTrainerDocument),
               SizedBox(
                 height: SizeConfig.blockSizeVertical * 2.5,
               ),
-              trainingPlanGuides(),
+              trainingPlanGuides(userTrainerDocument),
               SizedBox(
                 height: SizeConfig.blockSizeVertical * 2.5,
               ),
