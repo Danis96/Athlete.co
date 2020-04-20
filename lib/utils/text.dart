@@ -36,5 +36,21 @@ class MyText {
   /// nameHeadline.dart
    final String headlineHi = 'Hi ';
    final String headlineSelect = ' \nselect your athlete.';
+   
+   /// trainingPlanGuides.dart
+    final String youTraining = 'Your training plan is:';
+    final String trDuration = 'Duration:';
+    final String trWeeks = ' weeks';
+    final String trAthlete = 'The athlete you will train with is:';
+    final String trPerfomancec = 'The performance coach you will train with is:';
+    final String trBest = 'Welcome to your new personal best.';
 
+    /// whatsAppButton.dart
+    final String anyQ = 'ANY QUESTION';
+
+    /// bottomStartButton.dart
+    final String startW = 'START WORKOUT';
+
+    /// warmUp.dart
+    final String warmUp = 'Warm Up';
 }

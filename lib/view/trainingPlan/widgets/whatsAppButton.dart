@@ -1,4 +1,5 @@
 import 'package:attt/utils/size_config.dart';
+import 'package:attt/utils/text.dart';
 import 'package:attt/view_model/trainingPlanViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -26,7 +27,7 @@ Widget whatsAppButton() {
             width: SizeConfig.blockSizeHorizontal * 3,
           ),
           Text(
-            "ANY QUESTION",
+            MyText().anyQ,
             style: TextStyle(
                 color: Colors.white,
                 fontFamily: 'Roboto',

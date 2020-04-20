@@ -1,5 +1,6 @@
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/size_config.dart';
+import 'package:attt/utils/text.dart';
 import 'package:flutter/material.dart';
 
 Widget warmup(BuildContext context, String warmupDesc) {
@@ -15,7 +16,7 @@ Widget warmup(BuildContext context, String warmupDesc) {
           ),
           onPressed: null),
       title: Text(
-        'Warm Up',
+        MyText().warmUp,
         style: TextStyle(
             color: MyColors().white,
             fontSize: SizeConfig.blockSizeHorizontal * 5),
