@@ -12,8 +12,8 @@ Widget facebookButton(BuildContext context) {
     onTap: () => SignInViewModel().signInWithFacebook(context),
     child: Container(
         height: SizeConfig.blockSizeVertical * 6.25,
-         width: SizeConfig.blockSizeHorizontal * 72,
-        color:MyColors().facebookColor ,
+        width: SizeConfig.blockSizeHorizontal * 72,
+        color: MyColors().facebookColor,
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -27,14 +27,14 @@ Widget facebookButton(BuildContext context) {
                 borderRadius: BorderRadius.circular(2),
                 color: Colors.white,
               ),
-              height: 24,
-              width: 24,
+              height: SizeConfig.blockSizeVertical * 3.75,
+              width: SizeConfig.blockSizeHorizontal * 6.667,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
                 child: Icon(
                   FontAwesomeIcons.facebookF,
                   color: MyColors().facebookColor,
-                  size: 20,
+                  size: SizeConfig.blockSizeVertical * 3,
                 ),
               ),
             ),

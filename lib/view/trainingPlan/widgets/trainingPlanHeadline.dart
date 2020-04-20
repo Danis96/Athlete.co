@@ -3,7 +3,12 @@ import 'package:attt/utils/size_config.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-Widget trainingPlanHeadline(DocumentSnapshot userDocument) {
+Widget trainingPlanHeadline(
+    DocumentSnapshot userDocument, DocumentSnapshot userTrainerDocument) {
+  String name = userDocument.data['display_name'];
+  List<String> nameSurname = name.split(' ');
+  String justName = nameSurname[0];
+  //String trainingPlan = userTrainerDocument.data['training_plan_name'];
   return Row(
     crossAxisAlignment: CrossAxisAlignment.center,
     children: <Widget>[
@@ -22,26 +27,33 @@ Widget trainingPlanHeadline(DocumentSnapshot userDocument) {
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(
-            'Week $currentWeek of $totalWeeks',
-            style: TextStyle(
-                color: Colors.white,
-                fontFamily: 'Roboto',
-                fontSize: SizeConfig.blockSizeVertical * 3.2,
-                fontWeight: FontWeight.w500),
-            textAlign: TextAlign.left,
+          Container(
+            width: SizeConfig.blockSizeHorizontal * 65,
+            child: Text(
+              'Hi $justName,',
+              //'Week $currentWeek of $totalWeeks',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Roboto',
+                  fontSize: SizeConfig.blockSizeVertical * 3.2,
+                  fontWeight: FontWeight.w500),
+              textAlign: TextAlign.left,
+            ),
           ),
           SizedBox(
             height: SizeConfig.blockSizeVertical * 0.3,
           ),
-          Text(
-            'Your training plan',
-            style: TextStyle(
-                color: Colors.white,
-                fontFamily: 'Roboto',
-                fontSize: SizeConfig.blockSizeVertical * 2.5,
-                fontWeight: FontWeight.w400),
-            textAlign: TextAlign.left,
+          Container(
+            width: SizeConfig.blockSizeHorizontal * 65,
+            child: Text('Week $currentWeek of $totalWeeks',
+              //'Your training plan is:\n$trainingPlan',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontFamily: 'Roboto',
+                  fontSize: SizeConfig.blockSizeVertical * 2.5,
+                  fontWeight: FontWeight.w400),
+              textAlign: TextAlign.left,
+            ),
           ),
         ],
       )

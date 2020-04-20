@@ -23,14 +23,14 @@ Widget twitterButton(BuildContext context) {
                 shape: BoxShape.circle,
                 color: MyColors().white,
               ),
-              height: 24,
-              width: 24,
+              height: SizeConfig.blockSizeVertical * 3.75,
+              width: SizeConfig.blockSizeHorizontal * 6.667,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
                 child: Icon(
                   FontAwesomeIcons.twitter,
                   color: MyColors().twitterColor,
-                  size: 15,
+                  size: SizeConfig.blockSizeVertical * 2.3,
                 ),
               ),
             ),

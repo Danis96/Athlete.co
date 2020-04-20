@@ -17,19 +17,28 @@ Widget googleButton(BuildContext context) {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
+              padding: EdgeInsets.only(
+                top: SizeConfig.blockSizeVertical * 0.6,
+              ),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(2),
+                color: Colors.white,
+              ),
+              height: SizeConfig.blockSizeVertical * 3.75,
+              width: SizeConfig.blockSizeHorizontal * 6.667,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
-                child: Image(
-                  image: AssetImage(
-                    MyText().googleIconUrl,
-                    package: 'flutter_signin_button',
-                  ),
-                  height: SizeConfig.blockSizeVertical * 5.5,
-                ),
+                child: Image.asset(
+                'assets/images/google-login.png',
+                height: SizeConfig.blockSizeVertical * 3.75,
+              ),
               ),
             ),
+            SizedBox(
+              width: SizeConfig.blockSizeHorizontal * 4,
+            ),
             Text(
-             MyText().gButton,
+              MyText().gButton,
               style: TextStyle(
                   color: MyColors().black,
                   fontSize: SizeConfig.safeBlockHorizontal * 4,
