@@ -17,6 +17,7 @@ Widget trainerContainer(
     String tName,
     String tPD,
     String tPN,
+    String trainerImage,
     String name,
     String photo,
     String email,
@@ -75,8 +76,8 @@ Widget trainerContainer(
           Container(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(8.0),
-              child: Image.asset(
-                'assets/images/ar.jpg',
+              child: Image.network(
+                trainerImage,
                 fit: BoxFit.fill,
               ),
             ),
