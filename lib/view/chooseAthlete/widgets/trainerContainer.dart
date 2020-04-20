@@ -57,14 +57,12 @@ Widget trainerContainer(
           (Route<dynamic> route) => false);
     },
     child: Container(
-      margin: EdgeInsets.only(
-        top: SizeConfig.blockSizeVertical * 1,
-      ),
+      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 1),
       child: Stack(
         children: <Widget>[
           Container(
             decoration: BoxDecoration(
-                color: MyColors().black,
+                color: Colors.transparent,
                 borderRadius: new BorderRadius.only(
                   topLeft: const Radius.circular(8),
                   topRight: const Radius.circular(8),
@@ -72,7 +70,18 @@ Widget trainerContainer(
                   bottomRight: const Radius.circular(8),
                 )),
             width: SizeConfig.blockSizeHorizontal * 95,
-            height: SizeConfig.blockSizeVertical * 35,
+            height: SizeConfig.blockSizeVertical * 30,
+          ),
+          Container(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(8.0),
+              child: Image.asset(
+                'assets/images/ar.jpg',
+                fit: BoxFit.fill,
+              ),
+            ),
+            height: SizeConfig.blockSizeVertical * 30,
+            width: SizeConfig.blockSizeHorizontal * 95,
           ),
           trainerInfo(
               context, _trainerName, _trainingPlanDuration, _trainingPlanName),

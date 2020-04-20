@@ -15,7 +15,7 @@ Widget trainerInfo(BuildContext context, String tName, String tPD, String tPN) {
   String _trainingPlanDuration = tPD;
 
   return Container(
-    height: SizeConfig.blockSizeVertical * 35,
+    height: SizeConfig.blockSizeVertical * 32,
     padding: EdgeInsets.all(20),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,

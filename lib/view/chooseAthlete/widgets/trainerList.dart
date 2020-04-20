@@ -1,4 +1,5 @@
 import 'package:attt/models/trainerModel.dart';
+import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -35,10 +36,7 @@ Widget trainersList(BuildContext context, String name, String photo,
                   _trainingPlanDuration =
                       _trainerData[index].trainingPlanDuration;
                   if (trainersFinished.contains(_trainerName)) {
-                    return Container(
-                      height: 0,
-                      width: 0,
-                    );
+                      return EmptyContainer();
                   } else {
                     return Center(
                         child: trainerContainer(
