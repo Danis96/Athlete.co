@@ -8,10 +8,7 @@ import 'package:attt/view_model/chooseAthleteViewModel.dart';
 
 Widget trainersList(BuildContext context, String name, String photo,
     String email, DocumentSnapshot userDocument) {
-  String _trainerID;
-  String _trainerName;
-  String _trainingPlanName;
-  String _trainingPlanDuration;
+  String _trainerID, _trainerName, _trainingPlanName, _trainingPlanDuration, _trainerImage;
   List<dynamic> _trainerData = [];
   List<dynamic> trainersFinished = [];
   trainersFinished = userDocument.data['trainers_finished'];
@@ -35,6 +32,7 @@ Widget trainersList(BuildContext context, String name, String photo,
                   _trainingPlanName = _trainerData[index].trainingPlanName;
                   _trainingPlanDuration =
                       _trainerData[index].trainingPlanDuration;
+                  _trainerImage = _trainerData[index].trainerImage;
                   if (trainersFinished.contains(_trainerName)) {
                       return EmptyContainer();
                   } else {
@@ -45,6 +43,7 @@ Widget trainersList(BuildContext context, String name, String photo,
                             _trainerName,
                             _trainingPlanDuration,
                             _trainingPlanName,
+                            _trainerImage,
                             name,
                             photo,
                             email,
