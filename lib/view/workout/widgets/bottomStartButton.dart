@@ -2,6 +2,7 @@
 
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/size_config.dart';
+import 'package:attt/utils/text.dart';
 import 'package:flutter/material.dart';
 
 Widget bottomButtonStart(BuildContext context) {
@@ -14,7 +15,7 @@ Widget bottomButtonStart(BuildContext context) {
           child: Padding(
             padding: EdgeInsets.all(22.0),
             child: Text(
-              'START WORKOUT',
+              MyText().startW,
               style: TextStyle(
                   fontStyle: FontStyle.italic,
                   fontSize: SizeConfig.blockSizeHorizontal * 4,
