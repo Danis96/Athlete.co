@@ -25,4 +25,9 @@ After some time, the application will be built on the device/emulator connected 
    	User Story 2 – We created a splash screen, and sign in screen. In sign in screen we have logo of the app, and we have 3 buttons for sign up methods.
        One for google sign in, one for facebook., one for twitter.<br/><br/>*
    	User Story 3 -We created a autologin functionality. If user is signed in and quit the app, he doesn't have to sign up again.<br/><br/>*
-    User Story 4 - In this user story we needed to show to the user available trainers and their training plan name, and duration, so that user can choose one from it.<br/><br/>*
+    User Story 4 - In this user story we needed to show to the user available trainers and their training plan name, and duration, so that user can choose one from it.<br/><br/>
+
+
+**•	V2 – Sprint 2 (1604. - 21.04.)<br/>** *
+  	User story 1 - Implementation of Training Plan Screen which is showed after user choses an athlete. All information about chosen training plan is showed and weeks of the plan are listed. For current week, all it workouts are listed and they are clickable. When use clicks on a workout, Workout Screen is showed.<br/><br/>*
+   	User Story 2 – Implementation of Workout Screen which lists all Series and their Exercises with all details.<br/><br/>*
