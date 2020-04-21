@@ -1,30 +1,19 @@
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/trainingPlan/widgets/listOfWeeks.dart';
+import 'package:attt/view/trainingPlan/widgets/trainingCustomBottomNavigationBar.dart';
 import 'package:attt/view/trainingPlan/widgets/trainingPlanGuides.dart';
 import 'package:attt/view/trainingPlan/widgets/trainingPlanHeadline.dart';
 import 'package:attt/view/trainingPlan/widgets/whatsAppButton.dart';
-import 'package:attt/view/workout/pages/workout.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class TrainingPlan extends StatelessWidget {
   final DocumentSnapshot userDocument;
   final DocumentSnapshot userTrainerDocument;
-  final String trainerName, trainerID;
-  final String trainingPlanName;
-  final String trainingPlanDuration;
-  final String name, photo, email;
-  TrainingPlan(
-      {this.trainerID,
-      this.trainerName,
-      this.userTrainerDocument,
-      this.userDocument,
-      this.trainingPlanDuration,
-      this.trainingPlanName,
-      this.photo,
-      this.name,
-      this.email});
+  TrainingPlan({
+    this.userTrainerDocument,
+    this.userDocument,
+  });
 
   /// treba danisu warmup
   String warmup;
@@ -58,6 +47,7 @@ class TrainingPlan extends StatelessWidget {
           ),
         ),
       ),
+      bottomNavigationBar: trainingCustomBottomNavigationBar(userDocument, userTrainerDocument, context),
     );
   }
 }

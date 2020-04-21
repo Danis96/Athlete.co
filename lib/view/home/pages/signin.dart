@@ -1,5 +1,4 @@
 import 'package:attt/utils/size_config.dart';
-import 'package:attt/utils/text.dart';
 import 'package:attt/view/home/widgets/buttonList.dart';
 import 'package:attt/view/home/widgets/logo.dart';
 import 'package:attt/view_model/signInViewModel.dart';

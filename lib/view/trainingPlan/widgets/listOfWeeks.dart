@@ -1,4 +1,3 @@
-import 'package:attt/utils/globals.dart';
 import 'package:attt/view/trainingPlan/widgets/listOfWorkouts.dart';
 import 'package:attt/view/trainingPlan/widgets/weekContainer.dart';
 import 'package:attt/view_model/trainingPlanViewModel.dart';

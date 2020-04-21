@@ -1,10 +1,8 @@
 import 'package:attt/interface/signinInterface.dart';
 import 'package:attt/utils/dialog.dart';
 import 'package:attt/utils/globals.dart';
-import 'package:attt/utils/text.dart';
 import 'package:attt/view/chooseAthlete/pages/chooseAthlete.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
-import 'package:attt/view_model/trainingPlanViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -120,12 +118,6 @@ class SignInViewModel implements SignInInterface {
                   ? TrainingPlan(
                       userTrainerDocument: currentUserTrainerDocument,
                       userDocument: currentUserDocument,
-                      trainerName: currentUserTrainerName,
-                      trainingPlanDuration: currentUserTrainingPlanDuration,
-                      trainingPlanName: currentUserTrainingPlan,
-                      name: userName,
-                      photo: userPhoto,
-                      email: userEmail,
                     )
                   : ChooseAthlete(
                       userDocument: currentUserDocument,
@@ -224,12 +216,6 @@ class SignInViewModel implements SignInInterface {
                   ? TrainingPlan(
                       userTrainerDocument: currentUserTrainerDocument,
                       userDocument: currentUserDocument,
-                      trainerName: currentUserTrainerName,
-                      trainingPlanDuration: currentUserTrainingPlanDuration,
-                      trainingPlanName: currentUserTrainingPlan,
-                      name: userName,
-                      photo: userPhoto,
-                      email: userEmail,
                     )
                   : ChooseAthlete(
                       userDocument: currentUserDocument,
@@ -319,12 +305,6 @@ class SignInViewModel implements SignInInterface {
                   ? TrainingPlan(
                       userTrainerDocument: currentUserTrainerDocument,
                       userDocument: currentUserDocument,
-                      trainerName: currentUserTrainerName,
-                      trainingPlanDuration: currentUserTrainingPlanDuration,
-                      trainingPlanName: currentUserTrainingPlan,
-                      name: userName,
-                      photo: userPhoto,
-                      email: userEmail,
                     )
                   : ChooseAthlete(
                       userDocument: currentUserDocument,
@@ -453,12 +433,6 @@ class SignInViewModel implements SignInInterface {
                 ? TrainingPlan(
                     userTrainerDocument: currentUserTrainerDocument,
                     userDocument: currentUserDocument,
-                    trainerName: currentUserTrainerName,
-                    trainingPlanDuration: currentUserTrainingPlanDuration,
-                    trainingPlanName: currentUserTrainingPlan,
-                    name: userName,
-                    photo: userPhoto,
-                    email: userEmail,
                   )
                 : ChooseAthlete(
                     userDocument: currentUserDocument,
