@@ -1,4 +1,3 @@
-import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
@@ -24,7 +23,6 @@ Widget trainerContainer(
     DocumentSnapshot userDocument) {
   SizeConfig().init(context);
 
-  String _trainerID = trainerID;
   String _trainerName = tName;
   String _trainingPlanName = tPN;
   String _trainingPlanDuration = tPD;
@@ -45,15 +43,8 @@ Widget trainerContainer(
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
               builder: (_) => TrainingPlan(
-                    trainerID: _trainerID,
                     userTrainerDocument: currentUserTrainerDocument,
                     userDocument: userDocument,
-                    trainerName: _trainerName,
-                    trainingPlanDuration: _trainingPlanDuration,
-                    trainingPlanName: _trainingPlanName,
-                    name: name,
-                    photo: photo,
-                    email: email,
                   )),
           (Route<dynamic> route) => false);
     },

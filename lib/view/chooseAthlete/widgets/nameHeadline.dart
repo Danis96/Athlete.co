@@ -23,6 +23,7 @@ Widget nameHeadline(String name, String usersPhoto, BuildContext context, Docume
           width: 90,
           padding: EdgeInsets.all(10),
           child: CircleAvatar(
+            backgroundColor: MyColors().black,
             radius: 28.0,
             backgroundImage: NetworkImage(userDocument.data['image']),
           ),

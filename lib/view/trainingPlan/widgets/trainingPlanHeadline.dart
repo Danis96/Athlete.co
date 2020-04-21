@@ -1,3 +1,4 @@
+import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,6 +18,7 @@ Widget trainingPlanHeadline(
         width: 75,
         padding: EdgeInsets.all(10),
         child: CircleAvatar(
+          backgroundColor: MyColors().black,
           radius: 28.0,
           backgroundImage: NetworkImage(userDocument.data['image']),
         ),

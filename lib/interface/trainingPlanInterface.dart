@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 
 abstract class TrainingPlanInterface {
@@ -6,4 +7,8 @@ abstract class TrainingPlanInterface {
   navigateToWorkout(String trainerID, String workoutName, String weekID,
       String workoutID, String warmupDesc, BuildContext context);
   whatsAppOpen(String phoneNumber, String message);
+  secondTabPressed(BuildContext context, DocumentSnapshot userTrainerDocument,
+      DocumentSnapshot userDocument);
+  firstTabPressed(BuildContext context, DocumentSnapshot userTrainerDocument,
+      DocumentSnapshot userDocument);
 }

@@ -1,4 +1,6 @@
 import 'package:attt/interface/trainingPlanInterface.dart';
+import 'package:attt/view/history/page/history.dart';
+import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:attt/view/workout/pages/workout.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -58,5 +60,33 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
     } else {
       throw 'Could not launch $whatsappUrl';
     }
+  }
+
+  @override
+  secondTabPressed(BuildContext context, DocumentSnapshot userTrainerDocument,
+      DocumentSnapshot userDocument) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => History(
+          userTrainerDocument: userTrainerDocument,
+          userDocument: userDocument,
+        ),
+      ),
+    );
+  }
+
+  @override
+  firstTabPressed(BuildContext context, DocumentSnapshot userTrainerDocument,
+      DocumentSnapshot userDocument) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (BuildContext context) => TrainingPlan(
+          userDocument: userDocument,
+          userTrainerDocument: userTrainerDocument,
+        ),
+      ),
+    );
   }
 }
