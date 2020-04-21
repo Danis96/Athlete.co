@@ -13,7 +13,6 @@ class Signin extends StatefulWidget {
 }
 
 class _SigninState extends State<Signin> {
-  bool isLoggedIn = false;
   String name = '';
 
   @override
