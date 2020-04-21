@@ -29,5 +29,5 @@ After some time, the application will be built on the device/emulator connected 
 
 
 **•	V2 – Sprint 2 (1604. - 21.04.)<br/>** *
-  	User story 1 - Implementation of Training Plan Screen which is showed after user choses an athlete. All information about chosen training plan is showed and weeks of the plan are listed. For current week, all it workouts are listed and they are clickable. When use clicks on a workout, Workout Screen is showed.<br/><br/>*
-   	User Story 2 – Implementation of Workout Screen which lists all Series and their Exercises with all details.<br/><br/>*
+  	User story 1 - Implementation of Training Plan Screen which is showed after user choses an athlete. All information about chosen training plan is showed and weeks of the plan are listed. For current week, all it workouts are listed and they are clickable. When use clicks on a workout, Workout Screen is showed. Also, user is able to contact the contact person wia WhatsApp by clicking on 'ANY QUESTION'.<br/><br/>*
+   	User Story 2 – Implementation of Workout Screen which lists all Series and their Exercises with all details.<br/><br/>
