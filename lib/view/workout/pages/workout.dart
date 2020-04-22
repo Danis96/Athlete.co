@@ -51,7 +51,7 @@ class Workout extends StatelessWidget {
         shrinkWrap: true,
         children: <Widget>[
           /// warmup
-          warmupWidget(context, trainerID, workoutID, weekID),
+          warmupWidget(context, trainerID, workoutID, weekID, warmupDesc),
 
           /// workoutList
           workoutList(
