@@ -19,9 +19,12 @@ Widget exerciseCard(
       /// image thumbnail
       Container(
         margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
-        width: 80.0,
-        height: 80.0,
-        child: Image.network(_exerciseImage),
+        width: 90.0,
+        height: 90.0,
+        child: Image.network(_exerciseImage, 
+                             height: SizeConfig.blockSizeVertical * 10,
+                             width: SizeConfig.blockSizeHorizontal * 10,
+                              fit: BoxFit.contain,),
       ),
       Container(
         padding: EdgeInsets.all(10.0),

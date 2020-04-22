@@ -47,4 +47,22 @@ class WorkoutViewModel implements WorkoutInterface {
      Navigator.of(context).pop();
   }
 
-}
+  @override
+  Future getWarmups(String trainerID, String weekID, String workoutID) async {
+        var firestore = Firestore.instance;
+    QuerySnapshot qn = await firestore
+        .collection('Trainers')
+         /// treba mi trainerID
+        .document(trainerID)
+        .collection('weeks')
+         /// treba mi weekID
+        .document(weekID)
+        .collection('workouts')
+         /// treba mi workoutID
+        .document(workoutID)
+        .collection('warmup')
+        .getDocuments();
+      return qn.documents;
+  }
+
+} 
