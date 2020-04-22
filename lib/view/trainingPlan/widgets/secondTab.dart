@@ -7,6 +7,7 @@ Widget secondTab(BuildContext context, DocumentSnapshot userTrainerDocument,
     DocumentSnapshot userDocument) {
   SizeConfig().init(context);
   return GestureDetector(
+    behavior: HitTestBehavior.translucent,
     onTap: () {
       TrainingPlanViewModel()
           .secondTabPressed(context, userTrainerDocument, userDocument);
@@ -17,9 +18,12 @@ Widget secondTab(BuildContext context, DocumentSnapshot userTrainerDocument,
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Icon(
-            Icons.show_chart,
-            color: Colors.white60,
+          Container(
+            width: double.infinity,
+            child: Icon(
+              Icons.show_chart,
+              color: Colors.white60,
+            ),
           ),
         ],
       ),

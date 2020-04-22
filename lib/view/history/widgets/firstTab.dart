@@ -7,6 +7,7 @@ Widget firstTab(BuildContext context, DocumentSnapshot userDocument,
     DocumentSnapshot userTrainerDocument) {
   SizeConfig().init(context);
   return GestureDetector(
+    behavior: HitTestBehavior.translucent,
     onTap: () {
       TrainingPlanViewModel()
           .firstTabPressed(context, userTrainerDocument, userDocument);
