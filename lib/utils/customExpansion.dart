@@ -171,7 +171,7 @@ class _ExpansionTileState extends State<ExpansionTile>
                   child: Text(
                     widget.subtitle,
                     style: TextStyle(
-                        color: MyColors().white,
+                        color: MyColors().lightWhite,
                         fontSize: SizeConfig.blockSizeHorizontal * 3),
                   ),
                 ),

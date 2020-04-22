@@ -9,11 +9,11 @@ import 'package:flutter/material.dart';
 
 List<dynamic> _warmupList = [];
 List<String> _warmups = [];
-String _warmupDesc = '', _warmupImage, _singleWarmup;
+String _warmupDesc, _warmupImage, _singleWarmup;
 
-bool isPressedArrow = false;
+bool isFetched = false;
 
-Widget warmupWidget(BuildContext context ,String trainerID, String workoutID, String weekID) {
+Widget warmupWidget(BuildContext context ,String trainerID, String workoutID, String weekID, String warmupDesc) {
 
     SizeConfig().init(context);
     return Container(
@@ -26,7 +26,7 @@ Widget warmupWidget(BuildContext context ,String trainerID, String workoutID, St
               color: MyColors().white,
               fontSize: SizeConfig.blockSizeHorizontal * 5),
         ),
-        subtitle: _warmupDesc,
+        subtitle: warmupDesc,
         iconColor: MyColors().white,
         backgroundColor: MyColors().black,
         initiallyExpanded: false,
@@ -47,6 +47,7 @@ Widget warmupWidget(BuildContext context ,String trainerID, String workoutID, St
                       itemCount: _warmupList.length,
                       itemBuilder: (BuildContext context, int index) {
                         _warmupDesc = _warmupList[index].warmupDescription;
+
                         _warmupImage = _warmupList[index].warmupImage;
                         _warmups = _warmupDesc.split(',');
                         return ListView.builder(
@@ -55,7 +56,6 @@ Widget warmupWidget(BuildContext context ,String trainerID, String workoutID, St
                           itemCount: _warmups.length,
                           itemBuilder: (BuildContext context, int index) {
                             _singleWarmup = _warmups[index];
-
                             return warmupContainer(_warmupImage, _singleWarmup);
                           },
                         );

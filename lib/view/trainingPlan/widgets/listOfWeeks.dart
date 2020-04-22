@@ -1,3 +1,4 @@
+import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/view/trainingPlan/widgets/listOfWorkouts.dart';
 import 'package:attt/view/trainingPlan/widgets/weekContainer.dart';
 import 'package:attt/view_model/trainingPlanViewModel.dart';
@@ -31,6 +32,7 @@ Widget listOfWeeks(
                       return weekContainer(snapshot, index);
                   }
                 }
+                return EmptyContainer();
               });
         } else {
           return Center(
