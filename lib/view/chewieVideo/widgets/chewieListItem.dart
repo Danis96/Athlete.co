@@ -1,5 +1,6 @@
 
 import 'package:attt/view/chewieVideo/widgets/globals.dart';
+import 'package:attt/view/chewieVideo/widgets/rest.dart';
 import 'package:attt/view/chewieVideo/widgets/stopwatch.dart';
 import 'package:attt/view/workout/pages/workout.dart';
 import 'package:attt/view_model/chewieVideoViewModel.dart';
@@ -10,7 +11,7 @@ import 'package:video_player/video_player.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorsOnVideo.dart';
 
 
-// bool isFinished = false;
+
 
 class ChewieListItem extends StatefulWidget {
   // This will contain the URL/asset path which we want to play
@@ -67,11 +68,13 @@ class _ChewieListItemState extends State<ChewieListItem> {
           widget.videoPlayerController.value.duration) {
         if (widget.index == 2) {
           chewieController.exitFullScreen();
+          /// full training stopwatch
           var timerService = TimerService.of(context);
           timerService.stop();
           timerService.dispose();
+          /// treba proslijediti paramete u workout
           Navigator.push(context,
-              MaterialPageRoute(builder: (_) => Workout()));
+              MaterialPageRoute(builder: (_) => Workout( )));
         } else {
           ChewieVideoViewModel().showOverlay(context);
           widget.goToNextVideo(widget.index);
@@ -82,8 +85,10 @@ class _ChewieListItemState extends State<ChewieListItem> {
 
   @override
   Widget build(BuildContext context) {
+    /// start full training stopwatch
     var timerService = TimerService.of(context);
     timerService.start();
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Chewie(

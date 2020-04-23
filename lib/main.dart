@@ -21,6 +21,7 @@ void main() {
 class Athlete extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return MaterialApp(
       title: MyText().mainTitle,
       debugShowCheckedModeBanner: false,
