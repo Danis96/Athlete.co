@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 
+
+import 'package:attt/utils/size_config.dart';
 class IndicatorsOnVideo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     return Column(
       children: <Widget>[
         Row(
           children: <Widget>[
             Container(
+              padding: EdgeInsets.all(5),
               child: Text('Gimnastic Push ups',
                   style: TextStyle(color: Colors.white)),
             ),
             Container(
-              margin: EdgeInsets.only(left: 650.0),
+              margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 70),
               child: IconButton(
                 icon: Icon(Icons.comment),
                 onPressed: () {},
@@ -26,33 +30,40 @@ class IndicatorsOnVideo extends StatelessWidget {
           children: <Widget>[
             Column(
               children: <Widget>[
+                /// number of reps
                 Container(
-                  margin: EdgeInsets.only(top: 250.0),
-                  child: Text('x10',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 32.0,
-                          fontWeight: FontWeight.bold,
-                          fontStyle: FontStyle.italic)),
+                  height: 0,
+                  width: 0,
+                  // margin: EdgeInsets.only(top: 250.0),
+                  // child: Text('x10',
+                  //     style: TextStyle(
+                  //         color: Colors.white,
+                  //         fontSize: 32.0,
+                  //         fontWeight: FontWeight.bold,
+                  //         fontStyle: FontStyle.italic)),
                 ),
                 Container(
+                  margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 70),
                   child: Text('1/5 Sets',
                       style: TextStyle(
                           color: Colors.white,
-                          fontSize: 18.0,
+                          fontSize: SizeConfig.safeBlockHorizontal * 2,
                           fontWeight: FontWeight.bold,
                           fontStyle: FontStyle.italic)),
                 ),
               ],
             ),
+            /// DONE ICON
             Container(
-              margin: EdgeInsets.only(left: 700.0, top: 250.0),
-              child: IconButton(
-                icon: Icon(Icons.fiber_manual_record),
-                onPressed: () {},
-                color: Colors.white,
-                iconSize: 40.0,
-              ),
+              height: 0,
+              width: 0,
+              // margin: EdgeInsets.only(left: 700.0, top: 250.0),
+              // child: IconButton(
+              //   icon: Icon(Icons.fiber_manual_record),
+              //   onPressed: () {},
+              //   color: Colors.white,
+              //   iconSize: 40.0,
+              // ),
             ),
           ],
         ),

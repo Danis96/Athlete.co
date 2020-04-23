@@ -33,6 +33,7 @@ class ChewieVideoViewModel implements ChewieVideoInterface {
              visible: isFinished,
              child: Rest()));
   overlayState.insert(overlayEntry);
+  
   await Future.delayed(Duration(seconds: 32));
   overlayEntry.remove();
   isFinished = false;
