@@ -63,7 +63,7 @@ class _RestState extends State<Rest> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(0, 0, 0, 0.8),
+      backgroundColor: Color.fromRGBO(0, 0, 0, 0.9),
       body: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
