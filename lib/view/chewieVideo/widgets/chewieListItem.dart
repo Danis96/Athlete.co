@@ -1,9 +1,11 @@
 import 'package:attt/view/chewieVideo/widgets/globals.dart';
 import 'package:attt/view/chewieVideo/widgets/rest.dart';
 import 'package:attt/view/chewieVideo/widgets/stopwatch.dart';
+import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:attt/view/workout/pages/workout.dart';
 import 'package:attt/view_model/chewieVideoViewModel.dart';
 import 'package:chewie/chewie.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
@@ -11,6 +13,7 @@ import 'package:attt/view/chewieVideo/widgets/indicatorsOnVideo.dart';
 
 class ChewieListItem extends StatefulWidget {
   // This will contain the URL/asset path which we want to play
+  final DocumentSnapshot userDocument, userTrainerDocument;
   final VideoPlayerController videoPlayerController;
   final bool looping;
   final Function goToNextVideo, refresh;
@@ -20,6 +23,8 @@ class ChewieListItem extends StatefulWidget {
 
   ChewieListItem({
     @required this.videoPlayerController,
+    this.userDocument,
+    this.userTrainerDocument,
     this.looping,
     this.refresh,
     this.goToNextVideo,
@@ -71,18 +76,17 @@ class _ChewieListItemState extends State<ChewieListItem> {
           widget.videoPlayerController.value.duration) {
         if (widget.index == 2) {
           chewieController.exitFullScreen();
+
           /// full training stopwatch
           var timerService = TimerService.of(context);
           timerService.stop();
+
           /// treba proslijediti paramete u workout
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
-                builder: (_) => Workout(
-                  trainerID: widget.trainerID,
-                  warmupDesc: widget.warmupDesc,
-                  weekID: widget.weekID,
-                  workoutID: widget.workoutID,
-                  workoutName: widget.workoutName,
+                builder: (_) => TrainingPlan(
+                  userDocument: widget.userDocument,
+                  userTrainerDocument: widget.userTrainerDocument,
                 ),
               ),
               (Route<dynamic> route) => false);
@@ -108,8 +112,8 @@ class _ChewieListItemState extends State<ChewieListItem> {
     );
   }
 
-  ///  **** ovo cemo morati aktivirati nakon zavrsene serije **** 
-  /// 
+  ///  **** ovo cemo morati aktivirati nakon zavrsene serije ****
+  ///
   // @override
   // void dispose() {
   //   super.dispose();

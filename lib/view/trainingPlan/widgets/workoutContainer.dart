@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 Widget workoutContainer(
+    DocumentSnapshot userDocument,
     AsyncSnapshot snapshot2,
     int index2,
     DocumentSnapshot userTrainerDocument,
@@ -12,6 +13,8 @@ Widget workoutContainer(
     BuildContext context) {
   return GestureDetector(
     onTap: () => TrainingPlanViewModel().navigateToWorkout(
+        userDocument,
+        userTrainerDocument,
         userTrainerDocument.data['trainerID'],
         snapshot2.data[index2]['name'],
         snapshot.data[index].data['weekID'],

@@ -6,8 +6,9 @@ import 'package:attt/view/trainingPlan/widgets/trainingPlanHeadline.dart';
 import 'package:attt/view/trainingPlan/widgets/whatsAppButton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-class TrainingPlan extends StatelessWidget {
+class TrainingPlan extends StatefulWidget {
   final DocumentSnapshot userDocument;
   final DocumentSnapshot userTrainerDocument;
   TrainingPlan({
@@ -15,8 +16,19 @@ class TrainingPlan extends StatelessWidget {
     this.userDocument,
   });
 
+  @override
+  _TrainingPlanState createState() => _TrainingPlanState();
+}
+
+class _TrainingPlanState extends State<TrainingPlan> {
   /// treba danisu warmup
   String warmup;
+
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,22 +44,23 @@ class TrainingPlan extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              trainingPlanHeadline(userDocument, userTrainerDocument),
+              trainingPlanHeadline(widget.userDocument, widget.userTrainerDocument),
               SizedBox(
                 height: SizeConfig.blockSizeVertical * 2.5,
               ),
-              trainingPlanGuides(userTrainerDocument),
+              trainingPlanGuides(widget.userTrainerDocument),
               SizedBox(
                 height: SizeConfig.blockSizeVertical * 2.5,
               ),
               whatsAppButton(),
-              listOfWeeks(
-                  userTrainerDocument, userDocument.data['weeks_finished']),
+              listOfWeeks(widget.userDocument, widget.userTrainerDocument,
+                  widget.userDocument.data['weeks_finished']),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: trainingCustomBottomNavigationBar(userDocument, userTrainerDocument, context),
+      bottomNavigationBar: trainingCustomBottomNavigationBar(
+          widget.userDocument, widget.userTrainerDocument, context),
     );
   }
 }

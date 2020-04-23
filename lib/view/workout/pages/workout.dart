@@ -4,14 +4,18 @@ import 'package:attt/view/workout/widgets/bottomStartButton.dart';
 import 'package:attt/view/workout/widgets/warmUp.dart';
 import 'package:attt/view/workout/widgets/workoutList.dart';
 import 'package:attt/view_model/workoutViewModel.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class Workout extends StatefulWidget {
+  final DocumentSnapshot userDocument, userTrainerDocument;
   final String trainerID;
   final String workoutName, workoutID, weekID, warmupDesc;
   Workout(
       {Key key,
+      this.userDocument,
+      this.userTrainerDocument,
       this.trainerID,
       this.workoutName,
       this.workoutID,
@@ -35,12 +39,6 @@ class _WorkoutState extends State<Workout> {
   List<dynamic> _series = [], _exercises = [];
 
   @override
-  void initState() {
-    super.initState();
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  }
-
-  @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
@@ -59,6 +57,8 @@ class _WorkoutState extends State<Workout> {
         ),
       ),
       bottomNavigationBar: bottomButtonStart(
+          widget.userDocument,
+          widget.userTrainerDocument,
           context,
           widget.trainerID,
           widget.workoutName,

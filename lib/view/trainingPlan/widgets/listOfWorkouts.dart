@@ -4,7 +4,7 @@ import 'package:attt/view_model/trainingPlanViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-Widget listOfWorkouts(
+Widget listOfWorkouts(DocumentSnapshot userDocument,
     DocumentSnapshot userTrainerDocument, AsyncSnapshot snapshot, int index) {
   return FutureBuilder(
     future: TrainingPlanViewModel().getWorkouts(
@@ -19,7 +19,7 @@ Widget listOfWorkouts(
               shrinkWrap: true,
               itemCount: snapshot2.data.length,
               itemBuilder: (BuildContext context, int index2) {
-                return workoutContainer(snapshot2, index2, userTrainerDocument,
+                return workoutContainer(userDocument, snapshot2, index2, userTrainerDocument,
                     snapshot, index, context);
               },
             ),

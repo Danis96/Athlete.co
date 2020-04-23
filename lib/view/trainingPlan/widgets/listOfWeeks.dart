@@ -5,7 +5,7 @@ import 'package:attt/view_model/trainingPlanViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-Widget listOfWeeks(
+Widget listOfWeeks(DocumentSnapshot userDocument,
     DocumentSnapshot userTrainerDocument, List<dynamic> finishedWeeks) {
   return FutureBuilder(
       future: TrainingPlanViewModel()
@@ -26,7 +26,7 @@ Widget listOfWeeks(
                   );
                 } else {
                   if (index == counter) {
-                    return listOfWorkouts(userTrainerDocument, snapshot, index);
+                    return listOfWorkouts(userDocument, userTrainerDocument, snapshot, index);
                   } else {
                     if (index < counter + 3)
                       return weekContainer(snapshot, index);
