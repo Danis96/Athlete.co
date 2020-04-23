@@ -78,18 +78,17 @@ class _ChewieListItemState extends State<ChewieListItem> {
           //timerService.dispose();
 
           /// treba proslijediti paramete u workout
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => Workout(
-                trainerID: widget.trainerID,
-                warmupDesc: widget.warmupDesc,
-                weekID: widget.weekID,
-                workoutID: widget.workoutID,
-                workoutName: widget.workoutName,
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                builder: (_) => Workout(
+                  trainerID: widget.trainerID,
+                  warmupDesc: widget.warmupDesc,
+                  weekID: widget.weekID,
+                  workoutID: widget.workoutID,
+                  workoutName: widget.workoutName,
+                ),
               ),
-            ),
-          );
+              (Route<dynamic> route) => false);
         } else {
           ChewieVideoViewModel().showOverlay(context);
           widget.goToNextVideo(widget.index);
