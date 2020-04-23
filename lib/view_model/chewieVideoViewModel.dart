@@ -13,11 +13,13 @@ class ChewieVideoViewModel implements ChewieVideoInterface {
   }
 
   @override
-  playVideo(BuildContext context) {
+  playVideo(BuildContext context, String trainerID, String workoutName,
+      String workoutID, String weekID, String warmupDesc) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (BuildContext context) => ChewieVideo(),
+        builder: (BuildContext context) =>
+            ChewieVideo(warmupDesc, weekID, workoutName, trainerID, workoutID),
       ),
     );
   }
@@ -25,17 +27,14 @@ class ChewieVideoViewModel implements ChewieVideoInterface {
   @override
   showOverlay(BuildContext context) async {
     isFinished = true;
-  OverlayState overlayState = Overlay.of(context);
-  OverlayEntry overlayEntry = OverlayEntry(
-      builder: (context) =>
-           Visibility(
-             visible: isFinished,
-             child: Rest()));
-  overlayState.insert(overlayEntry);
- 
-  await Future.delayed(Duration(seconds: 32));
-  overlayEntry.remove();
-  isFinished = false;
+    OverlayState overlayState = Overlay.of(context);
+    OverlayEntry overlayEntry = OverlayEntry(
+        builder: (context) => Visibility(visible: isFinished, child: Rest()));
+    overlayState.insert(overlayEntry);
+
+    await Future.delayed(Duration(seconds: 32));
+    overlayEntry.remove();
+    isFinished = false;
   }
 
   @override
