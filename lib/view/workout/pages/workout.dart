@@ -5,8 +5,9 @@ import 'package:attt/view/workout/widgets/warmUp.dart';
 import 'package:attt/view/workout/widgets/workoutList.dart';
 import 'package:attt/view_model/workoutViewModel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-class Workout extends StatelessWidget {
+class Workout extends StatefulWidget {
   final String trainerID;
   final String workoutName, workoutID, weekID, warmupDesc;
   Workout(
@@ -18,14 +19,26 @@ class Workout extends StatelessWidget {
       this.warmupDesc})
       : super(key: key);
 
+  @override
+  _WorkoutState createState() => _WorkoutState();
+}
+
+class _WorkoutState extends State<Workout> {
   String _seriesName,
       _exerciseName,
       _exerciseTips,
       _exerciseVideo,
       _exerciseImage;
+
   int _exerciseIsReps, _exerciseReps, _exerciseRest, _exerciseSets;
 
   List<dynamic> _series = [], _exercises = [];
+
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +46,7 @@ class Workout extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         /// workout name
-        title: Text(workoutName.toUpperCase()),
+        title: Text(widget.workoutName.toUpperCase()),
         backgroundColor: MyColors().lightBlack,
         elevation: 0,
         leading: IconButton(
@@ -45,17 +58,24 @@ class Workout extends StatelessWidget {
           iconSize: 30.0,
         ),
       ),
-      bottomNavigationBar: bottomButtonStart(context),
+      bottomNavigationBar: bottomButtonStart(
+          context,
+          widget.trainerID,
+          widget.workoutName,
+          widget.workoutID,
+          widget.weekID,
+          widget.warmupDesc),
       backgroundColor: MyColors().lightBlack,
       body: ListView(
         shrinkWrap: true,
         children: <Widget>[
           /// warmup
-          warmupWidget(context, trainerID, workoutID, weekID, warmupDesc),
+          warmupWidget(context, widget.trainerID, widget.workoutID,
+              widget.weekID, widget.warmupDesc),
 
           /// workoutList
           workoutList(
-            trainerID,
+            widget.trainerID,
             _seriesName,
             _series,
             _exercises,
@@ -67,8 +87,8 @@ class Workout extends StatelessWidget {
             _exerciseReps,
             _exerciseRest,
             _exerciseSets,
-            weekID,
-            workoutID,
+            widget.weekID,
+            widget.workoutID,
           ),
         ],
       ),

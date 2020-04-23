@@ -1,4 +1,3 @@
-
 import 'package:attt/view/chewieVideo/widgets/globals.dart';
 import 'package:attt/view/chewieVideo/widgets/rest.dart';
 import 'package:attt/view/chewieVideo/widgets/stopwatch.dart';
@@ -10,15 +9,14 @@ import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorsOnVideo.dart';
 
-
-
-
 class ChewieListItem extends StatefulWidget {
   // This will contain the URL/asset path which we want to play
   final VideoPlayerController videoPlayerController;
   final bool looping;
   final Function goToNextVideo, refresh;
   final int index;
+  final String trainerID;
+  final String workoutName, workoutID, weekID, warmupDesc;
 
   ChewieListItem({
     @required this.videoPlayerController,
@@ -26,6 +24,11 @@ class ChewieListItem extends StatefulWidget {
     this.refresh,
     this.goToNextVideo,
     this.index,
+    this.workoutID,
+    this.trainerID,
+    this.workoutName,
+    this.weekID,
+    this.warmupDesc,
     Key key,
   }) : super(key: key);
 
@@ -37,14 +40,14 @@ class _ChewieListItemState extends State<ChewieListItem> {
   @override
   void initState() {
     super.initState();
-    
+
     // Wrapper on top of the videoPlayerController
     chewieController = ChewieController(
       allowedScreenSleep: false,
       fullScreenByDefault: true,
       deviceOrientationsAfterFullScreen: [DeviceOrientation.landscapeRight],
       autoPlay: true,
-      overlay: IndicatorsOnVideo(widget.videoPlayerController) ,
+      overlay: IndicatorsOnVideo(widget.videoPlayerController),
       showControls: false,
       videoPlayerController: widget.videoPlayerController,
       aspectRatio: 16 / 9,
@@ -68,13 +71,24 @@ class _ChewieListItemState extends State<ChewieListItem> {
           widget.videoPlayerController.value.duration) {
         if (widget.index == 2) {
           chewieController.exitFullScreen();
+
           /// full training stopwatch
           var timerService = TimerService.of(context);
           timerService.stop();
-          timerService.dispose();
+          //timerService.dispose();
+
           /// treba proslijediti paramete u workout
-          Navigator.push(context,
-              MaterialPageRoute(builder: (_) => Workout( )));
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                builder: (_) => Workout(
+                  trainerID: widget.trainerID,
+                  warmupDesc: widget.warmupDesc,
+                  weekID: widget.weekID,
+                  workoutID: widget.workoutID,
+                  workoutName: widget.workoutName,
+                ),
+              ),
+              (Route<dynamic> route) => false);
         } else {
           ChewieVideoViewModel().showOverlay(context);
           widget.goToNextVideo(widget.index);
@@ -105,8 +119,3 @@ class _ChewieListItemState extends State<ChewieListItem> {
   //   _chewieController.dispose();
   // }
 }
-
-
-
-
-

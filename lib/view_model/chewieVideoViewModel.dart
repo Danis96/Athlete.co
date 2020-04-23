@@ -13,11 +13,13 @@ class ChewieVideoViewModel implements ChewieVideoInterface {
   }
 
   @override
-  playVideo(BuildContext context) {
+  playVideo(BuildContext context, String trainerID, String workoutName,
+      String workoutID, String weekID, String warmupDesc) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (BuildContext context) => ChewieVideo(),
+        builder: (BuildContext context) =>
+            ChewieVideo(warmupDesc, weekID, workoutName, trainerID, workoutID),
       ),
     );
   }
@@ -37,7 +39,6 @@ class ChewieVideoViewModel implements ChewieVideoInterface {
   overlayEntry.remove();
   isFinished = false;
   }
-
   @override
   pauseVideo(VideoPlayerController controller) {
     if (controller.value.isPlaying) {

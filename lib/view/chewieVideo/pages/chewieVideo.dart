@@ -5,7 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class ChewieVideo extends StatelessWidget {
-  
+  final String trainerID;
+  final String workoutName, workoutID, weekID, warmupDesc;
+  ChewieVideo(this.warmupDesc, this.weekID, this.workoutName, this.trainerID,
+      this.workoutID);
+
   PageController pageController = PageController(
     initialPage: 0,
   );
@@ -48,7 +52,7 @@ class ChewieVideo extends StatelessWidget {
         ),
       ],
             ),
-        ),
+      ),
     );
   }
 }
