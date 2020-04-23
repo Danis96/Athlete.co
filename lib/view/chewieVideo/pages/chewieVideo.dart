@@ -19,33 +19,38 @@ class ChewieVideo extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return Scaffold(
-      body: PageView(
-          controller: pageController,
-          children: <Widget>[
-            ChewieListItem(
-      videoPlayerController: VideoPlayerController.network(
-        'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/C.mp4?alt=media&token=1b9452ce-58c1-4e76-9b21-fbfc9c454f97',
-      ),
-      looping: true,
-      goToNextVideo: goToNextVideo,
-      index: 0,
-            ),
-            ChewieListItem(
-      videoPlayerController: VideoPlayerController.network(
-        'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/C.mp4?alt=media&token=1b9452ce-58c1-4e76-9b21-fbfc9c454f97',
-      ),
-      goToNextVideo: goToNextVideo,
-      index: 1,
-            ),
-            ChewieListItem(
-      videoPlayerController: VideoPlayerController.network(
-        'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/C.mp4?alt=media&token=1b9452ce-58c1-4e76-9b21-fbfc9c454f97',
-      ),
-      goToNextVideo: goToNextVideo,
-      index: 2,
-            ),
-          ],
+      backgroundColor: Colors.transparent,
+      body: Container(
+        height: 0,
+        width: 0,
+        child: PageView(
+            controller: pageController,
+            children: <Widget>[
+              ChewieListItem(
+        videoPlayerController: VideoPlayerController.network(
+          'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/C.mp4?alt=media&token=1b9452ce-58c1-4e76-9b21-fbfc9c454f97',
         ),
+        looping: true,
+        goToNextVideo: goToNextVideo,
+        index: 0,
+              ),
+              ChewieListItem(
+        videoPlayerController: VideoPlayerController.network(
+          'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/C.mp4?alt=media&token=1b9452ce-58c1-4e76-9b21-fbfc9c454f97',
+        ),
+        goToNextVideo: goToNextVideo,
+        index: 1,
+              ),
+              ChewieListItem(
+        videoPlayerController: VideoPlayerController.network(
+          'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/C.mp4?alt=media&token=1b9452ce-58c1-4e76-9b21-fbfc9c454f97',
+        ),
+        goToNextVideo: goToNextVideo,
+        index: 2,
+              ),
+            ],
+          ),
+      ),
     );
   }
 }
