@@ -71,12 +71,9 @@ class _ChewieListItemState extends State<ChewieListItem> {
           widget.videoPlayerController.value.duration) {
         if (widget.index == 2) {
           chewieController.exitFullScreen();
-
           /// full training stopwatch
           var timerService = TimerService.of(context);
           timerService.stop();
-          //timerService.dispose();
-
           /// treba proslijediti paramete u workout
           Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
@@ -111,6 +108,8 @@ class _ChewieListItemState extends State<ChewieListItem> {
     );
   }
 
+  ///  **** ovo cemo morati aktivirati nakon zavrsene serije **** 
+  /// 
   // @override
   // void dispose() {
   //   super.dispose();
