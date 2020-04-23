@@ -1,3 +1,4 @@
+import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/chewieVideo/widgets/chewieListItem.dart';
 import 'package:attt/view/chewieVideo/widgets/globals.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,6 @@ class ChewieVideo extends StatelessWidget {
   //// private function of parent
    goToNextVideo(int index) {
       pageController.jumpToPage(index + 1);
-      print('Idemo na video ' + (index + 1).toString());
     }
 
   @override
@@ -20,6 +20,7 @@ class ChewieVideo extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
+         width: isFinished ?  0 : SizeConfig.blockSizeHorizontal * 90,
           child: PageView(
       controller: pageController,
       children: <Widget>[

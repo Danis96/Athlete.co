@@ -7,15 +7,15 @@ import 'package:flutter/services.dart';
 void main() {
   final timerService = TimerService();
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      .then((_) {
+  // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+  //     .then((_) {
     runApp(
       TimerServiceProvider(
           // provide timer service to all widgets of your app
           service: timerService,
           child: Athlete()),
     );
-  });
+  // });
 }
 
 class Athlete extends StatelessWidget {

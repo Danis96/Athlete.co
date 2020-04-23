@@ -57,7 +57,7 @@ class IndicatorsOnVideo extends StatelessWidget {
                       child: Text('1/5 Sets',
                           style: TextStyle(
                               color: Colors.white,
-                              fontSize: 18.0,
+                              fontSize: SizeConfig.safeBlockHorizontal * 2,
                               fontWeight: FontWeight.bold,
                               fontStyle: FontStyle.italic)),
                     ),
