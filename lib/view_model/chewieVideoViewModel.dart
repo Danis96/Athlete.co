@@ -1,4 +1,5 @@
 import 'package:attt/interface/chewieVideoInterface.dart';
+import 'package:attt/utils/globals.dart';
 import 'package:attt/view/chewieVideo/pages/chewieVideo.dart';
 import 'package:attt/view/chewieVideo/widgets/globals.dart';
 import 'package:attt/view/chewieVideo/widgets/rest.dart';
@@ -55,8 +56,10 @@ class ChewieVideoViewModel implements ChewieVideoInterface {
   pauseVideo(VideoPlayerController controller) {
     if (controller.value.isPlaying) {
       controller.pause();
+      isPaused = true;
     } else {
       controller.play();
+      isPaused = false;
     }
   }
 }
