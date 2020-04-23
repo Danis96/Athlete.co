@@ -43,14 +43,14 @@ class IndicatorsOnVideo extends StatelessWidget {
                   children: <Widget>[
                     Container(
                       height: 0,
-                  width: 0,
-                      margin: EdgeInsets.only(top: 250.0),
-                      child: Text('x10',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 32.0,
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.italic)),
+                      width: 0,
+                      // margin: EdgeInsets.only(top: 250.0),
+                      // child: Text('x10',
+                      //     style: TextStyle(
+                      //         color: Colors.white,
+                      //         fontSize: 32.0,
+                      //         fontWeight: FontWeight.bold,
+                      //         fontStyle: FontStyle.italic)),
                     ),
                     Container(
                       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 70),
@@ -65,14 +65,14 @@ class IndicatorsOnVideo extends StatelessWidget {
                 ),
                 Container(
                   width:0,
-                  height:0
-                  margin: EdgeInsets.only(left: 700.0, top: 250.0),
-                  child: IconButton(
-                    icon: Icon(Icons.fiber_manual_record),
-                    onPressed: () {},
-                    color: Colors.white,
-                    iconSize: 40.0,
-                  ),
+                  height:0,
+                  // // margin: EdgeInsets.only(left: 700.0, top: 250.0),
+                  // child: IconButton(
+                  //   icon: Icon(Icons.fiber_manual_record),
+                  //   onPressed: () {},
+                  //   color: Colors.white,
+                  //   iconSize: 40.0,
+                  // ),
                 ),
               ],
             ),
