@@ -1,14 +1,16 @@
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/chewieVideo/widgets/chewieListItem.dart';
 import 'package:attt/view/chewieVideo/widgets/globals.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
 class ChewieVideo extends StatelessWidget {
+  final DocumentSnapshot userDocument, userTrainerDocument;
   final String trainerID;
   final String workoutName, workoutID, weekID, warmupDesc;
-  ChewieVideo(this.warmupDesc, this.weekID, this.workoutName, this.trainerID,
-      this.workoutID);
+  ChewieVideo(this.userDocument, this.userTrainerDocument, this.warmupDesc,
+      this.weekID, this.workoutName, this.trainerID, this.workoutID);
 
   PageController pageController = PageController(
     initialPage: 0,
@@ -29,6 +31,8 @@ class ChewieVideo extends StatelessWidget {
           controller: pageController,
           children: <Widget>[
             ChewieListItem(
+              userTrainerDocument: userTrainerDocument,
+              userDocument: userDocument,
               trainerID: trainerID,
               warmupDesc: warmupDesc,
               weekID: weekID,
@@ -42,6 +46,8 @@ class ChewieVideo extends StatelessWidget {
               index: 0,
             ),
             ChewieListItem(
+              userTrainerDocument: userTrainerDocument,
+              userDocument: userDocument,
               trainerID: trainerID,
               warmupDesc: warmupDesc,
               weekID: weekID,
@@ -54,6 +60,8 @@ class ChewieVideo extends StatelessWidget {
               index: 1,
             ),
             ChewieListItem(
+              userTrainerDocument: userTrainerDocument,
+              userDocument: userDocument,
               trainerID: trainerID,
               warmupDesc: warmupDesc,
               weekID: weekID,

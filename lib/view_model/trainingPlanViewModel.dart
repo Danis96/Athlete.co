@@ -39,12 +39,21 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
   }
 
   @override
-  navigateToWorkout(String trainerID, String workoutName, String weekID,
-      String workoutID, String warmupDesc, BuildContext context) {
+  navigateToWorkout(
+      DocumentSnapshot userDocument,
+      DocumentSnapshot userTrainerDocument,
+      String trainerID,
+      String workoutName,
+      String weekID,
+      String workoutID,
+      String warmupDesc,
+      BuildContext context) {
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => Workout(
+                userDocument: userDocument,
+                userTrainerDocument: userTrainerDocument,
                 trainerID: trainerID,
                 workoutName: workoutName,
                 weekID: weekID,
