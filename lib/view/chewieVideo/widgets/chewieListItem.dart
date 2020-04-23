@@ -43,7 +43,7 @@ class _ChewieListItemState extends State<ChewieListItem> {
       fullScreenByDefault: true,
       deviceOrientationsAfterFullScreen: [DeviceOrientation.landscapeRight],
       autoPlay: true,
-      overlay: IndicatorsOnVideo() ,
+      overlay: IndicatorsOnVideo(widget.videoPlayerController) ,
       showControls: false,
       videoPlayerController: widget.videoPlayerController,
       aspectRatio: 16 / 9,
