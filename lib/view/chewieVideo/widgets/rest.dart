@@ -45,9 +45,9 @@ class _RestState extends State<Rest> with TickerProviderStateMixin {
   
    
      /// after widget is done building call this method
-    SchedulerBinding.instance.addPostFrameCallback((_) {
+    // SchedulerBinding.instance.addPostFrameCallback((_) {
        startTimer();
-    });  
+    // });  
   }
 
   AudioCache _audioCache;
