@@ -13,11 +13,26 @@ class Rest extends StatefulWidget {
   _RestState createState() => _RestState();
 }
 
-class _RestState extends State<Rest> {
+class _RestState extends State<Rest> with TickerProviderStateMixin {
+
+  AnimationController _controller;
+  Animation<Offset> _offsetAnimation;
+
   @override
   void initState() {
+     _controller = AnimationController(
+      duration: const Duration(milliseconds: 900),
+      vsync: this,
+    )..forward();
+
+    _offsetAnimation = Tween<Offset>(
+      begin: const Offset(1.0, 0.0),
+      end: const Offset(0.0, 0.0),
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ));
     super.initState();
-    
     startTimer();
     chewieController.pause();
     _audioCache = AudioCache(
@@ -62,32 +77,35 @@ class _RestState extends State<Rest> {
   }
 
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Color.fromRGBO(0, 0, 0, 0.9),
-      body: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-      Container(
-        child: Text('REST',
-            style: TextStyle(
-                color: Colors.white,
-                fontStyle: FontStyle.italic,
-                fontWeight: FontWeight.bold,
-                fontSize: 48.0)),
-      ),
-      Text(
-        _isLessThan10 ? '00:0' + '$_start' : '00:' + "$_start",
-        style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontSize: 48.0),
-      )
-            ],
-          ),
+    return SlideTransition(
+      position: _offsetAnimation,
+          child: Scaffold(
+        backgroundColor: Color.fromRGBO(0, 0, 0, 0.9),
+        body: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+        Container(
+          child: Text('REST',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 48.0)),
         ),
+        Text(
+          _isLessThan10 ? '00:0' + '$_start' : '00:' + "$_start",
+          style: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 48.0),
+        )
+              ],
+            ),
+          ),
+      ),
     );
   }
 }

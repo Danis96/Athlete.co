@@ -20,7 +20,7 @@ class TrainingPlan extends StatefulWidget {
   _TrainingPlanState createState() => _TrainingPlanState();
 }
 
-class _TrainingPlanState extends State<TrainingPlan> {
+class _TrainingPlanState extends State<TrainingPlan>  {
   /// treba danisu warmup
   String warmup;
 

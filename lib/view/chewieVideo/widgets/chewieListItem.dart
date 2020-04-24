@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:attt/utils/emptyContainer.dart';
@@ -44,10 +45,16 @@ class ChewieListItem extends StatefulWidget {
   _ChewieListItemState createState() => _ChewieListItemState();
 }
 
-class _ChewieListItemState extends State<ChewieListItem> {
+class _ChewieListItemState extends State<ChewieListItem>  {
+
+ 
+
   @override
   void initState() {
     super.initState();
+
+   
+    
 
     // Wrapper on top of the videoPlayerController
     chewieController = ChewieController(
@@ -56,10 +63,10 @@ class _ChewieListItemState extends State<ChewieListItem> {
       deviceOrientationsAfterFullScreen: [DeviceOrientation.landscapeLeft],
       autoPlay: true,
       overlay: IndicatorsOnVideo(
-        controller: widget.videoPlayerController,
-        userDocument: widget.userDocument,
-        userTrainerDocument: widget.userTrainerDocument,
-      ),
+          controller: widget.videoPlayerController,
+          userDocument: widget.userDocument,
+          userTrainerDocument: widget.userTrainerDocument,
+        ),
       showControls: false,
       videoPlayerController: widget.videoPlayerController,
       aspectRatio: 16 / 9,
