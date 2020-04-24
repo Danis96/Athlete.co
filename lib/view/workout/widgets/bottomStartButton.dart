@@ -7,29 +7,15 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:attt/view/chewieVideo/widgets/globals.dart';
 
-Widget bottomButtonStart(
-    DocumentSnapshot userDoument,
-    DocumentSnapshot userTrainerDocument,
-    BuildContext context,
-    String trainerID,
-    String workoutName,
-    String workoutID,
-    String weekID,
-    String warmupDesc) {
+Widget bottomButtonStart(DocumentSnapshot userDoument,
+    DocumentSnapshot userTrainerDocument, BuildContext context) {
   SizeConfig().init(context);
   return BottomAppBar(
     color: MyColors().white,
     child: RaisedButton(
       elevation: 0,
-      onPressed: () => ChewieVideoViewModel().playVideo(
-          userDoument,
-          userTrainerDocument,
-          context,
-          trainerID,
-          workoutName,
-          workoutID,
-          weekID,
-          warmupDesc),
+      onPressed: () => ChewieVideoViewModel()
+          .playVideo(userDoument, userTrainerDocument, context),
       child: Padding(
         padding: EdgeInsets.all(22.0),
         child: Text(

@@ -19,25 +19,16 @@ class ChewieListItem extends StatefulWidget {
   // This will contain the URL/asset path which we want to play
   final DocumentSnapshot userDocument, userTrainerDocument;
   final VideoPlayerController videoPlayerController;
-  final bool looping;
   final Function goToNextVideo, refresh;
   final int index;
-  final String trainerID;
-  final String workoutName, workoutID, weekID, warmupDesc;
 
   ChewieListItem({
     @required this.videoPlayerController,
     this.userDocument,
     this.userTrainerDocument,
-    this.looping,
     this.refresh,
     this.goToNextVideo,
     this.index,
-    this.workoutID,
-    this.trainerID,
-    this.workoutName,
-    this.weekID,
-    this.warmupDesc,
     Key key,
   }) : super(key: key);
 

@@ -10,10 +10,7 @@ import 'package:video_player/video_player.dart';
 
 class ChewieVideo extends StatelessWidget {
   final DocumentSnapshot userDocument, userTrainerDocument;
-  final String trainerID;
-  final String workoutName, workoutID, weekID, warmupDesc;
-  ChewieVideo(this.userDocument, this.userTrainerDocument, this.warmupDesc,
-      this.weekID, this.workoutName, this.trainerID, this.workoutID);
+  ChewieVideo(this.userDocument, this.userTrainerDocument);
 
   PageController pageController = PageController(
     initialPage: 0,
@@ -29,58 +26,41 @@ class ChewieVideo extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Container(
-            width: isFinished ? 0 : SizeConfig.blockSizeHorizontal * 90,
-            child: PageView(
-      physics: NeverScrollableScrollPhysics(),
-      controller: pageController,
-      children: <Widget>[
-        ChewieListItem(
-          userTrainerDocument: userTrainerDocument,
-          userDocument: userDocument,
-          trainerID: trainerID,
-          warmupDesc: warmupDesc,
-          weekID: weekID,
-          workoutID: workoutID,
-          workoutName: workoutName,
-          videoPlayerController: VideoPlayerController.network(
-            'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/C.mp4?alt=media&token=1b9452ce-58c1-4e76-9b21-fbfc9c454f97',
-          ),
-          goToNextVideo: goToNextVideo,
-          index: 0,
-        ),
-        ChewieListItem(
-          userTrainerDocument: userTrainerDocument,
-          userDocument: userDocument,
-          trainerID: trainerID,
-          warmupDesc: warmupDesc,
-          weekID: weekID,
-          workoutID: workoutID,
-          workoutName: workoutName,
-          videoPlayerController: VideoPlayerController.network(
-            'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/C.mp4?alt=media&token=1b9452ce-58c1-4e76-9b21-fbfc9c454f97',
-          ),
-          goToNextVideo: goToNextVideo,
-          index: 1,
-        ),
-        ChewieListItem(
-          userTrainerDocument: userTrainerDocument,
-          userDocument: userDocument,
-          trainerID: trainerID,
-          warmupDesc: warmupDesc,
-          weekID: weekID,
-          workoutID: workoutID,
-          workoutName: workoutName,
-          videoPlayerController: VideoPlayerController.network(
-            'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/C.mp4?alt=media&token=1b9452ce-58c1-4e76-9b21-fbfc9c454f97',
-          ),
-          goToNextVideo: goToNextVideo,
-          index: 2,
-        ),
-      ],
+        width: isFinished ? 0 : SizeConfig.blockSizeHorizontal * 90,
+        child: PageView(
+          physics: NeverScrollableScrollPhysics(),
+          controller: pageController,
+          children: <Widget>[
+            ChewieListItem(
+              userTrainerDocument: userTrainerDocument,
+              userDocument: userDocument,
+              videoPlayerController: VideoPlayerController.network(
+                'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/C.mp4?alt=media&token=1b9452ce-58c1-4e76-9b21-fbfc9c454f97',
+              ),
+              goToNextVideo: goToNextVideo,
+              index: 0,
             ),
-          ),
+            ChewieListItem(
+              userTrainerDocument: userTrainerDocument,
+              userDocument: userDocument,
+              videoPlayerController: VideoPlayerController.network(
+                'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/C.mp4?alt=media&token=1b9452ce-58c1-4e76-9b21-fbfc9c454f97',
+              ),
+              goToNextVideo: goToNextVideo,
+              index: 1,
+            ),
+            ChewieListItem(
+              userTrainerDocument: userTrainerDocument,
+              userDocument: userDocument,
+              videoPlayerController: VideoPlayerController.network(
+                'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/C.mp4?alt=media&token=1b9452ce-58c1-4e76-9b21-fbfc9c454f97',
+              ),
+              goToNextVideo: goToNextVideo,
+              index: 2,
+            ),
+          ],
+        ),
+      ),
     );
   }
-
-
 }

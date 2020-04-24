@@ -4,15 +4,8 @@ import 'package:video_player/video_player.dart';
 
 abstract class ChewieVideoInterface {
   goToNextVideo(int index, PageController pageController);
-  playVideo(
-      DocumentSnapshot userDocument,
-      DocumentSnapshot userTrainerDocument,
-      BuildContext context,
-      String trainerID,
-      String workoutName,
-      String workoutID,
-      String weekID,
-      String warmupDesc);
+  playVideo(DocumentSnapshot userDocument, DocumentSnapshot userTrainerDocument,
+      BuildContext context);
   showOverlay(BuildContext context);
   pauseVideo(VideoPlayerController controller);
 }
