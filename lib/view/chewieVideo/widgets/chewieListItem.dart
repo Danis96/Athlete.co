@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/view/chewieVideo/widgets/globals.dart';
 import 'package:attt/view/chewieVideo/widgets/rest.dart';
 import 'package:attt/view/chewieVideo/widgets/stopwatch.dart';
@@ -50,9 +53,13 @@ class _ChewieListItemState extends State<ChewieListItem> {
     chewieController = ChewieController(
       allowedScreenSleep: false,
       fullScreenByDefault: true,
-      deviceOrientationsAfterFullScreen: [DeviceOrientation.landscapeRight],
+      deviceOrientationsAfterFullScreen: [DeviceOrientation.landscapeLeft],
       autoPlay: true,
-      overlay: IndicatorsOnVideo(widget.videoPlayerController),
+      overlay: IndicatorsOnVideo(
+        controller: widget.videoPlayerController,
+        userDocument: widget.userDocument,
+        userTrainerDocument: widget.userTrainerDocument,
+      ),
       showControls: false,
       videoPlayerController: widget.videoPlayerController,
       aspectRatio: 16 / 9,
@@ -72,6 +79,11 @@ class _ChewieListItemState extends State<ChewieListItem> {
     );
 
     widget.videoPlayerController.addListener(() {
+      if (chewieController.isFullScreen == true)
+        setState(() => showText = true);
+      else
+        setState(() => showText = false);
+
       if (widget.videoPlayerController.value.position ==
           widget.videoPlayerController.value.duration) {
         if (widget.index == 2) {
@@ -121,4 +133,5 @@ class _ChewieListItemState extends State<ChewieListItem> {
   //   widget.videoPlayerController.dispose();
   //   _chewieController.dispose();
   // }
+
 }
