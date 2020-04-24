@@ -100,7 +100,7 @@ class _ChewieListItemState extends State<ChewieListItem> {
           ChewieVideoViewModel()
               .showOverlay(context);
           if (restDone == true) 
-            widget.goToNextVideo(widget.index).then(() => chewieController.play());
+            widget.goToNextVideo(widget.index);
         }
       }
     });
