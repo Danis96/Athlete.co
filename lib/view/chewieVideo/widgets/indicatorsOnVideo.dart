@@ -45,9 +45,16 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return InkWell(
+    return 
+    InkWell(
       onTap: () {
         setState(() {
           ChewieVideoViewModel().pauseVideo(widget.controller);

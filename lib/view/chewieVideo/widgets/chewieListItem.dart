@@ -45,17 +45,10 @@ class ChewieListItem extends StatefulWidget {
   _ChewieListItemState createState() => _ChewieListItemState();
 }
 
-class _ChewieListItemState extends State<ChewieListItem>  {
-
- 
-
+class _ChewieListItemState extends State<ChewieListItem> {
   @override
   void initState() {
     super.initState();
-
-   
-    
-
     // Wrapper on top of the videoPlayerController
     chewieController = ChewieController(
       allowedScreenSleep: false,
@@ -63,10 +56,10 @@ class _ChewieListItemState extends State<ChewieListItem>  {
       deviceOrientationsAfterFullScreen: [DeviceOrientation.landscapeLeft],
       autoPlay: true,
       overlay: IndicatorsOnVideo(
-          controller: widget.videoPlayerController,
-          userDocument: widget.userDocument,
-          userTrainerDocument: widget.userTrainerDocument,
-        ),
+        controller: widget.videoPlayerController,
+        userDocument: widget.userDocument,
+        userTrainerDocument: widget.userTrainerDocument,
+      ),
       showControls: false,
       videoPlayerController: widget.videoPlayerController,
       aspectRatio: 16 / 9,
@@ -85,11 +78,14 @@ class _ChewieListItemState extends State<ChewieListItem>  {
       },
     );
 
+    
+    
+    
     widget.videoPlayerController.addListener(() {
       if (chewieController.isFullScreen == true)
-        setState(() => showText = true);
+        showText = true;
       else
-        setState(() => showText = false);
+        showText = false;
 
       if (widget.videoPlayerController.value.position ==
           widget.videoPlayerController.value.duration) {
@@ -110,8 +106,10 @@ class _ChewieListItemState extends State<ChewieListItem>  {
               ),
               (Route<dynamic> route) => false);
         } else {
-          ChewieVideoViewModel().showOverlay(context);
-          widget.goToNextVideo(widget.index);
+          ChewieVideoViewModel()
+              .showOverlay(context);
+          if (restDone == true) 
+            widget.goToNextVideo(widget.index).then(() => chewieController.play());
         }
       }
     });
