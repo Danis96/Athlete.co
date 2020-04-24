@@ -22,7 +22,28 @@ class IndicatorsOnVideo extends StatefulWidget {
   _IndicatorsOnVideoState createState() => _IndicatorsOnVideoState();
 }
 
-class _IndicatorsOnVideoState extends State<IndicatorsOnVideo> {
+class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
+    with TickerProviderStateMixin {
+  AnimationController _controller;
+  Animation<Offset> _offsetAnimation;
+
+  @override
+  void initState() {
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 1200),
+      vsync: this,
+    )..forward();
+
+    _offsetAnimation = Tween<Offset>(
+      begin: const Offset(0.8, 0.0),
+      end: const Offset(0.0, 0.0),
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -34,96 +55,101 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo> {
       },
       child: WillPopScope(
         onWillPop: () => _onWillPop(),
-        child: Center(
-          child: Column(
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  /// number of reps
-                  Container(
-                    padding: EdgeInsets.all(5),
-                    child: Text('Gimnastic Push ups',
-                        style: TextStyle(
-                          color: showText ? Colors.white : Colors.black,
-                        )),
-                  ),
-                  Container(
-                    margin: EdgeInsets.only(
-                        left:
-                            showText ? SizeConfig.blockSizeHorizontal * 70 : 0),
-                    child: IconButton(
-                      icon: Icon(Icons.comment),
-                      onPressed: () {},
-                      color: showText ? Colors.white : Colors.black,
-                      iconSize: 40.0,
-                    ),
-                  ),
-                ],
-              ),
-              isPaused
-                  ? Container(
-                      decoration: BoxDecoration(
-                          color: Color.fromRGBO(28, 28, 28, 0.7),
-                          borderRadius: BorderRadius.all(Radius.circular(4.0))),
-                      padding: EdgeInsets.all(20.0),
-                      child: Text(
-                        'PAUSED',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: SizeConfig.blockSizeVertical * 9,
-                            fontWeight: FontWeight.bold,
-                            fontStyle: FontStyle.italic),
-                      ),
-                    )
-                  : EmptyContainer(),
-              Row(
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Container(
-                        height: 0,
-                        width: 0,
-                        // margin: EdgeInsets.only(top: 250.0),
-                        // child: Text('x10',
-                        //     style: TextStyle(
-                        //         color: Colors.white,
-                        //         fontSize: 32.0,
-                        //         fontWeight: FontWeight.bold,
-                        //         fontStyle: FontStyle.italic)),
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(8.0),
-                        margin: EdgeInsets.only(
-                            top: showText
-                                ? isPaused
-                                    ? SizeConfig.blockSizeVertical * 55
-                                    : SizeConfig.blockSizeVertical * 75
-                                : 0),
-                        child: Text(
-                          '1/5 Sets',
+        child: SlideTransition(
+          position: _offsetAnimation,
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    /// number of reps
+                    Container(
+                      padding: EdgeInsets.all(5),
+                      child: Text('Gimnastic Push ups',
                           style: TextStyle(
-                              color: showText ? Colors.white : Colors.black,
-                              fontSize: SizeConfig.safeBlockHorizontal * 2,
+                            color: showText ? Colors.white : Colors.black,
+                          )),
+                    ),
+                    Container(
+                      margin: EdgeInsets.only(
+                          left: showText
+                              ? SizeConfig.blockSizeHorizontal * 70
+                              : 0),
+                      child: IconButton(
+                        icon: Icon(Icons.comment),
+                        onPressed: () {},
+                        color: showText ? Colors.white : Colors.black,
+                        iconSize: 40.0,
+                      ),
+                    ),
+                  ],
+                ),
+                isPaused
+                    ? Container(
+                        decoration: BoxDecoration(
+                            color: Color.fromRGBO(28, 28, 28, 0.7),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(4.0))),
+                        padding: EdgeInsets.all(20.0),
+                        child: Text(
+                          'PAUSED',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: SizeConfig.blockSizeVertical * 9,
                               fontWeight: FontWeight.bold,
                               fontStyle: FontStyle.italic),
                         ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    width: 0,
-                    height: 0,
-                    // // margin: EdgeInsets.only(left: 700.0, top: 250.0),
-                    // child: IconButton(
-                    //   icon: Icon(Icons.fiber_manual_record),
-                    //   onPressed: () {},
-                    //   color: Colors.white,
-                    //   iconSize: 40.0,
-                    // ),
-                  ),
-                ],
-              ),
-            ],
+                      )
+                    : EmptyContainer(),
+                Row(
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        Container(
+                          height: 0,
+                          width: 0,
+                          // margin: EdgeInsets.only(top: 250.0),
+                          // child: Text('x10',
+                          //     style: TextStyle(
+                          //         color: Colors.white,
+                          //         fontSize: 32.0,
+                          //         fontWeight: FontWeight.bold,
+                          //         fontStyle: FontStyle.italic)),
+                        ),
+                        Container(
+                          padding: EdgeInsets.all(8.0),
+                          margin: EdgeInsets.only(
+                              top: showText
+                                  ? isPaused
+                                      ? SizeConfig.blockSizeVertical * 55
+                                      : SizeConfig.blockSizeVertical * 75
+                                  : 0),
+                          child: Text(
+                            '1/5 Sets',
+                            style: TextStyle(
+                                color: showText ? Colors.white : Colors.black,
+                                fontSize: SizeConfig.safeBlockHorizontal * 2,
+                                fontWeight: FontWeight.bold,
+                                fontStyle: FontStyle.italic),
+                          ),
+                        ),
+                      ],
+                    ),
+                    Container(
+                      width: 0,
+                      height: 0,
+                      // // margin: EdgeInsets.only(left: 700.0, top: 250.0),
+                      // child: IconButton(
+                      //   icon: Icon(Icons.fiber_manual_record),
+                      //   onPressed: () {},
+                      //   color: Colors.white,
+                      //   iconSize: 40.0,
+                      // ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),
