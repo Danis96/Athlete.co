@@ -65,29 +65,29 @@ class _RestState extends State<Rest> {
     return Scaffold(
       backgroundColor: Color.fromRGBO(0, 0, 0, 0.9),
       body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            Container(
-              child: Text('REST',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 48.0)),
-            ),
-            Text(
-              _isLessThan10 ? '00:0' + '$_start' : '00:' + "$_start",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 48.0),
-            )
-          ],
-        ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+      Container(
+        child: Text('REST',
+            style: TextStyle(
+                color: Colors.white,
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.bold,
+                fontSize: 48.0)),
       ),
+      Text(
+        _isLessThan10 ? '00:0' + '$_start' : '00:' + "$_start",
+        style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 48.0),
+      )
+            ],
+          ),
+        ),
     );
   }
 }
