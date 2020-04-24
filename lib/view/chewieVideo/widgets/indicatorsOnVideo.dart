@@ -107,20 +107,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                       //         fontWeight: FontWeight.bold,
                       //         fontStyle: FontStyle.italic)),
                     ),
-                    Container(
-                      padding: EdgeInsets.all(8.0),
-                      margin: EdgeInsets.only(
-                          top:
-                              showText ? SizeConfig.blockSizeVertical * 50 : 0),
-                      child: Text(
-                        'PAUSED',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: SizeConfig.blockSizeVertical * 9,
-                            fontWeight: FontWeight.bold,
-                            fontStyle: FontStyle.italic),
-                      ),
-                    ),
                     Row(
                       children: <Widget>[
                         Column(
@@ -140,9 +126,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                               padding: EdgeInsets.all(8.0),
                               margin: EdgeInsets.only(
                                   top: showText
-                                      ? isPaused
-                                          ? SizeConfig.blockSizeVertical * 55
-                                          : SizeConfig.blockSizeVertical * 75
+                                      ? SizeConfig.blockSizeVertical * 55
                                       : 0),
                               child: Text(
                                 '1/5 Sets',
