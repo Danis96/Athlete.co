@@ -56,25 +56,35 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       child: WillPopScope(
         onWillPop: () => _onWillPop(),
         child: SlideTransition(
-          position: _offsetAnimation,
-          child: Center(
-            child: Column(children: <Widget>[
-              Row(
+            position: _offsetAnimation,
+            child: Center(
+              child: Column(
                 children: <Widget>[
-                  /// number of reps
-                  Container(
-                    padding: EdgeInsets.all(5),
-                    child: Text('Gimnastic Push ups',
-                        style: TextStyle(
-                          color: showText ? Colors.white : Colors.black,
-                        )),
+                  Row(
+                    children: <Widget>[
+                      /// number of reps
+                      Container(
+                        padding: EdgeInsets.all(5),
+                        child: Text('Gimnastic Push ups',
+                            style: TextStyle(
+                              color: showText ? Colors.white : Colors.black,
+                            )),
+                      ),
+
+                      /// icon note
+                      Container(
+                        margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 70),
+                        child: IconButton(
+                            color: showText ? Colors.white : Colors.black,
+                            iconSize: SizeConfig.blockSizeHorizontal * 5 ,
+                            icon: Icon(Icons.comment), onPressed: () {}),
+                      )
+                    ],
                   ),
-                ],
-              ),
-              isPaused
+                  isPaused
                   ? Container(
                       height: SizeConfig.blockSizeVertical * 20,
-                      width: SizeConfig.blockSizeHorizontal * 20,
+                      width: SizeConfig.blockSizeHorizontal * 22,
                       decoration: BoxDecoration(
                           color: Color.fromRGBO(28, 28, 28, 0.7),
                           borderRadius: BorderRadius.all(Radius.circular(4.0))),
@@ -93,73 +103,56 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                       height: SizeConfig.blockSizeVertical * 20,
                       width: SizeConfig.blockSizeHorizontal * 20,
                     ),
-              Row(children: <Widget>[
-                Column(
-                  children: <Widget>[
-                    Container(
-                      height: 0,
-                      width: 0,
-                      // margin: EdgeInsets.only(top: 250.0),
-                      // child: Text('x10',
-                      //     style: TextStyle(
-                      //         color: Colors.white,
-                      //         fontSize: 32.0,
-                      //         fontWeight: FontWeight.bold,
-                      //         fontStyle: FontStyle.italic)),
-                    ),
-                    Row(
-                      children: <Widget>[
-                        Column(
-                          children: <Widget>[
-                            Container(
-                              height: 0,
-                              width: 0,
-                              // margin: EdgeInsets.only(top: 250.0),
-                              // child: Text('x10',
-                              //     style: TextStyle(
-                              //         color: Colors.white,
-                              //         fontSize: 32.0,
-                              //         fontWeight: FontWeight.bold,
-                              //         fontStyle: FontStyle.italic)),
+                  Row(
+                    children: <Widget>[
+                      Column(
+                        children: <Widget>[
+                          /// reps
+                          Container(
+                            height: 0,
+                            width: 0,
+                            // margin: EdgeInsets.only(top: 250.0),
+                            // child: Text('x10',
+                            //     style: TextStyle(
+                            //         color: Colors.white,
+                            //         fontSize: 32.0,
+                            //         fontWeight: FontWeight.bold,
+                            //         fontStyle: FontStyle.italic)),
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(8.0),
+                            margin: EdgeInsets.only(
+                                top: showText
+                                    ? SizeConfig.blockSizeVertical * 50
+                                    : 0),
+                            child: Text(
+                              '1/5 Sets',
+                              style: TextStyle(
+                                  color: showText ? Colors.white : Colors.black,
+                                  fontSize: SizeConfig.safeBlockHorizontal * 2,
+                                  fontWeight: FontWeight.bold,
+                                  fontStyle: FontStyle.italic),
                             ),
-                            Container(
-                              padding: EdgeInsets.all(8.0),
-                              margin: EdgeInsets.only(
-                                  top: showText
-                                      ? SizeConfig.blockSizeVertical * 55
-                                      : 0),
-                              child: Text(
-                                '1/5 Sets',
-                                style: TextStyle(
-                                    color:
-                                        showText ? Colors.white : Colors.black,
-                                    fontSize:
-                                        SizeConfig.safeBlockHorizontal * 2,
-                                    fontWeight: FontWeight.bold,
-                                    fontStyle: FontStyle.italic),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          width: 0,
-                          height: 0,
-                          // // margin: EdgeInsets.only(left: 700.0, top: 250.0),
-                          // child: IconButton(
-                          //   icon: Icon(Icons.fiber_manual_record),
-                          //   onPressed: () {},
-                          //   color: Colors.white,
-                          //   iconSize: 40.0,
-                          // ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ]),
-            ])
-          ),
-        ),
+                          ),
+                        ],
+                      ),
+                      /// done icon
+                      Container(
+                        width: 0,
+                        height: 0,
+                        // // margin: EdgeInsets.only(left: 700.0, top: 250.0),
+                        // child: IconButton(
+                        //   icon: Icon(Icons.fiber_manual_record),
+                        //   onPressed: () {},
+                        //   color: Colors.white,
+                        //   iconSize: 40.0,
+                        // ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            )),
       ),
     );
   }

@@ -1,5 +1,6 @@
 
 import 'package:attt/utils/colors.dart';
+import 'package:attt/view/chewieVideo/widgets/globals.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -24,14 +25,16 @@ class MyAlertDialog extends StatelessWidget {
           child: new Text(no, style: TextStyle(color: MyColors().lightWhite),),
         ),
         new FlatButton(
-          onPressed: () => Navigator.of(context).pushAndRemoveUntil(
+          onPressed: ()  {
+            Navigator.of(context).pushAndRemoveUntil(
               MaterialPageRoute(
                 builder: (_) => TrainingPlan(
                   userDocument: userDocument,
                   userTrainerDocument: userTrainerDocument,
                 ),
               ),
-              (Route<dynamic> route) => false) ,
+              (Route<dynamic> route) => false);
+          }, 
           child: new Text(yes, style: TextStyle(color: MyColors().error),),
         ),
       ],
