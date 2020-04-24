@@ -70,27 +70,52 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                             color: showText ? Colors.white : Colors.black,
                           )),
                     ),
-                    Container(
-                      margin: EdgeInsets.only(
-                          left: showText
-                              ? SizeConfig.blockSizeHorizontal * 70
-                              : 0),
-                      child: IconButton(
-                        icon: Icon(Icons.comment),
-                        onPressed: () {},
-                        color: showText ? Colors.white : Colors.black,
-                        iconSize: 40.0,
+                  ),
+                ],
+              ),
+              isPaused
+                  ? Container(
+                      height: SizeConfig.blockSizeVertical * 20,
+                      width: SizeConfig.blockSizeHorizontal * 20,
+                      decoration: BoxDecoration(
+                          color: Color.fromRGBO(28, 28, 28, 0.7),
+                          borderRadius: BorderRadius.all(Radius.circular(4.0))),
+                      padding: EdgeInsets.all(20.0),
+                      child: Text(
+                        'PAUSED',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: SizeConfig.blockSizeVertical * 9,
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic),
+                            textAlign: TextAlign.center,
                       ),
+                    )
+                  : Container(
+                      height: SizeConfig.blockSizeVertical * 20,
+                      width: SizeConfig.blockSizeHorizontal * 20,
                     ),
-                  ],
-                ),
-                isPaused
-                    ? Container(
-                        decoration: BoxDecoration(
-                            color: Color.fromRGBO(28, 28, 28, 0.7),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(4.0))),
-                        padding: EdgeInsets.all(20.0),
+              Row(
+                children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      Container(
+                        height: 0,
+                        width: 0,
+                        // margin: EdgeInsets.only(top: 250.0),
+                        // child: Text('x10',
+                        //     style: TextStyle(
+                        //         color: Colors.white,
+                        //         fontSize: 32.0,
+                        //         fontWeight: FontWeight.bold,
+                        //         fontStyle: FontStyle.italic)),
+                      ),
+                      Container(
+                        padding: EdgeInsets.all(8.0),
+                        margin: EdgeInsets.only(
+                            top: showText
+                                ? SizeConfig.blockSizeVertical * 50
+                                : 0),
                         child: Text(
                           'PAUSED',
                           style: TextStyle(
