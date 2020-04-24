@@ -75,6 +75,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo> {
                             fontSize: SizeConfig.blockSizeVertical * 9,
                             fontWeight: FontWeight.bold,
                             fontStyle: FontStyle.italic),
+                            textAlign: TextAlign.center,
                       ),
                     )
                   : Container(
