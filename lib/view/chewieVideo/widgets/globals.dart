@@ -1,4 +1,4 @@
 import 'package:chewie/chewie.dart';
 
 ChewieController chewieController;
-bool isFinished = false, showText = false;
+bool isFinished = false, showText = false, restDone = false;

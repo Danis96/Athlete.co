@@ -2,25 +2,28 @@ import 'package:attt/view/chewieVideo/widgets/globals.dart';
 import 'package:flutter/material.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
+import 'package:flutter/scheduler.dart';
 import 'dart:async';
+
+import 'package:video_player/video_player.dart';
 
 ///REST
 class Rest extends StatefulWidget {
-  final Function refresh;
-  Rest({this.refresh});
+  final VideoPlayerController videoPlayerController;
+  Rest({this.videoPlayerController});
 
   @override
   _RestState createState() => _RestState();
 }
 
 class _RestState extends State<Rest> with TickerProviderStateMixin {
-
   AnimationController _controller;
   Animation<Offset> _offsetAnimation;
 
   @override
   void initState() {
-     _controller = AnimationController(
+    restDone = false;
+    _controller = AnimationController(
       duration: const Duration(milliseconds: 900),
       vsync: this,
     )..forward();
@@ -33,11 +36,18 @@ class _RestState extends State<Rest> with TickerProviderStateMixin {
       curve: Curves.easeInOut,
     ));
     super.initState();
-    startTimer();
+    
     chewieController.pause();
+    // /widget.videoPlayerController.pause();
     _audioCache = AudioCache(
         prefix: "audio/",
         fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
+  
+   
+     /// after widget is done building call this method
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+       startTimer();
+    });  
   }
 
   AudioCache _audioCache;
@@ -54,6 +64,7 @@ class _RestState extends State<Rest> with TickerProviderStateMixin {
       (Timer timer) => setState(
         () {
           if (_start < 1) {
+            restDone = true;
             timer.cancel();
             chewieController.play();
           } else {
@@ -62,7 +73,7 @@ class _RestState extends State<Rest> with TickerProviderStateMixin {
               setState(() {
                 _isLessThan10 = true;
               });
-              if (_start == 5) _audioCache.play('zvuk.mp3');
+            //  / if (_start == 5) _audioCache.play('zvuk.mp3');
             }
           }
         },
@@ -73,38 +84,36 @@ class _RestState extends State<Rest> with TickerProviderStateMixin {
   @override
   void dispose() {
     _timer.cancel();
+    _controller.dispose();
     super.dispose();
   }
 
   Widget build(BuildContext context) {
-    return SlideTransition(
-      position: _offsetAnimation,
-          child: Scaffold(
-        backgroundColor: Color.fromRGBO(0, 0, 0, 0.9),
-        body: Center(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-        Container(
-          child: Text('REST',
+    return Scaffold(
+      backgroundColor: Color.fromRGBO(0, 0, 0, 0.9),
+      body: Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.max,
+          children: <Widget>[
+            Container(
+              child: Text('REST',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 48.0)),
+            ),
+            Text(
+              _isLessThan10 ? '00:0' + '$_start' : '00:' + "$_start",
               style: TextStyle(
                   color: Colors.white,
-                  fontStyle: FontStyle.italic,
                   fontWeight: FontWeight.bold,
-                  fontSize: 48.0)),
+                  fontSize: 48.0),
+            )
+          ],
         ),
-        Text(
-          _isLessThan10 ? '00:0' + '$_start' : '00:' + "$_start",
-          style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 48.0),
-        )
-              ],
-            ),
-          ),
       ),
     );
   }
