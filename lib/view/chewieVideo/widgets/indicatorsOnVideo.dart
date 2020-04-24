@@ -62,6 +62,8 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo> {
               ),
               isPaused
                   ? Container(
+                      height: SizeConfig.blockSizeVertical * 20,
+                      width: SizeConfig.blockSizeHorizontal * 20,
                       decoration: BoxDecoration(
                           color: Color.fromRGBO(28, 28, 28, 0.7),
                           borderRadius: BorderRadius.all(Radius.circular(4.0))),
@@ -75,7 +77,10 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo> {
                             fontStyle: FontStyle.italic),
                       ),
                     )
-                  : EmptyContainer(),
+                  : Container(
+                      height: SizeConfig.blockSizeVertical * 20,
+                      width: SizeConfig.blockSizeHorizontal * 20,
+                    ),
               Row(
                 children: <Widget>[
                   Column(
@@ -95,9 +100,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo> {
                         padding: EdgeInsets.all(8.0),
                         margin: EdgeInsets.only(
                             top: showText
-                                ? isPaused
-                                    ? SizeConfig.blockSizeVertical * 55
-                                    : SizeConfig.blockSizeVertical * 75
+                                ? SizeConfig.blockSizeVertical * 50
                                 : 0),
                         child: Text(
                           '1/5 Sets',
