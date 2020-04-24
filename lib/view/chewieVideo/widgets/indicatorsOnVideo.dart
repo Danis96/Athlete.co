@@ -58,18 +58,16 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
         child: SlideTransition(
           position: _offsetAnimation,
           child: Center(
-            child: Column(
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    /// number of reps
-                    Container(
-                      padding: EdgeInsets.all(5),
-                      child: Text('Gimnastic Push ups',
-                          style: TextStyle(
-                            color: showText ? Colors.white : Colors.black,
-                          )),
-                    ),
+            child: Column(children: <Widget>[
+              Row(
+                children: <Widget>[
+                  /// number of reps
+                  Container(
+                    padding: EdgeInsets.all(5),
+                    child: Text('Gimnastic Push ups',
+                        style: TextStyle(
+                          color: showText ? Colors.white : Colors.black,
+                        )),
                   ),
                 ],
               ),
@@ -88,93 +86,94 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                             fontSize: SizeConfig.blockSizeVertical * 9,
                             fontWeight: FontWeight.bold,
                             fontStyle: FontStyle.italic),
-                            textAlign: TextAlign.center,
+                        textAlign: TextAlign.center,
                       ),
                     )
                   : Container(
                       height: SizeConfig.blockSizeVertical * 20,
                       width: SizeConfig.blockSizeHorizontal * 20,
                     ),
-              Row(
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      Container(
-                        height: 0,
-                        width: 0,
-                        // margin: EdgeInsets.only(top: 250.0),
-                        // child: Text('x10',
-                        //     style: TextStyle(
-                        //         color: Colors.white,
-                        //         fontSize: 32.0,
-                        //         fontWeight: FontWeight.bold,
-                        //         fontStyle: FontStyle.italic)),
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(8.0),
-                        margin: EdgeInsets.only(
-                            top: showText
-                                ? SizeConfig.blockSizeVertical * 50
-                                : 0),
-                        child: Text(
-                          'PAUSED',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: SizeConfig.blockSizeVertical * 9,
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.italic),
-                        ),
-                      )
-                    : EmptyContainer(),
-                Row(
+              Row(children: <Widget>[
+                Column(
                   children: <Widget>[
-                    Column(
+                    Container(
+                      height: 0,
+                      width: 0,
+                      // margin: EdgeInsets.only(top: 250.0),
+                      // child: Text('x10',
+                      //     style: TextStyle(
+                      //         color: Colors.white,
+                      //         fontSize: 32.0,
+                      //         fontWeight: FontWeight.bold,
+                      //         fontStyle: FontStyle.italic)),
+                    ),
+                    Container(
+                      padding: EdgeInsets.all(8.0),
+                      margin: EdgeInsets.only(
+                          top:
+                              showText ? SizeConfig.blockSizeVertical * 50 : 0),
+                      child: Text(
+                        'PAUSED',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: SizeConfig.blockSizeVertical * 9,
+                            fontWeight: FontWeight.bold,
+                            fontStyle: FontStyle.italic),
+                      ),
+                    ),
+                    Row(
                       children: <Widget>[
-                        Container(
-                          height: 0,
-                          width: 0,
-                          // margin: EdgeInsets.only(top: 250.0),
-                          // child: Text('x10',
-                          //     style: TextStyle(
-                          //         color: Colors.white,
-                          //         fontSize: 32.0,
-                          //         fontWeight: FontWeight.bold,
-                          //         fontStyle: FontStyle.italic)),
+                        Column(
+                          children: <Widget>[
+                            Container(
+                              height: 0,
+                              width: 0,
+                              // margin: EdgeInsets.only(top: 250.0),
+                              // child: Text('x10',
+                              //     style: TextStyle(
+                              //         color: Colors.white,
+                              //         fontSize: 32.0,
+                              //         fontWeight: FontWeight.bold,
+                              //         fontStyle: FontStyle.italic)),
+                            ),
+                            Container(
+                              padding: EdgeInsets.all(8.0),
+                              margin: EdgeInsets.only(
+                                  top: showText
+                                      ? isPaused
+                                          ? SizeConfig.blockSizeVertical * 55
+                                          : SizeConfig.blockSizeVertical * 75
+                                      : 0),
+                              child: Text(
+                                '1/5 Sets',
+                                style: TextStyle(
+                                    color:
+                                        showText ? Colors.white : Colors.black,
+                                    fontSize:
+                                        SizeConfig.safeBlockHorizontal * 2,
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FontStyle.italic),
+                              ),
+                            ),
+                          ],
                         ),
                         Container(
-                          padding: EdgeInsets.all(8.0),
-                          margin: EdgeInsets.only(
-                              top: showText
-                                  ? isPaused
-                                      ? SizeConfig.blockSizeVertical * 55
-                                      : SizeConfig.blockSizeVertical * 75
-                                  : 0),
-                          child: Text(
-                            '1/5 Sets',
-                            style: TextStyle(
-                                color: showText ? Colors.white : Colors.black,
-                                fontSize: SizeConfig.safeBlockHorizontal * 2,
-                                fontWeight: FontWeight.bold,
-                                fontStyle: FontStyle.italic),
-                          ),
+                          width: 0,
+                          height: 0,
+                          // // margin: EdgeInsets.only(left: 700.0, top: 250.0),
+                          // child: IconButton(
+                          //   icon: Icon(Icons.fiber_manual_record),
+                          //   onPressed: () {},
+                          //   color: Colors.white,
+                          //   iconSize: 40.0,
+                          // ),
                         ),
                       ],
                     ),
-                    Container(
-                      width: 0,
-                      height: 0,
-                      // // margin: EdgeInsets.only(left: 700.0, top: 250.0),
-                      // child: IconButton(
-                      //   icon: Icon(Icons.fiber_manual_record),
-                      //   onPressed: () {},
-                      //   color: Colors.white,
-                      //   iconSize: 40.0,
-                      // ),
-                    ),
                   ],
                 ),
-              ],
-            ),
+              ]),
+            ])
           ),
         ),
       ),
