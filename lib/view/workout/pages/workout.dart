@@ -57,14 +57,7 @@ class _WorkoutState extends State<Workout> {
         ),
       ),
       bottomNavigationBar: bottomButtonStart(
-          widget.userDocument,
-          widget.userTrainerDocument,
-          context,
-          widget.trainerID,
-          widget.workoutName,
-          widget.workoutID,
-          widget.weekID,
-          widget.warmupDesc),
+          widget.userDocument, widget.userTrainerDocument, context),
       backgroundColor: MyColors().lightBlack,
       body: ListView(
         shrinkWrap: true,
