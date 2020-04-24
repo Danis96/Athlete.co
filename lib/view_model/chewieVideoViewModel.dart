@@ -15,26 +15,13 @@ class ChewieVideoViewModel implements ChewieVideoInterface {
   }
 
   @override
-  playVideo(
-      DocumentSnapshot userDocument,
-      DocumentSnapshot userTrainerDocument,
-      BuildContext context,
-      String trainerID,
-      String workoutName,
-      String workoutID,
-      String weekID,
-      String warmupDesc) {
+  playVideo(DocumentSnapshot userDocument, DocumentSnapshot userTrainerDocument,
+      BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (BuildContext context) => ChewieVideo(
-            userDocument,
-            userTrainerDocument,
-            warmupDesc,
-            weekID,
-            workoutName,
-            trainerID,
-            workoutID),
+        builder: (BuildContext context) =>
+            ChewieVideo(userDocument, userTrainerDocument),
       ),
     );
   }
