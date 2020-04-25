@@ -1,4 +1,6 @@
 import 'package:chewie/chewie.dart';
+import 'package:video_player/video_player.dart';
 
-ChewieController chewieController;
-bool isFinished = false, showText = false, restDone = false;
+bool isFinished = false;
+/// Lista VideoPlayerControllera
+List<VideoPlayerController> controllers = [];

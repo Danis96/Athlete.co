@@ -4,10 +4,8 @@ import 'package:attt/utils/text.dart';
 import 'package:attt/view_model/chewieVideoViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'package:attt/view/chewieVideo/widgets/globals.dart';
 
-Widget bottomButtonStart(DocumentSnapshot userDoument,
+Widget bottomButtonStart(DocumentSnapshot userDocument,
     DocumentSnapshot userTrainerDocument, BuildContext context) {
   SizeConfig().init(context);
   return BottomAppBar(
@@ -15,7 +13,7 @@ Widget bottomButtonStart(DocumentSnapshot userDoument,
     child: RaisedButton(
       elevation: 0,
       onPressed: () => ChewieVideoViewModel()
-          .playVideo(userDoument, userTrainerDocument, context),
+          .playVideo(context, userDocument, userTrainerDocument),
       child: Padding(
         padding: EdgeInsets.all(22.0),
         child: Text(

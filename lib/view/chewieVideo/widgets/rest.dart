@@ -1,60 +1,46 @@
 import 'package:attt/view/chewieVideo/widgets/globals.dart';
 import 'package:flutter/material.dart';
-import 'package:audioplayers/audio_cache.dart';
-import 'package:audioplayers/audioplayers.dart';
-import 'package:flutter/scheduler.dart';
 import 'dart:async';
-
-import 'package:video_player/video_player.dart';
 
 ///REST
 class Rest extends StatefulWidget {
-  final VideoPlayerController videoPlayerController;
-  Rest({this.videoPlayerController});
-
   @override
-  _RestState createState() => _RestState();
+  _MyAppState createState() => _MyAppState();
 }
 
-class _RestState extends State<Rest> with TickerProviderStateMixin {
-  AnimationController _controller;
-  Animation<Offset> _offsetAnimation;
+class _MyAppState extends State<Rest> with TickerProviderStateMixin {
+
+    AnimationController _controller1;
+    Animation<Offset> _offsetAnimation1;
+
 
   @override
   void initState() {
-    restDone = false;
-    _controller = AnimationController(
+    super.initState();
+    _controller1 = AnimationController(
       duration: const Duration(milliseconds: 900),
       vsync: this,
     )..forward();
 
-    _offsetAnimation = Tween<Offset>(
+    _offsetAnimation1 = Tween<Offset>(
       begin: const Offset(1.0, 0.0),
       end: const Offset(0.0, 0.0),
     ).animate(CurvedAnimation(
-      parent: _controller,
+      parent: _controller1,
       curve: Curves.easeInOut,
     ));
-    super.initState();
-    
-    chewieController.pause();
-    // /widget.videoPlayerController.pause();
-    _audioCache = AudioCache(
-        prefix: "audio/",
-        fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
-  
-   
-     /// after widget is done building call this method
-    // SchedulerBinding.instance.addPostFrameCallback((_) {
-       startTimer();
-    // });  
+
+    startTimer();
+    // _audioCache = AudioCache(
+    //     prefix: "audio/",
+    //     fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
   }
 
-  AudioCache _audioCache;
+  // AudioCache _audioCache;
   Timer _timer;
 
   /// ovdje  uzimamo rest iz baze iz exercises
-  int _start = 30;
+  int _start = 10;
   bool _isLessThan10 = false;
 
   void startTimer() {
@@ -64,16 +50,16 @@ class _RestState extends State<Rest> with TickerProviderStateMixin {
       (Timer timer) => setState(
         () {
           if (_start < 1) {
-            restDone = true;
             timer.cancel();
-            chewieController.play();
+            isFinished = false;
+            // _controllers[1].play();
           } else {
             _start = _start - 1;
             if (_start < 10) {
               setState(() {
                 _isLessThan10 = true;
               });
-            //  / if (_start == 5) _audioCache.play('zvuk.mp3');
+              //  / if (_start == 5) _audioCache.play('zvuk.mp3');
             }
           }
         },
@@ -84,37 +70,41 @@ class _RestState extends State<Rest> with TickerProviderStateMixin {
   @override
   void dispose() {
     _timer.cancel();
-    _controller.dispose();
+    _controller1.dispose();
     super.dispose();
   }
 
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(0, 0, 0, 0.9),
-      body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            Container(
-              child: Text('REST',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontStyle: FontStyle.italic,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 48.0)),
-            ),
-            Text(
-              _isLessThan10 ? '00:0' + '$_start' : '00:' + "$_start",
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 48.0),
-            )
-          ],
+      backgroundColor: Colors.transparent,
+      body: SlideTransition(
+         position: _offsetAnimation1,
+              child: Center(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: <Widget>[
+              Container(
+                child: Text('REST',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 48.0)),
+              ),
+              Text(
+                _isLessThan10 ? '00:0' + '$_start' : '00:' + "$_start",
+                style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 48.0),
+              )
+            ],
+          ),
         ),
       ),
     );
   }
 }
+
