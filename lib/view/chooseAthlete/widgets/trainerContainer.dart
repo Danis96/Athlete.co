@@ -20,7 +20,9 @@ Widget trainerContainer(
     String name,
     String photo,
     String email,
-    DocumentSnapshot userDocument) {
+    DocumentSnapshot userDocument, 
+
+    ) {
   SizeConfig().init(context);
 
   String _trainerName = tName;
@@ -40,13 +42,12 @@ Widget trainerContainer(
           await SignInViewModel().getCurrentUserTrainer(_trainerName);
       currentUserTrainerDocument = currentUserTrainerDocuments[0];
 
-      Navigator.of(context).pushAndRemoveUntil(
+      Navigator.of(context).push(
           MaterialPageRoute(
               builder: (_) => TrainingPlan(
                     userTrainerDocument: currentUserTrainerDocument,
                     userDocument: userDocument,
-                  )),
-          (Route<dynamic> route) => false);
+                  )));
     },
     child: Container(
       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 1),

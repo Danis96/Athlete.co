@@ -12,6 +12,7 @@ class Workout extends StatefulWidget {
   final DocumentSnapshot userDocument, userTrainerDocument;
   final String trainerID;
   final String workoutName, workoutID, weekID, warmupDesc;
+
   Workout(
       {Key key,
       this.userDocument,
@@ -20,7 +21,8 @@ class Workout extends StatefulWidget {
       this.workoutName,
       this.workoutID,
       this.weekID,
-      this.warmupDesc})
+      this.warmupDesc,
+      })
       : super(key: key);
 
   @override

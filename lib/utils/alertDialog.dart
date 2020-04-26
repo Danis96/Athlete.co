@@ -1,4 +1,3 @@
-
 import 'package:attt/utils/colors.dart';
 import 'package:attt/view/chewieVideo/widgets/globals.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
@@ -8,34 +7,58 @@ import 'package:flutter/material.dart';
 class MyAlertDialog extends StatelessWidget {
   final String title, content, yes, no;
   final DocumentSnapshot userDocument, userTrainerDocument;
+
   MyAlertDialog(
-      {Key key, this.title, this.content, this.yes, this.no, this.userDocument, this.userTrainerDocument })
+      {Key key,
+      this.title,
+      this.content,
+      this.yes,
+      this.no,
+      this.userDocument,
+      this.userTrainerDocument,
+      })
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       backgroundColor: MyColors().lightBlack,
-      
-      title: Text(title, style: TextStyle(color: MyColors().lightWhite),),
-      content: new Text(content, style: TextStyle(color: MyColors().lightWhite),),
+      title: Text(
+        title,
+        style: TextStyle(color: MyColors().lightWhite),
+      ),
+      content: new Text(
+        content,
+        style: TextStyle(color: MyColors().lightWhite),
+      ),
       actions: <Widget>[
         new FlatButton(
-          onPressed: () => Navigator.pop(context),
-          child: new Text(no, style: TextStyle(color: MyColors().lightWhite),),
+          onPressed: () {
+            Navigator.pop(context);
+            controllers[1].play();
+          },
+          child: new Text(
+            no,
+            style: TextStyle(color: MyColors().lightWhite),
+          ),
         ),
         new FlatButton(
-          onPressed: ()  {
-            Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(
-                builder: (_) => TrainingPlan(
-                  userDocument: userDocument,
-                  userTrainerDocument: userTrainerDocument,
-                ),
-              ),
-              (Route<dynamic> route) => false);
-          }, 
-          child: new Text(yes, style: TextStyle(color: MyColors().error),),
+          onPressed: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (_) => TrainingPlan(
+                    userDocument: userDocument,
+                    userTrainerDocument: userTrainerDocument,
+                  ),
+                ),);
+                // (Route<dynamic> route) => false);
+                isExerciseDone = true;
+                index = 0;
+          },
+          child: new Text(
+            yes,
+            style: TextStyle(color: MyColors().error),
+          ),
         ),
       ],
     );

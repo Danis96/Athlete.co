@@ -15,6 +15,7 @@ import 'package:attt/utils/size_config.dart';
 class IndicatorsOnVideo extends StatefulWidget {
   final VideoPlayerController controller;
   final DocumentSnapshot userDocument, userTrainerDocument;
+
   IndicatorsOnVideo(
       {this.controller, this.userTrainerDocument, this.userDocument});
 
@@ -166,6 +167,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   /// async funstion that creates an exit dialog for our screen
   /// YES / NO
   Future<bool> _onWillPop() async {
+    controllers[1].pause();
     return showDialog(
           context: context,
           builder: (context) => MyAlertDialog(
