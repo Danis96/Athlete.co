@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:attt/utils/size_config.dart';
+import 'package:attt/view/chewieVideo/widgets/globals.dart';
 import 'package:attt/view/trainingPlan/widgets/listOfWeeks.dart';
 import 'package:attt/view/trainingPlan/widgets/trainingCustomBottomNavigationBar.dart';
 import 'package:attt/view/trainingPlan/widgets/trainingPlanGuides.dart';
@@ -28,34 +31,44 @@ class _TrainingPlanState extends State<TrainingPlan>  {
   void initState() {
     super.initState();
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
+  
     SizeConfig().init(context);
     return Scaffold(
       backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
-      body: Padding(
-        padding: EdgeInsets.only(
-            top: SizeConfig.blockSizeVertical * 8,
-            left: SizeConfig.blockSizeHorizontal * 4.5,
-            right: SizeConfig.blockSizeHorizontal * 4.5),
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              trainingPlanHeadline(widget.userDocument, widget.userTrainerDocument),
-              SizedBox(
-                height: SizeConfig.blockSizeVertical * 2.5,
-              ),
-              trainingPlanGuides(widget.userTrainerDocument),
-              SizedBox(
-                height: SizeConfig.blockSizeVertical * 2.5,
-              ),
-              whatsAppButton(),
-              listOfWeeks(widget.userDocument, widget.userTrainerDocument,
-                  widget.userDocument.data['weeks_finished']),
-            ],
+      body: WillPopScope(
+        onWillPop: () => _onWillPop(),
+              child: Padding(
+          padding: EdgeInsets.only(
+              top: SizeConfig.blockSizeVertical * 8,
+              left: SizeConfig.blockSizeHorizontal * 4.5,
+              right: SizeConfig.blockSizeHorizontal * 4.5),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                trainingPlanHeadline(widget.userDocument, widget.userTrainerDocument),
+                SizedBox(
+                  height: SizeConfig.blockSizeVertical * 2.5,
+                ),
+                trainingPlanGuides(widget.userTrainerDocument),
+                SizedBox(
+                  height: SizeConfig.blockSizeVertical * 2.5,
+                ),
+                whatsAppButton(),
+                listOfWeeks(
+                    widget.userDocument, widget.userTrainerDocument,
+                    widget.userDocument.data['weeks_finished'],
+        
+                    ),
+              ],
+            ),
           ),
         ),
       ),
@@ -63,4 +76,9 @@ class _TrainingPlanState extends State<TrainingPlan>  {
           widget.userDocument, widget.userTrainerDocument, context),
     );
   }
+
+   _onWillPop() async {
+     exit(0);
+  }
+
 }

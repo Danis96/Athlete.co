@@ -48,7 +48,8 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
       String weekID,
       String workoutID,
       String warmupDesc,
-      BuildContext context) {
+      BuildContext context,
+      ) {
     Navigator.push(
         context,
         MaterialPageRoute(
@@ -59,7 +60,8 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
                 workoutName: workoutName,
                 weekID: weekID,
                 workoutID: workoutID,
-                warmupDesc: warmupDesc)));
+                warmupDesc: warmupDesc,
+                )));
   }
 
   @override
