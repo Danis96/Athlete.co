@@ -275,8 +275,12 @@ class _ChewieVideoState extends State<ChewieVideo>
       key: scaffold,
       body: Stack(
         children: <Widget>[
-          GestureDetector(
-            onTap: () => pauseVideo(controllers[1]),
+          InkWell(
+            onTap: () {
+              setState(() {
+                pauseVideo(controllers[1]);
+              });
+            },
             child: SizedBox(
                 height: MediaQuery.of(context).size.height,
                 width: MediaQuery.of(context).size.width,
