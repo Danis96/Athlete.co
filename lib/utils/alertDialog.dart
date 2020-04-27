@@ -35,7 +35,7 @@ class MyAlertDialog extends StatelessWidget {
         new FlatButton(
           onPressed: () {
             Navigator.pop(context);
-            controllers[1].play();
+            chewieController.play();
           },
           child: new Text(
             no,
@@ -52,8 +52,7 @@ class MyAlertDialog extends StatelessWidget {
                   ),
                 ),);
                 // (Route<dynamic> route) => false);
-                isExerciseDone = true;
-                index = 0;
+               
           },
           child: new Text(
             yes,

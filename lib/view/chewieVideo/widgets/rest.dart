@@ -51,8 +51,9 @@ class _MyAppState extends State<Rest> with TickerProviderStateMixin {
         () {
           if (_start < 1) {
             timer.cancel();
-            isFinished = false;
-            // _controllers[1].play();
+            setState(() {
+               isFinished = false;  
+            });
           } else {
             _start = _start - 1;
             if (_start < 10) {
@@ -76,7 +77,7 @@ class _MyAppState extends State<Rest> with TickerProviderStateMixin {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Color.fromRGBO(0, 0, 0, 0.6),
       body: SlideTransition(
          position: _offsetAnimation1,
               child: Center(
