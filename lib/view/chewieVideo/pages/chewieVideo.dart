@@ -3,6 +3,7 @@ import 'package:attt/interface/chewieVideoInterface.dart';
 import 'package:attt/utils/alertDialog.dart';
 import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
+import 'package:attt/view/chewieVideo/widgets/getReady.dart';
 import 'package:attt/view/chewieVideo/widgets/globals.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorsOnVideo.dart';
 import 'package:attt/view/chewieVideo/widgets/rest.dart';
@@ -90,6 +91,13 @@ class _ChewieVideoState extends State<ChewieVideo>
     final isEndPlaying =
         position.inMilliseconds > 0 && position.inSeconds == duration.inSeconds;
 
+    if (position.inMilliseconds == 0 && isReady == false) {
+      showGetReady(context, controller);
+      setState(() {
+        isReady = true;
+      });
+    }
+
     if (_isPlaying != isPlaying || _isEndPlaying != isEndPlaying) {
       _isPlaying = isPlaying;
       _isEndPlaying = isEndPlaying;
@@ -104,6 +112,9 @@ class _ChewieVideoState extends State<ChewieVideo>
                 userDocument: widget.userDocument,
               )));
           print("played all!!");
+          setState(() {
+            isReady = false;
+          });
         } else {
               showOverlay(context);
         }
@@ -162,6 +173,28 @@ class _ChewieVideoState extends State<ChewieVideo>
 
     /// and play the next video
     startPlay(_playingIndex + 1);
+  }
+
+  @override
+  showGetReady(BuildContext context, VideoPlayerController controller) async {
+    //controller.pause();
+
+    /// create overlay
+    OverlayState overlayState = Overlay.of(context);
+    OverlayEntry overlayEntry = OverlayEntry(
+        opaque: true,
+        builder: (BuildContext context) =>
+            Visibility(visible: true, child: GetReady()));
+
+    /// add to overlay overlayEntry that is rest widget
+    overlayState.insert(overlayEntry);
+
+    /// wait for [rest] time and then remove the overlay widget
+    await Future.delayed(Duration(seconds: 5));
+    overlayEntry.remove();
+
+    /// and play the next video
+    //controller.play();
   }
 
   @override
