@@ -102,12 +102,12 @@ class _ChewieVideoState extends State<ChewieVideo>
     final isEndPlaying =
         position.inMilliseconds > 0 && position.inSeconds == duration.inSeconds;
 
-    if (position.inMilliseconds == 0 && isReady == false) {
-      showGetReady(context, controller);
-      setState(() {
-        isReady = true;
-      });
-    }
+    // if (position.inMilliseconds == 0 && isReady == false) {
+    //   showGetReady(context, controller);
+    //   setState(() {
+    //     isReady = true;
+    //   });
+    // }
 
     if (_isPlaying != isPlaying || _isEndPlaying != isEndPlaying) {
       _isPlaying = isPlaying;
@@ -123,9 +123,9 @@ class _ChewieVideoState extends State<ChewieVideo>
                 userDocument: widget.userDocument,
               )));
           print("played all!!");
-          setState(() {
-            isReady = false;
-          });
+          // setState(() {
+          //   isReady = false;
+          // });
         } else {
               
               showOverlay(context);

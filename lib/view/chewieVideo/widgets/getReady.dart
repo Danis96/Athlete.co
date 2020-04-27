@@ -1,22 +1,28 @@
 import 'package:attt/view/chewieVideo/widgets/globals.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:attt/view/chewieVideo/pages/chewieVideo.dart';
+import 'package:flutter/services.dart';
 
 ///REST
 class GetReady extends StatefulWidget {
+  final DocumentSnapshot userDocument, userTrainerDocument;
+  GetReady({this.userDocument, this.userTrainerDocument});
+
   @override
   _GetReadyState createState() => _GetReadyState();
 }
 
 class _GetReadyState extends State<GetReady> with TickerProviderStateMixin {
-
-    AnimationController _controller1;
-    Animation<Offset> _offsetAnimation1;
-
+  AnimationController _controller1;
+  Animation<Offset> _offsetAnimation1;
 
   @override
   void initState() {
     super.initState();
+    SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.landscapeRight, DeviceOrientation.landscapeLeft]);
     _controller1 = AnimationController(
       duration: const Duration(milliseconds: 900),
       vsync: this,
@@ -42,6 +48,7 @@ class _GetReadyState extends State<GetReady> with TickerProviderStateMixin {
   /// ovdje  uzimamo rest iz baze iz exercises
   int _start = 5;
   bool _isLessThan10 = false;
+  int counter = 0;
 
   void startTimer() {
     const oneSec = const Duration(seconds: 1);
@@ -49,14 +56,26 @@ class _GetReadyState extends State<GetReady> with TickerProviderStateMixin {
       oneSec,
       (Timer timer) => setState(
         () {
+          setState(() {
+            counter++;
+          });
+          print('AAAAAAAAAAAAAAAAAA    ' + counter.toString());
+          if (counter > 5) {
+            print('AAAAAAAAAAAAAAAAAAAA');
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: (_) => ChewieVideo(
+                      userDocument: widget.userDocument,
+                      userTrainerDocument: widget.userTrainerDocument,
+                    )));
+          }
           if (_start < 1) {
             timer.cancel();
             setState(() {
-               isFinished = false;  
+              isFinished = false;
             });
           } else {
             _start = _start - 1;
-            if (_start < 10) {
+            if (_start < 5) {
               setState(() {
                 _isLessThan10 = true;
               });
@@ -79,8 +98,8 @@ class _GetReadyState extends State<GetReady> with TickerProviderStateMixin {
     return Scaffold(
       backgroundColor: Color.fromRGBO(0, 0, 0, 0.6),
       body: SlideTransition(
-         position: _offsetAnimation1,
-              child: Center(
+        position: _offsetAnimation1,
+        child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -108,4 +127,3 @@ class _GetReadyState extends State<GetReady> with TickerProviderStateMixin {
     );
   }
 }
-
