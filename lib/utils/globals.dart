@@ -4,3 +4,4 @@ int totalWeeks = 0;
 bool isLoggedIn = false;
 String name = '';
 bool isPaused = false;
+bool isReady = false;
