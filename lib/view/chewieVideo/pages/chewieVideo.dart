@@ -1,14 +1,19 @@
 import 'dart:async';
 import 'package:attt/interface/chewieVideoInterface.dart';
+import 'package:attt/utils/alertDialog.dart';
+import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/view/chewieVideo/widgets/globals.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorsOnVideo.dart';
 import 'package:attt/view/chewieVideo/widgets/rest.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
+import 'package:chewie/chewie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
+
+
 
 class ChewieVideo extends StatefulWidget {
   final DocumentSnapshot userDocument, userTrainerDocument;
@@ -22,220 +27,129 @@ class ChewieVideo extends StatefulWidget {
 /// I implemented interface to ChewieVideoState
 class _ChewieVideoState extends State<ChewieVideo>
     implements ChewieVideoInterface {
-  GlobalKey scaffold = new GlobalKey();
 
-  bool _changeLock = false;
+  
+  Future<void> _initializeVideoPlayerFuture;
+  int _playingIndex = -1;
+  bool _disposed = false;
+  var _isPlaying = false;
+  var _isEndPlaying = false;
 
   /// this is list of urls (later we will get this data from db)
   List<String> _urls = [
-    // 'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/C.mp4?alt=media&token=1b9452ce-58c1-4e76-9b21-fbfc9c454f97',
-    // 'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/C.mp4?alt=media&token=1b9452ce-58c1-4e76-9b21-fbfc9c454f97',
-    // 'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/C.mp4?alt=media&token=1b9452ce-58c1-4e76-9b21-fbfc9c454f97',
     'assets/videos/C.mp4',
     'assets/videos/C.mp4',
     'assets/videos/C.mp4',
-    // 'assets/videos/C.mp4',
-    // 'assets/videos/C.mp4'
+    'assets/videos/C.mp4',
+    'assets/videos/C.mp4',
   ];
 
   @override
-  void initState() {
+  void initState() { 
     super.initState();
-
-    /// when widget inits make that screen rotation
+     /// when widget inits make that screen rotation
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
     ]);
-
-    initControllers();
+     startPlay(_playingIndex + 1);
   }
 
-  /// This gets called after didInitState().
-  /// And anytime the widget's dependencies change, as usual.
-  /// I left prints so that we can follow how our videos are going
-  /// index is very important here
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    print('IsExerciseDone : ' + isExerciseDone.toString());
-
-    /// if exercise is done and double check that index is 0
-    /// we reinitialize our controllers so that we can play the whole
-    /// loop of videos again
-    if (isExerciseDone == true && index == 0) {
-      if (index != _urls.length - 2) {
-        /// we dispose last controller and remove it
-        controllers.last?.dispose();
-        controllers.removeLast();
-      }
-      if (index != 0) {
-        /// while index is different then zero we need to
-        /// fullfill our controllers with videos from the ist
-        controllers.insert(0, VideoPlayerController.asset(_urls[index - 1]));
-        attachListenerAndInit(controllers.first);
-      } else {
-        /// if index is zero set on the first item null
-        controllers.insert(0, null);
-      }
-      print('INITO SAM CONTROLLERE zato sto se workout zavrsio');
-    } else {
-      print('NISAM INITO NE TREBAM workout se jos nije zavrsio');
-    }
-    print('Index iz didChange: ' + index.toString());
-
-    /// setState is here so that we reinitialize our changes in the element three
-    setState(() {});
-
-    /// this is important, no matter how many times we press start controllers length
-    /// always needs to be the legth of the urls
-    controllers.length = 3;
-
-    /// and after all that we set [isExerciseDone] on false so that process can continue
-    isExerciseDone = false;
-  }
-
-  /// in case that our widget lose his status in widget three
-  /// we need to check if it is mounted, if it is we will use his setState function
-  /// so that we can reach on that contex
-  @override
-  void setState(fn) {
-    if (mounted) {
-      super.setState(fn);
-    }
-  }
-
-  /// this is where magic happens
-  /// we loop over urls and for every item we add controller and
-  /// get him one of the urls
-  @override
-  initControllers() {
-    print('INIT INITSTATE');
-    controllers.add(null);
-    for (int i = 0; i < _urls.length; i++) {
-      if (i == _urls.length - 1) {
-        break;
-      }
-      controllers.add(VideoPlayerController.asset(_urls[i]));
-    }
-
-    /// then we need to atach listeners and INITIALIZE the controller
-    /// after play we need to setState that changes occure
-    attachListenerAndInit(controllers[1]).then((_) {
-      controllers[1].play().then((_) {
-        setState(() {});
-      });
+  void dispose() {
+    _disposed = true;
+    // By assigning Future is null,
+    // prevent the video controller is using in widget before disposing that.
+    _initializeVideoPlayerFuture = null;
+    // In my case, sound is playing though controller was disposed.
+    controller?.pause()?.then((_) {
+      // dispose VideoPlayerController.
+      controller?.dispose();
     });
-
-    if (controllers.length > 2) {
-      attachListenerAndInit(controllers[2]);
-    }
+    super.dispose();
   }
 
-  /// this method has VideoPlayerController as parameter and here is where
-  /// we check for the duration of video and show rest screen if the video is finishe
   @override
-  Future<void> attachListenerAndInit(VideoPlayerController controller) async {
-    if (!controller.hasListeners) {
-      controller.addListener(() {
-        int dur = controller.value.duration.inMilliseconds;
-        int pos = controller.value.position.inMilliseconds;
-
-        if (dur - pos < 1) {
-          controller.seekTo(Duration(milliseconds: 0));
-
-          /// showing rest screen
-          showOverlay(context);
-        }
-      });
-    }
-    await controller.initialize().then((_) {});
-    return;
+  Future<bool> clearPrevious() async {
+    await controller?.pause();
+    controller?.removeListener(controllerListener);
+    return true;
   }
 
-  /// this function we do not use but we might in the future
-  /// so I left it
   @override
-  void previousVideo() {
-    if (_changeLock) {
+  Future<void> controllerListener() async {
+    if (controller == null || _disposed) {
       return;
     }
-    _changeLock = true;
-
-    if (index == 0) {
-      _changeLock = false;
+    if (!controller.value.initialized) {
       return;
     }
-    controllers[1]?.pause();
-    index--;
+    final position = await controller.position;
+    final duration = controller.value.duration;
+    final isPlaying = position.inMilliseconds < duration.inMilliseconds;
+    final isEndPlaying =
+        position.inMilliseconds > 0 && position.inSeconds == duration.inSeconds;
 
-    if (index != _urls.length - 2) {
-      controllers.last?.dispose();
-      controllers.removeLast();
-    }
-    if (index != 0) {
-      controllers.insert(0, VideoPlayerController.asset(_urls[index - 1]));
-      attachListenerAndInit(controllers.first);
-    } else {
-      controllers.insert(0, null);
-    }
-
-    controllers[1].play().then((_) {
-      setState(() {
-        _changeLock = false;
-      });
-    });
-  }
-
-  /// this is function for playing the next video
-  @override
-  void nextVideo() {
-    if (_changeLock) {
-      return;
-    }
-    _changeLock = true;
-
-    /// here we check if the index is equal to the urls length
-    ///  and we pause the video, set [isExerciseDone] to true
-    /// index to 0, and navigate to the TrainingPlan screen
-    if (index == _urls.length - 1) {
-      _changeLock = false;
-      controllers[1].pause();
-      isExerciseDone = true;
-      index = 0;
-      Navigator.of(context).push(MaterialPageRoute(
+    if (_isPlaying != isPlaying || _isEndPlaying != isEndPlaying) {
+      _isPlaying = isPlaying;
+      _isEndPlaying = isEndPlaying;
+      print(
+          "$_playingIndex -----> isPlaying= $isPlaying / isCompletePlaying=$isEndPlaying");
+      if (isEndPlaying) {
+        final isComplete = _playingIndex == _urls.length - 1;
+        if (isComplete) {
+          Navigator.of(context).push(MaterialPageRoute(
           builder: (_) => TrainingPlan(
                 userTrainerDocument: widget.userTrainerDocument,
                 userDocument: widget.userDocument,
               )));
+          print("played all!!");
+        } else {
+              showOverlay(context);
+        }
+      }
+    }
+  }
 
-      return;
-    }
-    controllers[1]?.pause();
-    index++;
-    controllers.first?.dispose();
-    controllers.removeAt(0);
-    if (index != _urls.length - 1) {
-      controllers.add(VideoPlayerController.asset(_urls[index + 1]));
-      attachListenerAndInit(controllers.last);
-    }
-    controllers[1].play().then((_) {
-      setState(() {
-        _changeLock = false;
-      });
+  @override
+  Future<void> initializePlay(int index) async {
+    print(_urls[index]);
+    final video = _urls[index];
+    controller =  VideoPlayerController.asset(video);
+    controller.addListener(controllerListener);
+    chewieController = ChewieController(
+      videoPlayerController: controller,
+      fullScreenByDefault: true,
+      allowFullScreen: true,
+      showControls: false,
+      );
+    _initializeVideoPlayerFuture = controller.initialize();
+    setState(() {
+      _playingIndex = index;
     });
   }
 
-  /// this is how we show the rest screen
-  /// [isFinished] is for visibility of Rest screen
+  @override
+  pauseVideo(VideoPlayerController controller) {
+   if (controller.value.isPlaying) {
+      controller.pause();
+      setState(() => isPaused = true);
+      
+    } else {
+      controller.play();
+      isPaused = false;
+    }
+
+  }
+
   @override
   showOverlay(BuildContext context) async {
     isFinished = true;
-
+    chewieController.pause();
     /// create overlay
     OverlayState overlayState = Overlay.of(context);
     OverlayEntry overlayEntry = OverlayEntry(
-        opaque: true,
+        // opaque: true,
         builder: (BuildContext context) =>
             Visibility(visible: isFinished, child: Rest()));
 
@@ -247,52 +161,91 @@ class _ChewieVideoState extends State<ChewieVideo>
     overlayEntry.remove();
 
     /// and play the next video
-    nextVideo();
+    startPlay(_playingIndex + 1);
   }
 
   @override
-  pauseVideo(VideoPlayerController controller) {
-    if (controller.value.isPlaying) {
-      controller.pause();
-      isPaused = true;
-    } else {
-      controller.play();
-      isPaused = false;
-    }
+  Future<void> startPlay(int index) async {
+    print("play ---------> $index");
+    setState(() {
+      _initializeVideoPlayerFuture = null;
+    });
+    Future.delayed(const Duration(milliseconds: 200), () {
+      clearPrevious().then((_) {
+        initializePlay(index);
+      });
+    });
   }
 
-  /// disposing player controller
-  /// and the whole widget
-  @override
-  void dispose() {
-    controllers[1].dispose();
-    super.dispose();
-  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffold,
-      body: Stack(
-        children: <Widget>[
-          InkWell(
-            onTap: () {
-              setState(() {
-                pauseVideo(controllers[1]);
-              });
-            },
-            child: SizedBox(
-                height: MediaQuery.of(context).size.height,
-                width: MediaQuery.of(context).size.width,
-                child: Center(child: VideoPlayer(controllers[1]))),
-          ),
-          Positioned(
-              child: IndicatorsOnVideo(
-            userDocument: widget.userDocument,
-            userTrainerDocument: widget.userTrainerDocument,
-          )),
-        ],
+      backgroundColor: Colors.transparent,
+      body: WillPopScope(
+        onWillPop: () => _onWillPop(),
+              child: Stack(
+          children: <Widget>[
+            InkWell(
+              onTap: () {
+                
+                  pauseVideo(controller);
+                  // chewieController.pause();
+                  // controller.pause();
+                
+              },
+              child: SizedBox(
+                  height: MediaQuery.of(context).size.height,
+                  width: MediaQuery.of(context).size.width,
+                  child: Center(child: _playView())),
+            ),
+            Positioned(
+                child: IndicatorsOnVideo(
+              userDocument: widget.userDocument,
+              userTrainerDocument: widget.userTrainerDocument,
+            )),
+          ],
+        ),
       ),
     );
   }
+
+   Widget _playView() {
+    // FutureBuilder to display a loading spinner until finishes initializing
+    return FutureBuilder(
+      future: _initializeVideoPlayerFuture,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          chewieController.play();
+          return  Chewie(controller: chewieController);
+          
+        } 
+        return EmptyContainer();
+      },
+    );
+  }
+ 
+  /// [_onWillPop]
+  ///
+  /// async funstion that creates an exit dialog for our screen
+  /// YES / NO
+  Future<bool> _onWillPop() async {
+    chewieController.pause();
+    return showDialog(
+          context: context,
+          builder: (context) => MyAlertDialog(
+            no: 'Cancel',
+            yes: 'Continue',
+            title: 'Back to Training plan?',
+            content: 'If you go back all your progress will be lost',
+            userDocument: widget.userDocument,
+            userTrainerDocument: widget.userTrainerDocument,
+          ),
+        ) ??
+        true;
+  }
+
 }
+
+
