@@ -9,6 +9,7 @@ import 'package:attt/view/chewieVideo/widgets/rest.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:chewie/chewie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
@@ -53,6 +54,16 @@ class _ChewieVideoState extends State<ChewieVideo>
       DeviceOrientation.landscapeLeft,
     ]);
      startPlay(_playingIndex + 1);
+     alertQuit = false;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    print('Widget Update');
+    print('ALERTQUIT = ' + alertQuit.toString());
+  
+    if(alertQuit) clearPrevious();
   }
 
   @override
@@ -105,6 +116,7 @@ class _ChewieVideoState extends State<ChewieVideo>
               )));
           print("played all!!");
         } else {
+              
               showOverlay(context);
         }
       }
@@ -115,7 +127,7 @@ class _ChewieVideoState extends State<ChewieVideo>
   Future<void> initializePlay(int index) async {
     print(_urls[index]);
     final video = _urls[index];
-    controller =  VideoPlayerController.asset(video);
+    controller = VideoPlayerController.asset(video);
     controller.addListener(controllerListener);
     chewieController = ChewieController(
       videoPlayerController: controller,
@@ -149,7 +161,6 @@ class _ChewieVideoState extends State<ChewieVideo>
     /// create overlay
     OverlayState overlayState = Overlay.of(context);
     OverlayEntry overlayEntry = OverlayEntry(
-        // opaque: true,
         builder: (BuildContext context) =>
             Visibility(visible: isFinished, child: Rest()));
 
@@ -189,11 +200,7 @@ class _ChewieVideoState extends State<ChewieVideo>
           children: <Widget>[
             InkWell(
               onTap: () {
-                
                   pauseVideo(controller);
-                  // chewieController.pause();
-                  // controller.pause();
-                
               },
               child: SizedBox(
                   height: MediaQuery.of(context).size.height,

@@ -51,8 +51,7 @@ class MyAlertDialog extends StatelessWidget {
                     userTrainerDocument: userTrainerDocument,
                   ),
                 ),);
-                // (Route<dynamic> route) => false);
-               
+                alertQuit = true;
           },
           child: new Text(
             yes,
