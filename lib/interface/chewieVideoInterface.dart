@@ -8,4 +8,5 @@ abstract class ChewieVideoInterface {
   Future<void> controllerListener();
   showOverlay(BuildContext context);
   pauseVideo(VideoPlayerController controller);
+  showGetReady(BuildContext context);
 }
