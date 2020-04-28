@@ -119,8 +119,6 @@ class _ChewieVideoState extends State<ChewieVideo>
 
     if (position.inMilliseconds == 0 && isReady == false) {
       showGetReady(context);
-      chewieController.pause();
-      isReady = true;
     }
 
     if (position.inSeconds == duration.inSeconds - 6 && isEnd == false) {
@@ -180,7 +178,9 @@ class _ChewieVideoState extends State<ChewieVideo>
 
   @override
   makeReady() {
-    isReady = false;
+    setState(() {
+      isReady = false;
+    });
   }
 
   @override
@@ -226,6 +226,9 @@ class _ChewieVideoState extends State<ChewieVideo>
 
     /// and play the next video
     chewieController.play();
+    setState(() {
+      isReady = true;
+    });
   }
 
   @override
@@ -276,9 +279,11 @@ class _ChewieVideoState extends State<ChewieVideo>
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             chewieController.play();
-            Timer(Duration(milliseconds: 140), () {
-              chewieController.pause();
-            });
+            if (isReady == false) {
+              Timer(Duration(milliseconds: 140), () {
+                chewieController.pause();
+              });
+            }
             return Chewie(controller: chewieController);
           }
           return EmptyContainer();
