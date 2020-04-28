@@ -28,6 +28,10 @@ After some time, the application will be built on the device/emulator connected 
     User Story 4 - In this user story we needed to show to the user available trainers and their training plan name, and duration, so that user can choose one from it.<br/><br/>
 
 
-**•	V2 – Sprint 2 (1604. - 21.04.)<br/>** *
+**•	V2 – Sprint 2 (16.04. - 21.04.)<br/>** *
   	User story 1 - Implementation of Training Plan Screen which is showed after user choses an athlete. All information about chosen training plan is showed and weeks of the plan are listed. For current week, all it workouts are listed and they are clickable. When use clicks on a workout, Workout Screen is showed. Also, user is able to contact the contact person wia WhatsApp by clicking on 'ANY QUESTION'.<br/><br/>*
    	User Story 2 – Implementation of Workout Screen which lists all Series and their Exercises with all details.<br/><br/>
+
+
+**•	V3 – Sprint 3 (21.04. - 28.04.)<br/>** *
+  	User story 1 - Implementation of starting a Workout and playing its videos. Functionalities implementes so far: Showing get ready screen at the very beginning of a workout for 5 seconds, Playing videos from list (starting from first one until last one), After each video showing rest screen for 10 seconds, After last video rest screen is not showed and user is redirected to Training Plan Screen, While in workout on back dialog box is showed and if accepted, user is redirected to Training Plan without saving the progress.<br/><br/>
