@@ -1,3 +1,4 @@
+import 'package:attt/storage/storage.dart';
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/workout/widgets/bottomStartButton.dart';
@@ -21,7 +22,7 @@ class Workout extends StatefulWidget {
       this.workoutName,
       this.workoutID,
       this.weekID,
-      this.warmupDesc,
+      this.warmupDesc
       })
       : super(key: key);
 
@@ -39,6 +40,7 @@ class _WorkoutState extends State<Workout> {
   int _exerciseIsReps, _exerciseReps, _exerciseRest, _exerciseSets;
 
   List<dynamic> _series = [], _exercises = [];
+
 
   @override
   Widget build(BuildContext context) {

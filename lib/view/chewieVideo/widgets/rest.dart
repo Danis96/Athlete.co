@@ -1,4 +1,6 @@
 import 'package:attt/view/chewieVideo/widgets/globals.dart';
+import 'package:audioplayers/audio_cache.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 
@@ -12,6 +14,7 @@ class _MyAppState extends State<Rest> with TickerProviderStateMixin {
 
     AnimationController _controller1;
     Animation<Offset> _offsetAnimation1;
+    AudioCache _audioCache;
 
 
   @override
@@ -31,9 +34,9 @@ class _MyAppState extends State<Rest> with TickerProviderStateMixin {
     ));
 
     startTimer();
-    // _audioCache = AudioCache(
-    //     prefix: "audio/",
-    //     fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
+    _audioCache = AudioCache(
+        prefix: "audio/",
+        fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
   }
 
   // AudioCache _audioCache;
@@ -43,9 +46,9 @@ class _MyAppState extends State<Rest> with TickerProviderStateMixin {
   int _start = 10;
   bool _isLessThan10 = false;
 
-  void startTimer() {
+  void startTimer() async {
     const oneSec = const Duration(seconds: 1);
-    _timer = new Timer.periodic(
+    _timer =  new Timer.periodic(
       oneSec,
       (Timer timer) => setState(
         () {
@@ -56,11 +59,11 @@ class _MyAppState extends State<Rest> with TickerProviderStateMixin {
             });
           } else {
             _start = _start - 1;
-            if (_start < 10) {
+            if (_start < 10)  {
               setState(() {
                 _isLessThan10 = true;
               });
-              //  / if (_start == 5) _audioCache.play('zvuk.mp3');
+             if (_start == 5)  _audioCache.play('zvuk.mp3');
             }
           }
         },

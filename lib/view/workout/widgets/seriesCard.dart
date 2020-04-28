@@ -1,4 +1,5 @@
 import 'package:attt/models/exerciseModel.dart';
+import 'package:attt/storage/storage.dart';
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/workout/widgets/exerciseCard.dart';
@@ -40,6 +41,7 @@ Widget seriesCard(
             future: WorkoutViewModel().getExercises(trainerID, weekID, workoutID, seriesID),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
+
                 _exercises = snapshot.data
                     .map((doc) => Exercise.fromDocument(doc))
                     .toList();
@@ -58,15 +60,17 @@ Widget seriesCard(
                       _exerciseTips = _exercises[index].tips;
                       _exerciseVideo = _exercises[index].video;
 
-                      return exerciseCard(
-                          _exerciseName,
-                          _exerciseTips,
-                          _exerciseVideo,
-                          _exerciseImage,
-                          _exerciseIsReps,
-                          _exerciseReps,
-                          _exerciseRest,
-                          _exerciseSets);
+                      return ExerciseCard(
+                        exerciseImage: _exerciseImage,
+                        exerciseIsReps: _exerciseIsReps,
+                        exerciseName: _exerciseName,
+                        exerciseReps: _exerciseReps,
+                        exerciseRest: _exerciseRest,
+                        exerciseSets: _exerciseSets,
+                        exerciseTips: _exerciseTips,
+                        exerciseVideo: _exerciseVideo,
+                        storage: Storage(),
+                      );
                     });
               } else {
                 return Center(
