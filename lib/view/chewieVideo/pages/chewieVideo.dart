@@ -151,7 +151,7 @@ class _ChewieVideoState extends State<ChewieVideo>
   pauseVideo(VideoPlayerController controller) {
     if (controller.value.isPlaying) {
       controller.pause();
-      setState(() => isPaused = true);
+      isPaused = true;
     } else {
       controller.play();
       isPaused = false;
