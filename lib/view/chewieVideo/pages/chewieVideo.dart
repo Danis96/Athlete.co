@@ -3,8 +3,6 @@ import 'package:attt/interface/chewieVideoInterface.dart';
 import 'package:attt/storage/storage.dart';
 import 'package:attt/utils/alertDialog.dart';
 import 'package:attt/utils/emptyContainer.dart';
-import 'package:attt/utils/globals.dart';
-import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/chewieVideo/widgets/getReady.dart';
 import 'package:attt/view/chewieVideo/widgets/globals.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorsOnVideo.dart';
@@ -12,9 +10,9 @@ import 'package:attt/view/chewieVideo/widgets/rest.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:chewie/chewie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:threading/threading.dart';
 import 'package:video_player/video_player.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:audioplayers/audio_cache.dart';
@@ -60,8 +58,10 @@ class _ChewieVideoState extends State<ChewieVideo>
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
     ]);
-    startPlay(_playingIndex + 1);
-    alertQuit = false;
+      
+     
+      startPlay(_playingIndex + 1);
+      alertQuit = false;
 
     /// read from file system
     widget.storage.readData().then((String value) {

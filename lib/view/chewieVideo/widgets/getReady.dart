@@ -95,33 +95,39 @@ class _GetReadyState extends State<GetReady> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromRGBO(0, 0, 0, 0.6),
-      body: SlideTransition(
-        position: _offsetAnimation1,
-        child: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            children: <Widget>[
-              Container(
-                child: Text('GET READY',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 48.0)),
-              ),
-              Text(
-                '00:0' + '$_start',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 48.0),
-              )
-            ],
+      body: WillPopScope(
+        onWillPop: () => onWillPop(),
+              child: SlideTransition(
+          position: _offsetAnimation1,
+          child: Center(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Container(
+                  child: Text('GET READY',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 48.0)),
+                ),
+                Text(
+                  '00:0' + '$_start',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 48.0),
+                )
+              ],
+            ),
           ),
         ),
       ),
     );
+  }
+    onWillPop() async {
+     print('Nema nazad, hajde vjezbaj');
   }
 }
