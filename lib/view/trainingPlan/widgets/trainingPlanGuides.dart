@@ -1,4 +1,3 @@
-import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/utils/text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

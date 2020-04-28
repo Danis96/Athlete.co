@@ -1,10 +1,7 @@
-import 'package:attt/storage/storage.dart';
 import 'package:attt/view/chewieVideo/widgets/globals.dart';
-import 'package:attt/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:attt/view/chewieVideo/pages/chewieVideo.dart';
 import 'package:flutter/services.dart';
 
 ///REST

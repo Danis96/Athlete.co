@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:video_player/video_player.dart';
 
 abstract class ChewieVideoInterface {
   Future<bool> clearPrevious();
@@ -10,4 +9,5 @@ abstract class ChewieVideoInterface {
   pauseVideo();
   showGetReady(BuildContext context);
   makeReady();
+  showPaused(BuildContext context, bool visible);
 }
