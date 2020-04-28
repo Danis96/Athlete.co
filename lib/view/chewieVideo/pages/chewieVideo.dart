@@ -36,10 +36,11 @@ class _ChewieVideoState extends State<ChewieVideo>
   var _isPlaying = false;
   var _isEndPlaying = false;
   String videoFromStorage;
+  bool isReady = false;
 
   /// this is list of urls (later we will get this data from db)
   List<String> _urls = [
-      'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/C.mp4?alt=media&token=1b9452ce-58c1-4e76-9b21-fbfc9c454f97',
+    'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/C.mp4?alt=media&token=1b9452ce-58c1-4e76-9b21-fbfc9c454f97',
   ];
 
   @override
@@ -53,13 +54,14 @@ class _ChewieVideoState extends State<ChewieVideo>
     ]);
     startPlay(_playingIndex + 1);
     alertQuit = false;
+
     /// read from file system
     widget.storage.readData().then((String value) {
-        setState(() {
-           _urls.add(value);
-           print('Value from file system: ' + value);
-           print('URLS FOR VIDEO : ' + _urls.toString());
-        });
+      setState(() {
+        _urls.add(value);
+        print('Value from file system: ' + value);
+        print('URLS FOR VIDEO : ' + _urls.toString());
+      });
     });
   }
 
@@ -107,6 +109,12 @@ class _ChewieVideoState extends State<ChewieVideo>
     final isEndPlaying =
         position.inMilliseconds > 0 && position.inSeconds == duration.inSeconds;
 
+    if (position.inMilliseconds == 0 && isReady == false) {
+      print('GET READYYYY');
+      showGetReady(context);
+      isReady = true;
+    }
+
     if (_isPlaying != isPlaying || _isEndPlaying != isEndPlaying) {
       _isPlaying = isPlaying;
       _isEndPlaying = isEndPlaying;
@@ -122,18 +130,17 @@ class _ChewieVideoState extends State<ChewieVideo>
                   )));
           print("played all!!");
         } else {
-         await showOverlay(context);
+          await showOverlay(context);
         }
       }
     }
   }
 
-
   @override
   Future<void> initializePlay(int index) async {
     print(_urls[index]);
     final video = _urls[index];
-    controller =  VideoPlayerController.network(video);
+    controller = VideoPlayerController.network(video);
     controller.addListener(controllerListener);
     chewieController = ChewieController(
       videoPlayerController: controller,
@@ -181,6 +188,27 @@ class _ChewieVideoState extends State<ChewieVideo>
   }
 
   @override
+  showGetReady(BuildContext context) async {
+    chewieController.pause();
+
+    /// create overlay
+    OverlayState overlayState = Overlay.of(context);
+    OverlayEntry overlayEntry = OverlayEntry(
+        builder: (BuildContext context) =>
+            Visibility(visible: true, child: GetReady()));
+
+    /// add to overlay overlayEntry that is rest widget
+    overlayState.insert(overlayEntry);
+
+    /// wait for [rest] time and then remove the overlay widget
+    await Future.delayed(Duration(seconds: 5));
+    overlayEntry.remove();
+
+    /// and play the next video
+    chewieController.play();
+  }
+
+  @override
   Future<void> startPlay(int index) async {
     print("play ---------> $index");
     setState(() {
@@ -203,7 +231,7 @@ class _ChewieVideoState extends State<ChewieVideo>
           children: <Widget>[
             InkWell(
               onTap: () {
-                 pauseVideo(controller);
+                pauseVideo(controller);
               },
               child: SizedBox(
                   height: MediaQuery.of(context).size.height,
@@ -233,8 +261,6 @@ class _ChewieVideoState extends State<ChewieVideo>
           return EmptyContainer();
         });
   }
-
-
 
   /// [_onWillPop]
   ///

@@ -1,5 +1,6 @@
 import 'package:attt/storage/storage.dart';
 import 'package:attt/view/chewieVideo/widgets/globals.dart';
+import 'package:attt/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -25,7 +26,7 @@ class _GetReadyState extends State<GetReady> with TickerProviderStateMixin {
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.landscapeRight, DeviceOrientation.landscapeLeft]);
     _controller1 = AnimationController(
-      duration: const Duration(milliseconds: 900),
+      duration: const Duration(milliseconds: 500),
       vsync: this,
     )..forward();
 
@@ -45,7 +46,7 @@ class _GetReadyState extends State<GetReady> with TickerProviderStateMixin {
 
   /// ovdje  uzimamo rest iz baze iz exercises
   int _start = 5;
-  bool _isLessThan10 = false;
+  //bool _isLessThan10 = false;
   int counter = 0;
 
   void startTimer() {
@@ -54,17 +55,17 @@ class _GetReadyState extends State<GetReady> with TickerProviderStateMixin {
       oneSec,
       (Timer timer) => setState(
         () {
-          setState(() {
-            counter++;
-          });
-          if (counter > 5) {
-            Navigator.of(context).pushReplacement(MaterialPageRoute(
-                builder: (_) => ChewieVideo(
-                      userDocument: widget.userDocument,
-                      userTrainerDocument: widget.userTrainerDocument,
-                      storage: Storage(),
-                    )));
-          }
+          // setState(() {
+          //   counter++;
+          // });
+          // if (counter > 5) {
+          //   Navigator.of(context).pushReplacement(MaterialPageRoute(
+          //       builder: (_) => ChewieVideo(
+          //             userDocument: widget.userDocument,
+          //             userTrainerDocument: widget.userTrainerDocument,
+          //             storage: Storage(),
+          //           )));
+          // }
           if (_start < 1) {
             timer.cancel();
             setState(() {
@@ -72,12 +73,12 @@ class _GetReadyState extends State<GetReady> with TickerProviderStateMixin {
             });
           } else {
             _start = _start - 1;
-            if (_start < 5) {
-              setState(() {
-                _isLessThan10 = true;
-              });
+            //if (_start < 5) {
+              //setState(() {
+                //_//isLessThan10 = true;
+              //});
               //  / if (_start == 5) _audioCache.play('zvuk.mp3');
-            }
+           // }
           }
         },
       ),
@@ -93,7 +94,7 @@ class _GetReadyState extends State<GetReady> with TickerProviderStateMixin {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(0, 0, 0, 0.4),
+      backgroundColor: Color.fromRGBO(0, 0, 0, 0.2),
       body: SlideTransition(
         position: _offsetAnimation1,
         child: Center(
@@ -111,7 +112,7 @@ class _GetReadyState extends State<GetReady> with TickerProviderStateMixin {
                         fontSize: 48.0)),
               ),
               Text(
-                _isLessThan10 ? '00:0' + '$_start' : '00:' + "$_start",
+                '00:0' + '$_start',
                 style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
