@@ -38,7 +38,9 @@ class _ChewieVideoState extends State<ChewieVideo>
   String videoFromStorage;
 
   /// this is list of urls (later we will get this data from db)
-  List<String> _urls = [];
+  List<String> _urls = [
+      'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/C.mp4?alt=media&token=1b9452ce-58c1-4e76-9b21-fbfc9c454f97',
+  ];
 
   @override
   void initState() {

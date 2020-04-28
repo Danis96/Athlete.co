@@ -46,7 +46,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
       setState(() {
           state = widget.exerciseVideo;
       });
-      print('Succesfully write to file system');
+      print('Succesfully write to file system: ' + state);
       return widget.storage.writeData(state);   
   }
   
