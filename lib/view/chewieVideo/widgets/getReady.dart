@@ -94,7 +94,7 @@ class _GetReadyState extends State<GetReady> with TickerProviderStateMixin {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(0, 0, 0, 0.2),
+      backgroundColor: Color.fromRGBO(0, 0, 0, 0.6),
       body: SlideTransition(
         position: _offsetAnimation1,
         child: Center(
