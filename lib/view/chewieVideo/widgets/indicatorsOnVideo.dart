@@ -46,11 +46,11 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
     super.initState();
   }
 
-  // @override
-  // void dispose() {
-  //   _controller.dispose();
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,10 +71,9 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                           color: Colors.white,
                         )),
                   ),
-
                   /// icon note
                   Container(
-                    margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 70),
+                    margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 68),
                     child: IconButton(
                         color: Colors.white,
                         iconSize: SizeConfig.blockSizeHorizontal * 5 ,

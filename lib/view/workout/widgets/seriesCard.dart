@@ -38,10 +38,10 @@ Widget seriesCard(
                   fontSize: SizeConfig.blockSizeHorizontal * 5)),
         ),
         FutureBuilder(
-            future: WorkoutViewModel().getExercises(trainerID, weekID, workoutID, seriesID),
+            future: WorkoutViewModel()
+                .getExercises(trainerID, weekID, workoutID, seriesID),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
-
                 _exercises = snapshot.data
                     .map((doc) => Exercise.fromDocument(doc))
                     .toList();
@@ -59,6 +59,10 @@ Widget seriesCard(
                       _exerciseSets = _exercises[index].sets;
                       _exerciseTips = _exercises[index].tips;
                       _exerciseVideo = _exercises[index].video;
+
+                      // List<String> exVideo = [];
+                      // exVideo.addAll(snapshot.data[index].data['video']);
+                      // print('VIDEOS FROM FIREBASE: ' + exVideo.toString());
 
                       return ExerciseCard(
                         exerciseImage: _exerciseImage,
