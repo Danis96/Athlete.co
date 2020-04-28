@@ -1,3 +1,4 @@
+import 'package:attt/storage/storage.dart';
 import 'package:attt/view/chewieVideo/widgets/globals.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -29,7 +30,7 @@ class _GetReadyState extends State<GetReady> with TickerProviderStateMixin {
     )..forward();
 
     _offsetAnimation1 = Tween<Offset>(
-      begin: const Offset(1.0, 0.0),
+      begin: const Offset(0.0, 1.0),
       end: const Offset(0.0, 0.0),
     ).animate(CurvedAnimation(
       parent: _controller1,
@@ -37,9 +38,6 @@ class _GetReadyState extends State<GetReady> with TickerProviderStateMixin {
     ));
 
     startTimer();
-    // _audioCache = AudioCache(
-    //     prefix: "audio/",
-    //     fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
   }
 
   // AudioCache _audioCache;
@@ -59,13 +57,12 @@ class _GetReadyState extends State<GetReady> with TickerProviderStateMixin {
           setState(() {
             counter++;
           });
-          print('AAAAAAAAAAAAAAAAAA    ' + counter.toString());
           if (counter > 5) {
-            print('AAAAAAAAAAAAAAAAAAAA');
             Navigator.of(context).pushReplacement(MaterialPageRoute(
                 builder: (_) => ChewieVideo(
                       userDocument: widget.userDocument,
                       userTrainerDocument: widget.userTrainerDocument,
+                      storage: Storage(),
                     )));
           }
           if (_start < 1) {
@@ -96,7 +93,7 @@ class _GetReadyState extends State<GetReady> with TickerProviderStateMixin {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromRGBO(0, 0, 0, 0.6),
+      backgroundColor: Color.fromRGBO(0, 0, 0, 0.4),
       body: SlideTransition(
         position: _offsetAnimation1,
         child: Center(
