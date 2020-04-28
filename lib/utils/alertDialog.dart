@@ -7,17 +7,18 @@ import 'package:flutter/material.dart';
 class MyAlertDialog extends StatelessWidget {
   final String title, content, yes, no;
   final DocumentSnapshot userDocument, userTrainerDocument;
+  final Function onExit;
 
-  MyAlertDialog(
-      {Key key,
-      this.title,
-      this.content,
-      this.yes,
-      this.no,
-      this.userDocument,
-      this.userTrainerDocument,
-      })
-      : super(key: key);
+  MyAlertDialog({
+    Key key,
+    this.onExit,
+    this.title,
+    this.content,
+    this.yes,
+    this.no,
+    this.userDocument,
+    this.userTrainerDocument,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -44,14 +45,16 @@ class MyAlertDialog extends StatelessWidget {
         ),
         new FlatButton(
           onPressed: () {
+            onExit();
             Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (_) => TrainingPlan(
-                    userDocument: userDocument,
-                    userTrainerDocument: userTrainerDocument,
-                  ),
-                ),);
-                alertQuit = true;
+              MaterialPageRoute(
+                builder: (_) => TrainingPlan(
+                  userDocument: userDocument,
+                  userTrainerDocument: userTrainerDocument,
+                ),
+              ),
+            );
+            alertQuit = true;
           },
           child: new Text(
             yes,

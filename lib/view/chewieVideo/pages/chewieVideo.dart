@@ -16,6 +16,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:video_player/video_player.dart';
+import 'package:audioplayers/audioplayers.dart';
+import 'package:audioplayers/audio_cache.dart';
 
 class ChewieVideo extends StatefulWidget {
   final DocumentSnapshot userDocument, userTrainerDocument;
@@ -37,6 +39,8 @@ class _ChewieVideoState extends State<ChewieVideo>
   var _isEndPlaying = false;
   String videoFromStorage;
   bool isReady = false;
+  bool isEnd = false;
+  AudioCache audioCache;
 
   /// this is list of urls (later we will get this data from db)
   List<String> _urls = [
@@ -46,6 +50,10 @@ class _ChewieVideoState extends State<ChewieVideo>
   @override
   void initState() {
     super.initState();
+
+    audioCache = AudioCache(
+        prefix: "audio/",
+        fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
 
     /// when widget inits make that screen rotation
     SystemChrome.setPreferredOrientations([
@@ -110,9 +118,14 @@ class _ChewieVideoState extends State<ChewieVideo>
         position.inMilliseconds > 0 && position.inSeconds == duration.inSeconds;
 
     if (position.inMilliseconds == 0 && isReady == false) {
-      print('GET READYYYY');
       showGetReady(context);
+      chewieController.pause();
       isReady = true;
+    }
+
+    if (position.inSeconds == duration.inSeconds - 6 && isEnd == false) {
+      audioCache.play('zvuk.mp3');
+      isEnd = true;
     }
 
     if (_isPlaying != isPlaying || _isEndPlaying != isEndPlaying) {
@@ -123,6 +136,8 @@ class _ChewieVideoState extends State<ChewieVideo>
       if (isEndPlaying) {
         final isComplete = _playingIndex == _urls.length - 1;
         if (isComplete) {
+          isReady = false;
+          audioCache.clear('zvuk.mp3');
           Navigator.of(context).push(MaterialPageRoute(
               builder: (_) => TrainingPlan(
                     userTrainerDocument: widget.userTrainerDocument,
@@ -155,14 +170,17 @@ class _ChewieVideoState extends State<ChewieVideo>
   }
 
   @override
-  pauseVideo(VideoPlayerController controller) {
+  pauseVideo() {
     if (controller.value.isPlaying) {
-      controller.pause();
-      isPaused = true;
+      chewieController.pause();
     } else {
-      controller.play();
-      isPaused = false;
+      chewieController.play();
     }
+  }
+
+  @override
+  makeReady() {
+    isReady = false;
   }
 
   @override
@@ -183,14 +201,14 @@ class _ChewieVideoState extends State<ChewieVideo>
     await Future.delayed(Duration(seconds: 10));
     overlayEntry.remove();
 
+    isEnd = false;
+
     /// and play the next video
     await startPlay(_playingIndex + 1);
   }
 
   @override
   showGetReady(BuildContext context) async {
-    chewieController.pause();
-
     /// create overlay
     OverlayState overlayState = Overlay.of(context);
     OverlayEntry overlayEntry = OverlayEntry(
@@ -199,6 +217,8 @@ class _ChewieVideoState extends State<ChewieVideo>
 
     /// add to overlay overlayEntry that is rest widget
     overlayState.insert(overlayEntry);
+
+    chewieController.pause();
 
     /// wait for [rest] time and then remove the overlay widget
     await Future.delayed(Duration(seconds: 5));
@@ -231,7 +251,7 @@ class _ChewieVideoState extends State<ChewieVideo>
           children: <Widget>[
             InkWell(
               onTap: () {
-                pauseVideo(controller);
+                pauseVideo();
               },
               child: SizedBox(
                   height: MediaQuery.of(context).size.height,
@@ -256,6 +276,9 @@ class _ChewieVideoState extends State<ChewieVideo>
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             chewieController.play();
+            Timer(Duration(milliseconds: 140), () {
+              chewieController.pause();
+            });
             return Chewie(controller: chewieController);
           }
           return EmptyContainer();
@@ -271,6 +294,7 @@ class _ChewieVideoState extends State<ChewieVideo>
     return showDialog(
           context: context,
           builder: (context) => MyAlertDialog(
+            onExit: makeReady,
             no: 'Cancel',
             yes: 'Continue',
             title: 'Back to Training plan?',
