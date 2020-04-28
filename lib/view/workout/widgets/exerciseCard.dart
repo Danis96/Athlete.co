@@ -4,7 +4,6 @@ import 'package:attt/storage/storage.dart';
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:flutter/material.dart';
-import 'package:threading/threading.dart';
 
 class ExerciseCard extends StatefulWidget {
   final String exerciseName;

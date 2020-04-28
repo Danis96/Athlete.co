@@ -1,7 +1,6 @@
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
-import 'package:attt/view/chewieVideo/widgets/globals.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:attt/view/chooseAthlete/widgets/nameHeadline.dart';

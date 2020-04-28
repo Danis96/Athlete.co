@@ -1,7 +1,5 @@
 import 'dart:io';
-
 import 'package:attt/utils/size_config.dart';
-import 'package:attt/view/chewieVideo/widgets/globals.dart';
 import 'package:attt/view/trainingPlan/widgets/listOfWeeks.dart';
 import 'package:attt/view/trainingPlan/widgets/trainingCustomBottomNavigationBar.dart';
 import 'package:attt/view/trainingPlan/widgets/trainingPlanGuides.dart';

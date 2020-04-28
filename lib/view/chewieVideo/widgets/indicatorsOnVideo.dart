@@ -1,15 +1,6 @@
-import 'dart:io';
-
-import 'package:attt/utils/alertDialog.dart';
-import 'package:attt/utils/colors.dart';
-import 'package:attt/utils/emptyContainer.dart';
-import 'package:attt/utils/globals.dart';
-import 'package:attt/view/chewieVideo/widgets/globals.dart';
-import 'package:attt/view_model/chewieVideoViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
-
 import 'package:attt/utils/size_config.dart';
 
 class IndicatorsOnVideo extends StatefulWidget {
@@ -81,28 +72,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                   )
                 ],
               ),
-              isPaused
-              ? Container(
-                  height: SizeConfig.blockSizeVertical * 20,
-                  width: SizeConfig.blockSizeHorizontal * 24,
-                  decoration: BoxDecoration(
-                      color: Color.fromRGBO(28, 28, 28, 0.7),
-                      borderRadius: BorderRadius.all(Radius.circular(4.0))),
-                  padding: EdgeInsets.all(20.0),
-                  child: Text(
-                    'PAUSED',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: SizeConfig.blockSizeVertical * 9,
-                        fontWeight: FontWeight.bold,
-                        fontStyle: FontStyle.italic),
-                    textAlign: TextAlign.center,
-                  ),
-                )
-              : Container(
-                  height: SizeConfig.blockSizeVertical * 20,
-                  width: SizeConfig.blockSizeHorizontal * 20,
-                ),
               Row(
                 children: <Widget>[
                   Column(
