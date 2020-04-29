@@ -63,7 +63,7 @@ class _MyAppState extends State<Rest> with TickerProviderStateMixin {
               setState(() {
                 _isLessThan10 = true;
               });
-             if (_start == 5)  _audioCache.play('zvuk.mp3');
+             if (_start == 6)  _audioCache.play('zvuk.mp3');
             }
           }
         },

@@ -30,26 +30,42 @@ class ChewieVideo extends StatefulWidget {
 /// because we need setState to get video going
 /// I implemented interface to ChewieVideoState
 class _ChewieVideoState extends State<ChewieVideo>
+    with WidgetsBindingObserver
     implements ChewieVideoInterface {
-  Future<void> _initializeVideoPlayerFuture;
-  int _playingIndex = -1;
-  bool _disposed = false;
+  int _playingIndex;
+
   var _isPlaying = false;
   var _isEndPlaying = false;
   String videoFromStorage;
   bool isReady = false;
   bool isEnd = false;
   AudioCache audioCache;
+  UniqueKey uniqueKey;
+
+  VideoPlayerController controller;
 
   /// this is list of urls (later we will get this data from db)
   List<String> _urls = [
     'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/C.mp4?alt=media&token=1b9452ce-58c1-4e76-9b21-fbfc9c454f97',
+    'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/asddasasd.mp4?alt=media&token=2687d82b-7cc0-4dc8-81e1-1e26b1ea9963',
+    'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/C.mp4?alt=media&token=1b9452ce-58c1-4e76-9b21-fbfc9c454f97',
   ];
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.paused) {
+      print('WENT TO BACKGROUND');
+    }
+    if (state == AppLifecycleState.resumed) {
+      print('CAME BACK TO FOREGROUND');
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-
+    WidgetsBinding.instance.addObserver(this);
     audioCache = AudioCache(
         prefix: "audio/",
         fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
@@ -60,13 +76,28 @@ class _ChewieVideoState extends State<ChewieVideo>
       DeviceOrientation.landscapeLeft,
     ]);
 
+    uniqueKey = UniqueKey();
+    print('UNIQUE KEY IS: ' + uniqueKey.toString());
+
+    _playingIndex = -1;
+    if (controller != null) {
+      disposed = true;
+      // By assigning Future is null,
+      // prevent the video controller is using in widget before disposing that.
+      initializeVideoPlayerFuture = null;
+      // In my case, sound is playing though controller was disposed.
+      controller?.pause()?.then((_) {
+        // dispose VideoPlayerController.
+        controller?.dispose();
+      });
+    }
     startPlay(_playingIndex + 1);
     alertQuit = false;
 
     /// read from file system
     widget.storage.readData().then((String value) {
       setState(() {
-        _urls.add(value);
+        // _urls.add(value);
         print('Value from file system: ' + value);
         print('URLS FOR VIDEO : ' + _urls.toString());
       });
@@ -84,16 +115,17 @@ class _ChewieVideoState extends State<ChewieVideo>
 
   @override
   void dispose() {
-    _disposed = true;
+    super.dispose();
+    disposed = true;
     // By assigning Future is null,
     // prevent the video controller is using in widget before disposing that.
-    _initializeVideoPlayerFuture = null;
+    initializeVideoPlayerFuture = null;
     // In my case, sound is playing though controller was disposed.
     controller?.pause()?.then((_) {
       // dispose VideoPlayerController.
       controller?.dispose();
     });
-    super.dispose();
+    WidgetsBinding.instance.removeObserver(this);
   }
 
   @override
@@ -104,17 +136,49 @@ class _ChewieVideoState extends State<ChewieVideo>
   }
 
   @override
+  Future<void> startPlay(int index) async {
+    print("play ---------> $index");
+    setState(() {
+      initializeVideoPlayerFuture = null;
+    });
+    Future.delayed(const Duration(milliseconds: 200), () {
+      clearPrevious().then((_) {
+        initializePlay(index);
+      });
+    });
+  }
+
+  initializePlay(int index) async {
+    print(_urls[index]  + 'QQQQQQQQQQQQQQQQ');
+    final video = _urls[index];
+    controller = VideoPlayerController.network(video);
+    controller.addListener(controllerListener);
+    chewieController = ChewieController(
+      videoPlayerController: controller,
+      fullScreenByDefault: true,
+      allowFullScreen: true,
+      showControls: false,
+    );
+    initializeVideoPlayerFuture = controller.initialize();
+    setState(() {
+      _playingIndex++;
+    });
+  }
+
+  @override
   Future<void> controllerListener() async {
-    if (controller == null || _disposed) {
+    if (controller == null || disposed) {
       return;
     }
     if (!controller.value.initialized) {
       return;
     }
-    final position = await controller.position;
-    final duration = controller.value.duration;
-    final isPlaying = position.inMilliseconds < duration.inMilliseconds;
-    final isEndPlaying =
+    var position = await controller.position;
+
+    /// [controller.value.duraton] - duration is null when [initialized] is null
+    var duration = controller.value.duration;
+    var isPlaying = position.inMilliseconds < duration.inMilliseconds;
+    var isEndPlaying =
         position.inMilliseconds > 0 && position.inSeconds == duration.inSeconds;
 
     if (position.inMilliseconds == 0 && isReady == false) {
@@ -137,33 +201,37 @@ class _ChewieVideoState extends State<ChewieVideo>
           isReady = false;
           audioCache.clear('zvuk.mp3');
           Navigator.of(context).push(MaterialPageRoute(
+              maintainState: false,
               builder: (_) => TrainingPlan(
                     userTrainerDocument: widget.userTrainerDocument,
                     userDocument: widget.userDocument,
                   )));
+
           print("played all!!");
         } else {
-          await showOverlay(context);
+          
+          await showOverlay(context, _playingIndex);
         }
       }
     }
   }
 
-  @override
-  Future<void> initializePlay(int index) async {
-    print(_urls[index]);
-    final video = _urls[index];
-    controller = VideoPlayerController.network(video);
-    controller.addListener(controllerListener);
-    chewieController = ChewieController(
-      videoPlayerController: controller,
-      fullScreenByDefault: true,
-      allowFullScreen: true,
-      showControls: false,
-    );
-    _initializeVideoPlayerFuture = controller.initialize();
+  nextPlay(int index) {
+    controller = VideoPlayerController.network(_urls[index + 1]);
     setState(() {
-      _playingIndex = index;
+      chewieController.dispose();
+      controller.pause();
+      controller.seekTo(Duration(seconds: 0));
+      chewieController = ChewieController(
+        videoPlayerController: controller,
+        fullScreenByDefault: true,
+        allowFullScreen: true,
+        showControls: false,
+      );
+      initializeVideoPlayerFuture = controller.initialize();
+    });
+    setState(() {
+      _playingIndex++;
     });
   }
 
@@ -189,8 +257,7 @@ class _ChewieVideoState extends State<ChewieVideo>
             Visibility(visible: true, child: Paused()));
   }
 
-  @override
-  showOverlay(BuildContext context) async {
+  showOverlay(BuildContext context, int index) async {
     isFinished = true;
     chewieController.pause();
 
@@ -210,7 +277,7 @@ class _ChewieVideoState extends State<ChewieVideo>
     isEnd = false;
 
     /// and play the next video
-    await startPlay(_playingIndex + 1);
+    await nextPlay(index);
   }
 
   @override
@@ -218,6 +285,7 @@ class _ChewieVideoState extends State<ChewieVideo>
     /// create overlay
     OverlayState overlayState = Overlay.of(context);
     OverlayEntry overlayEntry = OverlayEntry(
+
         builder: (BuildContext context) =>
             Visibility(visible: true, child: GetReady()));
 
@@ -238,21 +306,9 @@ class _ChewieVideoState extends State<ChewieVideo>
   }
 
   @override
-  Future<void> startPlay(int index) async {
-    print("play ---------> $index");
-    setState(() {
-      _initializeVideoPlayerFuture = null;
-    });
-    Future.delayed(const Duration(milliseconds: 200), () {
-      clearPrevious().then((_) {
-        initializePlay(index);
-      });
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: uniqueKey,
       backgroundColor: Colors.transparent,
       body: WillPopScope(
         onWillPop: () => _onWillPop(),
@@ -281,12 +337,13 @@ class _ChewieVideoState extends State<ChewieVideo>
   Widget _playView() {
     // FutureBuilder to display a loading spinner until finishes initializing
     return FutureBuilder(
-        future: _initializeVideoPlayerFuture,
+        future: initializeVideoPlayerFuture,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             chewieController.play();
             if (isReady == false) {
-              Timer(Duration(milliseconds: 140), () {
+              print(isReady.toString() +  '    ajkdgbasfvfsfasasfjvjhf');
+              Timer(Duration(milliseconds: 300), () {
                 chewieController.pause();
               });
             }

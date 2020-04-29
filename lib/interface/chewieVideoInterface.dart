@@ -5,7 +5,7 @@ abstract class ChewieVideoInterface {
   Future<void> startPlay(int index);
   Future<void> initializePlay(int index);
   Future<void> controllerListener();
-  showOverlay(BuildContext context);
+  showOverlay(BuildContext context, int index);
   pauseVideo();
   showGetReady(BuildContext context);
   makeReady();

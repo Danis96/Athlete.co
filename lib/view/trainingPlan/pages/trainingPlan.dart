@@ -7,6 +7,7 @@ import 'package:attt/view/trainingPlan/widgets/trainingPlanHeadline.dart';
 import 'package:attt/view/trainingPlan/widgets/whatsAppButton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 
 class TrainingPlan extends StatefulWidget {
@@ -29,6 +30,11 @@ class _TrainingPlanState extends State<TrainingPlan>  {
   void initState() {
     super.initState();
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+     SchedulerBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        print('SETO SAM PONOVO');
+      });
+    });
     
   }
 
