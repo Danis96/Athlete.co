@@ -8,7 +8,7 @@ abstract class TrainingPlanInterface {
       String workoutID, String warmupDesc, BuildContext context);
   whatsAppOpen(String phoneNumber, String message);
   secondTabPressed(BuildContext context, DocumentSnapshot userTrainerDocument,
-      DocumentSnapshot userDocument);
+      DocumentSnapshot userDocument, String userUID);
   firstTabPressed(BuildContext context, DocumentSnapshot userTrainerDocument,
       DocumentSnapshot userDocument);
 }

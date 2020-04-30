@@ -4,7 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 
 abstract class SignInInterface {
-  signInWithTwitter(BuildContext context);
+  signInWithTwitter(BuildContext context,);
   signInWithGoogle(BuildContext context);
   signOutGoogle(BuildContext context);
   Future<FirebaseUser> firebaseAuthWithFacebook(
@@ -16,7 +16,7 @@ abstract class SignInInterface {
   loginUser();
   signOutTwitter(BuildContext context);
   redirectToPrivacyAndTerms();
-  createUser(String name, String email, String image, String platform);
+  createUser(String name, String email, String image, String userUID, String platform);
   Future<List<DocumentSnapshot>> getCurrentUserDocument(String email);
   Future<bool> doesUserAlreadyExist(String email);
   Future<List<DocumentSnapshot>> getCurrentUserTrainer(String trainer);

@@ -21,7 +21,7 @@ Widget trainerContainer(
     String photo,
     String email,
     DocumentSnapshot userDocument, 
-
+    String userUID,
     ) {
   SizeConfig().init(context);
 
@@ -34,7 +34,7 @@ Widget trainerContainer(
   return GestureDetector(
     onTap: () async {
       SignInViewModel()
-          .updateUserWithTrainer(userDocument, email, _trainerName);
+          .updateUserWithTrainer(userDocument,  userUID, _trainerName);
       List<DocumentSnapshot> currentUserTrainerDocuments = [];
       DocumentSnapshot currentUserTrainerDocument;
 

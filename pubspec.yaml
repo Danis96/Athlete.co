@@ -21,7 +21,7 @@ dependencies:
     sdk: flutter
   firebase_auth: 
   cloud_firestore:
-  flutter_twitter_login:
+  flutter_twitter_login: "^1.1.0" 
   google_sign_in:
   splashscreen:
   flutter_signin_button:
@@ -64,7 +64,6 @@ flutter:
     - assets/images/ar.jpg
     - assets/images/athlete-logo.png
     - assets/audio/zvuk.mp3
-    - assets/videos/C.mp4
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

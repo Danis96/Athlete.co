@@ -22,7 +22,7 @@ class TrainingPlan extends StatefulWidget {
   _TrainingPlanState createState() => _TrainingPlanState();
 }
 
-class _TrainingPlanState extends State<TrainingPlan>  {
+class _TrainingPlanState extends State<TrainingPlan> {
   /// treba danisu warmup
   String warmup;
 
@@ -30,25 +30,19 @@ class _TrainingPlanState extends State<TrainingPlan>  {
   void initState() {
     super.initState();
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-     SchedulerBinding.instance.addPostFrameCallback((_) {
-      setState(() {
-        print('SETO SAM PONOVO');
-      });
+    SchedulerBinding.instance.addPostFrameCallback((_) {
+      setState(() {});
     });
-    
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
-  
     SizeConfig().init(context);
     return Scaffold(
       backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
       body: WillPopScope(
         onWillPop: () => _onWillPop(),
-              child: Padding(
+        child: Padding(
           padding: EdgeInsets.only(
               top: SizeConfig.blockSizeVertical * 8,
               left: SizeConfig.blockSizeHorizontal * 4.5,
@@ -57,7 +51,8 @@ class _TrainingPlanState extends State<TrainingPlan>  {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                trainingPlanHeadline(widget.userDocument, widget.userTrainerDocument),
+                trainingPlanHeadline(
+                    widget.userDocument, widget.userTrainerDocument),
                 SizedBox(
                   height: SizeConfig.blockSizeVertical * 2.5,
                 ),
@@ -67,10 +62,10 @@ class _TrainingPlanState extends State<TrainingPlan>  {
                 ),
                 whatsAppButton(),
                 listOfWeeks(
-                    widget.userDocument, widget.userTrainerDocument,
-                    widget.userDocument.data['weeks_finished'],
-        
-                    ),
+                  widget.userDocument,
+                  widget.userTrainerDocument,
+                  widget.userDocument.data['weeks_finished'],
+                ),
               ],
             ),
           ),
@@ -81,8 +76,7 @@ class _TrainingPlanState extends State<TrainingPlan>  {
     );
   }
 
-   _onWillPop() async {
-     exit(0);
+  _onWillPop() async {
+    exit(0);
   }
-
 }

@@ -3,11 +3,13 @@ import 'package:attt/utils/size_config.dart';
 import 'package:attt/utils/text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:attt/utils/globals.dart';
 
-Widget nameHeadline(String name, String usersPhoto, BuildContext context, DocumentSnapshot userDocument) {
-  
-  /// take name of users account and 
+Widget nameHeadline(String name, String usersPhoto, BuildContext context,
+    DocumentSnapshot userDocument) {
+  /// take name of users account and
   /// split it to get just the name
+
   List<String> nameSurname = name.split(' ');
   String justName = nameSurname[0];
 
@@ -31,7 +33,7 @@ Widget nameHeadline(String name, String usersPhoto, BuildContext context, Docume
         Container(
           margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 2),
           child: Text(
-            MyText().headlineHi + justName +',' + MyText().headlineSelect,
+            MyText().headlineHi + justName + ',' + MyText().headlineSelect,
             style: TextStyle(
                 color: MyColors().white,
                 fontSize: SizeConfig.safeBlockHorizontal * 5.5,
@@ -42,4 +44,3 @@ Widget nameHeadline(String name, String usersPhoto, BuildContext context, Docume
     ),
   );
 }
-

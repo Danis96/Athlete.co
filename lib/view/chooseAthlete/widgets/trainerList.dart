@@ -7,7 +7,7 @@ import 'package:attt/view/chooseAthlete/widgets/trainerContainer.dart';
 import 'package:attt/view_model/chooseAthleteViewModel.dart';
 
 Widget trainersList(BuildContext context, String name, String photo,
-    String email, DocumentSnapshot userDocument,) {
+    String email, DocumentSnapshot userDocument, String userUID) {
   String _trainerID, _trainerName, _trainingPlanName, _trainingPlanDuration, _trainerImage;
   List<dynamic> _trainerData = [];
   List<dynamic> trainersFinished = [];
@@ -48,7 +48,7 @@ Widget trainersList(BuildContext context, String name, String photo,
                             photo,
                             email,
                             userDocument, 
-                          
+                            userUID,
                             ));
                   }
                 });

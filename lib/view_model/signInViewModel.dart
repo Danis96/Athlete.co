@@ -16,7 +16,7 @@ import 'package:url_launcher/url_launcher.dart';
 final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 
 class SignInViewModel implements SignInInterface {
-  FirebaseUser _currentUser;
+  FirebaseUser currentUser;
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   List<DocumentSnapshot> currentUserDocuments = [];
@@ -42,18 +42,19 @@ class SignInViewModel implements SignInInterface {
   signInWithTwitter(BuildContext context) async {
     Dialogs.showLoadingDialog(context, _keyLoader);
 
-    /// waiting for keys
-    twitterLogin = new TwitterLogin(consumerKey: '', consumerSecret: '');
+    final TwitterLogin twitterLogin = new TwitterLogin(
+      consumerKey: 'Ilrsmygri8GsJmVVwMmqn5cLj',
+      consumerSecret: '6Q9w2doSYaw8dygielC2aHfcoLDZIrCuhKRhPkjMCOJXwSUhlV',
+    );
 
     _twitterLoginResult = await twitterLogin.authorize();
     _currentUserTwitterSession = _twitterLoginResult.session;
     _twitterLoginStatus = _twitterLoginResult.status;
 
     switch (_twitterLoginStatus) {
-
-      /// if logging is success we navigate to [ChooseAthlete page]
       case TwitterLoginStatus.loggedIn:
         _currentUserTwitterSession = _twitterLoginResult.session;
+        print('Successfully signed in as');
         break;
 
       case TwitterLoginStatus.cancelledByUser:
@@ -65,28 +66,43 @@ class SignInViewModel implements SignInInterface {
         break;
     }
 
-    ///  we get credentials and define them to [authToken & authTokenSecret]
     AuthCredential _authCredential = TwitterAuthProvider.getCredential(
         authToken: _currentUserTwitterSession?.token ?? '',
         authTokenSecret: _currentUserTwitterSession?.secret ?? '');
-    AuthResult result =
-        await _firebaseAuth.signInWithCredential(_authCredential);
-    _currentUser = result.user;
+    currentUser =
+        (await _firebaseAuth.signInWithCredential(_authCredential)).user;
+
+    String userTwitterEmail = currentUser.email;
+    print(userTwitterEmail);
+    String userTwitterUsername = currentUser.displayName;
+    userName = userTwitterUsername;
+    print(userTwitterUsername);
+    String userTwitterPhoto = currentUser.photoUrl;
+    userPhoto = userTwitterPhoto;
+    print(userTwitterPhoto);
+    String userUIDTwitter = currentUser.uid;
+    userUIDPref = userUIDTwitter;
+    print(userUIDTwitter);
+
+    loginUser();
+
+ 
 
     ///Checking if user already exists in database
     ///
     ///If user exists, users info is collected
     ///If user does not exist, user is created
-    bool userExist = await doesUserAlreadyExist(userEmail);
+    bool userExist = await doesUserAlreadyExist(userUIDTwitter);
     if (!userExist) {
-      createUser(userName, userEmail, userPhoto, 'Twitter');
-      currentUserDocuments = await getCurrentUserDocument(userEmail);
+      createUser(
+          userTwitterUsername, userTwitterEmail, userTwitterPhoto, userUIDTwitter, 'Twitter');
+      currentUserDocuments = await getCurrentUserDocument(userUIDTwitter);
       currentUserDocument = currentUserDocuments[0];
       List<dynamic> listOfWeeksFinished =
           currentUserDocument.data['weeks_finished'];
       currentWeek = listOfWeeksFinished.length + 1;
     } else {
-      currentUserDocuments = await getCurrentUserDocument(userEmail);
+      currentUserDocuments = await getCurrentUserDocument(userUIDTwitter);
       currentUserDocument = currentUserDocuments[0];
       List<dynamic> listOfWeeksFinished =
           currentUserDocument.data['weeks_finished'];
@@ -121,15 +137,17 @@ class SignInViewModel implements SignInInterface {
                     )
                   : ChooseAthlete(
                       userDocument: currentUserDocument,
-                      name: userName,
-                      email: userEmail,
-                      photo: userPhoto,
+                      name: userTwitterUsername,
+                      email: userTwitterEmail,
+                      photo: userTwitterPhoto,
+                       userUID: userUIDTwitter,
                     )
               : ChooseAthlete(
                   userDocument: currentUserDocument,
-                  name: userName,
-                  email: userEmail,
-                  photo: userPhoto,
+                  name: userTwitterUsername,
+                  email: userTwitterEmail,
+                  photo: userTwitterPhoto,
+                  userUID: userUIDTwitter,
                 ),
         ),
         (Route<dynamic> route) => false);
@@ -166,25 +184,29 @@ class SignInViewModel implements SignInInterface {
     final FirebaseUser currentUser = await _firebaseAuth.currentUser();
     assert(user.uid == currentUser.uid);
 
-    loginUser();
+    
     userEmail = currentUser.email;
     userName = currentUser.displayName;
     userPhoto = currentUser.photoUrl;
+    String userUIDGoogle = currentUser.uid;
+    userUIDPref = userUIDGoogle;
+
+    loginUser();
 
     ///Checking if user already exists in database
     ///
     ///If user exists, users info is collected
     ///If user does not exist, user is created
-    bool userExist = await doesUserAlreadyExist(userEmail);
+    bool userExist = await doesUserAlreadyExist(userUIDGoogle);
     if (!userExist) {
-      createUser(userName, userEmail, userPhoto, 'Google');
-      currentUserDocuments = await getCurrentUserDocument(userEmail);
+      createUser(userName, userEmail, userPhoto, userUIDGoogle, 'Google');
+      currentUserDocuments = await getCurrentUserDocument(userUIDGoogle);
       currentUserDocument = currentUserDocuments[0];
       List<dynamic> listOfWeeksFinished =
           currentUserDocument.data['weeks_finished'];
       currentWeek = listOfWeeksFinished.length + 1;
     } else {
-      currentUserDocuments = await getCurrentUserDocument(userEmail);
+      currentUserDocuments = await getCurrentUserDocument(userUIDGoogle);
       currentUserDocument = currentUserDocuments[0];
       List<dynamic> listOfWeeksFinished =
           currentUserDocument.data['weeks_finished'];
@@ -222,12 +244,14 @@ class SignInViewModel implements SignInInterface {
                       name: userName,
                       email: userEmail,
                       photo: userPhoto,
+                      userUID: userUIDGoogle,
                     )
               : ChooseAthlete(
                   userDocument: currentUserDocument,
                   name: userName,
                   email: userEmail,
                   photo: userPhoto,
+                   userUID: userUIDGoogle,
                 ),
         ),
         (Route<dynamic> route) => false);
@@ -255,27 +279,30 @@ class SignInViewModel implements SignInInterface {
     final FirebaseUser currentUser = await _firebaseAuth.currentUser();
     assert(user.uid == currentUser.uid);
 
-    loginUser();
+    
 
     ///Populating variables used later in application
     userEmail = currentUser.email;
     userName = currentUser.displayName;
     userPhoto = currentUser.photoUrl;
+    String userUIDFacebook = currentUser.uid;
+    userUIDPref = userUIDFacebook;
 
+    loginUser();
     ///Checking if user already exists in database
     ///
     ///If user exists, users info is collected
     ///If user does not exist, user is created
-    bool userExist = await doesUserAlreadyExist(userEmail);
+    bool userExist = await doesUserAlreadyExist(userUIDFacebook);
     if (!userExist) {
-      createUser(userName, userEmail, userPhoto, 'Facebook');
-      currentUserDocuments = await getCurrentUserDocument(userEmail);
+      createUser(userName, userEmail, userPhoto, userUIDFacebook, 'Facebook');
+      currentUserDocuments = await getCurrentUserDocument(userUIDFacebook);
       currentUserDocument = currentUserDocuments[0];
       List<dynamic> listOfWeeksFinished =
           currentUserDocument.data['weeks_finished'];
       currentWeek = listOfWeeksFinished.length + 1;
     } else {
-      currentUserDocuments = await getCurrentUserDocument(userEmail);
+      currentUserDocuments = await getCurrentUserDocument(userUIDFacebook);
       currentUserDocument = currentUserDocuments[0];
       List<dynamic> listOfWeeksFinished =
           currentUserDocument.data['weeks_finished'];
@@ -311,12 +338,14 @@ class SignInViewModel implements SignInInterface {
                       name: userName,
                       email: userEmail,
                       photo: userPhoto,
+                      userUID: userUIDFacebook,
                     )
               : ChooseAthlete(
                   userDocument: currentUserDocument,
                   name: userName,
                   email: userEmail,
                   photo: userPhoto,
+                  userUID: userUIDFacebook,
                 ),
         ),
         (Route<dynamic> route) => false);
@@ -347,7 +376,7 @@ class SignInViewModel implements SignInInterface {
         ///This user is later used for gathering information from database
         var firebaseUser = await firebaseAuthWithFacebook(
             token: result.accessToken, context: context);
-        _currentUser = firebaseUser;
+        currentUser = firebaseUser;
 
         /// close dialog
         //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -374,7 +403,7 @@ class SignInViewModel implements SignInInterface {
   @override
   signOutGoogle(BuildContext context) async {
     await googleSignIn.signOut();
-    _currentUser = null;
+    currentUser = null;
     logout();
     print("User Sign Out");
   }
@@ -382,7 +411,7 @@ class SignInViewModel implements SignInInterface {
   @override
   signOutFacebook(BuildContext context) async {
     await facebookSignIn.logOut();
-    _currentUser = null;
+    currentUser = null;
     logout();
     print("User Sign Out Faceboook");
   }
@@ -392,6 +421,7 @@ class SignInViewModel implements SignInInterface {
   ///and it is called on Sign in Screen in the initState() function
   @override
   autoLogIn(BuildContext context) async {
+    print('AUTOLOGIN...');
     ///Creating instance of Shared Preference
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -399,8 +429,10 @@ class SignInViewModel implements SignInInterface {
     userEmail = prefs.getString('email');
     userName = prefs.getString('displayName');
     userPhoto = prefs.getString('photoURL');
+    String userUIDP = prefs.getString('userUIDPref');
+  
 
-    currentUserDocuments = await getCurrentUserDocument(userEmail);
+    currentUserDocuments = await getCurrentUserDocument(userUIDP);
     currentUserDocument = currentUserDocuments[0];
     List<dynamic> listOfWeeksFinished =
         currentUserDocument.data['weeks_finished'];
@@ -424,7 +456,7 @@ class SignInViewModel implements SignInInterface {
     ///
     ///records in shared preference, user is directly redirected
     ///to ChooseAthelete Screen
-    if (userEmail != null && userName != null && userPhoto != null) {
+    if (userName != null && userPhoto != null) {
       isLoggedIn = true;
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
@@ -433,12 +465,14 @@ class SignInViewModel implements SignInInterface {
                 ? TrainingPlan(
                     userTrainerDocument: currentUserTrainerDocument,
                     userDocument: currentUserDocument,
+                    
                   )
                 : ChooseAthlete(
                     userDocument: currentUserDocument,
                     name: userName,
                     email: userEmail,
                     photo: userPhoto,
+                    userUID: userUIDP,
                   ),
           ),
           (Route<dynamic> route) => false);
@@ -458,6 +492,7 @@ class SignInViewModel implements SignInInterface {
     prefs.setString('email', null);
     prefs.setString('displayName', null);
     prefs.setString('photoURL', null);
+    prefs.setString('userUIDPref', null);
     isLoggedIn = false;
   }
 
@@ -476,6 +511,7 @@ class SignInViewModel implements SignInInterface {
     prefs.setString('email', userEmail);
     prefs.setString('displayName', userName);
     prefs.setString('photoURL', userPhoto);
+    prefs.setString('userUIDPref', userUIDPref);
     isLoggedIn = true;
   }
 
@@ -499,12 +535,13 @@ class SignInViewModel implements SignInInterface {
   ///
   ///signing in and when the user does not already exists
   @override
-  createUser(String name, String email, String image, String platform) async {
+  createUser(String name, String email, String image, String userUID, String platform) async {
     final databaseReference = Firestore.instance;
-    await databaseReference.collection("Users").document(email).setData({
+    await databaseReference.collection("Users").document(userUID).setData({
       'display_name': name,
       'image': image,
       'email': email,
+      'userUID': userUID,
       'trainer': '',
       'trainers_finished': [],
       'weeks_finished': [],
@@ -517,10 +554,10 @@ class SignInViewModel implements SignInInterface {
   ///
   ///and it is called on every sign in actions
   @override
-  Future<bool> doesUserAlreadyExist(String email) async {
+  Future<bool> doesUserAlreadyExist(String userUID) async {
     final QuerySnapshot result = await Firestore.instance
         .collection('Users')
-        .where('email', isEqualTo: email)
+        .where('userUID', isEqualTo: userUID)
         .limit(1)
         .getDocuments();
     final List<DocumentSnapshot> documents = result.documents;
@@ -529,11 +566,11 @@ class SignInViewModel implements SignInInterface {
 
   ///Method for getting from database document of current user
   @override
-  Future<List<DocumentSnapshot>> getCurrentUserDocument(String email) async {
+  Future<List<DocumentSnapshot>> getCurrentUserDocument(String userUID) async {
     var firestore = Firestore.instance;
     QuerySnapshot qn = await firestore
         .collection('Users')
-        .where('email', isEqualTo: email)
+        .where('userUID', isEqualTo: userUID)
         .getDocuments();
     return qn.documents;
   }
@@ -566,9 +603,9 @@ class SignInViewModel implements SignInInterface {
   ///the list
   @override
   updateUserWithTrainer(
-      DocumentSnapshot userDocument, String email, String trainer) async {
+      DocumentSnapshot userDocument, String userUID, String trainer) async {
     final db = Firestore.instance;
-    await db.collection('Users').document(email).updateData({
+    await db.collection('Users').document(userUID).updateData({
       'trainer': trainer,
     });
   }

@@ -1,5 +1,6 @@
 import 'package:attt/interface/trainingPlanInterface.dart';
 import 'package:attt/utils/customScreenAnimation.dart';
+import 'package:attt/utils/globals.dart';
 import 'package:attt/view/history/page/history.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:attt/view/workout/pages/workout.dart';
@@ -76,13 +77,14 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
 
   @override
   secondTabPressed(BuildContext context, DocumentSnapshot userTrainerDocument,
-      DocumentSnapshot userDocument) {
+      DocumentSnapshot userDocument, String userUID) {
     Navigator.push(
         context,
         CardAnimationTween(
           widget: History(
             userTrainerDocument: userTrainerDocument,
             userDocument: userDocument,
+            userUID: userUIDPref,
           ),
         ));
   }

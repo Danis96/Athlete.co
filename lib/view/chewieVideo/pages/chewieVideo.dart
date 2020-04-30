@@ -8,7 +8,7 @@ import 'package:attt/view/chewieVideo/widgets/getReady.dart';
 import 'package:attt/view/chewieVideo/widgets/globals.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorsOnVideo.dart';
 import 'package:attt/view/chewieVideo/widgets/paused.dart';
-import 'package:attt/view/chewieVideo/widgets/rest.dart';
+import 'package:attt/view/chewieVideo/widgets/rest.dart'; 
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:chewie/chewie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
