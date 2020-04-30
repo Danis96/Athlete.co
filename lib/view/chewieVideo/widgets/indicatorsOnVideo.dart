@@ -94,7 +94,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                             top:
                             // / showText
                                 // ? 
-                                SizeConfig.blockSizeVertical * 50
+                                SizeConfig.blockSizeVertical * 70
                                 // : 0
                                 ),
                         child: Text(
