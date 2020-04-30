@@ -1,3 +1,4 @@
+import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view_model/trainingPlanViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,7 +11,7 @@ Widget secondTab(BuildContext context, DocumentSnapshot userTrainerDocument,
     behavior: HitTestBehavior.translucent,
     onTap: () {
       TrainingPlanViewModel()
-          .secondTabPressed(context, userTrainerDocument, userDocument);
+          .secondTabPressed(context, userTrainerDocument, userDocument, userUIDPref);
     },
     child: Container(
       width: SizeConfig.blockSizeHorizontal * 50,

@@ -1,14 +1,14 @@
 
 {
-    "configurations": [
+    // "configurations": [
         
-        {
-          "name": "Flutter",
-          "request": "launch",
-          "type": "dart",
-          "flutterMode": "profile"
-        }
-      ]
+    //     {
+    //       "name": "Flutter",
+    //       "request": "launch",
+    //       "type": "dart",
+    //       "flutterMode": "profile"
+    //     }
+    //   ]
 
 }
 

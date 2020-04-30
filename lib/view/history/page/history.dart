@@ -9,7 +9,8 @@ import 'package:flutter/material.dart';
 class History extends StatelessWidget {
   final DocumentSnapshot userDocument;
   final DocumentSnapshot userTrainerDocument;
-  const History({Key key, this.userTrainerDocument, this.userDocument})
+  final String userUID;
+  const History({Key key, this.userTrainerDocument, this.userDocument, this.userUID})
       : super(key: key);
 
   @override
@@ -26,9 +27,10 @@ class History extends StatelessWidget {
                   MaterialPageRoute(
                     builder: (_) => ChooseAthlete(
                       userDocument: userDocument,
-                      name: userName,
-                      email: userEmail,
-                      photo: userPhoto,
+                      name: userDocument['display_name'],
+                      email: userDocument['email'],
+                      photo: userDocument['image'],
+                      userUID: userUID,
                     ),
                   ),
                   (Route<dynamic> route) => false);
