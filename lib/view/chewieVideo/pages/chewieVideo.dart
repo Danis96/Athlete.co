@@ -144,6 +144,7 @@ class _ChewieVideoState extends State<ChewieVideo>
       fullScreenByDefault: true,
       allowFullScreen: true,
       showControls: false,
+      autoPlay: true,
     );
     initializeVideoPlayerFuture = controller.initialize();
     setState(() {
@@ -166,13 +167,13 @@ class _ChewieVideoState extends State<ChewieVideo>
     var isPlaying = position.inMilliseconds < duration.inMilliseconds;
     var isEndPlaying =
         position.inMilliseconds > 0 && position.inSeconds == duration.inSeconds;
-
-    // if (position.inMilliseconds == 0 && isReady == false) {
-    //   print('LISTENER');
-    //    showGetReady(context);
-    // }
+    
+  
+    if (position.inSeconds== 0 && isReady == false) {
+       showGetReady(context);
+       isReady = true;
+    }
     if (position.inSeconds == duration.inSeconds - 6 && isEnd == false) {
-      
       audioCache.play('zvuk.mp3');
       isEnd = true;
     }
@@ -206,13 +207,14 @@ class _ChewieVideoState extends State<ChewieVideo>
     controller.addListener(controllerListener);
     setState(() {
       chewieController.dispose();
-      controller.pause();
+      // controller.pause();
       controller.seekTo(Duration(seconds: 0));
       chewieController = ChewieController(
         videoPlayerController: controller,
         fullScreenByDefault: true,
         allowFullScreen: true,
         showControls: false,
+        autoPlay: true,
       );
       initializeVideoPlayerFuture = controller.initialize();
     });
@@ -220,6 +222,7 @@ class _ChewieVideoState extends State<ChewieVideo>
       _playingIndex++;
       isEnd = false;
     });
+    chewieController.play();
   }
 
   @override
@@ -258,7 +261,6 @@ class _ChewieVideoState extends State<ChewieVideo>
     await Future.delayed(Duration(seconds: 10));
     overlayEntry.remove();
     isEnd = false;
-    print(isEnd.toString() + 'IS END');
     /// and play the next video
     await nextPlay(index);
   }
@@ -281,7 +283,7 @@ class _ChewieVideoState extends State<ChewieVideo>
     await Future.delayed(Duration(seconds: 5));
     overlayEntry.remove();
 
-    /// and play the next video
+    // /// and play the next video
     chewieController.play();
     setState(() {
       isReady = true;
@@ -323,13 +325,6 @@ class _ChewieVideoState extends State<ChewieVideo>
         future: initializeVideoPlayerFuture,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            chewieController.play();
-            // if (isReady == false) {
-            //     Timer(Duration(milliseconds: 300), () {
-            //     print('TIMER');
-            //     chewieController.pause();
-            //   });
-            // }
             return Chewie(controller: chewieController);
           }
           return EmptyContainer();
