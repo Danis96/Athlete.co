@@ -30,7 +30,6 @@ class ChewieVideo extends StatefulWidget {
 /// because we need setState to get video going
 /// I implemented interface to ChewieVideoState
 class _ChewieVideoState extends State<ChewieVideo>
-    with WidgetsBindingObserver
     implements ChewieVideoInterface {
   int _playingIndex;
 
@@ -52,20 +51,8 @@ class _ChewieVideoState extends State<ChewieVideo>
   ];
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-    if (state == AppLifecycleState.paused) {
-      print('WENT TO BACKGROUND');
-    }
-    if (state == AppLifecycleState.resumed) {
-      print('CAME BACK TO FOREGROUND');
-    }
-  }
-
-  @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
     audioCache = AudioCache(
         prefix: "audio/",
         fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
@@ -90,6 +77,7 @@ class _ChewieVideoState extends State<ChewieVideo>
         // dispose VideoPlayerController.
         controller?.dispose();
       });
+      print('DISPOSED');
     }
     startPlay(_playingIndex + 1);
     alertQuit = false;
@@ -125,7 +113,6 @@ class _ChewieVideoState extends State<ChewieVideo>
       // dispose VideoPlayerController.
       controller?.dispose();
     });
-    WidgetsBinding.instance.removeObserver(this);
   }
 
   @override
@@ -137,7 +124,7 @@ class _ChewieVideoState extends State<ChewieVideo>
 
   @override
   Future<void> startPlay(int index) async {
-    print("play ---------> $index");
+    print("Play ---------> $index");
     setState(() {
       initializeVideoPlayerFuture = null;
     });
@@ -149,7 +136,6 @@ class _ChewieVideoState extends State<ChewieVideo>
   }
 
   initializePlay(int index) async {
-    print(_urls[index]  + 'QQQQQQQQQQQQQQQQ');
     final video = _urls[index];
     controller = VideoPlayerController.network(video);
     controller.addListener(controllerListener);
@@ -181,20 +167,20 @@ class _ChewieVideoState extends State<ChewieVideo>
     var isEndPlaying =
         position.inMilliseconds > 0 && position.inSeconds == duration.inSeconds;
 
-    if (position.inMilliseconds == 0 && isReady == false) {
-      showGetReady(context);
-    }
-
+    // if (position.inMilliseconds == 0 && isReady == false) {
+    //   print('LISTENER');
+    //    showGetReady(context);
+    // }
     if (position.inSeconds == duration.inSeconds - 6 && isEnd == false) {
+      
       audioCache.play('zvuk.mp3');
       isEnd = true;
     }
-
     if (_isPlaying != isPlaying || _isEndPlaying != isEndPlaying) {
       _isPlaying = isPlaying;
       _isEndPlaying = isEndPlaying;
       print(
-          "$_playingIndex -----> isPlaying= $isPlaying / isCompletePlaying=$isEndPlaying");
+          "$_playingIndex -----> isPlaying = $isPlaying / isCompletePlaying = $isEndPlaying");
       if (isEndPlaying) {
         final isComplete = _playingIndex == _urls.length - 1;
         if (isComplete) {
@@ -207,9 +193,8 @@ class _ChewieVideoState extends State<ChewieVideo>
                     userDocument: widget.userDocument,
                   )));
 
-          print("played all!!");
+          print("Played ALL!!");
         } else {
-          
           await showOverlay(context, _playingIndex);
         }
       }
@@ -218,6 +203,7 @@ class _ChewieVideoState extends State<ChewieVideo>
 
   nextPlay(int index) {
     controller = VideoPlayerController.network(_urls[index + 1]);
+    controller.addListener(controllerListener);
     setState(() {
       chewieController.dispose();
       controller.pause();
@@ -232,6 +218,7 @@ class _ChewieVideoState extends State<ChewieVideo>
     });
     setState(() {
       _playingIndex++;
+      isEnd = false;
     });
   }
 
@@ -260,22 +247,18 @@ class _ChewieVideoState extends State<ChewieVideo>
   showOverlay(BuildContext context, int index) async {
     isFinished = true;
     chewieController.pause();
-
     /// create overlay
     OverlayState overlayState = Overlay.of(context);
     OverlayEntry overlayEntry = OverlayEntry(
         builder: (BuildContext context) =>
             Visibility(visible: isFinished, child: Rest()));
-
     /// add to overlay overlayEntry that is rest widget
     overlayState.insert(overlayEntry);
-
     /// wait for [rest] time and then remove the overlay widget
     await Future.delayed(Duration(seconds: 10));
     overlayEntry.remove();
-
     isEnd = false;
-
+    print(isEnd.toString() + 'IS END');
     /// and play the next video
     await nextPlay(index);
   }
@@ -294,7 +277,7 @@ class _ChewieVideoState extends State<ChewieVideo>
 
     chewieController.pause();
 
-    /// wait for [rest] time and then remove the overlay widget
+    /// wait for [getReady] time and then remove the overlay widget
     await Future.delayed(Duration(seconds: 5));
     overlayEntry.remove();
 
@@ -341,12 +324,12 @@ class _ChewieVideoState extends State<ChewieVideo>
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
             chewieController.play();
-            if (isReady == false) {
-              print(isReady.toString() +  '    ajkdgbasfvfsfasasfjvjhf');
-              Timer(Duration(milliseconds: 300), () {
-                chewieController.pause();
-              });
-            }
+            // if (isReady == false) {
+            //     Timer(Duration(milliseconds: 300), () {
+            //     print('TIMER');
+            //     chewieController.pause();
+            //   });
+            // }
             return Chewie(controller: chewieController);
           }
           return EmptyContainer();
