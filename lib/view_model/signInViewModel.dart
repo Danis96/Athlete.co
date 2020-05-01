@@ -607,7 +607,7 @@ class SignInViewModel implements SignInInterface {
   updateUserWithTrainer(
       DocumentSnapshot userDocument, String userUID, String trainer) async {
     final db = Firestore.instance;
-    await db.collection('Users').document(userUID).updateData({
+    await db.collection('Users').document(userDocument.documentID).updateData({
       'trainer': trainer,
     });
   }

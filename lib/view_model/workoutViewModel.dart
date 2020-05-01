@@ -21,6 +21,7 @@ class WorkoutViewModel implements WorkoutInterface {
          /// treba mi seriesID
         .document(seriesID)
         .collection('exercises')
+        .orderBy('order')
         .getDocuments();
       return qn.documents;
   }
@@ -39,6 +40,7 @@ class WorkoutViewModel implements WorkoutInterface {
          /// treba mi workoutID
         .document(workoutID)
         .collection('series')
+        .orderBy('order')
         .getDocuments();
       return qn.documents;
   }
@@ -96,6 +98,7 @@ class WorkoutViewModel implements WorkoutInterface {
         .collection('series')
         .document(qn.documents[0].data['seriesID'])
         .collection('exercises')
+        .orderBy('order')
         .getDocuments();
       return qnn.documents;
   }
