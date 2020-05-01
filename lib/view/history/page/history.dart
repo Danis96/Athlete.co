@@ -1,5 +1,4 @@
 import 'package:attt/utils/colors.dart';
-import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/chooseAthlete/pages/chooseAthlete.dart';
 import 'package:attt/view/history/widgets/historyCustomBottomNavigationBar.dart';
