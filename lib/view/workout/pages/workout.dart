@@ -65,8 +65,8 @@ class _WorkoutState extends State<Workout> {
         shrinkWrap: true,
         children: <Widget>[
           /// warmup
-          warmupWidget(context, widget.trainerID, widget.workoutID,
-              widget.weekID, widget.warmupDesc),
+          // warmupWidget(context, widget.trainerID, widget.workoutID,
+          //     widget.weekID, widget.warmupDesc),
 
           /// workoutList
           workoutList(
@@ -84,6 +84,7 @@ class _WorkoutState extends State<Workout> {
             _exerciseSets,
             widget.weekID,
             widget.workoutID,
+            widget.warmupDesc
           ),
         ],
       ),
