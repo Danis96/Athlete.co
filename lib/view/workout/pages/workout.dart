@@ -64,9 +64,6 @@ class _WorkoutState extends State<Workout> {
       body: ListView(
         shrinkWrap: true,
         children: <Widget>[
-          /// warmup
-          // warmupWidget(context, widget.trainerID, widget.workoutID,
-          //     widget.weekID, widget.warmupDesc),
 
           /// workoutList
           workoutList(
