@@ -13,6 +13,7 @@ Widget trainersList(BuildContext context, String name, String photo,
   List<dynamic> trainersFinished = [];
   trainersFinished = userDocument.data['trainers_finished'];
 
+
   SizeConfig().init(context);
   return Container(
     margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 2),
