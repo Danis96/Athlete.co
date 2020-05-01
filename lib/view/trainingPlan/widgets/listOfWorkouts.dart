@@ -1,3 +1,4 @@
+import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/trainingPlan/widgets/workoutContainer.dart';
 import 'package:attt/view_model/trainingPlanViewModel.dart';
@@ -6,6 +7,8 @@ import 'package:flutter/material.dart';
 
 Widget listOfWorkouts(DocumentSnapshot userDocument,
     DocumentSnapshot userTrainerDocument, AsyncSnapshot snapshot, int index) {
+  List<dynamic> workoutsFinished = [];
+  workoutsFinished = userDocument.data['workouts_finished'];
   return FutureBuilder(
     future: TrainingPlanViewModel().getWorkouts(
         userTrainerDocument.data['trainerID'],
@@ -19,8 +22,13 @@ Widget listOfWorkouts(DocumentSnapshot userDocument,
               shrinkWrap: true,
               itemCount: snapshot2.data.length,
               itemBuilder: (BuildContext context, int index2) {
-                return workoutContainer(userDocument, snapshot2, index2, userTrainerDocument,
-                    snapshot, index, context);
+                if (workoutsFinished
+                    .contains(snapshot2.data[index2].data['name'])) {
+                  return EmptyContainer();
+                } else {
+                  return workoutContainer(userDocument, snapshot2, index2,
+                      userTrainerDocument, snapshot, index, context);
+                }
               },
             ),
             SizedBox(
