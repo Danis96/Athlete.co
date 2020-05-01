@@ -518,6 +518,8 @@ class SignInViewModel implements SignInInterface {
   @override
   signOutTwitter(BuildContext context) async {
     await twitterLogin.logOut();
+    currentUser = null;
+    logout();
   }
 
   ///Method which redirects user to Privacy Policy and Terms of Services
