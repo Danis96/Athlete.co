@@ -5,4 +5,5 @@ abstract class WorkoutInterface {
   Future getExercises(String trainerID,  String weekID, String workoutID, String seriesID);
   Future getWarmups(String trainerID, String weekID, String workoutID);
   xBack(BuildContext context);
+  Future getWarmupDocumentID(String trainerID, String weekID, String workoutID);
 }

@@ -36,6 +36,7 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
         /// treba mi weekID
         .document(weekID)
         .collection('workouts')
+        .orderBy('order')
         .getDocuments();
     return qn.documents;
   }
