@@ -1,4 +1,5 @@
 import 'package:attt/interface/signinInterface.dart';
+import 'package:attt/utils/customScreenAnimation.dart';
 import 'package:attt/utils/dialog.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/view/chooseAthlete/pages/chooseAthlete.dart';
@@ -59,10 +60,16 @@ class SignInViewModel implements SignInInterface {
 
       case TwitterLoginStatus.cancelledByUser:
         print('Sign in cancelled by user.');
+
+        /// close modal dialog
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         break;
 
       case TwitterLoginStatus.error:
         print('An error occurred signing with Twitter.');
+
+        /// close modal dialog
+        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
         break;
     }
 
@@ -86,16 +93,14 @@ class SignInViewModel implements SignInInterface {
 
     loginUser();
 
- 
-
     ///Checking if user already exists in database
     ///
     ///If user exists, users info is collected
     ///If user does not exist, user is created
     bool userExist = await doesUserAlreadyExist(userUIDTwitter);
     if (!userExist) {
-      createUser(
-          userTwitterUsername, userTwitterEmail, userTwitterPhoto, userUIDTwitter, 'Twitter');
+      createUser(userTwitterUsername, userTwitterEmail, userTwitterPhoto,
+          userUIDTwitter, 'Twitter');
       currentUserDocuments = await getCurrentUserDocument(userUIDTwitter);
       currentUserDocument = currentUserDocuments[0];
       List<dynamic> listOfWeeksFinished =
@@ -127,8 +132,8 @@ class SignInViewModel implements SignInInterface {
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
     Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (_) => userExist
+        CardAnimationTween(
+          widget: userExist
               ? currentUserDocument.data['trainer'] != null &&
                       currentUserDocument.data['trainer'] != ''
                   ? TrainingPlan(
@@ -140,7 +145,7 @@ class SignInViewModel implements SignInInterface {
                       name: userTwitterUsername,
                       email: userTwitterEmail,
                       photo: userTwitterPhoto,
-                       userUID: userUIDTwitter,
+                      userUID: userUIDTwitter,
                     )
               : ChooseAthlete(
                   userDocument: currentUserDocument,
@@ -184,7 +189,6 @@ class SignInViewModel implements SignInInterface {
     final FirebaseUser currentUser = await _firebaseAuth.currentUser();
     assert(user.uid == currentUser.uid);
 
-    
     userEmail = currentUser.email;
     userName = currentUser.displayName;
     userPhoto = currentUser.photoUrl;
@@ -231,8 +235,8 @@ class SignInViewModel implements SignInInterface {
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
     Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (_) => userExist
+        CardAnimationTween(
+          widget: userExist
               ? currentUserDocument.data['trainer'] != null &&
                       currentUserDocument.data['trainer'] != ''
                   ? TrainingPlan(
@@ -251,7 +255,7 @@ class SignInViewModel implements SignInInterface {
                   name: userName,
                   email: userEmail,
                   photo: userPhoto,
-                   userUID: userUIDGoogle,
+                  userUID: userUIDGoogle,
                 ),
         ),
         (Route<dynamic> route) => false);
@@ -279,8 +283,6 @@ class SignInViewModel implements SignInInterface {
     final FirebaseUser currentUser = await _firebaseAuth.currentUser();
     assert(user.uid == currentUser.uid);
 
-    
-
     ///Populating variables used later in application
     userEmail = currentUser.email;
     userName = currentUser.displayName;
@@ -289,6 +291,7 @@ class SignInViewModel implements SignInInterface {
     userUIDPref = userUIDFacebook;
 
     loginUser();
+
     ///Checking if user already exists in database
     ///
     ///If user exists, users info is collected
@@ -325,8 +328,8 @@ class SignInViewModel implements SignInInterface {
 
     ///Navigating logged user into application
     Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(
-          builder: (_) => userExist
+        CardAnimationTween(
+          widget: userExist
               ? currentUserDocument.data['trainer'] != null &&
                       currentUserDocument.data['trainer'] != ''
                   ? TrainingPlan(
@@ -422,6 +425,7 @@ class SignInViewModel implements SignInInterface {
   @override
   autoLogIn(BuildContext context) async {
     print('AUTOLOGIN...');
+
     ///Creating instance of Shared Preference
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -430,7 +434,6 @@ class SignInViewModel implements SignInInterface {
     userName = prefs.getString('displayName');
     userPhoto = prefs.getString('photoURL');
     String userUIDP = prefs.getString('userUIDPref');
-  
 
     currentUserDocuments = await getCurrentUserDocument(userUIDP);
     currentUserDocument = currentUserDocuments[0];
@@ -465,7 +468,6 @@ class SignInViewModel implements SignInInterface {
                 ? TrainingPlan(
                     userTrainerDocument: currentUserTrainerDocument,
                     userDocument: currentUserDocument,
-                    
                   )
                 : ChooseAthlete(
                     userDocument: currentUserDocument,
@@ -537,7 +539,8 @@ class SignInViewModel implements SignInInterface {
   ///
   ///signing in and when the user does not already exists
   @override
-  createUser(String name, String email, String image, String userUID, String platform) async {
+  createUser(String name, String email, String image, String userUID,
+      String platform) async {
     final databaseReference = Firestore.instance;
     await databaseReference.collection("Users").document(userUID).setData({
       'display_name': name,
