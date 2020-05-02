@@ -1,6 +1,9 @@
 import 'package:attt/utils/colors.dart';
+import 'package:attt/utils/emptyContainer.dart';
+import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/workout/widgets/bottomStartButton.dart';
+import 'package:attt/view/workout/widgets/info.dart';
 import 'package:attt/view/workout/widgets/workoutList.dart';
 import 'package:attt/view_model/workoutViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -19,8 +22,7 @@ class Workout extends StatefulWidget {
       this.workoutName,
       this.workoutID,
       this.weekID,
-      this.warmupDesc
-      })
+      this.warmupDesc})
       : super(key: key);
 
   @override
@@ -30,17 +32,28 @@ class Workout extends StatefulWidget {
 class _WorkoutState extends State<Workout> {
   String _seriesName,
       _exerciseName,
-      _exerciseTips,
       _exerciseVideo,
-      _exerciseImage;
+      _exerciseImage,
+      _exerciseID;
 
   int _exerciseIsReps, _exerciseReps, _exerciseRest, _exerciseSets;
 
-  List<dynamic> _series = [], _exercises = [];
+  List<dynamic> _series = [], _exercises = [], _exerciseTips = [];
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+  }
+
+  refreshFromInfo() {
+    setState(() {
+    });
+    print('refreshed from info');
+  }
 
   @override
   Widget build(BuildContext context) {
+    
     SizeConfig().init(context);
     return Scaffold(
       appBar: AppBar(
@@ -57,13 +70,12 @@ class _WorkoutState extends State<Workout> {
           iconSize: 30.0,
         ),
       ),
-      bottomNavigationBar: bottomButtonStart(
+      bottomNavigationBar: isInfo ? InfoExercise(exerciseTips: exerciseTipsforView,refreshParent: refreshFromInfo) : bottomButtonStart(
           widget.userDocument, widget.userTrainerDocument, context),
-      backgroundColor: MyColors().lightBlack,
+      backgroundColor: Colors.transparent,
       body: ListView(
         shrinkWrap: true,
         children: <Widget>[
-
           /// workoutList
           workoutList(
             widget.trainerID,
@@ -80,7 +92,9 @@ class _WorkoutState extends State<Workout> {
             _exerciseSets,
             widget.weekID,
             widget.workoutID,
-            widget.warmupDesc
+            widget.warmupDesc,
+            _exerciseID,
+            refreshFromInfo,
           ),
         ],
       ),

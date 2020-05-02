@@ -8,8 +8,9 @@ import 'package:attt/view/chewieVideo/widgets/getReady.dart';
 import 'package:attt/view/chewieVideo/widgets/globals.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorsOnVideo.dart';
 import 'package:attt/view/chewieVideo/widgets/paused.dart';
-import 'package:attt/view/chewieVideo/widgets/rest.dart'; 
+import 'package:attt/view/chewieVideo/widgets/rest.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
+import 'package:attt/view/workout/widgets/info.dart';
 import 'package:chewie/chewie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +32,6 @@ class ChewieVideo extends StatefulWidget {
 /// I implemented interface to ChewieVideoState
 class _ChewieVideoState extends State<ChewieVideo>
     implements ChewieVideoInterface {
-
   int _playingIndex;
   var _isPlaying = false;
   var _isEndPlaying = false;
@@ -53,7 +53,8 @@ class _ChewieVideoState extends State<ChewieVideo>
   @override
   void initState() {
     super.initState();
-    /// initialize audio sound 
+
+    /// initialize audio sound
     audioCache = AudioCache(
         prefix: "audio/",
         fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
@@ -63,12 +64,12 @@ class _ChewieVideoState extends State<ChewieVideo>
       DeviceOrientation.landscapeRight,
       DeviceOrientation.landscapeLeft,
     ]);
-    
-     /// set [_playingIndex] always on -1 on initialize of widget for the firs time 
+
+    /// set [_playingIndex] always on -1 on initialize of widget for the firs time
     _playingIndex = -1;
 
     /// checking for controllers, for theirs listeners
-    /// if contrtollers are in any case assigned or not disposed to dispose them 
+    /// if contrtollers are in any case assigned or not disposed to dispose them
     if (controller != null) {
       disposed = true;
       // By assigning Future is null,
@@ -82,11 +83,11 @@ class _ChewieVideoState extends State<ChewieVideo>
       print('DISPOSED');
     }
 
-    /// 1. Lifecycle begins 
+    /// 1. Lifecycle begins
     startPlay(_playingIndex + 1);
 
-    /// [alertQuit] must be false on initialize of the widget 
-    /// for alert dialog on back button 
+    /// [alertQuit] must be false on initialize of the widget
+    /// for alert dialog on back button
     alertQuit = false;
 
     /// read from file system
@@ -98,8 +99,6 @@ class _ChewieVideoState extends State<ChewieVideo>
       });
     });
   }
-  
-
 
   /// [didChangeDependecies] activates every time some changes happen
   /// in child or this widget
@@ -108,14 +107,11 @@ class _ChewieVideoState extends State<ChewieVideo>
     super.didChangeDependencies();
     print('Widget Update');
     print('ALERTQUIT = ' + alertQuit.toString());
-    
 
     /// clearPrevious items if alertQuit is true
     if (alertQuit) clearPrevious();
   }
- 
 
-  
   @override
   void dispose() {
     super.dispose();
@@ -129,7 +125,6 @@ class _ChewieVideoState extends State<ChewieVideo>
       controller?.dispose();
     });
   }
-  
 
   /// we just pause the controller and then remove listeners
   @override
@@ -138,12 +133,10 @@ class _ChewieVideoState extends State<ChewieVideo>
     controller?.removeListener(controllerListener);
     return true;
   }
-  
 
-
-  /// [startPlay] 
-  /// 
-  /// as parameter it gets the index for video playing 
+  /// [startPlay]
+  ///
+  /// as parameter it gets the index for video playing
   /// it is [_playingIndex] + 1
   /// then we activate [initializePlat] function that takes the same parameter
   @override
@@ -158,15 +151,14 @@ class _ChewieVideoState extends State<ChewieVideo>
       });
     });
   }
-  
 
   /// 2. of Lifecycle method [initializePlay]
-  /// 
-  /// it takes index from startPlay function 
+  ///
+  /// it takes index from startPlay function
   /// here we take videos from the list,
   /// assign them to controller,
   /// add listener to controller , then create [chewieController]
-  /// then we need to initialize the controller 
+  /// then we need to initialize the controller
   /// and set _playingIndex to increase for 1
   initializePlay(int index) async {
     final video = _urls[index];
@@ -184,13 +176,12 @@ class _ChewieVideoState extends State<ChewieVideo>
       _playingIndex++;
     });
   }
-  
 
   /// 3. Lifecycle [controllerListener]
-  /// 
+  ///
   /// here we check for everything
   /// we check video length, duration, and base on that
-  /// we show [getReady] screen, 
+  /// we show [getReady] screen,
   /// we show [showOverlay] (rest screen)
   /// and if videos are done, playy all, we navigate to [trainigPlan]
   @override
@@ -208,11 +199,10 @@ class _ChewieVideoState extends State<ChewieVideo>
     var isPlaying = position.inMilliseconds < duration.inMilliseconds;
     var isEndPlaying =
         position.inMilliseconds > 0 && position.inSeconds == duration.inSeconds;
-    
-  
-    if (position.inSeconds== 0 && isReady == false) {
-       showGetReady(context);
-       isReady = true;
+
+    if (position.inSeconds == 0 && isReady == false) {
+      showGetReady(context);
+      isReady = true;
     }
     if (position.inSeconds == duration.inSeconds - 6 && isEnd == false) {
       audioCache.play('zvuk.mp3');
@@ -242,11 +232,10 @@ class _ChewieVideoState extends State<ChewieVideo>
       }
     }
   }
-  
 
   /// 4. Lifecycle [nextPlay]
-  /// 
-  /// here we create for every next video, his own controller, 
+  ///
+  /// here we create for every next video, his own controller,
   /// dispose the previous controller that was active
   nextPlay(int index) {
     controller = VideoPlayerController.network(_urls[index + 1]);
@@ -270,10 +259,9 @@ class _ChewieVideoState extends State<ChewieVideo>
     });
     chewieController.play();
   }
-  
 
-  /// pause video function for video 
-  /// pause the controller , 
+  /// pause video function for video
+  /// pause the controller ,
   /// show Overlay PAUSED container
   @override
   pauseVideo() {
@@ -281,15 +269,14 @@ class _ChewieVideoState extends State<ChewieVideo>
     showPaused(context, true);
     overlayStatePaused.insert(overlayEntryPaused);
   }
-   @override
+
+  @override
   showPaused(BuildContext context, bool visible) async {
     overlayStatePaused = Overlay.of(context);
     overlayEntryPaused = OverlayEntry(
         builder: (BuildContext context) =>
             Visibility(visible: true, child: Paused()));
   }
-  
-
 
   @override
   makeReady() {
@@ -298,35 +285,36 @@ class _ChewieVideoState extends State<ChewieVideo>
     });
   }
 
- 
-  /// [showOverlay] 
-  /// 
+  /// [showOverlay]
+  ///
   /// here we show the rest screen for how many seconds we need it to be on the screen
   showOverlay(BuildContext context, int index) async {
     isFinished = true;
     chewieController.pause();
+
     /// create overlay
     OverlayState overlayState = Overlay.of(context);
     OverlayEntry overlayEntry = OverlayEntry(
         builder: (BuildContext context) =>
             Visibility(visible: isFinished, child: Rest()));
+
     /// add to overlay overlayEntry that is rest widget
     overlayState.insert(overlayEntry);
+
     /// wait for [rest] time and then remove the overlay widget
     await Future.delayed(Duration(seconds: 10));
     overlayEntry.remove();
     isEnd = false;
+
     /// and play the next video
     await nextPlay(index);
   }
-  
 
   @override
   showGetReady(BuildContext context) async {
     /// create overlay
     OverlayState overlayState = Overlay.of(context);
     OverlayEntry overlayEntry = OverlayEntry(
-
         builder: (BuildContext context) =>
             Visibility(visible: true, child: GetReady()));
 
@@ -345,6 +333,8 @@ class _ChewieVideoState extends State<ChewieVideo>
       isReady = true;
     });
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
