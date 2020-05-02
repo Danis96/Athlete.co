@@ -2,12 +2,14 @@ import 'dart:io';
 
 import 'package:attt/storage/storage.dart';
 import 'package:attt/utils/colors.dart';
+import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
+import 'package:attt/view/workout/widgets/info.dart';
 import 'package:flutter/material.dart';
 
 class ExerciseCard extends StatefulWidget {
   final String exerciseName;
-  final String exerciseTips;
+  final List<dynamic> exerciseTips;
   final String exerciseVideo;
   final String exerciseImage;
   final int exerciseIsReps;
@@ -15,61 +17,65 @@ class ExerciseCard extends StatefulWidget {
   final int exerciseRest;
   final int exerciseSets;
   final Storage storage;
+  final String exerciseID;
+  final Function refreshParent;
 
-  ExerciseCard(
-      {this.exerciseImage,
-      this.exerciseIsReps,
-      this.exerciseName,
-      this.exerciseReps,
-      this.exerciseRest,
-      this.exerciseSets,
-      this.exerciseTips,
-      this.exerciseVideo, 
-      @required this.storage,
-      });
+  ExerciseCard({
+    this.exerciseImage,
+    this.exerciseIsReps,
+    this.exerciseName,
+    this.exerciseReps,
+    this.exerciseRest,
+    this.exerciseSets,
+    this.exerciseTips,
+    this.exerciseVideo,
+    @required this.storage,
+    this.exerciseID,
+    this.refreshParent,
+  });
 
   @override
   _ExerciseCardState createState() => _ExerciseCardState();
 }
 
 class _ExerciseCardState extends State<ExerciseCard> {
-  /// for saving state 
-   String state;
+  /// for saving state
+  String state;
 
   @override
   void initState() {
     super.initState();
-    writeToData();
-    
+    // writeToData();
   }
-  
+
   Future<File> writeToData() async {
-      setState(() {
-          state = widget.exerciseVideo;
-      });
-      print('Succesfully write to file system: ' + state);
-      return widget.storage.writeData(state);   
+    setState(() {
+      state = widget.exerciseVideo;
+    });
+    print('Succesfully write to file system: ' + state);
+    return widget.storage.writeData(state);
   }
-
-
-  
-  
-  
 
   @override
   Widget build(BuildContext context) {
+    keyOfExercise = widget.exerciseID;
+    print(keyOfExercise + ' == ' + widget.exerciseID);
     return Row(
+      key: ValueKey(widget.exerciseID),
       children: <Widget>[
         /// image thumbnail
-        Container(
-          margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
-          width: 90.0,
-          height: 90.0,
-          child: Image.network(
-            widget.exerciseImage,
-            height: SizeConfig.blockSizeVertical * 10,
-            width: SizeConfig.blockSizeHorizontal * 10,
-            fit: BoxFit.contain,
+        GestureDetector(
+          onTap: () => showInfo() ,
+          child: Container(
+            margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
+            width: 90.0,
+            height: 90.0,
+            child: Image.network(
+              widget.exerciseImage,
+              height: SizeConfig.blockSizeVertical * 10,
+              width: SizeConfig.blockSizeHorizontal * 10,
+              fit: BoxFit.contain,
+            ),
           ),
         ),
         Container(
@@ -89,7 +95,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
                 children: <Widget>[
                   Text(
                     widget.exerciseIsReps == 0
-                        ? 'Sets ${widget.exerciseSets} | Reps ${widget.exerciseReps} | Rest ${widget.exerciseRest} s '
+                        ? 'Sets ${widget.exerciseSets} |  Reps ${widget.exerciseReps} | Rest ${widget.exerciseRest} s '
                         : 'Sets ${widget.exerciseSets} |  Rest ${widget.exerciseRest} s ',
                     style: TextStyle(
                         color: MyColors().lightWhite,
@@ -102,5 +108,14 @@ class _ExerciseCardState extends State<ExerciseCard> {
         ),
       ],
     );
+  }
+
+  showInfo() {
+     setState(() {
+              exerciseTipsforView = widget.exerciseTips;
+              exerciseNameForInfo = widget.exerciseName;
+              isInfo = true;
+              widget.refreshParent();
+            });
   }
 }

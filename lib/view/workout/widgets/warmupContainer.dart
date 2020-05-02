@@ -18,8 +18,10 @@ Widget warmupContainer(
     int reps,
     int rest,
     int sets,
-    String tips,
-    String video) {
+    List<String> tips,
+    String video,
+    Function refreshFromInfo,
+    ) {
   return Container(
     color: MyColors().black,
     margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3),
@@ -54,7 +56,9 @@ Widget warmupContainer(
                         exerciseSets: snapshot.data[index].data['sets'],
                         exerciseTips: snapshot.data[index].data['tips'],
                         exerciseVideo: snapshot.data[index].data['video'],
+                        exerciseID: snapshot.data[index].data['exerciseID'],
                         storage: Storage(),
+                        refreshParent: refreshFromInfo,
                       );
                     });
               } else {

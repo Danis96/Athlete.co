@@ -14,7 +14,7 @@ Widget workoutList(
     List<dynamic> _series,
     List<dynamic> _exercises,
     String _exerciseName,
-    String _exerciseTips,
+    List<dynamic> _exerciseTips,
     String _exerciseVideo,
     String _exerciseImage,
     int _exerciseIsReps,
@@ -23,7 +23,10 @@ Widget workoutList(
     int _exerciseSets,
     String weekID,
     String workoutID,
-    String warmupDesc) {
+    String warmupDesc, 
+    String _exerciseID,
+    Function refreshFromInfo,
+    ) {
   return Container(
     margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5),
     color: MyColors().black,
@@ -53,7 +56,9 @@ Widget workoutList(
                         snapshot.data[index].data['rest'],
                         snapshot.data[index].data['sets'],
                         snapshot.data[index].data['tips'],
-                        snapshot.data[index].data['video']);
+                        snapshot.data[index].data['video'], 
+                        refreshFromInfo,
+                        );
                   } else {
                     return seriesCard(
                       context,
@@ -71,6 +76,8 @@ Widget workoutList(
                       weekID,
                       workoutID,
                       seriesID,
+                      _exerciseID,
+                      refreshFromInfo,
                     );
                   }
                 });

@@ -1,3 +1,5 @@
+import 'package:attt/view/chewieVideo/widgets/globals.dart';
+import 'package:attt/view/workout/widgets/info.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
@@ -55,12 +57,15 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
               Row(
                 children: <Widget>[
                   /// number of reps
-                  Container(
-                    padding: EdgeInsets.all(5),
-                    child: Text('Gimnastic Push ups',
-                        style: TextStyle(
-                          color: Colors.white,
-                        )),
+                  GestureDetector(
+                    // onTap: () => showTips(context),
+                                      child: Container(
+                      padding: EdgeInsets.all(5),
+                      child: Text('Gimnastic Push ups',
+                          style: TextStyle(
+                            color: Colors.white,
+                          )),
+                    ),
                   ),
                   /// icon note
                   Container(
@@ -126,4 +131,22 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
           ),
         ));
   }
+
+  /// [showTips]
+  ///
+  /// here we show the tips for the exact exercise
+  showTips(BuildContext context) async {
+    chewieController.pause();
+
+    /// create overlay
+    OverlayState overlayState = Overlay.of(context);
+    OverlayEntry overlayEntry =
+        OverlayEntry(builder: (BuildContext context) => InfoExercise());
+
+    /// add to overlay overlayEntry that is rest widget
+    overlayState.insert(overlayEntry);
+
+    overlayEntry.remove();
+ 
+ }
 }

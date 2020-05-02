@@ -12,7 +12,7 @@ Widget seriesCard(
   String trainerID,
   List<dynamic> _exercises,
   String _exerciseName,
-  String _exerciseTips,
+  List<dynamic> _exerciseTips,
   String _exerciseVideo,
   String _exerciseImage,
   int _exerciseIsReps,
@@ -22,6 +22,8 @@ Widget seriesCard(
   String weekID,
   String workoutID,
   String seriesID,
+  String _exerciseID,
+  Function refreshFromInfo,
 ) {
   SizeConfig().init(context);
   return Column(
@@ -64,6 +66,7 @@ Widget seriesCard(
                           _exerciseRest = _exercises[index].rest;
                           _exerciseSets = _exercises[index].sets;
                           _exerciseTips = _exercises[index].tips;
+                          _exerciseID = _exercises[index].exerciseID;
                           _exerciseVideo = _exercises[index].video;
 
                           // List<String> exVideo = [];
@@ -80,6 +83,8 @@ Widget seriesCard(
                             exerciseTips: _exerciseTips,
                             exerciseVideo: _exerciseVideo,
                             storage: Storage(),
+                            exerciseID: _exerciseID,
+                            refreshParent: refreshFromInfo,
                           );
                         });
                   } else {
