@@ -54,8 +54,8 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
       ) {
     Navigator.push(
         context,
-        MaterialPageRoute(
-            builder: (BuildContext context) => Workout(
+        CardAnimationTween(
+            widget: Workout(
                 userDocument: userDocument,
                 userTrainerDocument: userTrainerDocument,
                 trainerID: trainerID,

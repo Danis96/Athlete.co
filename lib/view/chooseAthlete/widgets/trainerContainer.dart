@@ -1,3 +1,4 @@
+import 'package:attt/utils/customScreenAnimation.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
@@ -43,8 +44,8 @@ Widget trainerContainer(
       currentUserTrainerDocument = currentUserTrainerDocuments[0];
 
       Navigator.of(context).push(
-          MaterialPageRoute(
-              builder: (_) => TrainingPlan(
+          CardAnimationTween(
+             widget: TrainingPlan(
                     userTrainerDocument: currentUserTrainerDocument,
                     userDocument: userDocument,
                   )));
