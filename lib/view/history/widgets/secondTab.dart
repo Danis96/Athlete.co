@@ -13,11 +13,13 @@ Widget secondTab(BuildContext context) {
         Icon(
           Icons.show_chart,
           color: Colors.white,
+          size: SizeConfig.blockSizeHorizontal * 6,
         ),
         Text(
           'History',
           style: TextStyle(
             color: MyColors().white,
+            fontSize: SizeConfig.safeBlockHorizontal * 3.5
           ),
         ),
       ],

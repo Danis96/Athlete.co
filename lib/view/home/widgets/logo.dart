@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 Widget logo(BuildContext context) {
   SizeConfig().init(context);
   return Container(
-    height: SizeConfig.blockSizeVertical * 3.75,
+    height: SizeConfig.blockSizeVertical * 4.75,
     width: SizeConfig.blockSizeHorizontal * 59,
-    child: Image.asset(MyText().logoUrl),
+    child: Image.asset(MyText().logoUrl, fit: BoxFit.fitWidth,),
   );
 }

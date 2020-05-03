@@ -30,7 +30,7 @@ Widget googleButton(BuildContext context) {
                 borderRadius: BorderRadius.circular(8.0),
                 child: Image.asset(
                 'assets/images/google-login.png',
-                height: SizeConfig.blockSizeVertical * 3.75,
+                fit: BoxFit.contain,
               ),
               ),
             ),

@@ -20,8 +20,8 @@ Widget nameHeadline(String name, String usersPhoto, BuildContext context,
     child: Row(
       children: <Widget>[
         Container(
-          height: 90.0,
-          width: 90,
+          height: 100,
+          width: 100,
           padding: EdgeInsets.all(10),
           child: CircleAvatar(
             backgroundColor: MyColors().black,

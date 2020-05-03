@@ -24,7 +24,6 @@ Widget warmupContainer(
     ) {
   return Container(
     color: MyColors().black,
-    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 3),
     child: custom.ExpansionTile(
       title: Text(
         MyText().warmUp,

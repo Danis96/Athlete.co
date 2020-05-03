@@ -21,6 +21,7 @@ Widget firstTab(BuildContext context, DocumentSnapshot userDocument,
           Icon(
             Icons.fitness_center,
             color: Colors.white60,
+            size: SizeConfig.blockSizeHorizontal * 6,
           ),
         ],
       ),
