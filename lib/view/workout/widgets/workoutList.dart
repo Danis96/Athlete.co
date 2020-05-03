@@ -28,7 +28,6 @@ Widget workoutList(
     Function refreshFromInfo,
     ) {
   return Container(
-    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5),
     color: MyColors().black,
     child: FutureBuilder(
         future: WorkoutViewModel().getSeries(trainerID, weekID, workoutID),

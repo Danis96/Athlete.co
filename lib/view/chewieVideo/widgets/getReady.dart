@@ -52,17 +52,7 @@ class _GetReadyState extends State<GetReady> with TickerProviderStateMixin {
       oneSec,
       (Timer timer) => setState(
         () {
-          // setState(() {
-          //   counter++;
-          // });
-          // if (counter > 5) {
-          //   Navigator.of(context).pushReplacement(MaterialPageRoute(
-          //       builder: (_) => ChewieVideo(
-          //             userDocument: widget.userDocument,
-          //             userTrainerDocument: widget.userTrainerDocument,
-          //             storage: Storage(),
-          //           )));
-          // }
+
           if (_start < 1) {
             timer.cancel();
             setState(() {
@@ -70,12 +60,6 @@ class _GetReadyState extends State<GetReady> with TickerProviderStateMixin {
             });
           } else {
             _start = _start - 1;
-            //if (_start < 5) {
-              //setState(() {
-                //_//isLessThan10 = true;
-              //});
-              //  / if (_start == 5) _audioCache.play('zvuk.mp3');
-           // }
           }
         },
       ),

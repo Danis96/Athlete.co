@@ -14,9 +14,9 @@ Widget trainingPlanHeadline(
     crossAxisAlignment: CrossAxisAlignment.center,
     children: <Widget>[
       Container(
-        height: 75.0,
-        width: 75,
-        padding: EdgeInsets.all(10),
+        height: 90.0,
+        width: 90,
+        padding: EdgeInsets.all(8),
         child: CircleAvatar(
           backgroundColor: MyColors().black,
           radius: 28.0,
@@ -30,7 +30,7 @@ Widget trainingPlanHeadline(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            width: SizeConfig.blockSizeHorizontal * 65,
+            width: SizeConfig.blockSizeHorizontal * 63,
             child: Text(
               'Hi $justName,',
               //'Week $currentWeek of $totalWeeks',
@@ -46,7 +46,7 @@ Widget trainingPlanHeadline(
             height: SizeConfig.blockSizeVertical * 0.3,
           ),
           Container(
-            width: SizeConfig.blockSizeHorizontal * 65,
+            width: SizeConfig.blockSizeHorizontal * 63,
             child: Text('Week $currentWeek of $totalWeeks',
               //'Your training plan is:\n$trainingPlan',
               style: TextStyle(

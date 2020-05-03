@@ -64,7 +64,7 @@ Widget trainerContainer(
                   bottomRight: const Radius.circular(8),
                 )),
             width: SizeConfig.blockSizeHorizontal * 95,
-            height: SizeConfig.blockSizeVertical * 30,
+            height: SizeConfig.blockSizeVertical * 32,
           ),
           Container(
             child: ClipRRect(

@@ -19,25 +19,30 @@ class History extends StatelessWidget {
       backgroundColor: MyColors().lightBlack,
       body: Container(
         child: Center(
-          child: RaisedButton(
-            color: MyColors().black,
-            onPressed: () {
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(
-                    builder: (_) => ChooseAthlete(
-                      userDocument: userDocument,
-                      name: userDocument['display_name'],
-                      email: userDocument['email'],
-                      photo: userDocument['image'],
-                      userUID: userUID,
+          child: Container(
+            width: SizeConfig.blockSizeHorizontal * 70,
+            height: SizeConfig.blockSizeVertical * 5,
+            child: RaisedButton(
+              color: MyColors().black,
+              onPressed: () {
+                Navigator.of(context).pushAndRemoveUntil(
+                    MaterialPageRoute(
+                      builder: (_) => ChooseAthlete(
+                        userDocument: userDocument,
+                        name: userDocument['display_name'],
+                        email: userDocument['email'],
+                        photo: userDocument['image'],
+                        userUID: userUID,
+                      ),
                     ),
-                  ),
-                  (Route<dynamic> route) => false);
-            },
-            child: Text(
-              'Change your athlete',
-              style: TextStyle(
-                color: MyColors().white,
+                    (Route<dynamic> route) => false);
+              },
+              child: Text(
+                'Change your athlete',
+                style: TextStyle(
+                  color: MyColors().white,
+                  fontSize: SizeConfig.safeBlockHorizontal * 4
+                ),
               ),
             ),
           ),

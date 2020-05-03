@@ -24,6 +24,7 @@ Widget secondTab(BuildContext context, DocumentSnapshot userTrainerDocument,
             child: Icon(
               Icons.show_chart,
               color: Colors.white60,
+              size: SizeConfig.blockSizeHorizontal * 6,
             ),
           ),
         ],

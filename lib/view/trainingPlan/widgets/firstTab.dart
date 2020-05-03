@@ -13,11 +13,13 @@ Widget firstTab(BuildContext context) {
         Icon(
           Icons.fitness_center,
           color: MyColors().white,
+          size: SizeConfig.blockSizeHorizontal * 6,
         ),
         Text(
           'Training Plan',
           style: TextStyle(
             color: MyColors().white,
+            fontSize: SizeConfig.safeBlockHorizontal * 3.5
           ),
         ),
       ],

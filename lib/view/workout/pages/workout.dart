@@ -58,16 +58,16 @@ class _WorkoutState extends State<Workout> {
     return Scaffold(
       appBar: AppBar(
         /// workout name
-        title: Text(widget.workoutName.toUpperCase()),
+        title: Text(widget.workoutName.toUpperCase(), style: TextStyle(fontSize: SizeConfig.blockSizeHorizontal * 5),),
         backgroundColor: MyColors().lightBlack,
         elevation: 0,
         leading: IconButton(
           icon: Icon(
             Icons.clear,
             color: MyColors().white,
+            size: SizeConfig.blockSizeHorizontal * 8,
           ),
           onPressed: () => WorkoutViewModel().xBack(context),
-          iconSize: 30.0,
         ),
       ),
       bottomNavigationBar: isInfo ? InfoExercise(exerciseTips: exerciseTipsforView,refreshParent: refreshFromInfo) : bottomButtonStart(

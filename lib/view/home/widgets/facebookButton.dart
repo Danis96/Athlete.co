@@ -27,8 +27,8 @@ Widget facebookButton(BuildContext context) {
                 borderRadius: BorderRadius.circular(2),
                 color: Colors.white,
               ),
-              height: SizeConfig.blockSizeVertical * 3.75,
-              width: SizeConfig.blockSizeHorizontal * 6.667,
+              height: SizeConfig.blockSizeVertical * 3.50,
+              width: SizeConfig.blockSizeHorizontal * 5.50,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(8.0),
                 child: Icon(

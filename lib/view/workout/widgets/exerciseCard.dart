@@ -58,8 +58,8 @@ class _ExerciseCardState extends State<ExerciseCard> {
 
   @override
   Widget build(BuildContext context) {
+    /// for tips 
     keyOfExercise = widget.exerciseID;
-    print(keyOfExercise + ' == ' + widget.exerciseID);
     return Row(
       key: ValueKey(widget.exerciseID),
       children: <Widget>[
@@ -68,8 +68,8 @@ class _ExerciseCardState extends State<ExerciseCard> {
           onTap: () => showInfo() ,
           child: Container(
             margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
-            width: 90.0,
-            height: 90.0,
+            width: SizeConfig.blockSizeHorizontal * 20,
+            height: SizeConfig.blockSizeVertical * 10 ,
             child: Image.network(
               widget.exerciseImage,
               height: SizeConfig.blockSizeVertical * 10,
