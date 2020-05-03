@@ -30,7 +30,7 @@ Widget trainingPlanHeadline(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            width: SizeConfig.blockSizeHorizontal * 63,
+            width: SizeConfig.blockSizeHorizontal * 60,
             child: Text(
               'Hi $justName,',
               //'Week $currentWeek of $totalWeeks',
@@ -46,7 +46,7 @@ Widget trainingPlanHeadline(
             height: SizeConfig.blockSizeVertical * 0.3,
           ),
           Container(
-            width: SizeConfig.blockSizeHorizontal * 63,
+            width: SizeConfig.blockSizeHorizontal * 60,
             child: Text('Week $currentWeek of $totalWeeks',
               //'Your training plan is:\n$trainingPlan',
               style: TextStyle(
