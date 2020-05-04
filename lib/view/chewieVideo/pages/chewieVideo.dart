@@ -40,12 +40,16 @@ class _ChewieVideoState extends State<ChewieVideo>
   bool isEnd = false;
   AudioCache audioCache;
   UniqueKey uniqueKey;
-  
 
   VideoPlayerController controller;
 
   /// this is list of urls (later we will get this data from file system and db)
   List<dynamic> _urls = [
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    // 'assets/video/F.mp4',
+    // 'assets/video/F.mp4',
+    // 'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/C.mp4?alt=media&token=1b9452ce-58c1-4e76-9b21-fbfc9c454f97',
     // 'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/C.mp4?alt=media&token=1b9452ce-58c1-4e76-9b21-fbfc9c454f97',
     // 'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/asddasasd.mp4?alt=media&token=2687d82b-7cc0-4dc8-81e1-1e26b1ea9963',
     // 'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/C.mp4?alt=media&token=1b9452ce-58c1-4e76-9b21-fbfc9c454f97',
@@ -54,11 +58,12 @@ class _ChewieVideoState extends State<ChewieVideo>
   @override
   void initState() {
     super.initState();
-
-    if(_urls.isEmpty) {
-      _urls = onlineVideos;
-      print('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF' + _urls.length.toString());
-    }
+    // _urls.clear();
+    // if (_urls.isEmpty) {
+    //   _urls = onlineVideos;
+    //   print('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF' +
+    //       _urls.length.toString());
+    // }
 
     /// initialize audio sound
     audioCache = AudioCache(
@@ -113,7 +118,8 @@ class _ChewieVideoState extends State<ChewieVideo>
     super.didChangeDependencies();
     print('Widget Update');
     print('ALERTQUIT = ' + alertQuit.toString());
-    print('RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRr' + _urls.length.toString());
+    print('RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRr' +
+        _urls.length.toString());
 
     /// clearPrevious items if alertQuit is true
     if (alertQuit) clearPrevious();
@@ -149,7 +155,8 @@ class _ChewieVideoState extends State<ChewieVideo>
   @override
   Future<void> startPlay(int index) async {
     print("Play ---------> $index");
-    print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+    print(
+        'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
     print(_urls.length);
     setState(() {
       initializeVideoPlayerFuture = null;
@@ -171,7 +178,7 @@ class _ChewieVideoState extends State<ChewieVideo>
   /// and set _playingIndex to increase for 1
   initializePlay(int index) async {
     final video = _urls[index];
-    controller = VideoPlayerController.network(video);
+    controller = VideoPlayerController.asset(video);
     controller.addListener(controllerListener);
     chewieController = ChewieController(
       videoPlayerController: controller,
@@ -222,8 +229,9 @@ class _ChewieVideoState extends State<ChewieVideo>
       _isEndPlaying = isEndPlaying;
       print(
           "$_playingIndex -----> isPlaying = $isPlaying / isCompletePlaying = $isEndPlaying");
-      print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
-    print(_urls.length);
+      print(
+          'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+      print(_urls.length);
       if (isEndPlaying) {
         final isComplete = _playingIndex == _urls.length - 1;
         if (isComplete) {
@@ -235,7 +243,7 @@ class _ChewieVideoState extends State<ChewieVideo>
                     userTrainerDocument: widget.userTrainerDocument,
                     userDocument: widget.userDocument,
                   )));
-
+          _urls.clear();
           print("Played ALL!!");
         } else {
           await showOverlay(context, _playingIndex);
@@ -248,27 +256,45 @@ class _ChewieVideoState extends State<ChewieVideo>
   ///
   /// here we create for every next video, his own controller,
   /// dispose the previous controller that was active
-  nextPlay(int index) {
-    controller = VideoPlayerController.network(_urls[index + 1]);
-    controller.addListener(controllerListener);
+  nextPlay(int index) async {
+    print(index + 1);
+
     setState(() {
-      chewieController.dispose();
-      // controller.pause();
-      controller.seekTo(Duration(seconds: 0));
-      chewieController = ChewieController(
-        videoPlayerController: controller,
-        fullScreenByDefault: true,
-        allowFullScreen: true,
-        showControls: false,
-        autoPlay: true,
-      );
-      initializeVideoPlayerFuture = controller.initialize();
+      initializeVideoPlayerFuture = null;
     });
-    setState(() {
-      _playingIndex++;
-      isEnd = false;
+    Future.delayed(const Duration(milliseconds: 200), () {
+      clearPrevious().then((_) {
+          initializeNew(index);
+      });
     });
-    chewieController.play();
+  }
+
+  initializeNew(int index) async {
+     final videos = _urls[index + 1];
+        controller = VideoPlayerController.asset(videos);
+        print(controller.toString() + '  PRIJEEEEEE');
+        controller.addListener(controllerListener);
+      
+          chewieController.dispose();
+          // controller.pause();
+          print('KREIRAM NOVI CONTROLLER');
+          chewieController = ChewieController(
+            videoPlayerController: controller,
+            fullScreenByDefault: true,
+            allowFullScreen: true,
+            showControls: false,
+            autoPlay: true,
+          );
+          initializeVideoPlayerFuture = controller.initialize();
+      
+        print(controller.toString() + ' CONTROLLER');
+        print('KREIRAO SAM NOVI CONTROLLER');
+        setState(() {
+          _playingIndex++;
+          isEnd = false;
+        });
+        print('CHEWIE PLAY');
+        chewieController.play();
   }
 
   /// pause video function for video
@@ -344,8 +370,6 @@ class _ChewieVideoState extends State<ChewieVideo>
       isReady = true;
     });
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
