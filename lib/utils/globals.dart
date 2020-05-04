@@ -12,3 +12,5 @@ OverlayEntry overlayEntryPaused;
 OverlayState overlayStatePaused;
 List<dynamic> exerciseTipsforView;
 List<dynamic> allVideos;
+List<dynamic> onlineVideos = [];
+bool isEmpty = false;

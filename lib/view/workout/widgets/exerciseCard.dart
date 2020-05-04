@@ -48,28 +48,28 @@ class _ExerciseCardState extends State<ExerciseCard> {
     // writeToData();
   }
 
-  Future<File> writeToData() async {
-    setState(() {
-      state = widget.exerciseVideo;
-    });
-    print('Succesfully write to file system: ' + state);
-    return widget.storage.writeData(state);
-  }
+  // Future<File> writeToData() async {
+  //   setState(() {
+  //     state = widget.exerciseVideo;
+  //   });
+  //   print('Succesfully write to file system: ' + state);
+  //   return widget.storage.writeData(state);
+  // }
 
   @override
   Widget build(BuildContext context) {
-    /// for tips 
+    /// for tips
     keyOfExercise = widget.exerciseID;
     return Row(
       key: ValueKey(widget.exerciseID),
       children: <Widget>[
         /// image thumbnail
         GestureDetector(
-          onTap: () => showInfo() ,
+          onTap: () => showInfo(),
           child: Container(
             margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
             width: SizeConfig.blockSizeHorizontal * 20,
-            height: SizeConfig.blockSizeVertical * 10 ,
+            height: SizeConfig.blockSizeVertical * 10,
             child: Image.network(
               widget.exerciseImage,
               height: SizeConfig.blockSizeVertical * 10,
@@ -111,11 +111,9 @@ class _ExerciseCardState extends State<ExerciseCard> {
   }
 
   showInfo() {
-     setState(() {
-              exerciseTipsforView = widget.exerciseTips;
-              exerciseNameForInfo = widget.exerciseName;
-              isInfo = true;
-              widget.refreshParent();
-            });
+    exerciseTipsforView = widget.exerciseTips;
+    exerciseNameForInfo = widget.exerciseName;
+    isInfo = true;
+    // widget.refreshParent();
   }
 }
