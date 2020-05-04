@@ -40,19 +40,25 @@ class _ChewieVideoState extends State<ChewieVideo>
   bool isEnd = false;
   AudioCache audioCache;
   UniqueKey uniqueKey;
+  
 
   VideoPlayerController controller;
 
   /// this is list of urls (later we will get this data from file system and db)
-  List<String> _urls = [
-    'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/C.mp4?alt=media&token=1b9452ce-58c1-4e76-9b21-fbfc9c454f97',
-    'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/asddasasd.mp4?alt=media&token=2687d82b-7cc0-4dc8-81e1-1e26b1ea9963',
-    'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/C.mp4?alt=media&token=1b9452ce-58c1-4e76-9b21-fbfc9c454f97',
+  List<dynamic> _urls = [
+    // 'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/C.mp4?alt=media&token=1b9452ce-58c1-4e76-9b21-fbfc9c454f97',
+    // 'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/asddasasd.mp4?alt=media&token=2687d82b-7cc0-4dc8-81e1-1e26b1ea9963',
+    // 'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/C.mp4?alt=media&token=1b9452ce-58c1-4e76-9b21-fbfc9c454f97',
   ];
 
   @override
   void initState() {
     super.initState();
+
+    if(_urls.isEmpty) {
+      _urls = onlineVideos;
+      print('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF' + _urls.length.toString());
+    }
 
     /// initialize audio sound
     audioCache = AudioCache(
@@ -107,6 +113,7 @@ class _ChewieVideoState extends State<ChewieVideo>
     super.didChangeDependencies();
     print('Widget Update');
     print('ALERTQUIT = ' + alertQuit.toString());
+    print('RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRr' + _urls.length.toString());
 
     /// clearPrevious items if alertQuit is true
     if (alertQuit) clearPrevious();
@@ -142,6 +149,8 @@ class _ChewieVideoState extends State<ChewieVideo>
   @override
   Future<void> startPlay(int index) async {
     print("Play ---------> $index");
+    print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+    print(_urls.length);
     setState(() {
       initializeVideoPlayerFuture = null;
     });
@@ -213,6 +222,8 @@ class _ChewieVideoState extends State<ChewieVideo>
       _isEndPlaying = isEndPlaying;
       print(
           "$_playingIndex -----> isPlaying = $isPlaying / isCompletePlaying = $isEndPlaying");
+      print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+    print(_urls.length);
       if (isEndPlaying) {
         final isComplete = _playingIndex == _urls.length - 1;
         if (isComplete) {
