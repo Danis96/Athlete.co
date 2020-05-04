@@ -1,14 +1,18 @@
 import 'package:attt/models/exerciseModel.dart';
 import 'package:attt/storage/storage.dart';
 import 'package:attt/utils/colors.dart';
+import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/workout/widgets/exerciseCard.dart';
 import 'package:attt/view_model/workoutViewModel.dart';
 import 'package:flutter/material.dart';
 
 Widget seriesCard(
-  BuildContext context,
+  String _trainerName,
+  String _weekName,
+  String _workoutName,
   String _seriesName,
+  BuildContext context,
   String trainerID,
   List<dynamic> _exercises,
   String _exerciseName,
@@ -53,7 +57,6 @@ Widget seriesCard(
                     _exercises = snapshot.data
                         .map((doc) => Exercise.fromDocument(doc))
                         .toList();
-
                     return ListView.builder(
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
@@ -68,6 +71,13 @@ Widget seriesCard(
                           _exerciseTips = _exercises[index].tips;
                           _exerciseID = _exercises[index].exerciseID;
                           _exerciseVideo = _exercises[index].video;
+
+                          print(_trainerName +
+                              _weekName +
+                              _workoutName +
+                              _seriesName +
+                              _exerciseName +
+                              '.mp4');
 
                           // List<String> exVideo = [];
                           // exVideo.addAll(snapshot.data[index].data['video']);

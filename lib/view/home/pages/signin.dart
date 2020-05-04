@@ -1,4 +1,5 @@
 import 'package:attt/utils/emptyContainer.dart';
+import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/home/widgets/buttonList.dart';
 import 'package:attt/view/home/widgets/logo.dart';
@@ -209,6 +210,7 @@ class _SigninState extends State<Signin> {
                                                                                 future: getExercises(trainerID, weekID, workoutID, seriesID),
                                                                                 builder: (BuildContext context, AsyncSnapshot snapshot) {
                                                                                   if (snapshot.hasData) {
+                                                                                    allVideos = [];
                                                                                     return ListView.builder(
                                                                                         shrinkWrap: true,
                                                                                         itemCount: snapshot.data.length,
@@ -219,6 +221,7 @@ class _SigninState extends State<Signin> {
                                                                                           print('Exercises ' + exerciseName);
                                                                                           print('Exercise video link : ' + exercisevideo);
                                                                                           print('FILE NAME: ' + trainerName + weekName + workoutName + seriesName + exerciseName + '.mp4');
+                                                                                          allVideos.add(trainerName + weekName + workoutName + seriesName + exerciseName + '.mp4');
 
                                                                                           /// EXERCISES
                                                                                           return EmptyContainer();

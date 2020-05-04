@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 Widget listOfWorkouts(DocumentSnapshot userDocument,
-    DocumentSnapshot userTrainerDocument, AsyncSnapshot snapshot, int index) {
+    DocumentSnapshot userTrainerDocument, AsyncSnapshot snapshot, int index, String weekName) {
   List<dynamic> workoutsFinished = [];
   workoutsFinished = userDocument.data['workouts_finished'];
   return FutureBuilder(
@@ -26,8 +26,9 @@ Widget listOfWorkouts(DocumentSnapshot userDocument,
                     .contains(snapshot2.data[index2].data['name'])) {
                   return EmptyContainer();
                 } else {
+                  String workoutName = snapshot2.data[index2].data['name'];
                   return workoutContainer(userDocument, snapshot2, index2,
-                      userTrainerDocument, snapshot, index, context);
+                      userTrainerDocument, snapshot, index, context, weekName, workoutName);
                 }
               },
             ),

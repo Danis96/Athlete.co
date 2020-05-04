@@ -5,7 +5,7 @@ abstract class TrainingPlanInterface {
   Future getWeeks(String trainerID);
   Future getWorkouts(String trainerID, String weekID);
   navigateToWorkout(DocumentSnapshot userDocument, DocumentSnapshot userTrainerDocument, String trainerID, String workoutName, String weekID,
-      String workoutID, String warmupDesc, BuildContext context);
+      String workoutID, String warmupDesc, BuildContext context, String weekName);
   whatsAppOpen(String phoneNumber, String message);
   secondTabPressed(BuildContext context, DocumentSnapshot userTrainerDocument,
       DocumentSnapshot userDocument, String userUID);

@@ -1,5 +1,6 @@
 import 'package:attt/storage/storage.dart';
 import 'package:attt/utils/colors.dart';
+import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/utils/text.dart';
 import 'package:attt/view/workout/widgets/exerciseCard.dart';
@@ -8,20 +9,24 @@ import 'package:flutter/material.dart';
 import 'package:attt/utils/customExpansion.dart' as custom;
 
 Widget warmupContainer(
-    String warmupDesc,
-    String trainerID,
-    String weekID,
-    String workoutID,
-    String image,
-    int isReps,
-    String name,
-    int reps,
-    int rest,
-    int sets,
-    List<String> tips,
-    String video,
-    Function refreshFromInfo,
-    ) {
+  String _trainerName,
+  String _weekName,
+  String _workoutName,
+  String _seriesName,
+  String warmupDesc,
+  String trainerID,
+  String weekID,
+  String workoutID,
+  String image,
+  int isReps,
+  String name,
+  int reps,
+  int rest,
+  int sets,
+  List<String> tips,
+  String video,
+  Function refreshFromInfo,
+) {
   return Container(
     color: MyColors().black,
     child: custom.ExpansionTile(
@@ -46,6 +51,12 @@ Widget warmupContainer(
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
+                      print(_trainerName +
+                          _weekName +
+                          _workoutName +
+                          _seriesName +
+                          snapshot.data[index].data['name'] +
+                          '.mp4');
                       return ExerciseCard(
                         exerciseImage: snapshot.data[index].data['image'],
                         exerciseIsReps: snapshot.data[index].data['isReps'],

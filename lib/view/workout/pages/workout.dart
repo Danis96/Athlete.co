@@ -12,7 +12,7 @@ import 'package:flutter/material.dart';
 class Workout extends StatefulWidget {
   final DocumentSnapshot userDocument, userTrainerDocument;
   final String trainerID;
-  final String workoutName, workoutID, weekID, warmupDesc;
+  final String workoutName, workoutID, weekID, warmupDesc, weekName;
 
   Workout(
       {Key key,
@@ -22,7 +22,8 @@ class Workout extends StatefulWidget {
       this.workoutName,
       this.workoutID,
       this.weekID,
-      this.warmupDesc})
+      this.warmupDesc,
+      this.weekName})
       : super(key: key);
 
   @override
@@ -34,7 +35,10 @@ class _WorkoutState extends State<Workout> {
       _exerciseName,
       _exerciseVideo,
       _exerciseImage,
-      _exerciseID;
+      _exerciseID,
+      _trainerName,
+      _weekName,
+      _workoutName;
 
   int _exerciseIsReps, _exerciseReps, _exerciseRest, _exerciseSets;
 
@@ -46,19 +50,23 @@ class _WorkoutState extends State<Workout> {
   }
 
   refreshFromInfo() {
-    setState(() {
-    });
+    setState(() {});
     print('refreshed from info');
   }
 
   @override
   Widget build(BuildContext context) {
-    
     SizeConfig().init(context);
+    _trainerName = widget.userTrainerDocument.data['trainer_name'];
+    _weekName = widget.weekName;
+    _workoutName = widget.workoutName;
     return Scaffold(
       appBar: AppBar(
         /// workout name
-        title: Text(widget.workoutName.toUpperCase(), style: TextStyle(fontSize: SizeConfig.blockSizeHorizontal * 5),),
+        title: Text(
+          widget.workoutName.toUpperCase(),
+          style: TextStyle(fontSize: SizeConfig.blockSizeHorizontal * 5),
+        ),
         backgroundColor: MyColors().lightBlack,
         elevation: 0,
         leading: IconButton(
@@ -70,8 +78,11 @@ class _WorkoutState extends State<Workout> {
           onPressed: () => WorkoutViewModel().xBack(context),
         ),
       ),
-      bottomNavigationBar: isInfo ? InfoExercise(exerciseTips: exerciseTipsforView,refreshParent: refreshFromInfo) : bottomButtonStart(
-          widget.userDocument, widget.userTrainerDocument, context),
+      bottomNavigationBar: isInfo
+          ? InfoExercise(
+              exerciseTips: exerciseTipsforView, refreshParent: refreshFromInfo)
+          : bottomButtonStart(
+              widget.userDocument, widget.userTrainerDocument, context),
       backgroundColor: Colors.transparent,
       body: ListView(
         shrinkWrap: true,
@@ -79,6 +90,9 @@ class _WorkoutState extends State<Workout> {
           /// workoutList
           workoutList(
             widget.trainerID,
+            _trainerName,
+            _weekName,
+            _workoutName,
             _seriesName,
             _series,
             _exercises,
