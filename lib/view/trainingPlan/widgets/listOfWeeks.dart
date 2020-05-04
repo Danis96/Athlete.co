@@ -26,7 +26,8 @@ Widget listOfWeeks(DocumentSnapshot userDocument,
                   );
                 } else {
                   if (index == counter) {
-                    return listOfWorkouts(userDocument, userTrainerDocument, snapshot, index);
+                    String weekName = snapshot.data[index]['name'];
+                    return listOfWorkouts(userDocument, userTrainerDocument, snapshot, index, weekName);
                   } else {
                     if (index < counter + 3)
                       return weekContainer(snapshot, index);

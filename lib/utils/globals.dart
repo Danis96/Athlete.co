@@ -11,3 +11,4 @@ bool isReady = false;
 OverlayEntry overlayEntryPaused;
 OverlayState overlayStatePaused;
 List<dynamic> exerciseTipsforView;
+List<dynamic> allVideos;

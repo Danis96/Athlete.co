@@ -10,7 +10,9 @@ Widget workoutContainer(
     DocumentSnapshot userTrainerDocument,
     AsyncSnapshot snapshot,
     int index,
-    BuildContext context, 
+    BuildContext context,
+    String weekName,
+    String workoutName
     ) {
   return GestureDetector(
     onTap: () => TrainingPlanViewModel().navigateToWorkout(
@@ -22,6 +24,7 @@ Widget workoutContainer(
         snapshot2.data[index2].data['workoutID'],
         snapshot2.data[index2].data['warmup'],
         context, 
+        weekName
         ),
     child: Container(
       margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 1.25),

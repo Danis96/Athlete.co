@@ -51,6 +51,7 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
       String workoutID,
       String warmupDesc,
       BuildContext context,
+      String weekName
       ) {
     Navigator.push(
         context,
@@ -63,6 +64,7 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
                 weekID: weekID,
                 workoutID: workoutID,
                 warmupDesc: warmupDesc,
+                weekName: weekName
                 )));
   }
 
