@@ -47,8 +47,20 @@ class _ChewieVideoState extends State<ChewieVideo>
   List<dynamic> _urls = [
     'assets/video/C.mp4',
     'assets/video/C.mp4',
-    // 'assets/video/F.mp4',
-    // 'assets/video/F.mp4',
+    'assets/video/F.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/F.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/F.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/F.mp4',
+    'assets/video/C.mp4',
     // 'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/C.mp4?alt=media&token=1b9452ce-58c1-4e76-9b21-fbfc9c454f97',
     // 'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/C.mp4?alt=media&token=1b9452ce-58c1-4e76-9b21-fbfc9c454f97',
     // 'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/asddasasd.mp4?alt=media&token=2687d82b-7cc0-4dc8-81e1-1e26b1ea9963',
@@ -237,16 +249,19 @@ class _ChewieVideoState extends State<ChewieVideo>
         if (isComplete) {
           isReady = false;
           audioCache.clear('zvuk.mp3');
-          Navigator.of(context).push(MaterialPageRoute(
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
               maintainState: false,
               builder: (_) => TrainingPlan(
                     userTrainerDocument: widget.userTrainerDocument,
                     userDocument: widget.userDocument,
                   )));
-          _urls.clear();
           print("Played ALL!!");
         } else {
-          await showOverlay(context, _playingIndex);
+          if(_playingIndex == _urls.length -1) {
+            print('ENDEEEEEEEEEEEEE');
+          } else {
+             await showOverlay(context, _playingIndex);
+          } 
         }
       }
     }
@@ -262,10 +277,11 @@ class _ChewieVideoState extends State<ChewieVideo>
     setState(() {
       initializeVideoPlayerFuture = null;
     });
-    Future.delayed(const Duration(milliseconds: 200), () {
-      clearPrevious().then((_) {
+    Future.delayed(const Duration(milliseconds: 200), () async {
+        await controller?.pause();
+         controller?.removeListener(controllerListener);
           initializeNew(index);
-      });
+     
     });
   }
 
