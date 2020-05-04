@@ -103,7 +103,7 @@ class _SigninState extends State<Signin> {
   @override
   void initState() {
     super.initState();
-    // SignInViewModel().autoLogIn(context);
+    SignInViewModel().autoLogIn(context);
   }
 
   @override
