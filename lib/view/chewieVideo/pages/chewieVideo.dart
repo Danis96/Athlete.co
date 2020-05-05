@@ -49,18 +49,19 @@ class _ChewieVideoState extends State<ChewieVideo>
     'assets/video/C.mp4',
     'assets/video/F.mp4',
     'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
     'assets/video/F.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/F.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/F.mp4',
-    'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/F.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/F.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/F.mp4',
+    // 'assets/video/C.mp4',
     // 'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/C.mp4?alt=media&token=1b9452ce-58c1-4e76-9b21-fbfc9c454f97',
     // 'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/C.mp4?alt=media&token=1b9452ce-58c1-4e76-9b21-fbfc9c454f97',
     // 'https://firebasestorage.googleapis.com/v0/b/athlete-254ed.appspot.com/o/asddasasd.mp4?alt=media&token=2687d82b-7cc0-4dc8-81e1-1e26b1ea9963',
@@ -70,12 +71,7 @@ class _ChewieVideoState extends State<ChewieVideo>
   @override
   void initState() {
     super.initState();
-    // _urls.clear();
-    // if (_urls.isEmpty) {
-    //   _urls = onlineVideos;
-    //   print('FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF' +
-    //       _urls.length.toString());
-    // }
+    //  
 
     /// initialize audio sound
     audioCache = AudioCache(
@@ -174,9 +170,9 @@ class _ChewieVideoState extends State<ChewieVideo>
       initializeVideoPlayerFuture = null;
     });
     Future.delayed(const Duration(milliseconds: 200), () {
-      clearPrevious().then((_) {
-        initializePlay(index);
-      });
+      // clearPrevious().then((_) {
+      initializePlay(index);
+      // });
     });
   }
 
@@ -190,19 +186,21 @@ class _ChewieVideoState extends State<ChewieVideo>
   /// and set _playingIndex to increase for 1
   initializePlay(int index) async {
     final video = _urls[index];
-    controller = VideoPlayerController.asset(video);
+    controller = VideoPlayerController.network(video);
     controller.addListener(controllerListener);
     chewieController = ChewieController(
-      videoPlayerController: controller,
-      fullScreenByDefault: true,
-      allowFullScreen: true,
-      showControls: false,
-      autoPlay: true,
-    );
+        videoPlayerController: controller,
+        fullScreenByDefault: true,
+        allowFullScreen: true,
+        showControls: false,
+        autoInitialize: false,
+        autoPlay: true);
     initializeVideoPlayerFuture = controller.initialize();
     setState(() {
       _playingIndex++;
+      isEnd = false;
     });
+    chewieController.play();
   }
 
   /// 3. Lifecycle [controllerListener]
@@ -249,7 +247,10 @@ class _ChewieVideoState extends State<ChewieVideo>
         if (isComplete) {
           isReady = false;
           audioCache.clear('zvuk.mp3');
-          Navigator.of(context).pushReplacement(MaterialPageRoute(
+          initializeVideoPlayerFuture = null;
+           chewieController.dispose();
+           await controller.dispose();
+          Navigator.of(context).push(MaterialPageRoute(
               maintainState: false,
               builder: (_) => TrainingPlan(
                     userTrainerDocument: widget.userTrainerDocument,
@@ -257,11 +258,7 @@ class _ChewieVideoState extends State<ChewieVideo>
                   )));
           print("Played ALL!!");
         } else {
-          if(_playingIndex == _urls.length -1) {
-            print('ENDEEEEEEEEEEEEE');
-          } else {
-             await showOverlay(context, _playingIndex);
-          } 
+          await showOverlay(context, _playingIndex);
         }
       }
     }
@@ -278,39 +275,38 @@ class _ChewieVideoState extends State<ChewieVideo>
       initializeVideoPlayerFuture = null;
     });
     Future.delayed(const Duration(milliseconds: 200), () async {
-        await controller?.pause();
-         controller?.removeListener(controllerListener);
-          initializeNew(index);
-     
+      clearPrevious().then((_) {
+        initializeNew(index);
+      });
     });
   }
 
   initializeNew(int index) async {
-     final videos = _urls[index + 1];
-        controller = VideoPlayerController.asset(videos);
-        print(controller.toString() + '  PRIJEEEEEE');
-        controller.addListener(controllerListener);
-      
-          chewieController.dispose();
-          // controller.pause();
-          print('KREIRAM NOVI CONTROLLER');
-          chewieController = ChewieController(
-            videoPlayerController: controller,
-            fullScreenByDefault: true,
-            allowFullScreen: true,
-            showControls: false,
-            autoPlay: true,
-          );
-          initializeVideoPlayerFuture = controller.initialize();
-      
-        print(controller.toString() + ' CONTROLLER');
-        print('KREIRAO SAM NOVI CONTROLLER');
-        setState(() {
-          _playingIndex++;
-          isEnd = false;
-        });
-        print('CHEWIE PLAY');
-        chewieController.play();
+    final videos = _urls[index + 1];
+    controller = VideoPlayerController.network(videos);
+    controller.addListener(controllerListener);
+
+    chewieController.dispose();
+    controller.pause();
+    print('KREIRAM NOVI CONTROLLER');
+    chewieController = ChewieController(
+      videoPlayerController: controller,
+      fullScreenByDefault: true,
+      allowFullScreen: true,
+      showControls: false,
+      autoPlay: true,
+      autoInitialize: false,
+    );
+    initializeVideoPlayerFuture = controller.initialize();
+
+    print(controller.toString() + ' CONTROLLER');
+    print('KREIRAO SAM NOVI CONTROLLER');
+    setState(() {
+      _playingIndex++;
+      isEnd = false;
+    });
+    print('CHEWIE PLAY');
+    chewieController.play();
   }
 
   /// pause video function for video
