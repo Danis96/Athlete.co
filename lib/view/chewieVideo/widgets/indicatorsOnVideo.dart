@@ -1,6 +1,10 @@
+import 'dart:async';
+
+import 'package:attt/utils/globals.dart';
 import 'package:attt/view/chewieVideo/widgets/globals.dart';
 import 'package:attt/view/workout/widgets/info.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 import 'package:attt/utils/size_config.dart';
@@ -8,9 +12,19 @@ import 'package:attt/utils/size_config.dart';
 class IndicatorsOnVideo extends StatefulWidget {
   final VideoPlayerController controller;
   final DocumentSnapshot userDocument, userTrainerDocument;
+  final int index;
+  final int duration;
+  final int position;
+  final Function showRest;
 
   IndicatorsOnVideo(
-      {this.controller, this.userTrainerDocument, this.userDocument});
+      {this.controller,
+      this.position,
+      this.showRest,
+      this.index,
+      this.userTrainerDocument,
+      this.userDocument,
+      this.duration});
 
   @override
   _IndicatorsOnVideoState createState() => _IndicatorsOnVideoState();
@@ -20,6 +34,8 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
     with TickerProviderStateMixin {
   AnimationController _controller;
   Animation<Offset> _offsetAnimation;
+  Timer _timer;
+  int time;
 
   @override
   void initState() {
@@ -35,7 +51,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       parent: _controller,
       curve: Curves.easeInOut,
     ));
-    
+
     super.initState();
   }
 
@@ -45,89 +61,147 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
     super.dispose();
   }
 
+  void startTimer() async {
+    time = widget.duration;
+    const oneSec = const Duration(seconds: 1);
+    _timer = new Timer.periodic(
+      oneSec,
+      (Timer timer) => setState(
+        () {
+          if (time < 1) {
+            timer.cancel();
+          } else {
+            time = time - 1;
+          }
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return 
-    SlideTransition(
+    return SlideTransition(
         position: _offsetAnimation,
-        child: Center(
-          child: Column(
-            children: <Widget>[
-              Row(
-                children: <Widget>[
-                  /// number of reps
-                  GestureDetector(
-                    // onTap: () => showTips(context),
-                                      child: Container(
-                      padding: EdgeInsets.all(5),
-                      child: Text('Gimnastic Push ups',
-                          style: TextStyle(
-                            color: Colors.white,
-                          )),
-                    ),
-                  ),
-                  /// icon note
-                  Container(
-                    margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 68),
-                    child: IconButton(
-                        color: Colors.white,
-                        iconSize: SizeConfig.blockSizeHorizontal * 5 ,
-                        icon: Icon(Icons.comment), onPressed: () {}),
-                  )
-                ],
-              ),
-              Row(
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      /// reps
-                      Container(
-                        height: 0,
-                        width: 0,
-                        // margin: EdgeInsets.only(top: 250.0),
-                        // child: Text('x10',
-                        //     style: TextStyle(
-                        //         color: Colors.white,
-                        //         fontSize: 32.0,
-                        //         fontWeight: FontWeight.bold,
-                        //         fontStyle: FontStyle.italic)),
-                      ),
-                      Container(
-                        padding: EdgeInsets.all(8.0),
-                        margin: EdgeInsets.only(
-                            top:
-                            // / showText
-                                // ? 
-                                SizeConfig.blockSizeVertical * 70
-                                // : 0
-                                ),
+        child: Padding(
+          padding: EdgeInsets.only(
+              top: SizeConfig.blockSizeVertical * 7,
+              bottom: SizeConfig.blockSizeVertical * 2,
+              left: SizeConfig.blockSizeHorizontal * 3,
+              right: SizeConfig.blockSizeVertical * 3),
+          child: Center(
+            child: Column(
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    /// number of reps
+                    GestureDetector(
+                      // onTap: () => showTips(context),
+                      child: Container(
                         child: Text(
-                          '1/5 Sets',
-                          style: TextStyle(
-                              color: Colors.white ,
-                              fontSize: SizeConfig.safeBlockHorizontal * 2,
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.italic),
-                        ),
+                            exerciseSnapshots[widget.index].data['name'],
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 32.0,
+                                fontWeight: FontWeight.bold,
+                                fontStyle: FontStyle.italic)),
                       ),
-                    ],
-                  ),
-                  /// done icon
-                  Container(
-                    width: 0,
-                    height: 0,
-                    // // margin: EdgeInsets.only(left: 700.0, top: 250.0),
-                    // child: IconButton(
-                    //   icon: Icon(Icons.fiber_manual_record),
-                    //   onPressed: () {},
-                    //   color: Colors.white,
-                    //   iconSize: 40.0,
-                    // ),
-                  ),
-                ],
-              ),
-            ],
+                    ),
+
+                    /// icon note
+                    Container(
+                      child: IconButton(
+                          color: Colors.white,
+                          iconSize: SizeConfig.blockSizeHorizontal * 5,
+                          icon: Icon(Icons.comment),
+                          onPressed: () {}),
+                    )
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Column(
+                      children: <Widget>[
+                        /// reps
+                        exerciseSnapshots[widget.index].data['isReps'] == 0
+                            ? Container(
+                                margin: EdgeInsets.only(
+                                    top: SizeConfig.blockSizeVertical * 55),
+                                child: Text(
+                                    'x' +
+                                        exerciseSnapshots[widget.index]
+                                            .data['reps']
+                                            .toString(),
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 32.0,
+                                        fontWeight: FontWeight.bold,
+                                        fontStyle: FontStyle.italic)),
+                              )
+                            : Container(
+                                margin: EdgeInsets.only(
+                                    top: SizeConfig.blockSizeVertical * 55),
+                                child: Text(
+                                    widget.duration != null
+                                        ? '00 : ' +
+                                            (widget.duration - widget.position)
+                                                .toString()
+                                        : '00 : 00',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 32.0,
+                                        fontWeight: FontWeight.bold,
+                                        fontStyle: FontStyle.italic)),
+                              ),
+                        Container(
+                          padding: EdgeInsets.all(8.0),
+                          margin: EdgeInsets.only(
+                              top:
+                                  // / showText
+                                  // ?
+                                  SizeConfig.blockSizeVertical * 1
+                              // : 0
+                              ),
+                          child: Text(
+                            '1/' +
+                                exerciseSnapshots[widget.index]
+                                    .data['sets']
+                                    .toString(),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 25.0,
+                                fontWeight: FontWeight.bold,
+                                fontStyle: FontStyle.italic),
+                          ),
+                        ),
+                      ],
+                    ),
+
+                    /// done icon
+                    exerciseSnapshots[widget.index].data['isReps'] == 0
+                        ? Container(
+                            margin: EdgeInsets.only(
+                                top: SizeConfig.blockSizeVertical * 55),
+                            child: IconButton(
+                              icon:
+                                  Icon(CupertinoIcons.check_mark_circled_solid),
+                              onPressed: () {
+                                widget.showRest(context, widget.index);
+                              },
+                              color: Colors.white,
+                              iconSize: 55.0,
+                            ),
+                          )
+                        : Container(
+                            width: 0,
+                            height: 0,
+                          ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ));
   }
@@ -147,6 +221,5 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
     overlayState.insert(overlayEntry);
 
     overlayEntry.remove();
- 
- }
+  }
 }

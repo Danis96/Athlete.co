@@ -40,6 +40,8 @@ class _ChewieVideoState extends State<ChewieVideo>
   bool isEnd = false;
   AudioCache audioCache;
   UniqueKey uniqueKey;
+  int videoDuration;
+  int videoPosition;
 
   VideoPlayerController controller;
 
@@ -228,6 +230,9 @@ class _ChewieVideoState extends State<ChewieVideo>
     var isEndPlaying =
         position.inMilliseconds > 0 && position.inSeconds == duration.inSeconds;
 
+    videoDuration = duration.inSeconds;
+    videoPosition = position.inSeconds;
+
     if (position.inSeconds == 0 && isReady == false) {
       showGetReady(context);
       isReady = true;
@@ -257,11 +262,13 @@ class _ChewieVideoState extends State<ChewieVideo>
                   )));
           print("Played ALL!!");
         } else {
-          if(_playingIndex == _urls.length -1) {
+          if (_playingIndex == _urls.length - 1) {
             print('ENDEEEEEEEEEEEEE');
           } else {
-             await showOverlay(context, _playingIndex);
-          } 
+            if (exerciseSnapshots[_playingIndex].data['isReps'] != 0) {
+              await showOverlay(context, _playingIndex);
+            }
+          }
         }
       }
     }
@@ -278,39 +285,39 @@ class _ChewieVideoState extends State<ChewieVideo>
       initializeVideoPlayerFuture = null;
     });
     Future.delayed(const Duration(milliseconds: 200), () async {
-        await controller?.pause();
-         controller?.removeListener(controllerListener);
-          initializeNew(index);
-     
+      await controller?.pause();
+      controller?.removeListener(controllerListener);
+      initializeNew(index);
     });
   }
 
   initializeNew(int index) async {
-     final videos = _urls[index + 1];
-        controller = VideoPlayerController.asset(videos);
-        print(controller.toString() + '  PRIJEEEEEE');
-        controller.addListener(controllerListener);
-      
-          chewieController.dispose();
-          // controller.pause();
-          print('KREIRAM NOVI CONTROLLER');
-          chewieController = ChewieController(
-            videoPlayerController: controller,
-            fullScreenByDefault: true,
-            allowFullScreen: true,
-            showControls: false,
-            autoPlay: true,
-          );
-          initializeVideoPlayerFuture = controller.initialize();
-      
-        print(controller.toString() + ' CONTROLLER');
-        print('KREIRAO SAM NOVI CONTROLLER');
-        setState(() {
-          _playingIndex++;
-          isEnd = false;
-        });
-        print('CHEWIE PLAY');
-        chewieController.play();
+    final videos = _urls[index + 1];
+    controller = VideoPlayerController.asset(videos);
+    print(controller.toString() + '  PRIJEEEEEE');
+    controller.addListener(controllerListener);
+
+    chewieController.dispose();
+    // controller.pause();
+    print('KREIRAM NOVI CONTROLLER');
+    chewieController = ChewieController(
+      videoPlayerController: controller,
+      fullScreenByDefault: true,
+      allowFullScreen: true,
+      showControls: false,
+      autoPlay: true,
+      looping: exerciseSnapshots[_playingIndex].data['isReps'] != 0 ? true : false
+    );
+    initializeVideoPlayerFuture = controller.initialize();
+
+    print(controller.toString() + ' CONTROLLER');
+    print('KREIRAO SAM NOVI CONTROLLER');
+    setState(() {
+      _playingIndex++;
+      isEnd = false;
+    });
+    print('CHEWIE PLAY');
+    chewieController.play();
   }
 
   /// pause video function for video
@@ -358,6 +365,7 @@ class _ChewieVideoState extends State<ChewieVideo>
     await Future.delayed(Duration(seconds: 10));
     overlayEntry.remove();
     isEnd = false;
+    repsDone = false;
 
     /// and play the next video
     await nextPlay(index);
@@ -406,10 +414,14 @@ class _ChewieVideoState extends State<ChewieVideo>
                   child: Center(child: _playView())),
             ),
             Positioned(
-                child: IndicatorsOnVideo(
-              userDocument: widget.userDocument,
-              userTrainerDocument: widget.userTrainerDocument,
-            )),
+              child: IndicatorsOnVideo(
+                  userDocument: widget.userDocument,
+                  userTrainerDocument: widget.userTrainerDocument,
+                  index: _playingIndex,
+                  duration: videoDuration,
+                  position: videoPosition,
+                  showRest: showOverlay),
+            ),
           ],
         ),
       ),
