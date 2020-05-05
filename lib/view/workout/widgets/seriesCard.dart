@@ -68,9 +68,7 @@ class _SeriesCardState extends State<SeriesCard> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    if(onlineVideos.isNotEmpty) {
-      onlineVideos.removeRange(1, onlineVideos.length);
-    }
+    onlineExercises = [];
     return Column(
       children: <Widget>[
         Container(
@@ -125,8 +123,9 @@ class _SeriesCardState extends State<SeriesCard> {
                                 widget.exerciseName +
                                 '.mp4');
 
-                            onlineVideos
+                            onlineExercises
                                 .add(snapshot.data[index].data['video']);
+                            exerciseSnapshots.add(snapshot.data[index]);
                             print(onlineVideos.length);
 
                             // List<String> exVideo = [];

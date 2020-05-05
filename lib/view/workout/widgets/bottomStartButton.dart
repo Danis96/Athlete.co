@@ -1,4 +1,5 @@
 import 'package:attt/utils/colors.dart';
+import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/utils/text.dart';
 import 'package:attt/view_model/chewieVideoViewModel.dart';
@@ -12,8 +13,13 @@ Widget bottomButtonStart(DocumentSnapshot userDocument,
     color: MyColors().white,
     child: RaisedButton(
       elevation: 0,
-      onPressed: () => ChewieVideoViewModel()
-          .playVideo(context, userDocument, userTrainerDocument),
+      onPressed: () {
+        onlineVideos = [];
+        ChewieVideoViewModel()
+          .playVideo(context, userDocument, userTrainerDocument);
+        onlineVideos = onlineWarmup + onlineExercises;
+        print(onlineVideos.length);
+      },
       child: Padding(
         padding: EdgeInsets.all(22.0),
         child: Text(
