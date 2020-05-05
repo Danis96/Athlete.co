@@ -13,4 +13,8 @@ OverlayState overlayStatePaused;
 List<dynamic> exerciseTipsforView;
 List<dynamic> allVideos;
 List<dynamic> onlineVideos = [];
+List<dynamic> onlineWarmup = [];
+List<dynamic> onlineExercises = [];
+List<dynamic> exerciseSnapshots = [];
 bool isEmpty = false;
+bool repsDone = false;

@@ -64,7 +64,7 @@ class _WarmupContainerState extends State<WarmupContainer> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    onlineVideos = [];
+    onlineWarmup = [];
     return Column(
       children: <Widget>[
         FutureBuilder(
@@ -82,8 +82,8 @@ class _WarmupContainerState extends State<WarmupContainer> {
                           widget.seriesName +
                           snapshot.data[index].data['name'] +
                           '.mp4');
-                      onlineVideos.add(snapshot.data[index].data['video']);
-                      print(onlineVideos.length);
+                      onlineWarmup.add(snapshot.data[index].data['video']);
+                      exerciseSnapshots.add(snapshot.data[index]);
                       return EmptyContainer();
                     });
               } else {
@@ -145,101 +145,3 @@ class _WarmupContainerState extends State<WarmupContainer> {
     );
   }
 }
-
-// Widget warmupContainer(
-//   String _trainerName,
-//   String _weekName,
-//   String _workoutName,
-//   String _seriesName,
-//   String warmupDesc,
-//   String trainerID,
-//   String weekID,
-//   String workoutID,
-//   String image,
-//   int isReps,
-//   String name,
-//   int reps,
-//   int rest,
-//   int sets,
-//   List<String> tips,
-//   String video,
-//   Function refreshFromInfo,
-// ) {
-//   return Column(
-//     children: <Widget>[
-//       FutureBuilder(
-//             future: WorkoutViewModel()
-//                 .getWarmupDocumentID(trainerID, weekID, workoutID),
-//             builder: (BuildContext context, AsyncSnapshot snapshot) {
-//               if (snapshot.hasData) {
-//                 return ListView.builder(
-//                     shrinkWrap: true,
-//                     physics: NeverScrollableScrollPhysics(),
-//                     itemCount: snapshot.data.length,
-//                     itemBuilder: (BuildContext context, int index) {
-//                       print(_trainerName +
-//                           _weekName +
-//                           _workoutName +
-//                           _seriesName +
-//                           snapshot.data[index].data['name'] +
-//                           '.mp4');
-//                       onlineVideos.add(snapshot.data[index].data['video']);
-//                       print(onlineVideos);
-//                       return EmptyContainer();
-//                     });
-//               } else {
-//                 return Center(
-//                   child: CircularProgressIndicator(),
-//                 );
-//               }
-//             }),
-//       Container(
-//         color: MyColors().black,
-//         child: custom.ExpansionTile(
-//           title: Text(
-//             MyText().warmUp,
-//             style: TextStyle(
-//                 color: MyColors().white,
-//                 fontSize: SizeConfig.blockSizeHorizontal * 5),
-//           ),
-//           subtitle: warmupDesc,
-//           iconColor: MyColors().white,
-//           backgroundColor: MyColors().black,
-//           initiallyExpanded: false,
-//           children: <Widget>[
-//             FutureBuilder(
-//                 future: WorkoutViewModel()
-//                     .getWarmupDocumentID(trainerID, weekID, workoutID),
-//                 builder: (BuildContext context, AsyncSnapshot snapshot) {
-//                   if (snapshot.hasData) {
-//                     return ListView.builder(
-//                         shrinkWrap: true,
-//                         physics: NeverScrollableScrollPhysics(),
-//                         itemCount: snapshot.data.length,
-//                         itemBuilder: (BuildContext context, int index) {
-//                           return ExerciseCard(
-//                             exerciseImage: snapshot.data[index].data['image'],
-//                             exerciseIsReps: snapshot.data[index].data['isReps'],
-//                             exerciseName: snapshot.data[index].data['name'],
-//                             exerciseReps: snapshot.data[index].data['reps'],
-//                             exerciseRest: snapshot.data[index].data['rest'],
-//                             exerciseSets: snapshot.data[index].data['sets'],
-//                             exerciseTips: snapshot.data[index].data['tips'],
-//                             exerciseVideo: snapshot.data[index].data['video'],
-//                             exerciseID: snapshot.data[index].data['exerciseID'],
-//                             storage: Storage(),
-//                             refreshParent: refreshFromInfo,
-//                           );
-//                         });
-//                   } else {
-//                     return Center(
-//                       child: CircularProgressIndicator(),
-//                     );
-//                   }
-//                 }),
-//           ],
-//         ),
-//       ),
-//     ],
-//   );
-// }

@@ -40,6 +40,8 @@ class _ChewieVideoState extends State<ChewieVideo>
   bool isEnd = false;
   AudioCache audioCache;
   UniqueKey uniqueKey;
+  int videoDuration;
+  int videoPosition;
 
   VideoPlayerController controller;
 
@@ -226,6 +228,9 @@ class _ChewieVideoState extends State<ChewieVideo>
     var isEndPlaying =
         position.inMilliseconds > 0 && position.inSeconds == duration.inSeconds;
 
+    videoDuration = duration.inSeconds;
+    videoPosition = position.inSeconds;
+
     if (position.inSeconds == 0 && isReady == false) {
       showGetReady(context);
       isReady = true;
@@ -258,7 +263,13 @@ class _ChewieVideoState extends State<ChewieVideo>
                   )));
           print("Played ALL!!");
         } else {
-          await showOverlay(context, _playingIndex);
+          if (_playingIndex == _urls.length - 1) {
+            print('ENDEEEEEEEEEEEEE');
+          } else {
+            if (exerciseSnapshots[_playingIndex].data['isReps'] != 0) {
+              await showOverlay(context, _playingIndex);
+            }
+          }
         }
       }
     }
@@ -295,7 +306,7 @@ class _ChewieVideoState extends State<ChewieVideo>
       allowFullScreen: true,
       showControls: false,
       autoPlay: true,
-      autoInitialize: false,
+      looping: exerciseSnapshots[_playingIndex].data['isReps'] != 0 ? true : false
     );
     initializeVideoPlayerFuture = controller.initialize();
 
@@ -354,6 +365,7 @@ class _ChewieVideoState extends State<ChewieVideo>
     await Future.delayed(Duration(seconds: 10));
     overlayEntry.remove();
     isEnd = false;
+    repsDone = false;
 
     /// and play the next video
     await nextPlay(index);
@@ -402,10 +414,14 @@ class _ChewieVideoState extends State<ChewieVideo>
                   child: Center(child: _playView())),
             ),
             Positioned(
-                child: IndicatorsOnVideo(
-              userDocument: widget.userDocument,
-              userTrainerDocument: widget.userTrainerDocument,
-            )),
+              child: IndicatorsOnVideo(
+                  userDocument: widget.userDocument,
+                  userTrainerDocument: widget.userTrainerDocument,
+                  index: _playingIndex,
+                  duration: videoDuration,
+                  position: videoPosition,
+                  showRest: showOverlay),
+            ),
           ],
         ),
       ),
