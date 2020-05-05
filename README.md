@@ -35,3 +35,9 @@ After some time, the application will be built on the device/emulator connected 
 
 **•	V3 – Sprint 3 (21.04. - 28.04.)<br/>** *
   	User story 1 - Implementation of starting a Workout and playing its videos. Functionalities implementes so far: Showing get ready screen at the very beginning of a workout for 5 seconds, Playing videos from list (starting from first one until last one), After each video showing rest screen for 10 seconds, After last video rest screen is not showed and user is redirected to Training Plan Screen, While in workout on back dialog box is showed and if accepted, user is redirected to Training Plan without saving the progress.<br/><br/>
+
+ **•V3 – Sprint 4 (28.04. - 05.05.)<br/>** *
+  	User story 1 - AS a developer I want to implement threads so that Athlete app have better performance.<br/><br/>* DONE. We implemented threads, so that our app is working faster, videos are playing smoothly. 
+    User story 2 - As a developer I want to have warmup as a single series in db so that I can firstly play video.<br/><br/>* DONE. Database reconstruction
+	User story 3 - Online preview of videos. DONE. We are taking videos from our db. We are listing them and sorting by our wowrkouts, so if you select a workout you will see those videos playing.
+	User story 4 - As a user I want to have all info about exercise I am doing, so that I can properly do it in the right way.<br/><br/>*  DONE <br/><br/>
