@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 
 
 String userName, userEmail, userPhoto, userUIDPref, userTU, userTP, keyOfExercise, exerciseNameForInfo;
@@ -18,3 +21,4 @@ List<dynamic> onlineExercises = [];
 List<dynamic> exerciseSnapshots = [];
 bool isEmpty = false;
 bool repsDone = false;
+bool isEndPlaying = false;

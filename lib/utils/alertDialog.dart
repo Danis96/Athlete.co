@@ -1,6 +1,5 @@
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/globals.dart';
-import 'package:attt/view/chewieVideo/widgets/globals.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -56,7 +55,6 @@ class MyAlertDialog extends StatelessWidget {
                 ),
               ),
             );
-            alertQuit = true;
             onlineVideos = [];
             exerciseSnapshots = [];
           },
