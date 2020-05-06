@@ -1,4 +1,3 @@
-import 'package:attt/view/chewieVideo/widgets/globals.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -55,9 +54,6 @@ class _GetReadyState extends State<GetReady> with TickerProviderStateMixin {
 
           if (_start < 1) {
             timer.cancel();
-            setState(() {
-              isFinished = false;
-            });
           } else {
             _start = _start - 1;
           }

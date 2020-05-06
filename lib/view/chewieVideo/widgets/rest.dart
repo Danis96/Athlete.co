@@ -1,4 +1,3 @@
-import 'package:attt/view/chewieVideo/widgets/globals.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
@@ -6,16 +5,16 @@ import 'dart:async';
 
 ///REST
 class Rest extends StatefulWidget {
+  final int rest;
+  Rest({this.rest});
   @override
   _MyAppState createState() => _MyAppState();
 }
 
 class _MyAppState extends State<Rest> with TickerProviderStateMixin {
-
-    AnimationController _controller1;
-    Animation<Offset> _offsetAnimation1;
-    AudioCache _audioCache;
-
+  AnimationController _controller1;
+  Animation<Offset> _offsetAnimation1;
+  AudioCache _audioCache;
 
   @override
   void initState() {
@@ -43,27 +42,27 @@ class _MyAppState extends State<Rest> with TickerProviderStateMixin {
   Timer _timer;
 
   /// ovdje  uzimamo rest iz baze iz exercises
-  int _start = 10;
+  int _start;
   bool _isLessThan10 = false;
 
   void startTimer() async {
+    _start = widget.rest;
     const oneSec = const Duration(seconds: 1);
-    _timer =  new Timer.periodic(
+    _timer = new Timer.periodic(
       oneSec,
       (Timer timer) => setState(
         () {
           if (_start < 1) {
             timer.cancel();
-            setState(() {
-               isFinished = false;  
-            });
           } else {
             _start = _start - 1;
-            if (_start < 10)  {
+            if (_start < 10) {
               setState(() {
                 _isLessThan10 = true;
               });
-             if (_start == 6)  _audioCache.play('zvuk.mp3');
+              if (_start == 5) {
+                _audioCache.play('zvuk.mp3');
+              }
             }
           }
         },
@@ -82,8 +81,8 @@ class _MyAppState extends State<Rest> with TickerProviderStateMixin {
     return Scaffold(
       backgroundColor: Color.fromRGBO(0, 0, 0, 0.6),
       body: SlideTransition(
-         position: _offsetAnimation1,
-              child: Center(
+        position: _offsetAnimation1,
+        child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -111,4 +110,3 @@ class _MyAppState extends State<Rest> with TickerProviderStateMixin {
     );
   }
 }
-
