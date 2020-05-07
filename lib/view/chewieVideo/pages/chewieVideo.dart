@@ -24,6 +24,7 @@ class _ChewieVideoState extends State<ChewieVideo> {
     'assets/video/C.mp4',
     'assets/video/C.mp4',
     'assets/video/C.mp4',
+    'assets/video/C.mp4',
     'assets/video/warmDown.mp4',
   ];
   VideoController vc;
@@ -60,7 +61,7 @@ class _ChewieVideoState extends State<ChewieVideo> {
     exerciseName = exerciseSnapshots[index].data['name'];
   }
 
-  nextPlay()  {
+  nextPlay() {
     setState(() {
       index++;
     });
@@ -79,35 +80,31 @@ class _ChewieVideoState extends State<ChewieVideo> {
     /// wait for [getReady] time and then remove the overlay widget
     await Future.delayed(Duration(seconds: 5));
     overlayEntry.remove();
-     setState(() {
-        isReady = true;  
-     });
+    setState(() {
+      isReady = true;
+    });
   }
 
   showRest(BuildContext context) async {
-
-    if(isTimerDone) {
+    if (isTimerDone) {
       vc.pause();
       isReady = false;
       print('GOTOV SAM BRUDA');
-        Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                maintainState: false,
-                builder: (_) => TrainingPlan(
-                  userDocument: widget.userDocument,
-                  userTrainerDocument: widget.userTrainerDocument,
-                ),
-              ),
-            );
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          maintainState: false,
+          builder: (_) => TrainingPlan(
+            userDocument: widget.userDocument,
+            userTrainerDocument: widget.userTrainerDocument,
+          ),
+        ),
+      );
       isTimerDone = false;
-    } 
-    else {
-       print('INDEX JE: ' + index.toString());
-       print('LISTA JE: ' + (source.length - 1).toString());
+    } else {
+      print('INDEX JE: ' + index.toString());
+      print('LISTA JE: ' + (source.length - 1).toString());
 
-     vc.pause();
-
-     
+      vc.pause();
 
       /// create overlay
       OverlayState overlayState = Overlay.of(context);
@@ -115,15 +112,15 @@ class _ChewieVideoState extends State<ChewieVideo> {
           builder: (BuildContext context) =>
               Visibility(visible: true, child: Rest(rest: exerciseRest)));
 
-      /// add to overlay overlayEntry that is rest widget
-      overlayState.insert(overlayEntry);
-
+        /// add to overlay overlayEntry that is rest widget
+        overlayState.insert(overlayEntry);
+    
 
       /// wait for [rest] time and then remove the overlay widget
       await Future.delayed(Duration(seconds: exerciseRest));
-      overlayEntry.remove();   
-        nextPlay();
-    }    
+      overlayEntry.remove();
+      nextPlay();
+    }
   }
 
   @override
@@ -149,8 +146,6 @@ class _ChewieVideoState extends State<ChewieVideo> {
     super.dispose();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     initializeVariables();
@@ -163,7 +158,7 @@ class _ChewieVideoState extends State<ChewieVideo> {
     return Scaffold(
       body: WillPopScope(
         onWillPop: () => _onWillPop(),
-              child: Stack(
+        child: Stack(
           children: <Widget>[
             Center(
               child: VideoBox(controller: vc),

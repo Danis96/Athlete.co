@@ -127,7 +127,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
               timerPaused = false;
             });
             timer.cancel();
-            if(widget.index == widget.listLenght -1) isTimerDone = true;
+          if(widget.index == widget.listLenght -1)  isTimerDone = true; 
                widget.showRest(context);
           } else {
             setState(() {
@@ -298,7 +298,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                     restShowed = true;
                                     timerPaused = false;
                                   });
-                                  widget.showRest(context);
                                 },
                                 color: Colors.white,
                                 iconSize: 55.0,
