@@ -37,21 +37,6 @@ class _ChewieVideoState extends State<ChewieVideo> {
   set index(int nv) {
     if (nv > _index) {
       // +
-      if (nv > source.length) {
-        print('ZADNJIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII');
-        exerciseSnapshots = [];
-        onlineWarmup = [];
-        onlineExercises = [];
-        onlineVideos = [];
-        Navigator.of(context).push(MaterialPageRoute(
-            maintainState: false,
-            builder: (_) => TrainingPlan(
-                  userTrainerDocument: widget.userTrainerDocument,
-                  userDocument: widget.userDocument,
-                )));
-      } else {
-        showRest(context);
-      }
       nv = nv % source.length;
       vc.autoplay = true;
       controller = VideoPlayerController.asset(source[nv]);
@@ -109,8 +94,9 @@ class _ChewieVideoState extends State<ChewieVideo> {
     await Future.delayed(Duration(seconds: exerciseRest));
     overlayEntry.remove();
 
+    restShowed = false;
     /// and play the next video
-    //await nextPlay();
+    await nextPlay();
   }
 
   @override
@@ -163,7 +149,7 @@ class _ChewieVideoState extends State<ChewieVideo> {
                 reps: exerciseReps,
                 sets: exerciseSets,
                 name: exerciseName,
-                showRest: nextPlay),
+                showRest: showRest),
           ),
         ],
       ),
