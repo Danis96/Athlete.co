@@ -68,6 +68,7 @@ flutter:
     - assets/audio/zvuk.mp3
     - assets/video/C.mp4
     - assets/video/F.mp4
+    - assets/video/warmDown.mp4
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

@@ -23,7 +23,8 @@ class _ChewieVideoState extends State<ChewieVideo> {
   List<String> source = [
     'assets/video/C.mp4',
     'assets/video/C.mp4',
-    'assets/video/F.mp4',
+    'assets/video/C.mp4',
+    'assets/video/warmDown.mp4',
   ];
   VideoController vc;
   VideoPlayerController controller;
@@ -77,16 +78,31 @@ class _ChewieVideoState extends State<ChewieVideo> {
     /// wait for [getReady] time and then remove the overlay widget
     await Future.delayed(Duration(seconds: 5));
     overlayEntry.remove();
-     
      setState(() {
         isReady = true;  
      });
-     
   }
 
   showRest(BuildContext context) async {
-    print('INDEX JE: ' + index.toString());
-    print('LISTA JE: ' + source.length.toString());
+
+    if(isTimerDone) {
+      vc.pause();
+      isReady = false;
+      print('GOTOV SAM BRUDA');
+        Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                maintainState: false,
+                builder: (_) => TrainingPlan(
+                  userDocument: widget.userDocument,
+                  userTrainerDocument: widget.userTrainerDocument,
+                ),
+              ),
+            );
+      isTimerDone = false;
+    } 
+    else {
+       print('INDEX JE: ' + index.toString());
+       print('LISTA JE: ' + (source.length - 1).toString());
 
      vc.pause();
 
@@ -105,7 +121,8 @@ class _ChewieVideoState extends State<ChewieVideo> {
       /// wait for [rest] time and then remove the overlay widget
       await Future.delayed(Duration(seconds: exerciseRest));
       overlayEntry.remove();   
-        nextPlay(); 
+        nextPlay();
+    }    
   }
 
   @override
