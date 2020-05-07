@@ -8,6 +8,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:video_box/video.controller.dart';
 import 'package:attt/utils/size_config.dart';
+import 'package:attt/utils/globals.dart';
 
 class IndicatorsOnVideo extends StatefulWidget {
   final VideoController controller;
@@ -43,7 +44,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
 
   @override
   void initState() {
-      super.initState();
+    super.initState();
     _controller = AnimationController(
       duration: const Duration(milliseconds: 1200),
       vsync: this,
@@ -57,11 +58,10 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       curve: Curves.easeInOut,
     ));
 
-  
     _start = widget.duration;
-    
-     if (widget.index == 0) {
-      if (widget.isReps == 1) {
+
+    if (widget.index == 0) {
+      if (widget.isReps == 1 && !timerPaused) {
         Timer(Duration(seconds: 6), () {
           startTimer(_start);
           widget.controller.play();
@@ -72,7 +72,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
         });
       }
     } else {
-      if (widget.isReps == 1) {
+      if (widget.isReps == 1 && !timerPaused) {
         startTimer(_start);
         widget.controller.play();
       } else if (widget.isReps == 0) {
@@ -83,28 +83,19 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
     audioCache = AudioCache(
         prefix: "audio/",
         fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
-
   }
+
   @override
   void didUpdateWidget(IndicatorsOnVideo oldWidget) {
-      super.didUpdateWidget(oldWidget);
-    _start = widget.duration;
+    super.didUpdateWidget(oldWidget);
     if (widget.index == 0) {
-      if (widget.isReps == 1) {
-        Timer(Duration(seconds: 6), () {
-          startTimer(_start);
-          widget.controller.play();
-        });
-      } else if (widget.isReps == 0) {
-        Timer(Duration(seconds: 6), () {
-          widget.controller.play();
-        });
-      }
-    } else {
-      if (widget.isReps == 1) {
+      _start = widget.duration;
+    }
+    if (widget.index > 0) {
+      if (widget.isReps == 1 && !timerPaused) {
         startTimer(_start);
         widget.controller.play();
-      } else if (widget.isReps == 0) {
+      } else if (widget.isReps == 0 && !restShowed) {
         widget.controller.play();
       }
     }
@@ -121,8 +112,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   int pausedOn;
   Timer _timer;
   bool timerPaused = false;
-
-  /// ovdje  uzimamo rest iz baze iz exercises
   bool _isLessThan10 = false;
 
   void startTimer(int startingValue) async {
@@ -132,8 +121,12 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       (Timer timer) => setState(
         () {
           if (startingValue < 1) {
+            setState(() {
+              restShowed = true;
+              timerPaused = false;
+            });
             timer.cancel();
-              widget.showRest(context);
+            widget.showRest(context);
           } else {
             setState(() {
               startingValue = startingValue - 1;
@@ -144,7 +137,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                 _isLessThan10 = true;
               });
               if (startingValue == 5 && widget.isReps == 1) {
-                // audioCache.play('zvuk.mp3');
+                audioCache.play('zvuk.mp3');
               }
             }
           }
@@ -156,9 +149,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-
-    
-
     return SlideTransition(
         position: _offsetAnimation,
         child: InkWell(
@@ -278,12 +268,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                           Container(
                             padding: EdgeInsets.all(8.0),
                             margin: EdgeInsets.only(
-                                top:
-                                    // / showText
-                                    // ?
-                                    SizeConfig.blockSizeVertical * 1
-                                // : 0
-                                ),
+                                top: SizeConfig.blockSizeVertical * 1),
                             child: Text(
                               '1/' + widget.sets.toString(),
                               style: TextStyle(
@@ -305,9 +290,11 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                 icon: Icon(
                                     CupertinoIcons.check_mark_circled_solid),
                                 onPressed: () {
-                                
-                                    widget.showRest(context);
-                                
+                                  setState(() {
+                                    restShowed = true;
+                                    timerPaused = false;
+                                  });
+                                  widget.showRest(context);
                                 },
                                 color: Colors.white,
                                 iconSize: 55.0,
