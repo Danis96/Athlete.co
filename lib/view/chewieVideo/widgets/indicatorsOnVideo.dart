@@ -59,20 +59,53 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
 
     super.initState();
     _start = widget.duration;
-    if (widget.isReps == 1) {
-      Timer(Duration(seconds: 6), () {
+    if (widget.index == 0) {
+      if (widget.isReps == 1) {
+        Timer(Duration(seconds: 6), () {
+          startTimer(_start);
+          widget.controller.play();
+        });
+      } else if (widget.isReps == 0) {
+        Timer(Duration(seconds: 6), () {
+          widget.controller.play();
+        });
+      }
+    } else {
+      if (widget.isReps == 1) {
         startTimer(_start);
         widget.controller.play();
-      });
-    } else if (widget.isReps == 0) {
-      Timer(Duration(seconds: 6), () {
+      } else if (widget.isReps == 0) {
         widget.controller.play();
-      });
+      }
     }
 
     audioCache = AudioCache(
         prefix: "audio/",
         fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
+  }
+  @override
+  void didUpdateWidget(IndicatorsOnVideo oldWidget) {
+    _start = widget.duration;
+    if (widget.index == 0) {
+      if (widget.isReps == 1) {
+        Timer(Duration(seconds: 6), () {
+          startTimer(_start);
+          widget.controller.play();
+        });
+      } else if (widget.isReps == 0) {
+        Timer(Duration(seconds: 6), () {
+          widget.controller.play();
+        });
+      }
+    } else {
+      if (widget.isReps == 1) {
+        startTimer(_start);
+        widget.controller.play();
+      } else if (widget.isReps == 0) {
+        widget.controller.play();
+      }
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   @override

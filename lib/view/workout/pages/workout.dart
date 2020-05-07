@@ -83,7 +83,7 @@ class _WorkoutState extends State<Workout> {
               exerciseTips: exerciseTipsforView, refreshParent: refreshFromInfo)
           : bottomButtonStart(
               widget.userDocument, widget.userTrainerDocument, context),
-      backgroundColor: Colors.transparent,
+      backgroundColor: MyColors().lightBlack,
       body: ListView(
         shrinkWrap: true,
         children: <Widget>[
