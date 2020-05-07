@@ -36,7 +36,6 @@ class MyAlertDialog extends StatelessWidget {
         new FlatButton(
           onPressed: () {
             Navigator.pop(context);
-            // chewieController.play();
           },
           child: new Text(
             no,
@@ -45,8 +44,7 @@ class MyAlertDialog extends StatelessWidget {
         ),
         new FlatButton(
           onPressed: () {
-            onExit();
-            Navigator.of(context).push(
+            Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 maintainState: false,
                 builder: (_) => TrainingPlan(
@@ -55,6 +53,7 @@ class MyAlertDialog extends StatelessWidget {
                 ),
               ),
             );
+            isReady = false;
             onlineVideos = [];
             exerciseSnapshots = [];
           },

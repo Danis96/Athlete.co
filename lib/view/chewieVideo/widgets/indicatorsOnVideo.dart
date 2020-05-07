@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:attt/utils/globals.dart';
+import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:attt/view/workout/widgets/info.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -8,7 +8,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:video_box/video.controller.dart';
 import 'package:attt/utils/size_config.dart';
-import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 
 class IndicatorsOnVideo extends StatefulWidget {
   final VideoController controller;
@@ -59,20 +58,30 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
 
     super.initState();
     _start = widget.duration;
-    if (widget.isReps == 1) {
-      Timer(Duration(seconds: 6), () {
-        startTimer(_start);
-        widget.controller.play();
-      });
-    } else if (widget.isReps == 0) {
-      Timer(Duration(seconds: 6), () {
-        widget.controller.play();
-      });
-    }
 
     audioCache = AudioCache(
         prefix: "audio/",
         fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
+
+        if (widget.isReps == 1) {
+      if (widget.index == 0) {
+        Timer(Duration(seconds: 6), () {
+          startTimer(_start);
+          widget.controller.play();
+        });
+      } else {
+        startTimer(_start);
+        widget.controller.play();
+      }
+    } else if (widget.isReps == 0) {
+      if (widget.index == 0) {
+        Timer(Duration(seconds: 6), () {
+          widget.controller.play();
+        });
+      } else {
+        widget.controller.play();
+      }
+    }
   }
 
   @override
@@ -98,22 +107,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
         () {
           if (startingValue < 1) {
             timer.cancel();
-            // if (widget.index == widget.listLenght) {
-            //   print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
-            //   exerciseSnapshots = [];
-            //   onlineWarmup = [];
-            //   onlineExercises = [];
-            //   onlineVideos = [];
-            //   Navigator.of(context).push(MaterialPageRoute(
-            //       maintainState: false,
-            //       builder: (_) => TrainingPlan(
-            //             userTrainerDocument: widget.userTrainerDocument,
-            //             userDocument: widget.userDocument,
-            //           )));
-            // } else {
-            //   widget.showRest(context);
-            // }
-            widget.showRest(context);
+              widget.showRest(context);
           } else {
             setState(() {
               startingValue = startingValue - 1;
@@ -124,7 +118,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                 _isLessThan10 = true;
               });
               if (startingValue == 5 && widget.isReps == 1) {
-                audioCache.play('zvuk.mp3');
+                // audioCache.play('zvuk.mp3');
               }
             }
           }
@@ -136,6 +130,9 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
+
+    
+
     return SlideTransition(
         position: _offsetAnimation,
         child: InkWell(
@@ -161,7 +158,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
           },
           child: Padding(
             padding: EdgeInsets.only(
-                top: SizeConfig.blockSizeVertical * 7,
+                top: SizeConfig.blockSizeVertical * 5,
                 bottom: SizeConfig.blockSizeVertical * 2,
                 left: SizeConfig.blockSizeHorizontal * 3,
                 right: SizeConfig.blockSizeVertical * 3),
@@ -282,26 +279,9 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                 icon: Icon(
                                     CupertinoIcons.check_mark_circled_solid),
                                 onPressed: () {
-                                  widget.showRest(context);
-                                  // if (widget.index == widget.listLenght) {
-                                  //   print(
-                                  //       'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
-                                  //   exerciseSnapshots = [];
-                                  //   onlineWarmup = [];
-                                  //   onlineExercises = [];
-                                  //   onlineVideos = [];
-                                  //   Navigator.of(context)
-                                  //       .push(MaterialPageRoute(
-                                  //           maintainState: false,
-                                  //           builder: (_) => TrainingPlan(
-                                  //                 userTrainerDocument: widget
-                                  //                     .userTrainerDocument,
-                                  //                 userDocument:
-                                  //                     widget.userDocument,
-                                  //               )));
-                                  // } else {
-                                  //   widget.showRest(context);
-                                  // }
+                                
+                                    widget.showRest(context);
+                                
                                 },
                                 color: Colors.white,
                                 iconSize: 55.0,
