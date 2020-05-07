@@ -43,6 +43,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
 
   @override
   void initState() {
+      super.initState();
     _controller = AnimationController(
       duration: const Duration(milliseconds: 1200),
       vsync: this,
@@ -56,29 +57,54 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       curve: Curves.easeInOut,
     ));
 
-    super.initState();
+  
     _start = widget.duration;
+    
+     if (widget.index == 0) {
+      if (widget.isReps == 1) {
+        Timer(Duration(seconds: 6), () {
+          startTimer(_start);
+          widget.controller.play();
+        });
+      } else if (widget.isReps == 0) {
+        Timer(Duration(seconds: 6), () {
+          widget.controller.play();
+        });
+      }
+    } else {
+      if (widget.isReps == 1) {
+        startTimer(_start);
+        widget.controller.play();
+      } else if (widget.isReps == 0) {
+        widget.controller.play();
+      }
+    }
 
     audioCache = AudioCache(
         prefix: "audio/",
         fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
 
-        if (widget.isReps == 1) {
-      if (widget.index == 0) {
+  }
+  @override
+  void didUpdateWidget(IndicatorsOnVideo oldWidget) {
+      super.didUpdateWidget(oldWidget);
+    _start = widget.duration;
+    if (widget.index == 0) {
+      if (widget.isReps == 1) {
         Timer(Duration(seconds: 6), () {
           startTimer(_start);
           widget.controller.play();
         });
-      } else {
-        startTimer(_start);
-        widget.controller.play();
-      }
-    } else if (widget.isReps == 0) {
-      if (widget.index == 0) {
+      } else if (widget.isReps == 0) {
         Timer(Duration(seconds: 6), () {
           widget.controller.play();
         });
-      } else {
+      }
+    } else {
+      if (widget.isReps == 1) {
+        startTimer(_start);
+        widget.controller.play();
+      } else if (widget.isReps == 0) {
         widget.controller.play();
       }
     }

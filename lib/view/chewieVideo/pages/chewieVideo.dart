@@ -101,13 +101,11 @@ class _ChewieVideoState extends State<ChewieVideo> {
       /// add to overlay overlayEntry that is rest widget
       overlayState.insert(overlayEntry);
 
+
       /// wait for [rest] time and then remove the overlay widget
       await Future.delayed(Duration(seconds: exerciseRest));
-      overlayEntry.remove();
-     setState(() {
+      overlayEntry.remove();   
         nextPlay(); 
-     });
-      
   }
 
   @override
