@@ -2,6 +2,7 @@ import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:attt/utils/globals.dart';
 
 ///REST
 class Rest extends StatefulWidget {
@@ -54,6 +55,9 @@ class _MyAppState extends State<Rest> with TickerProviderStateMixin {
         () {
           if (_start < 1) {
             timer.cancel();
+            setState(() {
+              restShowed = false;
+            });
           } else {
             _start = _start - 1;
             if (_start < 10) {

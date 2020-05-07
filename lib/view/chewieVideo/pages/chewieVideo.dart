@@ -44,6 +44,7 @@ class _ChewieVideoState extends State<ChewieVideo> {
       controller = VideoPlayerController.asset(source[nv]);
       vc.setSource(controller);
       vc.looping = true;
+      vc.bufferColor = Colors.black;
       vc.isFullScreen = true;
       vc.initialize();
     }
