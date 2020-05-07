@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:attt/utils/globals.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:attt/view/workout/widgets/info.dart';
 import 'package:audioplayers/audio_cache.dart';
@@ -126,7 +127,8 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
               timerPaused = false;
             });
             timer.cancel();
-            widget.showRest(context);
+            if(widget.index == widget.listLenght -1) isTimerDone = true;
+               widget.showRest(context);
           } else {
             setState(() {
               startingValue = startingValue - 1;
@@ -290,6 +292,8 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                 icon: Icon(
                                     CupertinoIcons.check_mark_circled_solid),
                                 onPressed: () {
+                                    if(widget.index == widget.listLenght -1) isTimerDone = true;
+                                    widget.showRest(context);
                                   setState(() {
                                     restShowed = true;
                                     timerPaused = false;
