@@ -29,10 +29,10 @@ class _TrainingPlanState extends State<TrainingPlan> {
   @override
   void initState() {
     super.initState();
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    SchedulerBinding.instance.addPostFrameCallback((_) {
-      setState(() {});
-    });
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp
+    ]);
+
   }
 
   @override

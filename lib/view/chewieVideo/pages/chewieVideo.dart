@@ -1,4 +1,5 @@
 import 'package:attt/storage/storage.dart';
+import 'package:attt/utils/alertDialog.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorsOnVideo.dart';
 import 'package:attt/view/chewieVideo/widgets/rest.dart';
@@ -57,7 +58,7 @@ class _ChewieVideoState extends State<ChewieVideo> {
     exerciseName = exerciseSnapshots[index].data['name'];
   }
 
-  nextPlay() {
+  nextPlay()  {
     setState(() {
       index++;
     });
@@ -76,27 +77,35 @@ class _ChewieVideoState extends State<ChewieVideo> {
     /// wait for [getReady] time and then remove the overlay widget
     await Future.delayed(Duration(seconds: 5));
     overlayEntry.remove();
+     
+     setState(() {
+        isReady = true;  
+     });
+     
   }
 
   showRest(BuildContext context) async {
-    vc.pause();
+    print('INDEX JE: ' + index.toString());
+    print('LISTA JE: ' + source.length.toString());
 
-    /// create overlay
-    OverlayState overlayState = Overlay.of(context);
-    OverlayEntry overlayEntry = OverlayEntry(
-        builder: (BuildContext context) =>
-            Visibility(visible: true, child: Rest(rest: exerciseRest)));
+     vc.pause();
 
-    /// add to overlay overlayEntry that is rest widget
-    overlayState.insert(overlayEntry);
+     
 
-    /// wait for [rest] time and then remove the overlay widget
-    await Future.delayed(Duration(seconds: exerciseRest));
-    overlayEntry.remove();
+      /// create overlay
+      OverlayState overlayState = Overlay.of(context);
+      OverlayEntry overlayEntry = OverlayEntry(
+          builder: (BuildContext context) =>
+              Visibility(visible: true, child: Rest(rest: exerciseRest)));
 
-    restShowed = false;
-    /// and play the next video
-    await nextPlay();
+      /// add to overlay overlayEntry that is rest widget
+      overlayState.insert(overlayEntry);
+
+
+      /// wait for [rest] time and then remove the overlay widget
+      await Future.delayed(Duration(seconds: exerciseRest));
+      overlayEntry.remove();   
+        nextPlay(); 
   }
 
   @override
@@ -122,37 +131,62 @@ class _ChewieVideoState extends State<ChewieVideo> {
     super.dispose();
   }
 
+
+
   @override
   Widget build(BuildContext context) {
     initializeVariables();
-    if (_index == 0) {
+    if (_index == 0 && isReady == false) {
       Timer(Duration(seconds: 1), () {
         vc.pause();
         showGetReady(context);
       });
     }
     return Scaffold(
-      body: Stack(
-        children: <Widget>[
-          Center(
-            child: VideoBox(controller: vc),
-          ),
-          Positioned(
-            child: IndicatorsOnVideo(
-                controller: vc,
-                listLenght: source.length,
-                userDocument: widget.userDocument,
-                userTrainerDocument: widget.userTrainerDocument,
-                index: _index,
-                duration: exerciseDuration,
-                isReps: exerciseIsReps,
-                reps: exerciseReps,
-                sets: exerciseSets,
-                name: exerciseName,
-                showRest: showRest),
-          ),
-        ],
+      body: WillPopScope(
+        onWillPop: () => _onWillPop(),
+              child: Stack(
+          children: <Widget>[
+            Center(
+              child: VideoBox(controller: vc),
+            ),
+            Positioned(
+              child: IndicatorsOnVideo(
+                  controller: vc,
+                  listLenght: source.length,
+                  userDocument: widget.userDocument,
+                  userTrainerDocument: widget.userTrainerDocument,
+                  index: _index,
+                  duration: exerciseDuration,
+                  isReps: exerciseIsReps,
+                  reps: exerciseReps,
+                  sets: exerciseSets,
+                  name: exerciseName,
+                  showRest: showRest),
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  /// [_onWillPop]
+  ///
+  /// async funstion that creates an exit dialog for our screen
+  /// CONTINUE / CANCEL
+  Future<bool> _onWillPop() async {
+    vc.pause();
+    return showDialog(
+          context: context,
+          builder: (context) => MyAlertDialog(
+            no: 'Cancel',
+            yes: 'Continue',
+            title: 'Back to Training plan?',
+            content: 'If you go back all your progress will be lost',
+            userDocument: widget.userDocument,
+            userTrainerDocument: widget.userTrainerDocument,
+          ),
+        ) ??
+        true;
   }
 }
