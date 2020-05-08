@@ -23,21 +23,21 @@ class TrainingPlan extends StatefulWidget {
 }
 
 class _TrainingPlanState extends State<TrainingPlan> {
-  
   /// treba danisu warmup
   String warmup;
 
   @override
-  void initState() { 
-    super.initState();
- SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp
-    ]);
-  }
- 
-  @override
   Widget build(BuildContext context) {
-    print(readyGoing.toString() +  ' ready iz bilda || rest iz builda ' + restGoing.toString()   );
+    print(readyGoing.toString() +
+        ' ready iz bilda || rest iz builda ' +
+        restGoing.toString());
+    print(alertQuit.toString() + ' == ALERTQUIT');
+  
+      if (alertQuit) {
+        SystemChrome.setPreferredOrientations(
+            [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+      }
+    
     SizeConfig().init(context);
     return Scaffold(
       backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),

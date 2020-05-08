@@ -82,17 +82,13 @@ class _ChewieVideoState extends State<ChewieVideo> {
     /// wait for [getReady] time and then remove the overlay widget
     await Future.delayed(Duration(seconds: 5));
     overlayEntry.remove();
-    setState(() {
-      isReady = true;
-      readyGoing = false;
-      // restGoing = false;
-      print(readyGoing.toString() + ' IZ READY ready ');
-    });
+    isReady = true;
+    readyGoing = false;
+    // restGoing = false;
+    print(readyGoing.toString() + ' IZ READY ready ');
   }
 
   showRest(BuildContext context) async {
-    /// for android back disabling
-
     if (isTimerDone) {
       vc.pause();
       print('GOTOV SAM BRUDA');
@@ -111,6 +107,8 @@ class _ChewieVideoState extends State<ChewieVideo> {
         DeviceOrientation.portraitDown,
       ]);
       isReady = false;
+      onlineVideos = [];
+      exerciseSnapshots = [];
       isTimerDone = false;
     } else {
       WidgetsBinding.instance.addPostFrameCallback((_) => restGoing = true);
@@ -124,9 +122,15 @@ class _ChewieVideoState extends State<ChewieVideo> {
       OverlayEntry overlayEntry = OverlayEntry(
           builder: (BuildContext context) =>
               Visibility(visible: true, child: Rest(rest: exerciseRest)));
-
+      
+     
+      if(alertQuit) {
+         print('No rest, alertQuit');
+      } else {
+         overlayState.insert(overlayEntry);
+      }
       /// add to overlay overlayEntry that is rest widget
-      overlayState.insert(overlayEntry);
+      
 
       /// wait for [rest] time and then remove the overlay widget
       await Future.delayed(Duration(seconds: exerciseRest));
@@ -140,11 +144,11 @@ class _ChewieVideoState extends State<ChewieVideo> {
   void initState() {
     super.initState();
     //source = onlineVideos;
-
-    /// when widget inits make that screen rotation
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
     ]);
+
     vc = VideoController(
         controllerWidgets: false,
         looping: true,
@@ -155,22 +159,26 @@ class _ChewieVideoState extends State<ChewieVideo> {
 
   @override
   void dispose() {
-    vc.dispose();
     super.dispose();
+    vc.dispose();
+    print('CHEWIE VIDEO DISPOSED');
   }
 
   @override
   Widget build(BuildContext context) {
     initializeVariables();
 
-
+    if (alertQuit) {
+      print('NO READY, QUIT');
+      dispose();
+    } else {
       if (_index == 0 && isReady == false) {
         Timer(Duration(seconds: 1), () {
           vc.pause();
           showGetReady(context);
         });
       }
-    
+    }
 
     return Scaffold(
       body: WillPopScope(
