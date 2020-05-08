@@ -1,6 +1,7 @@
 import 'package:attt/storage/storage.dart';
 import 'package:attt/utils/alertDialog.dart';
 import 'package:attt/utils/globals.dart';
+import 'package:attt/utils/screenOrientation/landscapeMode.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorsOnVideo.dart';
 import 'package:attt/view/chewieVideo/widgets/rest.dart';
 import 'package:attt/view/chewieVideo/widgets/getReady.dart';
@@ -19,7 +20,8 @@ class ChewieVideo extends StatefulWidget {
   _ChewieVideoState createState() => _ChewieVideoState();
 }
 
-class _ChewieVideoState extends State<ChewieVideo> {
+class _ChewieVideoState extends State<ChewieVideo> 
+with LandscapeStatefulModeMixin {
   List<String> source = [
     'assets/video/C.mp4',
     'assets/video/C.mp4',
@@ -46,7 +48,7 @@ class _ChewieVideoState extends State<ChewieVideo> {
       vc.setSource(controller);
       vc.looping = true;
       vc.bufferColor = Colors.black;
-      vc.isFullScreen = true;
+      vc.isFullScreen = false;
       vc.initialize();
     }
     _index = nv;
@@ -93,6 +95,7 @@ class _ChewieVideoState extends State<ChewieVideo> {
       vc.pause();
       print('GOTOV SAM BRUDA');
       restGoing = false;
+      alertQuit = true;
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           maintainState: false,
@@ -102,10 +105,6 @@ class _ChewieVideoState extends State<ChewieVideo> {
           ),
         ),
       );
-      SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-      ]);
       isReady = false;
       onlineVideos = [];
       exerciseSnapshots = [];
@@ -143,16 +142,12 @@ class _ChewieVideoState extends State<ChewieVideo> {
   @override
   void initState() {
     super.initState();
-    //source = onlineVideos;
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeRight,
-      DeviceOrientation.landscapeLeft,
-    ]);
+    // source = onlineVideos;
 
     vc = VideoController(
         controllerWidgets: false,
         looping: true,
-        autoplay: true,
+        autoplay: true, 
         source: VideoPlayerController.asset(source[index]))
       ..initialize();
   }
@@ -227,6 +222,7 @@ class _ChewieVideoState extends State<ChewieVideo> {
               userDocument: widget.userDocument,
               userTrainerDocument: widget.userTrainerDocument,
               vc: vc,
+              close: dispose,
             ),
           ) ??
           true;

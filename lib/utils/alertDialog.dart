@@ -58,14 +58,8 @@ class _MyAlertDialogState extends State<MyAlertDialog> {
         new FlatButton(
           onPressed: () {
             widget.vc.pause();
-            if (!widget.vc.isFullScreen) alertQuit = true;
-
-            /// set landscape on portrait
-            SystemChrome.setPreferredOrientations([
-              DeviceOrientation.portraitUp,
-              DeviceOrientation.portraitDown,
-            ]);
-            Navigator.of(context).push(CardAnimationTween(
+            alertQuit = true;
+            Navigator.of(context).pushReplacement(CardAnimationTween(
               widget: TrainingPlan(
                 userDocument: widget.userDocument,
                 userTrainerDocument: widget.userTrainerDocument,

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:attt/utils/screenOrientation/portraitMode.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/trainingPlan/widgets/listOfWeeks.dart';
 import 'package:attt/view/trainingPlan/widgets/trainingCustomBottomNavigationBar.dart';
@@ -22,12 +23,27 @@ class TrainingPlan extends StatefulWidget {
   _TrainingPlanState createState() => _TrainingPlanState();
 }
 
-class _TrainingPlanState extends State<TrainingPlan> {
+class _TrainingPlanState extends State<TrainingPlan> 
+// with PortraitStatefulModeMixin<TrainingPlan>  
+{
   /// treba danisu warmup
   String warmup;
 
   @override
+  void initState() { 
+    super.initState();
+     SystemChrome.setPreferredOrientations(
+            [DeviceOrientation.portraitUp]);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    // super.build(context);
     print(readyGoing.toString() +
         ' ready iz bilda || rest iz builda ' +
         restGoing.toString());
@@ -35,7 +51,7 @@ class _TrainingPlanState extends State<TrainingPlan> {
   
       if (alertQuit) {
         SystemChrome.setPreferredOrientations(
-            [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+            [DeviceOrientation.portraitUp]);
       }
     
     SizeConfig().init(context);
