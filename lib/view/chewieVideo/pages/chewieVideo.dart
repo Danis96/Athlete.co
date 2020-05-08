@@ -68,6 +68,8 @@ class _ChewieVideoState extends State<ChewieVideo> {
   }
 
   showGetReady(BuildContext context) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) => readyGoing = true);
+
     /// create overlay
     OverlayState overlayState = Overlay.of(context);
     OverlayEntry overlayEntry = OverlayEntry(
@@ -82,14 +84,19 @@ class _ChewieVideoState extends State<ChewieVideo> {
     overlayEntry.remove();
     setState(() {
       isReady = true;
+      readyGoing = false;
+      // restGoing = false;
+      print(readyGoing.toString() + ' IZ READY ready ');
     });
   }
 
   showRest(BuildContext context) async {
+    /// for android back disabling
+
     if (isTimerDone) {
       vc.pause();
-      isReady = false;
       print('GOTOV SAM BRUDA');
+      restGoing = false;
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           maintainState: false,
@@ -99,8 +106,14 @@ class _ChewieVideoState extends State<ChewieVideo> {
           ),
         ),
       );
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ]);
+      isReady = false;
       isTimerDone = false;
     } else {
+      WidgetsBinding.instance.addPostFrameCallback((_) => restGoing = true);
       print('INDEX JE: ' + index.toString());
       print('LISTA JE: ' + (source.length - 1).toString());
 
@@ -112,13 +125,13 @@ class _ChewieVideoState extends State<ChewieVideo> {
           builder: (BuildContext context) =>
               Visibility(visible: true, child: Rest(rest: exerciseRest)));
 
-        /// add to overlay overlayEntry that is rest widget
-        overlayState.insert(overlayEntry);
-    
+      /// add to overlay overlayEntry that is rest widget
+      overlayState.insert(overlayEntry);
 
       /// wait for [rest] time and then remove the overlay widget
       await Future.delayed(Duration(seconds: exerciseRest));
       overlayEntry.remove();
+      restGoing = false;
       nextPlay();
     }
   }
@@ -149,12 +162,16 @@ class _ChewieVideoState extends State<ChewieVideo> {
   @override
   Widget build(BuildContext context) {
     initializeVariables();
-    if (_index == 0 && isReady == false) {
-      Timer(Duration(seconds: 1), () {
-        vc.pause();
-        showGetReady(context);
-      });
-    }
+
+
+      if (_index == 0 && isReady == false) {
+        Timer(Duration(seconds: 1), () {
+          vc.pause();
+          showGetReady(context);
+        });
+      }
+    
+
     return Scaffold(
       body: WillPopScope(
         onWillPop: () => _onWillPop(),
@@ -188,18 +205,23 @@ class _ChewieVideoState extends State<ChewieVideo> {
   /// async funstion that creates an exit dialog for our screen
   /// CONTINUE / CANCEL
   Future<bool> _onWillPop() async {
-    vc.pause();
-    return showDialog(
-          context: context,
-          builder: (context) => MyAlertDialog(
-            no: 'Cancel',
-            yes: 'Continue',
-            title: 'Back to Training plan?',
-            content: 'If you go back all your progress will be lost',
-            userDocument: widget.userDocument,
-            userTrainerDocument: widget.userTrainerDocument,
-          ),
-        ) ??
-        true;
+    if (restGoing || readyGoing)
+      print('Back button is disabled because REST || READY is active');
+    else {
+      vc.pause();
+      return showDialog(
+            context: context,
+            builder: (context) => MyAlertDialog(
+              no: 'Cancel',
+              yes: 'Continue',
+              title: 'Back to Training plan?',
+              content: 'If you go back all your progress will be lost',
+              userDocument: widget.userDocument,
+              userTrainerDocument: widget.userTrainerDocument,
+              vc: vc,
+            ),
+          ) ??
+          true;
+    }
   }
 }

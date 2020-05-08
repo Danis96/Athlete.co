@@ -2,6 +2,7 @@ import 'package:attt/utils/size_config.dart';
 import 'package:attt/view_model/trainingPlanViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:attt/utils/globals.dart';
 
 Widget workoutContainer(
     DocumentSnapshot userDocument,
@@ -15,7 +16,8 @@ Widget workoutContainer(
     String workoutName
     ) {
   return GestureDetector(
-    onTap: () => TrainingPlanViewModel().navigateToWorkout(
+    onTap: ()  {
+             TrainingPlanViewModel().navigateToWorkout(
         userDocument,
         userTrainerDocument,
         userTrainerDocument.data['trainerID'],
@@ -25,7 +27,8 @@ Widget workoutContainer(
         snapshot2.data[index2].data['warmup'],
         context, 
         weekName
-        ),
+        );
+    } ,
     child: Container(
       margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 1.25),
       width: double.infinity,
