@@ -26,7 +26,8 @@ Widget workoutContainer(
         snapshot2.data[index2].data['workoutID'],
         snapshot2.data[index2].data['warmup'],
         context, 
-        weekName
+        weekName,
+        snapshot2.data[index2].data['notes'],
         );
     } ,
     child: Container(

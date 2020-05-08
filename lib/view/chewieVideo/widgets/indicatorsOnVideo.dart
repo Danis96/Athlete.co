@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:attt/utils/globals.dart';
+import 'package:attt/view/chewieVideo/widgets/addNote.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:attt/view/workout/widgets/info.dart';
 import 'package:audioplayers/audio_cache.dart';
@@ -7,6 +8,7 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:video_box/video.controller.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/utils/globals.dart';
@@ -16,13 +18,16 @@ class IndicatorsOnVideo extends StatefulWidget {
   final DocumentSnapshot userDocument, userTrainerDocument;
   final int index, listLenght;
   final int duration;
-  final Function showRest;
+  final Function showRest, showAddNote;
   final int isReps, sets, reps;
-  final String name;
+  final String name, workoutID, weekID;
 
   IndicatorsOnVideo(
       {this.controller,
+      this.showAddNote,
+      this.workoutID,
       this.listLenght,
+      this.weekID,
       this.name,
       this.sets,
       this.reps,
@@ -46,6 +51,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   @override
   void initState() {
     super.initState();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
     _controller = AnimationController(
       duration: const Duration(milliseconds: 1200),
       vsync: this,
@@ -90,7 +96,11 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   void didUpdateWidget(IndicatorsOnVideo oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (widget.index == 0) {
-      _start = widget.duration;
+      if (pausedOn == null) {
+        _start = widget.duration;
+      } else {
+        _start = pausedOn;
+      }
     }
     if (widget.index > 0) {
       if (widget.isReps == 1 && !timerPaused) {
@@ -127,8 +137,8 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
               timerPaused = false;
             });
             timer.cancel();
-          if(widget.index == widget.listLenght -1)  isTimerDone = true; 
-               widget.showRest(context);
+            if (widget.index == widget.listLenght - 1) isTimerDone = true;
+            widget.showRest(context);
           } else {
             setState(() {
               startingValue = startingValue - 1;
@@ -176,6 +186,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
           },
           child: Padding(
             padding: EdgeInsets.only(
+                top: SizeConfig.blockSizeVertical * 7,
                 top: SizeConfig.blockSizeVertical * 3.8,
                 bottom: SizeConfig.blockSizeVertical * 2,
                 left: SizeConfig.blockSizeHorizontal * 3,
@@ -203,9 +214,42 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                       Container(
                         child: IconButton(
                             color: Colors.white,
-                            iconSize: SizeConfig.blockSizeHorizontal * 5,
+                            iconSize: SizeConfig.blockSizeHorizontal * 5.5,
                             icon: Icon(Icons.comment),
-                            onPressed: () {}),
+                            onPressed: () {
+                              Timer(Duration(seconds: 2), () {
+                                if (widget.isReps == 1) {
+                                  pausedOn = _start;
+                                  _timer.cancel();
+                                }
+                                setState(() {
+                                    timerPaused = true;
+                                  });
+                                widget.controller.pause();
+                                _start = pausedOn;
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    maintainState: true,
+                                    builder: (_) => AddNote(
+                                      controller: widget.controller,
+                                      listLenght: widget.listLenght,
+                                      userDocument: widget.userDocument,
+                                      userTrainerDocument:
+                                          widget.userTrainerDocument,
+                                      index: widget.index,
+                                      duration: widget.duration,
+                                      isReps: widget.isReps,
+                                      reps: widget.reps,
+                                      sets: widget.sets,
+                                      name: widget.name,
+                                      showRest: widget.showRest,
+                                      workoutID: widget.workoutID,
+                                      weekID: widget.weekID
+                                    ),
+                                  ),
+                                );
+                              });
+                            }),
                       )
                     ],
                   ),
@@ -259,8 +303,12 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                       top: SizeConfig.blockSizeVertical * 35),
                                   child: Text(
                                       _isLessThan10
-                                          ? '00:0' + _start.toString()
-                                          : '00:' + _start.toString(),
+                                          ? timerPaused
+                                              ? '00:0' + pausedOn.toString()
+                                              : '00:0' + _start.toString()
+                                          : timerPaused
+                                              ? '00:' + pausedOn.toString()
+                                              : '00:' + _start.toString(),
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 32.0,
@@ -292,15 +340,16 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                 icon: Icon(
                                     CupertinoIcons.check_mark_circled_solid),
                                 onPressed: () {
-                                    if(widget.index == widget.listLenght -1) isTimerDone = true;
-                                    widget.showRest(context);
+                                  if (widget.index == widget.listLenght - 1)
+                                    isTimerDone = true;
+                                  widget.showRest(context);
                                   setState(() {
                                     restShowed = true;
                                     timerPaused = false;
                                   });
                                 },
                                 color: Colors.white,
-                                iconSize: 55.0,
+                                iconSize: SizeConfig.blockSizeHorizontal * 7,
                               ),
                             )
                           : Container(

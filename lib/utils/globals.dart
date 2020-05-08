@@ -23,8 +23,8 @@ bool isEmpty = false;
 bool repsDone = false;
 bool isEndPlaying = false;
 bool restShowed = false; 
-
 /// for disabling android back button when rest and  ready are active
 bool restGoing = false, readyGoing = false;
+String userNotes = '';
 
 bool alertQuit = false;

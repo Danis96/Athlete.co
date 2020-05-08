@@ -1,6 +1,7 @@
 import 'package:attt/storage/storage.dart';
 import 'package:attt/utils/alertDialog.dart';
 import 'package:attt/utils/globals.dart';
+import 'package:attt/view/chewieVideo/widgets/addNote.dart';
 import 'package:attt/utils/screenOrientation/landscapeMode.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorsOnVideo.dart';
 import 'package:attt/view/chewieVideo/widgets/rest.dart';
@@ -15,7 +16,14 @@ import 'dart:async';
 class ChewieVideo extends StatefulWidget {
   final DocumentSnapshot userDocument, userTrainerDocument;
   final Storage storage;
-  ChewieVideo({this.userDocument, this.userTrainerDocument, this.storage});
+  final String workoutID, weekID;
+  ChewieVideo({
+    this.userDocument,
+    this.weekID,
+    this.userTrainerDocument,
+    this.storage,
+    this.workoutID,
+  });
   @override
   _ChewieVideoState createState() => _ChewieVideoState();
 }
@@ -95,6 +103,11 @@ with LandscapeStatefulModeMixin {
       vc.pause();
       print('GOTOV SAM BRUDA');
       restGoing = false;
+      onlineExercises = [];
+      onlineWarmup = [];
+      onlineVideos = [];
+      exerciseSnapshots = [];
+      userNotes = '';
       alertQuit = true;
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
@@ -106,8 +119,6 @@ with LandscapeStatefulModeMixin {
         ),
       );
       isReady = false;
-      onlineVideos = [];
-      exerciseSnapshots = [];
       isTimerDone = false;
     } else {
       WidgetsBinding.instance.addPostFrameCallback((_) => restGoing = true);
@@ -185,17 +196,20 @@ with LandscapeStatefulModeMixin {
             ),
             Positioned(
               child: IndicatorsOnVideo(
-                  controller: vc,
-                  listLenght: source.length,
-                  userDocument: widget.userDocument,
-                  userTrainerDocument: widget.userTrainerDocument,
-                  index: _index,
-                  duration: exerciseDuration,
-                  isReps: exerciseIsReps,
-                  reps: exerciseReps,
-                  sets: exerciseSets,
-                  name: exerciseName,
-                  showRest: showRest),
+                controller: vc,
+                listLenght: source.length,
+                userDocument: widget.userDocument,
+                userTrainerDocument: widget.userTrainerDocument,
+                index: _index,
+                duration: exerciseDuration,
+                isReps: exerciseIsReps,
+                reps: exerciseReps,
+                sets: exerciseSets,
+                name: exerciseName,
+                showRest: showRest,
+                workoutID: widget.workoutID,
+                weekID: widget.weekID
+              ),
             ),
           ],
         ),

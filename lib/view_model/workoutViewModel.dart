@@ -1,4 +1,5 @@
 import 'package:attt/interface/workoutInerface.dart';
+import 'package:attt/utils/globals.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 
@@ -66,6 +67,20 @@ class WorkoutViewModel implements WorkoutInterface {
         .getDocuments();
       return qn.documents;
   }
+
+  @override
+  String getUserNotes(List<dynamic> notesList, String userId) {
+      for (int i = 0; i < notesList.length; i++) {
+        String item = notesList[i];
+        if (item.contains(userId)) {
+          List<String> splited = item.split('_!_?_');
+          item = splited[1];
+          userNotes = item;
+        }
+      }
+      print(userNotes.trim());
+      return userNotes.trim();
+    }
 
   @override
   Future getWarmupDocumentID(String trainerID, String weekID, String workoutID) async {
