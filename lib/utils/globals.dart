@@ -27,3 +27,4 @@ bool restShowed = false;
 bool restGoing = false, readyGoing = false;
 String userNotes = '';
 
+bool alertQuit = false;

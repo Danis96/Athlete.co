@@ -2,6 +2,7 @@ import 'package:attt/storage/storage.dart';
 import 'package:attt/utils/alertDialog.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/view/chewieVideo/widgets/addNote.dart';
+import 'package:attt/utils/screenOrientation/landscapeMode.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorsOnVideo.dart';
 import 'package:attt/view/chewieVideo/widgets/rest.dart';
 import 'package:attt/view/chewieVideo/widgets/getReady.dart';
@@ -27,7 +28,8 @@ class ChewieVideo extends StatefulWidget {
   _ChewieVideoState createState() => _ChewieVideoState();
 }
 
-class _ChewieVideoState extends State<ChewieVideo> {
+class _ChewieVideoState extends State<ChewieVideo> 
+with LandscapeStatefulModeMixin {
   List<String> source = [
     'assets/video/C.mp4',
     'assets/video/C.mp4',
@@ -54,7 +56,7 @@ class _ChewieVideoState extends State<ChewieVideo> {
       vc.setSource(controller);
       vc.looping = true;
       vc.bufferColor = Colors.black;
-      vc.isFullScreen = true;
+      vc.isFullScreen = false;
       vc.initialize();
     }
     _index = nv;
@@ -90,17 +92,13 @@ class _ChewieVideoState extends State<ChewieVideo> {
     /// wait for [getReady] time and then remove the overlay widget
     await Future.delayed(Duration(seconds: 5));
     overlayEntry.remove();
-    setState(() {
-      isReady = true;
-      readyGoing = false;
-      // restGoing = false;
-      print(readyGoing.toString() + ' IZ READY ready ');
-    });
+    isReady = true;
+    readyGoing = false;
+    // restGoing = false;
+    print(readyGoing.toString() + ' IZ READY ready ');
   }
 
   showRest(BuildContext context) async {
-    /// for android back disabling
-
     if (isTimerDone) {
       vc.pause();
       print('GOTOV SAM BRUDA');
@@ -110,6 +108,7 @@ class _ChewieVideoState extends State<ChewieVideo> {
       onlineVideos = [];
       exerciseSnapshots = [];
       userNotes = '';
+      alertQuit = true;
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           maintainState: false,
@@ -119,7 +118,6 @@ class _ChewieVideoState extends State<ChewieVideo> {
           ),
         ),
       );
-      SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
       isReady = false;
       isTimerDone = false;
     } else {
@@ -134,9 +132,15 @@ class _ChewieVideoState extends State<ChewieVideo> {
       OverlayEntry overlayEntry = OverlayEntry(
           builder: (BuildContext context) =>
               Visibility(visible: true, child: Rest(rest: exerciseRest)));
-
+      
+     
+      if(alertQuit) {
+         print('No rest, alertQuit');
+      } else {
+         overlayState.insert(overlayEntry);
+      }
       /// add to overlay overlayEntry that is rest widget
-      overlayState.insert(overlayEntry);
+      
 
       /// wait for [rest] time and then remove the overlay widget
       await Future.delayed(Duration(seconds: exerciseRest));
@@ -149,35 +153,37 @@ class _ChewieVideoState extends State<ChewieVideo> {
   @override
   void initState() {
     super.initState();
-    //source = onlineVideos;
+    // source = onlineVideos;
 
-    /// when widget inits make that screen rotation
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeRight,
-    ]);
     vc = VideoController(
         controllerWidgets: false,
         looping: true,
-        autoplay: true,
+        autoplay: true, 
         source: VideoPlayerController.asset(source[index]))
       ..initialize();
   }
 
   @override
   void dispose() {
-    vc.dispose();
     super.dispose();
+    vc.dispose();
+    print('CHEWIE VIDEO DISPOSED');
   }
 
   @override
   Widget build(BuildContext context) {
     initializeVariables();
 
-    if (_index == 0 && isReady == false) {
-      Timer(Duration(seconds: 1), () {
-        vc.pause();
-        showGetReady(context);
-      });
+    if (alertQuit) {
+      print('NO READY, QUIT');
+      dispose();
+    } else {
+      if (_index == 0 && isReady == false) {
+        Timer(Duration(seconds: 1), () {
+          vc.pause();
+          showGetReady(context);
+        });
+      }
     }
 
     return Scaffold(
@@ -230,6 +236,7 @@ class _ChewieVideoState extends State<ChewieVideo> {
               userDocument: widget.userDocument,
               userTrainerDocument: widget.userTrainerDocument,
               vc: vc,
+              close: dispose,
             ),
           ) ??
           true;

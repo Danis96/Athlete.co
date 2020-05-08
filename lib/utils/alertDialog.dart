@@ -4,13 +4,14 @@ import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:video_box/video_box.dart';
+import 'package:attt/utils/customScreenAnimation.dart';
 
 import 'package:flutter/services.dart';
 
 class MyAlertDialog extends StatefulWidget {
   final String title, content, yes, no;
   final DocumentSnapshot userDocument, userTrainerDocument;
-  final Function onExit;
+  final Function onExit, close;
   final VideoController vc;
 
   MyAlertDialog({
@@ -23,6 +24,7 @@ class MyAlertDialog extends StatefulWidget {
     this.userDocument,
     this.userTrainerDocument,
     this.vc,
+    this.close,
   }) : super(key: key);
 
   @override
@@ -56,20 +58,13 @@ class _MyAlertDialogState extends State<MyAlertDialog> {
         new FlatButton(
           onPressed: () {
             widget.vc.pause();
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                maintainState: false,
-                builder: (_) => TrainingPlan(
-                  userDocument: widget.userDocument,
-                  userTrainerDocument: widget.userTrainerDocument,
-                ),
+            alertQuit = true;
+            Navigator.of(context).pushReplacement(CardAnimationTween(
+              widget: TrainingPlan(
+                userDocument: widget.userDocument,
+                userTrainerDocument: widget.userTrainerDocument,
               ),
-            );
-            /// set landscape on portrait 
-            SystemChrome.setPreferredOrientations([
-              DeviceOrientation.portraitUp,
-              DeviceOrientation.portraitDown,
-            ]);
+            ));
             isReady = false;
             onlineVideos = [];
             exerciseSnapshots = [];

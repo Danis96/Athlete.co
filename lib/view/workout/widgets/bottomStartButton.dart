@@ -14,6 +14,7 @@ Widget bottomButtonStart(DocumentSnapshot userDocument,
     child: RaisedButton(
       elevation: 0,
       onPressed: () {
+        alertQuit = false;
         onlineVideos = [];
         ChewieVideoViewModel()
           .playVideo(context, userDocument, userTrainerDocument, workoutID, weekID);
