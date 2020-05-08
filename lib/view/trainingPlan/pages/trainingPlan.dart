@@ -7,8 +7,8 @@ import 'package:attt/view/trainingPlan/widgets/trainingPlanHeadline.dart';
 import 'package:attt/view/trainingPlan/widgets/whatsAppButton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
+import 'package:attt/utils/globals.dart';
 
 class TrainingPlan extends StatefulWidget {
   final DocumentSnapshot userDocument;
@@ -23,20 +23,21 @@ class TrainingPlan extends StatefulWidget {
 }
 
 class _TrainingPlanState extends State<TrainingPlan> {
+  
   /// treba danisu warmup
   String warmup;
 
   @override
-  void initState() {
+  void initState() { 
     super.initState();
-    SystemChrome.setPreferredOrientations([
+ SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp
     ]);
-
   }
-
+ 
   @override
   Widget build(BuildContext context) {
+    print(readyGoing.toString() +  ' ready iz bilda || rest iz builda ' + restGoing.toString()   );
     SizeConfig().init(context);
     return Scaffold(
       backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
