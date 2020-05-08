@@ -1,6 +1,7 @@
 import 'package:attt/storage/storage.dart';
 import 'package:attt/utils/alertDialog.dart';
 import 'package:attt/utils/globals.dart';
+import 'package:attt/view/chewieVideo/widgets/addNote.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorsOnVideo.dart';
 import 'package:attt/view/chewieVideo/widgets/rest.dart';
 import 'package:attt/view/chewieVideo/widgets/getReady.dart';
@@ -14,7 +15,14 @@ import 'dart:async';
 class ChewieVideo extends StatefulWidget {
   final DocumentSnapshot userDocument, userTrainerDocument;
   final Storage storage;
-  ChewieVideo({this.userDocument, this.userTrainerDocument, this.storage});
+  final String workoutID, weekID;
+  ChewieVideo({
+    this.userDocument,
+    this.weekID,
+    this.userTrainerDocument,
+    this.storage,
+    this.workoutID,
+  });
   @override
   _ChewieVideoState createState() => _ChewieVideoState();
 }
@@ -97,6 +105,11 @@ class _ChewieVideoState extends State<ChewieVideo> {
       vc.pause();
       print('GOTOV SAM BRUDA');
       restGoing = false;
+      onlineExercises = [];
+      onlineWarmup = [];
+      onlineVideos = [];
+      exerciseSnapshots = [];
+      userNotes = '';
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           maintainState: false,
@@ -106,10 +119,7 @@ class _ChewieVideoState extends State<ChewieVideo> {
           ),
         ),
       );
-      SystemChrome.setPreferredOrientations([
-        DeviceOrientation.portraitUp,
-        DeviceOrientation.portraitDown,
-      ]);
+      SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
       isReady = false;
       isTimerDone = false;
     } else {
@@ -163,14 +173,12 @@ class _ChewieVideoState extends State<ChewieVideo> {
   Widget build(BuildContext context) {
     initializeVariables();
 
-
-      if (_index == 0 && isReady == false) {
-        Timer(Duration(seconds: 1), () {
-          vc.pause();
-          showGetReady(context);
-        });
-      }
-    
+    if (_index == 0 && isReady == false) {
+      Timer(Duration(seconds: 1), () {
+        vc.pause();
+        showGetReady(context);
+      });
+    }
 
     return Scaffold(
       body: WillPopScope(
@@ -182,17 +190,20 @@ class _ChewieVideoState extends State<ChewieVideo> {
             ),
             Positioned(
               child: IndicatorsOnVideo(
-                  controller: vc,
-                  listLenght: source.length,
-                  userDocument: widget.userDocument,
-                  userTrainerDocument: widget.userTrainerDocument,
-                  index: _index,
-                  duration: exerciseDuration,
-                  isReps: exerciseIsReps,
-                  reps: exerciseReps,
-                  sets: exerciseSets,
-                  name: exerciseName,
-                  showRest: showRest),
+                controller: vc,
+                listLenght: source.length,
+                userDocument: widget.userDocument,
+                userTrainerDocument: widget.userTrainerDocument,
+                index: _index,
+                duration: exerciseDuration,
+                isReps: exerciseIsReps,
+                reps: exerciseReps,
+                sets: exerciseSets,
+                name: exerciseName,
+                showRest: showRest,
+                workoutID: widget.workoutID,
+                weekID: widget.weekID
+              ),
             ),
           ],
         ),

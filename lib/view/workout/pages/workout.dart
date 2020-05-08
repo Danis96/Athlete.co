@@ -13,10 +13,12 @@ class Workout extends StatefulWidget {
   final DocumentSnapshot userDocument, userTrainerDocument;
   final String trainerID;
   final String workoutName, workoutID, weekID, warmupDesc, weekName;
+  final List<dynamic> listOfNotes;
 
   Workout(
       {Key key,
       this.userDocument,
+      this.listOfNotes,
       this.userTrainerDocument,
       this.trainerID,
       this.workoutName,
@@ -55,6 +57,12 @@ class _WorkoutState extends State<Workout> {
   }
 
   @override
+  void initState() { 
+    super.initState();
+    WorkoutViewModel().getUserNotes(widget.listOfNotes, widget.userDocument.data['userUID']);
+  }
+
+  @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     _trainerName = widget.userTrainerDocument.data['trainer_name'];
@@ -82,7 +90,7 @@ class _WorkoutState extends State<Workout> {
           ? InfoExercise(
               exerciseTips: exerciseTipsforView, refreshParent: refreshFromInfo)
           : bottomButtonStart(
-              widget.userDocument, widget.userTrainerDocument, context),
+              widget.userDocument, widget.userTrainerDocument, context, widget.workoutID, widget.weekID),
       backgroundColor: MyColors().lightBlack,
       body: ListView(
         shrinkWrap: true,

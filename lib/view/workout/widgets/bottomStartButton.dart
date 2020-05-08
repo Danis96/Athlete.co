@@ -7,7 +7,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 Widget bottomButtonStart(DocumentSnapshot userDocument,
-    DocumentSnapshot userTrainerDocument, BuildContext context) {
+    DocumentSnapshot userTrainerDocument, BuildContext context, String workoutID, String weekID) {
   SizeConfig().init(context);
   return BottomAppBar(
     color: MyColors().white,
@@ -16,7 +16,7 @@ Widget bottomButtonStart(DocumentSnapshot userDocument,
       onPressed: () {
         onlineVideos = [];
         ChewieVideoViewModel()
-          .playVideo(context, userDocument, userTrainerDocument);
+          .playVideo(context, userDocument, userTrainerDocument, workoutID, weekID);
         onlineVideos = onlineWarmup + onlineExercises;
         print(onlineVideos.length);
       },
