@@ -56,7 +56,6 @@ with LandscapeStatefulModeMixin {
       vc.setSource(controller);
       vc.looping = true;
       vc.bufferColor = Colors.black;
-      vc.isFullScreen = false;
       vc.initialize();
     }
     _index = nv;

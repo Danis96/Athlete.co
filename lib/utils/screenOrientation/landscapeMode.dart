@@ -37,7 +37,7 @@ mixin LandscapeStatefulModeMixin<T extends StatefulWidget> on State<T> {
 /// blocks rotation; sets orientation to: portrait
 void _landscapeModeOnly() {
   SystemChrome.setPreferredOrientations([
-    DeviceOrientation.landscapeLeft,
+    DeviceOrientation.landscapeRight,
   ]);
 }
 

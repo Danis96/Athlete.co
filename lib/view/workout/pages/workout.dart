@@ -86,10 +86,7 @@ class _WorkoutState extends State<Workout> {
           onPressed: () => WorkoutViewModel().xBack(context),
         ),
       ),
-      bottomNavigationBar: isInfo
-          ? InfoExercise(
-              exerciseTips: exerciseTipsforView, refreshParent: refreshFromInfo)
-          : bottomButtonStart(
+      bottomNavigationBar: bottomButtonStart(
               widget.userDocument, widget.userTrainerDocument, context, widget.workoutID, widget.weekID),
       backgroundColor: MyColors().lightBlack,
       body: ListView(

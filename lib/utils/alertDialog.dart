@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:video_box/video_box.dart';
 import 'package:attt/utils/customScreenAnimation.dart';
 
-import 'package:flutter/services.dart';
-
 class MyAlertDialog extends StatefulWidget {
   final String title, content, yes, no;
   final DocumentSnapshot userDocument, userTrainerDocument;
