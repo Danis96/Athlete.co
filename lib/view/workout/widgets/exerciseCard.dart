@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:attt/storage/storage.dart';
 import 'package:attt/utils/colors.dart';
+import 'package:attt/utils/customScreenAnimation.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/workout/widgets/info.dart';
@@ -60,13 +61,18 @@ class _ExerciseCardState extends State<ExerciseCard> {
   Widget build(BuildContext context) {
     /// for tips
     keyOfExercise = widget.exerciseID;
-    return Row(
-      key: ValueKey(widget.exerciseID),
-      children: <Widget>[
-        /// image thumbnail
-        GestureDetector(
-          onTap: () => showInfo(),
-          child: Container(
+    return GestureDetector(
+      onTap: () => Navigator.of(context).push(CardAnimationTween(
+              widget: InfoExercise(
+            exerciseTips: widget.exerciseTips,
+            exerciseNameForInfo: widget.exerciseName,
+            exerciseVideoForInfo: widget.exerciseVideo,
+          ))),
+          child: Row(
+        key: ValueKey(widget.exerciseID),
+        children: <Widget>[
+          /// image thumbnail
+          Container(
             margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
             width: SizeConfig.blockSizeHorizontal * 20,
             height: SizeConfig.blockSizeVertical * 10,
@@ -77,43 +83,36 @@ class _ExerciseCardState extends State<ExerciseCard> {
               fit: BoxFit.contain,
             ),
           ),
-        ),
-        Container(
-          padding: EdgeInsets.all(10.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Container(
-                child: Text(widget.exerciseName,
-                    style: TextStyle(
-                        color: MyColors().white,
-                        fontSize: SizeConfig.blockSizeHorizontal * 4,
-                        fontWeight: FontWeight.w500)),
-              ),
-              Row(
-                children: <Widget>[
-                  Text(
-                    widget.exerciseIsReps == 0
-                        ? 'Sets ${widget.exerciseSets} |  Reps ${widget.exerciseReps} | Rest ${widget.exerciseRest} s '
-                        : 'Sets ${widget.exerciseSets} |  Rest ${widget.exerciseRest} s ',
-                    style: TextStyle(
-                        color: MyColors().lightWhite,
-                        fontSize: SizeConfig.blockSizeHorizontal * 3),
-                  ),
-                ],
-              ),
-            ],
+          Container(
+            padding: EdgeInsets.all(10.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Container(
+                  child: Text(widget.exerciseName,
+                      style: TextStyle(
+                          color: MyColors().white,
+                          fontSize: SizeConfig.blockSizeHorizontal * 4,
+                          fontWeight: FontWeight.w500)),
+                ),
+                Row(
+                  children: <Widget>[
+                    Text(
+                      widget.exerciseIsReps == 0
+                          ? 'Sets ${widget.exerciseSets} |  Reps ${widget.exerciseReps} | Rest ${widget.exerciseRest} s '
+                          : 'Sets ${widget.exerciseSets} |  Rest ${widget.exerciseRest} s ',
+                      style: TextStyle(
+                          color: MyColors().lightWhite,
+                          fontSize: SizeConfig.blockSizeHorizontal * 3),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
-  }
-
-  showInfo() {
-    exerciseTipsforView = widget.exerciseTips;
-    exerciseNameForInfo = widget.exerciseName;
-    isInfo = true;
-    // widget.refreshParent();
   }
 }

@@ -186,7 +186,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
           },
           child: Padding(
             padding: EdgeInsets.only(
-                top: SizeConfig.blockSizeVertical * 3.8,
+                top: SizeConfig.blockSizeVertical * 3,
                 bottom: SizeConfig.blockSizeVertical * 2,
                 left: SizeConfig.blockSizeHorizontal * 3,
                 right: SizeConfig.blockSizeVertical * 3),
