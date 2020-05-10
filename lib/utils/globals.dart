@@ -1,10 +1,7 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:video_player/video_player.dart';
 
 
-String userName, userEmail, userPhoto, userUIDPref, userTU, userTP, keyOfExercise, exerciseNameForInfo;
+String userName, userEmail, userPhoto, userUIDPref, userTU, userTP, keyOfExercise;
 int currentWeek = 0;
 int totalWeeks = 0;
 bool isLoggedIn = false, isTwitter = false, isTimerDone = false;
@@ -26,4 +23,10 @@ bool restShowed = false;
 bool restGoing = false, readyGoing = false;
 String userNotes = '';
 
+/// for alert back exit on video 
 bool alertQuit = false;
+/// for info from video 
+String  exVideo;
+List<dynamic> exTips = [];
+/// [isTips] for paused, [goBackToChewie] is for orientation 
+bool isTips = false, goBackToChewie = false;

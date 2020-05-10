@@ -47,6 +47,7 @@ class _ExerciseCardState extends State<ExerciseCard> {
   void initState() {
     super.initState();
     // writeToData();
+    
   }
 
   // Future<File> writeToData() async {
