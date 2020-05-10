@@ -375,21 +375,4 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
           ),
         ));
   }
-
-  /// [showTips]
-  ///
-  /// here we show the tips for the exact exercise
-  showTips(BuildContext context) async {
-    widget.controller.pause();
-
-    /// create overlay
-    OverlayState overlayState = Overlay.of(context);
-    OverlayEntry overlayEntry =
-        OverlayEntry(builder: (BuildContext context) => InfoExercise());
-
-    /// add to overlay overlayEntry that is rest widget
-    overlayState.insert(overlayEntry);
-
-    overlayEntry.remove();
-  }
 }

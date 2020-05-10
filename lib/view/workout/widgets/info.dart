@@ -155,6 +155,9 @@ class _InfoExerciseState extends State<InfoExercise> {
     );
   }
 
+ /// [onDone] here we check doues ur android back button is going to video, or exercise screen
+ /// if true  then set our portrait to landscapeRight
+ /// same goes for tips
   onDone() {
     setState(() {
       goBackToChewie ? SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]) : print('NIJE SA VIDEA') ;  
