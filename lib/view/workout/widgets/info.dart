@@ -1,17 +1,23 @@
 import 'package:attt/utils/colors.dart';
+import 'package:attt/utils/globals.dart';
+import 'package:attt/utils/screenOrientation/portraitMode.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:video_box/video_box.dart';
 
 class InfoExercise extends StatefulWidget {
   final List<dynamic> exerciseTips;
   final String exerciseNameForInfo;
   final String exerciseVideoForInfo;
+  final VideoController vc;
   const InfoExercise(
       {Key key,
       this.exerciseTips,
       this.exerciseNameForInfo,
-      this.exerciseVideoForInfo})
+      this.exerciseVideoForInfo, 
+      this.vc,
+      })
       : super(key: key);
 
   @override
@@ -30,6 +36,14 @@ class _InfoExerciseState extends State<InfoExercise> {
         autoplay: false,
         source: VideoPlayerController.network(widget.exerciseVideoForInfo))
       ..initialize();
+
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    vc.dispose();
   }
 
   @override
@@ -44,8 +58,8 @@ class _InfoExerciseState extends State<InfoExercise> {
           Container(
             margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 5),
             child: Center(
-                child: VideoBox(controller: vc),
-              ),
+              child: VideoBox(controller: vc),
+            ),
           ),
           Container(
             color: Colors.black,
@@ -69,7 +83,8 @@ class _InfoExerciseState extends State<InfoExercise> {
                                       left: SizeConfig.blockSizeHorizontal * 2),
                                   child: IconButton(
                                     color: MyColors().white,
-                                    iconSize: SizeConfig.blockSizeHorizontal * 8,
+                                    iconSize:
+                                        SizeConfig.blockSizeHorizontal * 8,
                                     icon: Icon(Icons.clear),
                                     onPressed: () => onDone(),
                                   ),
@@ -115,14 +130,16 @@ class _InfoExerciseState extends State<InfoExercise> {
                           /// done
                           Container(
                             alignment: Alignment.bottomRight,
-                            margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 10),
+                            margin: EdgeInsets.only(
+                                top: SizeConfig.blockSizeVertical * 10),
                             child: FlatButton(
                                 color: MyColors().black,
                                 onPressed: () => onDone(),
                                 child: Text(
                                   'DONE',
                                   style: TextStyle(
-                                    fontSize: SizeConfig.safeBlockHorizontal * 4,
+                                    fontSize:
+                                        SizeConfig.safeBlockHorizontal * 4,
                                     color: MyColors().white,
                                   ),
                                 )),
@@ -139,6 +156,11 @@ class _InfoExerciseState extends State<InfoExercise> {
   }
 
   onDone() {
-     Navigator.of(context).pop();
+    setState(() {
+      goBackToChewie ? SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]) : print('NIJE SA VIDEA') ;  
+    });
+      goBackToChewie ?  isTips = true : isTips = false;
+    Navigator.of(context).pop();
+    goBackToChewie = false;
   }
 }

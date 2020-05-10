@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:attt/utils/customScreenAnimation.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/view/chewieVideo/widgets/addNote.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
@@ -183,6 +184,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                 timerPaused = false;
               });
             }
+            isTips = false;
           },
           child: Padding(
             padding: EdgeInsets.only(
@@ -198,7 +200,18 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                     children: <Widget>[
                       /// number of reps
                       GestureDetector(
-                        // onTap: () => showTips(context),
+                        onTap: () {
+                          widget.controller.pause();
+                          goBackToChewie = true;
+                          Navigator.of(context).push(SlideAnimationTeen(
+                            widget: InfoExercise(
+                              vc: widget.controller,
+                              exerciseNameForInfo: widget.name,
+                              exerciseTips: exTips,
+                              exerciseVideoForInfo: exVideo,
+                            ),
+                          ));
+                        },
                         child: Container(
                           child: Text(widget.name,
                               style: TextStyle(
@@ -222,29 +235,28 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                   _timer.cancel();
                                 }
                                 setState(() {
-                                    timerPaused = true;
-                                  });
+                                  timerPaused = true;
+                                });
                                 widget.controller.pause();
                                 _start = pausedOn;
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     maintainState: true,
                                     builder: (_) => AddNote(
-                                      controller: widget.controller,
-                                      listLenght: widget.listLenght,
-                                      userDocument: widget.userDocument,
-                                      userTrainerDocument:
-                                          widget.userTrainerDocument,
-                                      index: widget.index,
-                                      duration: widget.duration,
-                                      isReps: widget.isReps,
-                                      reps: widget.reps,
-                                      sets: widget.sets,
-                                      name: widget.name,
-                                      showRest: widget.showRest,
-                                      workoutID: widget.workoutID,
-                                      weekID: widget.weekID
-                                    ),
+                                        controller: widget.controller,
+                                        listLenght: widget.listLenght,
+                                        userDocument: widget.userDocument,
+                                        userTrainerDocument:
+                                            widget.userTrainerDocument,
+                                        index: widget.index,
+                                        duration: widget.duration,
+                                        isReps: widget.isReps,
+                                        reps: widget.reps,
+                                        sets: widget.sets,
+                                        name: widget.name,
+                                        showRest: widget.showRest,
+                                        workoutID: widget.workoutID,
+                                        weekID: widget.weekID),
                                   ),
                                 );
                               });
@@ -255,7 +267,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      timerPaused
+                      timerPaused || isTips
                           ? Container(
                               height: SizeConfig.blockSizeVertical * 20,
                               width: SizeConfig.blockSizeHorizontal * 24,

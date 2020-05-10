@@ -63,7 +63,6 @@ Widget workoutList(
                       sets: snapshot.data[index].data['sets'],
                       tips: snapshot.data[index].data['tips'],
                       video: snapshot.data[index].data['video'],
-                      refreshFromInfo: refreshFromInfo,
                     );
                   } else {
                     return SeriesCard(
@@ -86,7 +85,6 @@ Widget workoutList(
                       workoutID: workoutID,
                       seriesID: seriesID,
                       exerciseID: _exerciseID,
-                      refreshFromInfo: refreshFromInfo,
                     );
                   }
                 });
