@@ -201,16 +201,26 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                       /// number of reps
                       GestureDetector(
                         onTap: () {
-                          widget.controller.pause();
-                          goBackToChewie = true;
-                          Navigator.of(context).push(SlideAnimationTeen(
-                            widget: InfoExercise(
-                              vc: widget.controller,
-                              exerciseNameForInfo: widget.name,
-                              exerciseTips: exTips,
-                              exerciseVideoForInfo: exVideo,
-                            ),
-                          ));
+                          Timer(Duration(seconds: 2), () {
+                            if (widget.isReps == 1) {
+                              pausedOn = _start;
+                              _timer.cancel();
+                            }
+                            setState(() {
+                              timerPaused = true;
+                              goBackToChewie = true;
+                            });
+                            widget.controller.pause();
+                            _start = pausedOn;
+                            Navigator.of(context).push(SlideAnimationTeen(
+                              widget: InfoExercise(
+                                vc: widget.controller,
+                                exerciseNameForInfo: widget.name,
+                                exerciseTips: exTips,
+                                exerciseVideoForInfo: exVideo,
+                              ),
+                            ));
+                          });
                         },
                         child: Container(
                           child: Text(widget.name,
