@@ -45,6 +45,7 @@ class _WorkoutState extends State<Workout> {
   int _exerciseIsReps, _exerciseReps, _exerciseRest, _exerciseSets;
 
   List<dynamic> _series = [], _exercises = [], _exerciseTips = [];
+  List<dynamic> serije = [];
 
   @override
   void didChangeDependencies() {
@@ -57,9 +58,10 @@ class _WorkoutState extends State<Workout> {
   }
 
   @override
-  void initState() { 
+  void initState() {
     super.initState();
-    WorkoutViewModel().getUserNotes(widget.listOfNotes, widget.userDocument.data['userUID']);
+    WorkoutViewModel()
+        .getUserNotes(widget.listOfNotes, widget.userDocument.data['userUID']);
   }
 
   @override
@@ -87,11 +89,18 @@ class _WorkoutState extends State<Workout> {
         ),
       ),
       bottomNavigationBar: bottomButtonStart(
-              widget.userDocument, widget.userTrainerDocument, context, widget.workoutID, widget.weekID),
+          widget.userDocument,
+          widget.userTrainerDocument,
+          context,
+          widget.workoutID,
+          widget.weekID,
+          serije),
       backgroundColor: MyColors().lightBlack,
       body: ListView(
         shrinkWrap: true,
         children: <Widget>[
+          getSeries(),
+
           /// workoutList
           workoutList(
             widget.trainerID,
@@ -118,5 +127,33 @@ class _WorkoutState extends State<Workout> {
         ],
       ),
     );
+  }
+
+  getSeries() {
+    print('Trenerrrr ' + widget.userTrainerDocument.data['trainerID']);
+    print('WEEEEEEEEEEEEEEEK ' + widget.weekID);
+    print('WORKOUT ' + widget.workoutID);
+    return FutureBuilder(
+        future: WorkoutViewModel().getSeries(
+            widget.userTrainerDocument.data['trainerID'],
+            widget.weekID,
+            widget.workoutID),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.hasData) {
+            return ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: snapshot.data.length,
+                itemBuilder: (BuildContext context, int index) {
+                  serije.add(snapshot.data[index].data['seriesID']);
+                  print(serije);
+                  return EmptyContainer();
+                });
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        });
   }
 }

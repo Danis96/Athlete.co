@@ -21,10 +21,12 @@ class IndicatorsOnVideo extends StatefulWidget {
   final int duration;
   final Function showRest, showAddNote;
   final int isReps, sets, reps;
-  final String name, workoutID, weekID;
+  final String name, workoutID, weekID, currentSet;
+  final bool ctrl;
 
   IndicatorsOnVideo(
       {this.controller,
+      this.currentSet,
       this.showAddNote,
       this.workoutID,
       this.listLenght,
@@ -37,6 +39,7 @@ class IndicatorsOnVideo extends StatefulWidget {
       this.index,
       this.userTrainerDocument,
       this.userDocument,
+      this.ctrl,
       this.duration});
 
   @override
@@ -65,8 +68,8 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       parent: _controller,
       curve: Curves.easeInOut,
     ));
-
     _start = widget.duration;
+    _isLessThan10 = false;
 
     if (widget.index == 0) {
       if (widget.isReps == 1 && !timerPaused) {
@@ -96,12 +99,16 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   @override
   void didUpdateWidget(IndicatorsOnVideo oldWidget) {
     super.didUpdateWidget(oldWidget);
+    _isLessThan10 = false;
     if (widget.index == 0) {
       if (pausedOn == null) {
         _start = widget.duration;
       } else {
         _start = pausedOn;
       }
+    }
+    if(widget.ctrl == true) {
+      _start = widget.duration;
     }
     if (widget.index > 0) {
       if (widget.isReps == 1 && !timerPaused) {
@@ -341,7 +348,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                             margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 1),
                             child: Text(
-                              '1/' + widget.sets.toString(),
+                              widget.currentSet + '/' + widget.sets.toString(),
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 25.0,

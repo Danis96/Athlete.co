@@ -34,3 +34,6 @@ bool isTips = false, goBackToChewie = false;
 bool isInstalled = false;
 /// for skip rest feature 
 bool isRestSkipped = false;
+/// list for sets
+List<dynamic> workoutExercisesWithSets = [];
+List<dynamic> namesWithSet = [];

@@ -35,7 +35,23 @@ class _ChewieVideoState extends State<ChewieVideo>
     'assets/video/C.mp4',
     'assets/video/C.mp4',
     'assets/video/C.mp4',
-    'assets/video/warmDown.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
   ];
   VideoController vc;
   VideoPlayerController controller;
@@ -45,6 +61,7 @@ class _ChewieVideoState extends State<ChewieVideo>
       exerciseSets,
       exerciseRest;
   String exerciseName;
+  String exerciseSet;
   int _index = 0;
   int get index => _index;
   set index(int nv) {
@@ -63,12 +80,22 @@ class _ChewieVideoState extends State<ChewieVideo>
 
   /// populate variables with exercise info
   initializeVariables() {
-    exerciseDuration = exerciseSnapshots[index].data['duration'];
-    exerciseIsReps = exerciseSnapshots[index].data['isReps'];
-    exerciseReps = exerciseSnapshots[index].data['reps'];
-    exerciseSets = exerciseSnapshots[index].data['sets'];
-    exerciseRest = exerciseSnapshots[index].data['rest'];
-    exerciseName = exerciseSnapshots[index].data['name'];
+    String exerciseNameAndSet = namesWithSet[index];
+    exerciseDuration = workoutExercisesWithSets[index].data['duration'];
+    exerciseIsReps = workoutExercisesWithSets[index].data['isReps'];
+    exerciseReps = workoutExercisesWithSets[index].data['reps'];
+    exerciseSets = workoutExercisesWithSets[index].data['sets'];
+    exerciseRest = workoutExercisesWithSets[index].data['rest'];
+    exerciseName = exerciseNameAndSet.split('_')[1];
+    exerciseSet = exerciseNameAndSet.split('_')[0];
+    print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL');
+    print(exerciseDuration);
+    print(exerciseIsReps);
+    print(exerciseReps);
+    print(exerciseSets);
+    print(exerciseRest);
+    print(exerciseName);
+    print(exerciseSet);
   }
 
   /// when we want to play next video, we simply set index to increment
@@ -227,20 +254,21 @@ class _ChewieVideoState extends State<ChewieVideo>
             ),
             Positioned(
               child: IndicatorsOnVideo(
-                controller: vc,
-                listLenght: source.length,
-                userDocument: widget.userDocument,
-                userTrainerDocument: widget.userTrainerDocument,
-                index: _index,
-                duration: exerciseDuration,
-                isReps: exerciseIsReps,
-                reps: exerciseReps,
-                sets: exerciseSets,
-                name: exerciseName,
-                showRest: showRest,
-                workoutID: widget.workoutID,
-                weekID: widget.weekID,
-              ),
+                  controller: vc,
+                  listLenght: source.length,
+                  userDocument: widget.userDocument,
+                  userTrainerDocument: widget.userTrainerDocument,
+                  index: _index,
+                  duration: exerciseDuration,
+                  isReps: exerciseIsReps,
+                  reps: exerciseReps,
+                  sets: exerciseSets,
+                  name: exerciseName,
+                  showRest: showRest,
+                  workoutID: widget.workoutID,
+                  weekID: widget.weekID,
+                  ctrl: true,
+                  currentSet: exerciseSet),
             ),
           ],
         ),
