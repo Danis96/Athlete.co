@@ -77,94 +77,105 @@ class _AddNoteState extends State<AddNote> {
           ),
         ),
       ),
-      body: new Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          new Expanded(
-            child: new Material(
-              color: MyColors().lightBlack,
-              child: new TextFormField(
-                enableInteractiveSelection: false,
-                onChanged: (input) {
-                  newNote = input;
-                },
-                initialValue: userNotes,
-                autofocus: false,
-                enableSuggestions: false,
-                maxLines: null,
-                autocorrect: false,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: SizeConfig.safeBlockHorizontal * 4.5,
-                ),
-                cursorColor: Colors.white60,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  enabledBorder: InputBorder.none,
-                  errorBorder: InputBorder.none,
-                  disabledBorder: InputBorder.none,
-                  contentPadding: EdgeInsets.symmetric(
-                      vertical: SizeConfig.blockSizeVertical * 2.5),
-                  labelStyle: TextStyle(
-                    color: Colors.white60,
-                    fontSize: SizeConfig.safeBlockHorizontal * 4.5,
-                    fontWeight: FontWeight.w400,
-                    fontFamily: 'Roboto',
-                    fontStyle: FontStyle.italic,
-                  ),
-                  hasFloatingPlaceholder: false,
-                  labelText: 'Add a note',
-                  filled: true,
-                  fillColor: MyColors().black,
-                  prefixIcon: Icon(
-                    Icons.edit,
-                    color: MyColors().white,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            child: RaisedButton(
-              elevation: 0,
-              onPressed: () {
-                String note;
-                if (newNote != null) {
-                  note =
-                      widget.userDocument.data['userUID'] + '_!_?_' + newNote;
-                  notes.add(note);
-                  userNotes = note.split('_!_?_')[1];
-                  ChewieVideoViewModel().updateWorkoutWithNote(
-                      widget.userTrainerDocument.data['trainerID'],
-                      widget.weekID,
-                      widget.workoutID,
-                      notes);
-                }
-                FocusScope.of(context).requestFocus(new FocusNode());
-                SystemChrome.setPreferredOrientations(
-                    [DeviceOrientation.landscapeRight]);
-                setState(() {
-                  widget.timerPaused = false;
-                });
-                Navigator.of(context).pop();
-              },
-              child: Padding(
-                padding: EdgeInsets.all(22.0),
-                child: Text(
-                  'DONE',
+      body: WillPopScope(
+        onWillPop: () => _onWillPop(),
+        child: new Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            new Expanded(
+              child: new Material(
+                color: MyColors().lightBlack,
+                child: new TextFormField(
+                  enableInteractiveSelection: false,
+                  onChanged: (input) {
+                    newNote = input;
+                  },
+                  initialValue: userNotes,
+                  autofocus: false,
+                  enableSuggestions: false,
+                  maxLines: null,
+                  autocorrect: false,
                   style: TextStyle(
+                    color: Colors.white,
+                    fontSize: SizeConfig.safeBlockHorizontal * 4.5,
+                  ),
+                  cursorColor: Colors.white60,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(
+                        vertical: SizeConfig.blockSizeVertical * 2.5),
+                    labelStyle: TextStyle(
+                      color: Colors.white60,
+                      fontSize: SizeConfig.safeBlockHorizontal * 4.5,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: 'Roboto',
                       fontStyle: FontStyle.italic,
-                      fontSize: SizeConfig.blockSizeHorizontal * 4,
-                      fontWeight: FontWeight.w700),
+                    ),
+                    labelText: 'Add a note',
+                    filled: true,
+                    fillColor: MyColors().black,
+                    prefixIcon: Icon(
+                      Icons.edit,
+                      color: MyColors().white,
+                    ),
+                  ),
                 ),
               ),
-              color: Colors.white,
             ),
-          ),
-        ],
+            Container(
+              width: MediaQuery.of(context).size.width,
+              child: RaisedButton(
+                elevation: 0,
+                onPressed: () {
+                  String note;
+                  if (newNote != null) {
+                    note =
+                        widget.userDocument.data['userUID'] + '_!_?_' + newNote;
+                    notes.add(note);
+                    userNotes = note.split('_!_?_')[1];
+                    ChewieVideoViewModel().updateWorkoutWithNote(
+                        widget.userTrainerDocument.data['trainerID'],
+                        widget.weekID,
+                        widget.workoutID,
+                        notes);
+                  }
+                  FocusScope.of(context).requestFocus(new FocusNode());
+                  SystemChrome.setPreferredOrientations(
+                      [DeviceOrientation.landscapeRight]);
+                  setState(() {
+                    widget.timerPaused = false;
+                  });
+                  Navigator.of(context).pop();
+                },
+                child: Padding(
+                  padding: EdgeInsets.all(22.0),
+                  child: Text(
+                    'DONE',
+                    style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontSize: SizeConfig.blockSizeHorizontal * 4,
+                        fontWeight: FontWeight.w700),
+                  ),
+                ),
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  Future<bool> _onWillPop() async {
+    FocusScope.of(context).requestFocus(new FocusNode());
+    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
+    setState(() {
+      widget.timerPaused = false;
+    });
+    Navigator.of(context).pop();
   }
 }
