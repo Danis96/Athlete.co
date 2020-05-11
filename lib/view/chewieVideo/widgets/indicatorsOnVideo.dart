@@ -280,7 +280,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                       timerPaused || isTips
                           ? Container(
                               height: SizeConfig.blockSizeVertical * 20,
-                              width: SizeConfig.blockSizeHorizontal * 24,
+                              width: SizeConfig.blockSizeHorizontal * 27,
                               decoration: BoxDecoration(
                                   color: Color.fromRGBO(28, 28, 28, 0.7),
                                   borderRadius:
