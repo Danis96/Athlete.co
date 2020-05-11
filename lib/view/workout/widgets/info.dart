@@ -11,14 +11,13 @@ class InfoExercise extends StatefulWidget {
   final String exerciseNameForInfo;
   final String exerciseVideoForInfo;
   final VideoController vc;
-  const InfoExercise(
-      {Key key,
-      this.exerciseTips,
-      this.exerciseNameForInfo,
-      this.exerciseVideoForInfo, 
-      this.vc,
-      })
-      : super(key: key);
+  const InfoExercise({
+    Key key,
+    this.exerciseTips,
+    this.exerciseNameForInfo,
+    this.exerciseVideoForInfo,
+    this.vc,
+  }) : super(key: key);
 
   @override
   _InfoExerciseState createState() => _InfoExerciseState();
@@ -51,119 +50,138 @@ class _InfoExerciseState extends State<InfoExercise> {
     SizeConfig().init(context);
     return Scaffold(
       backgroundColor: MyColors().black,
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 5),
-            child: Center(
-              child: VideoBox(controller: vc),
+      body: WillPopScope(
+        onWillPop: () => _onWillPop(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 5),
+              child: Center(
+                child: VideoBox(controller: vc),
+              ),
             ),
-          ),
-          Container(
-            color: Colors.black,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: <Widget>[
-                Container(
-                  width: SizeConfig.blockSizeHorizontal * 100,
-                  child: Container(
-                      height: SizeConfig.blockSizeVertical * 50,
-                      color: MyColors().black,
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.all(5),
-                            child: Row(
-                              children: <Widget>[
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      left: SizeConfig.blockSizeHorizontal * 2),
-                                  child: IconButton(
-                                    color: MyColors().white,
-                                    iconSize:
-                                        SizeConfig.blockSizeHorizontal * 8,
-                                    icon: Icon(Icons.clear),
-                                    onPressed: () => onDone(),
+            Container(
+              color: Colors.black,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  Container(
+                    width: SizeConfig.blockSizeHorizontal * 100,
+                    child: Container(
+                        height: SizeConfig.blockSizeVertical * 50,
+                        color: MyColors().black,
+                        child: Column(
+                          children: <Widget>[
+                            Container(
+                              padding: EdgeInsets.all(5),
+                              child: Row(
+                                children: <Widget>[
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                        left:
+                                            SizeConfig.blockSizeHorizontal * 2),
+                                    child: IconButton(
+                                      color: MyColors().white,
+                                      iconSize:
+                                          SizeConfig.blockSizeHorizontal * 8,
+                                      icon: Icon(Icons.clear),
+                                      onPressed: () => onDone(),
+                                    ),
                                   ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      left: SizeConfig.blockSizeHorizontal * 2),
-                                  child: Text(
-                                    widget.exerciseNameForInfo,
-                                    style: TextStyle(
-                                        color: MyColors().white,
-                                        fontSize:
-                                            SizeConfig.safeBlockHorizontal * 5,
-                                        fontWeight: FontWeight.bold,
-                                        fontStyle: FontStyle.italic),
-                                  ),
-                                )
-                              ],
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                        left:
+                                            SizeConfig.blockSizeHorizontal * 2),
+                                    child: Text(
+                                      widget.exerciseNameForInfo,
+                                      style: TextStyle(
+                                          color: MyColors().white,
+                                          fontSize:
+                                              SizeConfig.safeBlockHorizontal *
+                                                  5,
+                                          fontWeight: FontWeight.bold,
+                                          fontStyle: FontStyle.italic),
+                                    ),
+                                  )
+                                ],
+                              ),
                             ),
-                          ),
-                          Container(
-                            height: SizeConfig.blockSizeVertical * 22,
-                            padding: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical * 2.5),
-                            child: ListView.builder(
-                              shrinkWrap: true,
-                              itemCount: widget.exerciseTips.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Container(
-                                  padding: EdgeInsets.all(5),
-                                  margin: EdgeInsets.only(
-                                      bottom: SizeConfig.blockSizeVertical * 1,
-                                      left: SizeConfig.blockSizeHorizontal * 5),
-                                  child: Text(
-                                    widget.exerciseTips[index].toString(),
-                                    style: TextStyle(color: MyColors().white),
-                                  ),
-                                );
-                              },
+                            Container(
+                              height: SizeConfig.blockSizeVertical * 22,
+                              padding: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 2.5),
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: widget.exerciseTips.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Container(
+                                    padding: EdgeInsets.all(5),
+                                    margin: EdgeInsets.only(
+                                        bottom:
+                                            SizeConfig.blockSizeVertical * 1,
+                                        left:
+                                            SizeConfig.blockSizeHorizontal * 5),
+                                    child: Text(
+                                      widget.exerciseTips[index].toString(),
+                                      style: TextStyle(color: MyColors().white),
+                                    ),
+                                  );
+                                },
+                              ),
                             ),
-                          ),
 
-                          /// done
-                          Container(
-                            alignment: Alignment.bottomRight,
-                            margin: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical * 10),
-                            child: FlatButton(
-                                color: MyColors().black,
-                                onPressed: () => onDone(),
-                                child: Text(
-                                  'DONE',
-                                  style: TextStyle(
-                                    fontSize:
-                                        SizeConfig.safeBlockHorizontal * 4,
-                                    color: MyColors().white,
-                                  ),
-                                )),
-                          ),
-                        ],
-                      )),
-                ),
-              ],
+                            /// done
+                            Container(
+                              alignment: Alignment.bottomRight,
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 10),
+                              child: FlatButton(
+                                  color: MyColors().black,
+                                  onPressed: () => onDone(),
+                                  child: Text(
+                                    'DONE',
+                                    style: TextStyle(
+                                      fontSize:
+                                          SizeConfig.safeBlockHorizontal * 4,
+                                      color: MyColors().white,
+                                    ),
+                                  )),
+                            ),
+                          ],
+                        )),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
 
- /// [onDone] here we check doues ur android back button is going to video, or exercise screen
- /// if true  then set our portrait to landscapeRight
- /// same goes for tips
+  /// [onDone] here we check doues ur android back button is going to video, or exercise screen
+  /// if true  then set our portrait to landscapeRight
+  /// same goes for tips
   onDone() {
     setState(() {
-      goBackToChewie ? SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]) : print('NIJE SA VIDEA') ;  
+      goBackToChewie
+          ? SystemChrome.setPreferredOrientations(
+              [DeviceOrientation.landscapeRight])
+          : print('NIJE SA VIDEA');
     });
-      goBackToChewie ?  isTips = true : isTips = false;
+    goBackToChewie ? isTips = true : isTips = false;
     Navigator.of(context).pop();
     goBackToChewie = false;
+  }
+
+  Future<bool> _onWillPop() async {
+    print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA     ' + goBackToChewie.toString());
+    if(goBackToChewie) {
+      SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
+    }
+    Navigator.of(context).pop();
   }
 }
