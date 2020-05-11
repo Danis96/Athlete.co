@@ -1,3 +1,4 @@
+import 'package:attt/utils/colors.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +8,9 @@ import 'package:attt/utils/globals.dart';
 ///REST
 class Rest extends StatefulWidget {
   final int rest;
-  Rest({this.rest});
+  final Function playNext;
+  final OverlayEntry overlayEntry;
+  Rest({this.rest, this.playNext, this.overlayEntry});
   @override
   _MyAppState createState() => _MyAppState();
 }
@@ -20,6 +23,7 @@ class _MyAppState extends State<Rest> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    isRestSkipped = false;
     _controller1 = AnimationController(
       duration: const Duration(milliseconds: 900),
       vsync: this,
@@ -106,7 +110,20 @@ class _MyAppState extends State<Rest> with TickerProviderStateMixin {
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: 48.0),
-              )
+              ),
+              Container(
+                child: FlatButton(
+                    
+                    onPressed: () {
+                      isRestSkipped = true;
+                      widget.overlayEntry.remove();
+                      restGoing = false;
+                      widget.playNext();
+                      print('REST SKIPPED: ' + isRestSkipped.toString());
+                    },
+                    child: Text('Skip',
+                        style: TextStyle(color: MyColors().white, fontSize: 25))),
+              ),
             ],
           ),
         ),

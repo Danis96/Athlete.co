@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:attt/interface/signinInterface.dart';
 import 'package:attt/utils/customScreenAnimation.dart';
 import 'package:attt/utils/dialog.dart';
@@ -7,6 +9,7 @@ import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_appavailability/flutter_appavailability.dart';
 import 'package:flutter_twitter_login/flutter_twitter_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
@@ -43,14 +46,17 @@ class SignInViewModel implements SignInInterface {
   signInWithTwitter(BuildContext context) async {
     Dialogs.showLoadingDialog(context, _keyLoader);
 
+
     final TwitterLogin twitterLogin = new TwitterLogin(
       consumerKey: 'Ilrsmygri8GsJmVVwMmqn5cLj',
       consumerSecret: '6Q9w2doSYaw8dygielC2aHfcoLDZIrCuhKRhPkjMCOJXwSUhlV',
     );
 
-    _twitterLoginResult = await twitterLogin.authorize();
-    _currentUserTwitterSession = _twitterLoginResult.session;
-    _twitterLoginStatus = _twitterLoginResult.status;
+
+      _twitterLoginResult = await twitterLogin.authorize();
+      _currentUserTwitterSession = _twitterLoginResult.session;
+      _twitterLoginStatus = _twitterLoginResult.status;
+  
 
     switch (_twitterLoginStatus) {
       case TwitterLoginStatus.loggedIn:
@@ -614,5 +620,4 @@ class SignInViewModel implements SignInInterface {
       'trainer': trainer,
     });
   }
-
 }
