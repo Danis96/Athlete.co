@@ -30,8 +30,6 @@ class ChewieVideo extends StatefulWidget {
 class _ChewieVideoState extends State<ChewieVideo>
     with LandscapeStatefulModeMixin
     implements ChewieVideoInterface {
-
-  
   List<String> source = [
     'assets/video/C.mp4',
     'assets/video/C.mp4',
@@ -62,7 +60,7 @@ class _ChewieVideoState extends State<ChewieVideo>
     }
     _index = nv;
   }
-  
+
   /// populate variables with exercise info
   initializeVariables() {
     exerciseDuration = exerciseSnapshots[index].data['duration'];
@@ -72,7 +70,6 @@ class _ChewieVideoState extends State<ChewieVideo>
     exerciseRest = exerciseSnapshots[index].data['rest'];
     exerciseName = exerciseSnapshots[index].data['name'];
   }
-  
 
   /// when we want to play next video, we simply set index to increment
   nextPlay() {
@@ -80,14 +77,13 @@ class _ChewieVideoState extends State<ChewieVideo>
       index++;
     });
   }
-  
 
   /// getReady Screen taht shows after video start 1 sec
-  /// when getReady start we activate [WidgetsBinding.instance.addPostFrameCallback] 
-  /// this method will set readyGoing variable to true, but after function is built, 
+  /// when getReady start we activate [WidgetsBinding.instance.addPostFrameCallback]
+  /// this method will set readyGoing variable to true, but after function is built,
   /// because that variable is controll variable for back when ready is on
-  /// 
-  /// then we create overlayState, overlayEntry is [GetReady] screen 
+  ///
+  /// then we create overlayState, overlayEntry is [GetReady] screen
   /// then insert GetReady into overlayState
   /// after 5 seconds we remove entry, then set controll variable [getReady] to false
   showGetReady(BuildContext context) async {
@@ -108,20 +104,19 @@ class _ChewieVideoState extends State<ChewieVideo>
     isReady = true;
     readyGoing = false;
   }
-  
 
   /// showRest screen that is showed every time video is changed
   /// here we firstly check for [isTimerDone] (are all videos done playing)
   /// if it is true, we then pause the video, clear all lists, set [alertQuit] to true,
   /// then navigate to TrainingPlan
   /// if it is false,
-  /// when showRest start we activate [WidgetsBinding.instance.addPostFrameCallback] 
-  /// this method will set restGoing variable to true, but after function is built, 
+  /// when showRest start we activate [WidgetsBinding.instance.addPostFrameCallback]
+  /// this method will set restGoing variable to true, but after function is built,
   /// because that variable is controll variable for back when ready is on
-  /// 
-  /// then we create overlayState, overlayEntry is [Rest] screen 
+  ///
+  /// then we create overlayState, overlayEntry is [Rest] screen
   /// then insert Rest into overlayState
-  /// after time that is predictet for rest, we remove entry, 
+  /// after time that is predictet for rest, we remove entry,
   /// then set controll variable [restGoing] to false
   /// then call [nextPlay] to play enxt video
   showRest(BuildContext context) async {
@@ -155,23 +150,32 @@ class _ChewieVideoState extends State<ChewieVideo>
 
       /// create overlay
       OverlayState overlayState = Overlay.of(context);
-      OverlayEntry overlayEntry = OverlayEntry(
-          builder: (BuildContext context) =>
-              Visibility(visible: true, child: Rest(rest: exerciseRest)));
+      OverlayEntry overlayEntryRest;
+      overlayEntryRest = OverlayEntry(
+          builder: (BuildContext context) => Visibility(
+              visible: true,
+              child: Rest(
+                rest: exerciseRest,
+                overlayEntry: overlayEntryRest,
+                playNext: nextPlay,
+              )));
 
+      /// add to overlay overlayEntry that is rest widget
       if (alertQuit) {
         print('No rest, alertQuit');
       } else {
-        overlayState.insert(overlayEntry);
+        overlayState.insert(overlayEntryRest);
       }
 
-      /// add to overlay overlayEntry that is rest widget
-
-      /// wait for [rest] time and then remove the overlay widget
-      await Future.delayed(Duration(seconds: exerciseRest));
-      overlayEntry.remove();
-      restGoing = false;
-      nextPlay();
+      if (isRestSkipped) {
+        print('Rest is skipped');
+      } else {
+        /// wait for [rest] time and then remove the overlay widget
+        await Future.delayed(Duration(seconds: exerciseRest));
+        overlayEntryRest.remove();
+        restGoing = false;
+        nextPlay();
+      }
     }
   }
 
@@ -179,9 +183,8 @@ class _ChewieVideoState extends State<ChewieVideo>
   void initState() {
     super.initState();
     // source = onlineVideos;
-   
 
-   /// initializing VideoController and giving him source (videos)
+    /// initializing VideoController and giving him source (videos)
     vc = VideoController(
         controllerWidgets: false,
         looping: true,
@@ -189,7 +192,6 @@ class _ChewieVideoState extends State<ChewieVideo>
         source: VideoPlayerController.asset(source[index]))
       ..initialize();
   }
-  
 
   /// dispose whole widget and [vc] controller
   @override
@@ -225,19 +227,20 @@ class _ChewieVideoState extends State<ChewieVideo>
             ),
             Positioned(
               child: IndicatorsOnVideo(
-                  controller: vc,
-                  listLenght: source.length,
-                  userDocument: widget.userDocument,
-                  userTrainerDocument: widget.userTrainerDocument,
-                  index: _index,
-                  duration: exerciseDuration,
-                  isReps: exerciseIsReps,
-                  reps: exerciseReps,
-                  sets: exerciseSets,
-                  name: exerciseName,
-                  showRest: showRest,
-                  workoutID: widget.workoutID,
-                  weekID: widget.weekID),
+                controller: vc,
+                listLenght: source.length,
+                userDocument: widget.userDocument,
+                userTrainerDocument: widget.userTrainerDocument,
+                index: _index,
+                duration: exerciseDuration,
+                isReps: exerciseIsReps,
+                reps: exerciseReps,
+                sets: exerciseSets,
+                name: exerciseName,
+                showRest: showRest,
+                workoutID: widget.workoutID,
+                weekID: widget.weekID,
+              ),
             ),
           ],
         ),

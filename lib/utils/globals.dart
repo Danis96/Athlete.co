@@ -30,3 +30,7 @@ String  exVideo;
 List<dynamic> exTips = [];
 /// [isTips] for paused, [goBackToChewie] is for orientation 
 bool isTips = false, goBackToChewie = false;
+/// for checking are apps instaleld  
+bool isInstalled = false;
+/// for skip rest feature 
+bool isRestSkipped = false;

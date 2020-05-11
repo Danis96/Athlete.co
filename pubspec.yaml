@@ -38,6 +38,7 @@ dependencies:
   threading: ^0.0.10
   flutter_ajanuw_android_pip: ^0.1.1
   video_box: ^0.12.0
+  flutter_appavailability: ^0.0.21
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
