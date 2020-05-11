@@ -121,7 +121,7 @@ class _SeriesCardState extends State<SeriesCard> {
                             onlineExercises
                                 .add(snapshot.data[index].data['video']);
                             exerciseSnapshots.add(snapshot.data[index]);
-                            print(onlineVideos.length);
+                            //print(onlineVideos.length);
 
                             return ExerciseCard(
                               exerciseImage: widget.exerciseImage,

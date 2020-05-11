@@ -76,12 +76,12 @@ class _WarmupContainerState extends State<WarmupContainer> {
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
-                      print(widget.trainerName +
-                          widget.weekName +
-                          widget.workoutName +
-                          widget.seriesName +
-                          snapshot.data[index].data['name'] +
-                          '.mp4');
+                      // print(widget.trainerName +
+                      //     widget.weekName +
+                      //     widget.workoutName +
+                      //     widget.seriesName +
+                      //     snapshot.data[index].data['name'] +
+                      //     '.mp4');
                       onlineWarmup.add(snapshot.data[index].data['video']);
                       exerciseSnapshots.add(snapshot.data[index]);
                       return EmptyContainer();
