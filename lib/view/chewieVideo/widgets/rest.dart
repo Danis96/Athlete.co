@@ -19,6 +19,7 @@ class _MyAppState extends State<Rest> with TickerProviderStateMixin {
   AnimationController _controller1;
   Animation<Offset> _offsetAnimation1;
   AudioCache _audioCache;
+  AudioPlayer audioPlayer;
 
   @override
   void initState() {
@@ -50,6 +51,10 @@ class _MyAppState extends State<Rest> with TickerProviderStateMixin {
   int _start;
   bool _isLessThan10 = false;
 
+  initializeAudioPlayer() async {
+    audioPlayer = await _audioCache.play('zvuk.mp3');
+  }
+
   void startTimer() async {
     _start = widget.rest;
     const oneSec = const Duration(seconds: 1);
@@ -73,7 +78,7 @@ class _MyAppState extends State<Rest> with TickerProviderStateMixin {
                 _isLessThan10 = true;
               });
               if (_start == 5) {
-                _audioCache.play('zvuk.mp3');
+                initializeAudioPlayer();
               }
             }
           }
@@ -120,6 +125,9 @@ class _MyAppState extends State<Rest> with TickerProviderStateMixin {
                     onPressed: () {
                       isRestSkipped = true;
                       _timer.cancel();
+                      if (_start <= 5) {
+                        audioPlayer.stop();
+                      }
                       widget.overlayEntry.remove();
                       restGoing = false;
                       widget.playNext();
