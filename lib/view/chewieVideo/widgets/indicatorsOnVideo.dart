@@ -40,7 +40,9 @@ class IndicatorsOnVideo extends StatefulWidget {
       this.userTrainerDocument,
       this.userDocument,
       this.ctrl,
-      this.duration});
+      this.duration, 
+      this.playNext,
+      });
 
   @override
   _IndicatorsOnVideoState createState() => _IndicatorsOnVideoState();
@@ -418,7 +420,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                     isTimerDone = true;
                                     widget.showRest(context);
                                   }
-                                  
                                   setState(() {
                                     restShowed = true;
                                     timerPaused = false;
