@@ -1,4 +1,5 @@
 import 'package:attt/utils/colors.dart';
+import 'package:attt/utils/fullTrainingStopwatch/fullTrainingStopwatch.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view_model/chewieVideoViewModel.dart';
@@ -30,6 +31,7 @@ class _FinishWorkoutState extends State<FinishWorkout> {
   void initState() {
     super.initState();
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    FullTrainingStopwatch().stopStopwtach();
   }
 
   @override
@@ -76,7 +78,7 @@ class _FinishWorkoutState extends State<FinishWorkout> {
                       Container(
                         width: MediaQuery.of(context).size.width,
                         child: Text(
-                          '45:31',
+                          displayTime,
                           style: TextStyle(
                               color: Colors.white,
                               fontStyle: FontStyle.italic,
@@ -186,6 +188,7 @@ class _FinishWorkoutState extends State<FinishWorkout> {
         child: RaisedButton(
           elevation: 0,
           onPressed: () {
+            FullTrainingStopwatch().resetStopwtach();
             String note;
             if (newNote != null) {
               note = widget.userDocument.data['userUID'] + '_!_?_' + newNote;

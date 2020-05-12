@@ -45,3 +45,6 @@ bool isRestSkipped = false;
 /// list for sets
 List<dynamic> workoutExercisesWithSets = [];
 List<dynamic> namesWithSet = [];
+/// for full training stopwatch
+String displayTime = '00:00:00';
+var swatch = Stopwatch();

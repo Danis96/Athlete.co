@@ -2,6 +2,7 @@ import 'package:attt/interface/chewieVideoInterface.dart';
 import 'package:attt/storage/storage.dart';
 import 'package:attt/utils/alertDialog.dart';
 import 'package:attt/utils/emptyContainer.dart';
+import 'package:attt/utils/fullTrainingStopwatch/fullTrainingStopwatch.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/screenOrientation/landscapeMode.dart';
 import 'package:attt/utils/screenOrientation/portraitMode.dart';
