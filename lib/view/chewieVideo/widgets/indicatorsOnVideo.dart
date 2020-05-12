@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:attt/utils/customScreenAnimation.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/view/chewieVideo/widgets/addNote.dart';
-import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:attt/view/workout/widgets/info.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -12,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:video_box/video.controller.dart';
 import 'package:attt/utils/size_config.dart';
-import 'package:attt/utils/globals.dart';
 
 class IndicatorsOnVideo extends StatefulWidget {
   final VideoController controller;

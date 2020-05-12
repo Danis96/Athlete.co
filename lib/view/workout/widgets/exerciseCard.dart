@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:attt/storage/storage.dart';
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/customScreenAnimation.dart';

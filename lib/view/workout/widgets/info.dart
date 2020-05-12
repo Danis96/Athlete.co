@@ -1,6 +1,5 @@
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/globals.dart';
-import 'package:attt/utils/screenOrientation/portraitMode.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
