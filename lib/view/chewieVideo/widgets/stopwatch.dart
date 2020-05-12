@@ -45,7 +45,6 @@ class TimerService extends ChangeNotifier {
     stop();
     _watch.reset();
     _currentDuration = Duration.zero;
-
     notifyListeners();
   }
 
