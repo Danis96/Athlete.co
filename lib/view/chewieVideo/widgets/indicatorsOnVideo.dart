@@ -18,7 +18,7 @@ class IndicatorsOnVideo extends StatefulWidget {
   final DocumentSnapshot userDocument, userTrainerDocument;
   final int index, listLenght;
   final int duration;
-  final Function showRest, showAddNote;
+  final Function showRest, showAddNote, playNext;
   final int isReps, sets, reps, rest;
   final String name, workoutID, weekID, currentSet;
   final bool ctrl;
@@ -40,7 +40,9 @@ class IndicatorsOnVideo extends StatefulWidget {
       this.userTrainerDocument,
       this.userDocument,
       this.ctrl,
-      this.duration});
+      this.duration, 
+      this.playNext,
+      });
 
   @override
   _IndicatorsOnVideoState createState() => _IndicatorsOnVideoState();
@@ -408,6 +410,8 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                 onPressed: () {
                                   if (widget.rest > 0) {
                                     widget.showRest(context);
+                                  } else {
+                                     widget.playNext();
                                   }
                                   if (widget.index == widget.listLenght - 1)
                                     isTimerDone = true;

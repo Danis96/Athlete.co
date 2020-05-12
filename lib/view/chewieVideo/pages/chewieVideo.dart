@@ -295,7 +295,9 @@ class _ChewieVideoState extends State<ChewieVideo>
                     weekID: widget.weekID,
                     ctrl: true,
                     rest: exerciseRest,
-                    currentSet: exerciseSet),
+                    currentSet: exerciseSet, 
+                    playNext: nextPlay,
+                    ),
               ),
             ),
           ],
@@ -324,6 +326,8 @@ class _ChewieVideoState extends State<ChewieVideo>
               userTrainerDocument: widget.userTrainerDocument,
               vc: vc,
               close: dispose,
+              isReps: exerciseIsReps,
+             
             ),
           ) ??
           true;
