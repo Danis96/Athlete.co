@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:attt/utils/customScreenAnimation.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/view/chewieVideo/widgets/addNote.dart';
+import 'package:attt/view/chewieVideo/widgets/finishWorkout.dart';
 import 'package:attt/view/workout/widgets/info.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -142,13 +143,15 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       (Timer timer) => setState(
         () {
           if (startingValue < 1) {
+            if (widget.rest > 0) {
+              widget.showRest(context);
+            }
             setState(() {
               restShowed = true;
               timerPaused = false;
             });
             timer.cancel();
             if (widget.index == widget.listLenght - 1) isTimerDone = true;
-            widget.showRest(context);
           } else {
             setState(() {
               startingValue = startingValue - 1;
@@ -403,9 +406,11 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                 icon: Icon(
                                     CupertinoIcons.check_mark_circled_solid),
                                 onPressed: () {
+                                  if (widget.rest > 0) {
+                                    widget.showRest(context);
+                                  }
                                   if (widget.index == widget.listLenght - 1)
                                     isTimerDone = true;
-                                  widget.showRest(context);
                                   setState(() {
                                     restShowed = true;
                                     timerPaused = false;
