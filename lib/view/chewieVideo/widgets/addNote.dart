@@ -64,6 +64,7 @@ class _AddNoteState extends State<AddNote> {
             FocusScope.of(context).requestFocus(new FocusNode());
             setState(() {
               widget.timerPaused = false;
+              noteClicked = true;
             });
             Navigator.of(context).pop();
           },
@@ -146,6 +147,7 @@ class _AddNoteState extends State<AddNote> {
                       [DeviceOrientation.landscapeRight]);
                   setState(() {
                     widget.timerPaused = false;
+                    noteClicked = true;
                   });
                   Navigator.of(context).pop();
                 },
@@ -173,6 +175,7 @@ class _AddNoteState extends State<AddNote> {
     SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
     setState(() {
       widget.timerPaused = false;
+      noteClicked = true;
     });
     Navigator.of(context).pop();
   }
