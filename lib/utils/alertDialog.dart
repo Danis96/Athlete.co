@@ -11,6 +11,7 @@ class MyAlertDialog extends StatefulWidget {
   final DocumentSnapshot userDocument, userTrainerDocument;
   final Function onExit, close;
   final VideoController vc;
+  final int isReps;
 
   MyAlertDialog({
     Key key,
@@ -23,6 +24,7 @@ class MyAlertDialog extends StatefulWidget {
     this.userTrainerDocument,
     this.vc,
     this.close,
+    this.isReps,
   }) : super(key: key);
 
   @override
@@ -57,7 +59,7 @@ class _MyAlertDialogState extends State<MyAlertDialog> {
           onPressed: () {
             widget.vc.pause();
             alertQuit = true;
-            videoTimer.cancel();
+            widget.isReps == 0 ? print('No time cancel') : videoTimer.cancel();
             Navigator.of(context).pushReplacement(CardAnimationTween(
               widget: TrainingPlan(
                 userDocument: widget.userDocument,
