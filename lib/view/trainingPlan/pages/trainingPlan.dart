@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:attt/utils/screenOrientation/portraitMode.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/trainingPlan/widgets/listOfWeeks.dart';
 import 'package:attt/view/trainingPlan/widgets/trainingCustomBottomNavigationBar.dart';
