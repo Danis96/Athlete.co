@@ -204,7 +204,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
           child: Padding(
             padding: EdgeInsets.only(
                 top: SizeConfig.blockSizeVertical * 3,
-                bottom: SizeConfig.blockSizeVertical * 2,
                 left: SizeConfig.blockSizeHorizontal * 3,
                 right: SizeConfig.blockSizeVertical * 3),
             child: Center(
@@ -354,7 +353,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                           widget.isReps == 0
                               ? Container(
                                   margin: EdgeInsets.only(
-                                      top: SizeConfig.blockSizeVertical * 35),
+                                      top: SizeConfig.blockSizeVertical * 30),
                                   child: Text('x' + widget.reps.toString(),
                                       style: TextStyle(
                                           color: Colors.white,
@@ -399,7 +398,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                       widget.isReps == 0
                           ? Container(
                               margin: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical * 10),
+                                  top: SizeConfig.blockSizeVertical * 25),
                               child: IconButton(
                                 icon: Icon(
                                     CupertinoIcons.check_mark_circled_solid),

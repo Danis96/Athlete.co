@@ -12,6 +12,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:video_box/video_box.dart';
 import 'dart:async';
+import 'package:attt/utils/size_config.dart';
 
 class ChewieVideo extends StatefulWidget {
   final DocumentSnapshot userDocument, userTrainerDocument;
@@ -232,6 +233,7 @@ class _ChewieVideoState extends State<ChewieVideo>
 
   @override
   Widget build(BuildContext context) {
+    SizeConfig().init(context);
     initializeVariables();
 
     if (alertQuit) {
@@ -275,23 +277,26 @@ class _ChewieVideoState extends State<ChewieVideo>
               ),
             ),
              Positioned(
-              child: IndicatorsOnVideo(
-                  controller: vc,
-                  listLenght: source.length,
-                  userDocument: widget.userDocument,
-                  userTrainerDocument: widget.userTrainerDocument,
-                  index: _index,
-                  duration: exerciseDuration,
-                  isReps: exerciseIsReps,
-                  reps: exerciseReps,
-                  sets: exerciseSets,
-                  name: exerciseName,
-                  showRest: showRest,
-                  workoutID: widget.workoutID,
-                  weekID: widget.weekID,
-                  ctrl: true,
-                  rest: exerciseRest,
-                  currentSet: exerciseSet),
+              child: Container(
+                height: SizeConfig.blockSizeVertical * 90,
+                child: IndicatorsOnVideo(
+                    controller: vc,
+                    listLenght: source.length,
+                    userDocument: widget.userDocument,
+                    userTrainerDocument: widget.userTrainerDocument,
+                    index: _index,
+                    duration: exerciseDuration,
+                    isReps: exerciseIsReps,
+                    reps: exerciseReps,
+                    sets: exerciseSets,
+                    name: exerciseName,
+                    showRest: showRest,
+                    workoutID: widget.workoutID,
+                    weekID: widget.weekID,
+                    ctrl: true,
+                    rest: exerciseRest,
+                    currentSet: exerciseSet),
+              ),
             ),
           ],
         ),
