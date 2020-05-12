@@ -1,4 +1,5 @@
 import 'package:attt/utils/colors.dart';
+import 'package:attt/utils/fullTrainingStopwatch/fullTrainingStopwatch.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/utils/text.dart';
@@ -23,6 +24,7 @@ Widget bottomButtonStart(
     child: RaisedButton(
       elevation: 0,
       onPressed: () async {
+        FullTrainingStopwatch().startStopwtach();
         workoutExercisesWithSets = [];
         namesWithSet = [];
         for (var i = 0; i < serije.length; i++) {
