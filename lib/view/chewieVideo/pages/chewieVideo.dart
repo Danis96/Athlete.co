@@ -290,6 +290,7 @@ class _ChewieVideoState extends State<ChewieVideo>
                   workoutID: widget.workoutID,
                   weekID: widget.weekID,
                   ctrl: true,
+                  rest: exerciseRest,
                   currentSet: exerciseSet),
             ),
           ],

@@ -18,7 +18,7 @@ class IndicatorsOnVideo extends StatefulWidget {
   final int index, listLenght;
   final int duration;
   final Function showRest, showAddNote;
-  final int isReps, sets, reps;
+  final int isReps, sets, reps, rest;
   final String name, workoutID, weekID, currentSet;
   final bool ctrl;
 
@@ -28,6 +28,7 @@ class IndicatorsOnVideo extends StatefulWidget {
       this.showAddNote,
       this.workoutID,
       this.listLenght,
+      this.rest,
       this.weekID,
       this.name,
       this.sets,
@@ -49,6 +50,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   AnimationController _controller;
   Animation<Offset> _offsetAnimation;
   AudioCache audioCache;
+  AudioPlayer audioPlayer;
 
   @override
   void initState() {
@@ -129,6 +131,10 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   bool timerPaused = false;
   bool _isLessThan10 = false;
 
+  initializeAudioPlayer() async {
+    audioPlayer = await audioCache.play('zvuk.mp3');
+  }
+
   void startTimer(int startingValue) async {
     const oneSec = const Duration(seconds: 1);
     videoTimer = new Timer.periodic(
@@ -153,7 +159,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                 _isLessThan10 = true;
               });
               if (startingValue == 5 && widget.isReps == 1) {
-                audioCache.play('zvuk.mp3');
+                initializeAudioPlayer();
               }
             }
           }
@@ -175,6 +181,9 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
               if (widget.isReps == 1) {
                 videoTimer.cancel();
               }
+              if (_start <= 5) {
+                audioPlayer.pause();
+              }
               setState(() {
                 timerPaused = true;
               });
@@ -186,6 +195,9 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
               setState(() {
                 timerPaused = false;
               });
+              if (pausedOn <= 5) {
+                audioPlayer.resume();
+              }
             }
             isTips = false;
           },
@@ -209,6 +221,9 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                               if (widget.isReps == 1) {
                                 pausedOn = _start;
                                 videoTimer.cancel();
+                              }
+                              if (_start <= 5) {
+                                audioPlayer.pause();
                               }
                               setState(() {
                                 timerPaused = true;
@@ -264,6 +279,9 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                   if (widget.isReps == 1) {
                                     pausedOn = _start;
                                     videoTimer.cancel();
+                                  }
+                                  if (_start <= 5) {
+                                    audioPlayer.pause();
                                   }
                                   setState(() {
                                     timerPaused = true;
