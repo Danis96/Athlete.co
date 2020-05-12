@@ -52,7 +52,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   @override
   void initState() {
     super.initState();
-    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
     _controller = AnimationController(
       duration: const Duration(milliseconds: 1200),
       vsync: this,

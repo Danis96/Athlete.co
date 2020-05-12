@@ -1,3 +1,4 @@
+import 'package:attt/utils/dialog.dart';
 import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
@@ -5,7 +6,11 @@ import 'package:attt/view/home/widgets/buttonList.dart';
 import 'package:attt/view/home/widgets/logo.dart';
 import 'package:attt/view_model/signInViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:attt/utils/appUtil.dart';
+
+final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 
 class Signin extends StatefulWidget {
   const Signin({Key key}) : super(key: key);
@@ -16,6 +21,11 @@ class Signin extends StatefulWidget {
 
 class _SigninState extends State<Signin> {
   String name = '';
+  String folderInAppImage;
+  String folderInAppVideo;
+  String imageFileFolderName;
+  bool downloading = false;
+  var progressString = '';
 
   Future getTrainers() async {
     var firestore = Firestore.instance;
@@ -27,7 +37,6 @@ class _SigninState extends State<Signin> {
     var firestore = Firestore.instance;
     QuerySnapshot qn = await firestore
         .collection('Trainers')
-
         /// treba i trainerID
         .document(trainerID)
         .collection('weeks')
@@ -104,6 +113,86 @@ class _SigninState extends State<Signin> {
   void initState() {
     super.initState();
     SignInViewModel().autoLogIn(context);
+  }
+
+  _getDataAndCreateFodlers(String exerciseID, exerciseName, exerciseVideo,
+      exerciseImg, weekID, trainerID, workoutID, seriesID) async {
+    print('Exercises ' + exerciseName);
+    print('Exercise video link : ' + exerciseVideo);
+    print('IMAGE FILE NAME: ' +
+        trainerID.toString() +
+        '/' +
+        weekID.toString() +
+        '/' +
+        workoutID.toString() +
+        '/' +
+        seriesID.toString() +
+        '/' +
+        exerciseID.toString() +
+        '/' +
+        exerciseImg.toString());
+    print('VIDEO FILE NAME: ' +
+        trainerID.toString() +
+        '/' +
+        weekID.toString() +
+        '/' +
+        workoutID.toString() +
+        '/' +
+        seriesID.toString() +
+        '/' +
+        exerciseID.toString() +
+        '/' +
+        exerciseVideo.toString());
+    // allVideos.add(trainerName + weekName + workoutName + seriesName + exerciseName + '.mp4');
+    imageFileFolderName = trainerID.toString() +
+        '/' +
+        weekID.toString() +
+        '/' +
+        workoutID.toString() +
+        '/' +
+        seriesID.toString() +
+        '/' +
+        exerciseID.toString() +
+        '/' +
+        exerciseName.toString() +
+        'IMG'.toString();
+    String videoFileFolderName = trainerID.toString() +
+        '/' +
+        weekID.toString() +
+        '/' +
+        workoutID.toString() +
+        '/' +
+        seriesID.toString() +
+        '/' +
+        exerciseID.toString() +
+        '/' +
+        exerciseName.toString() +
+        'video'.toString();
+
+    folderInAppImage =
+        (await AppUtil.createFolderInAppDocDirectory(imageFileFolderName));
+    folderInAppVideo =
+        await AppUtil.createFolderInAppDocDirectory(videoFileFolderName);
+    print('FOR IMAGE $exerciseImg folder is :  $folderInAppImage$exerciseImg');
+    print('FOR VIDEO $exerciseVideo folder is :  $folderInAppVideo');
+  }
+
+  Future<void> downloadFile(
+      String urlPath, String savePath, String exerciseName) async {
+      
+     
+    Dio dio = Dio();
+
+    try {
+      await dio.download(urlPath, savePath + '$exerciseName',
+          onReceiveProgress: (rec, total) {
+        print('REC: $rec ,   TOTAL: $total');
+        print(savePath+'$exerciseName');
+        
+      });
+    } catch (e) {
+      print(e);
+    }
   }
 
   @override
@@ -218,10 +307,12 @@ class _SigninState extends State<Signin> {
                                                                                           String exerciseID = snapshot.data[index].data['exerciseID'];
                                                                                           String exerciseName = snapshot.data[index].data['name'];
                                                                                           String exercisevideo = snapshot.data[index].data['video'];
-                                                                                          print('Exercises ' + exerciseName);
-                                                                                          print('Exercise video link : ' + exercisevideo);
-                                                                                          print('FILE NAME: ' + trainerName + weekName + workoutName + seriesName + exerciseName + '.mp4');
-                                                                                          allVideos.add(trainerName + weekName + workoutName + seriesName + exerciseName + '.mp4');
+                                                                                          String exerciseImg = snapshot.data[index].data['image'];
+
+                                                                                          _getDataAndCreateFodlers(exerciseID, exerciseName, exercisevideo, exerciseImg, weekID, trainerID, workoutID, seriesID).then((_) {
+                                                                                                    downloadFile(exerciseImg, folderInAppImage, exerciseImg);
+                                                                                          });
+                                                                                          
 
                                                                                           /// EXERCISES
                                                                                           return EmptyContainer();
@@ -253,6 +344,7 @@ class _SigninState extends State<Signin> {
               SizedBox(
                 height: SizeConfig.blockSizeVertical * 40,
               ),
+              downloading  ?   Dialogs.showLoadingDialog(context, _keyLoader) : EmptyContainer(),
               buttonList(context)
             ],
           ),

@@ -23,8 +23,7 @@ class TrainingPlan extends StatefulWidget {
   _TrainingPlanState createState() => _TrainingPlanState();
 }
 
-class _TrainingPlanState extends State<TrainingPlan> 
-// with PortraitStatefulModeMixin<TrainingPlan>  
+class _TrainingPlanState extends State<TrainingPlan>
 {
   /// treba danisu warmup
   String warmup;
@@ -32,8 +31,6 @@ class _TrainingPlanState extends State<TrainingPlan>
   @override
   void initState() { 
     super.initState();
-     SystemChrome.setPreferredOrientations(
-            [DeviceOrientation.portraitUp]);
   }
 
   @override
@@ -43,7 +40,6 @@ class _TrainingPlanState extends State<TrainingPlan>
 
   @override
   Widget build(BuildContext context) {
-    // super.build(context);
     print(readyGoing.toString() +
         ' ready iz bilda || rest iz builda ' +
         restGoing.toString());

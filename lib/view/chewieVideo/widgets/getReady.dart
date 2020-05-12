@@ -19,8 +19,6 @@ class _GetReadyState extends State<GetReady> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    SystemChrome.setPreferredOrientations(
-        [DeviceOrientation.landscapeRight, DeviceOrientation.landscapeLeft]);
     _controller1 = AnimationController(
       duration: const Duration(milliseconds: 500),
       vsync: this,

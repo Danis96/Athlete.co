@@ -7,6 +7,7 @@ import 'package:attt/view/chewieVideo/widgets/indicatorsOnVideo.dart';
 import 'package:attt/view/chewieVideo/widgets/rest.dart';
 import 'package:attt/view/chewieVideo/widgets/getReady.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
+import 'package:chewie/chewie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:video_box/video_box.dart';
@@ -28,7 +29,6 @@ class ChewieVideo extends StatefulWidget {
 }
 
 class _ChewieVideoState extends State<ChewieVideo>
-    with LandscapeStatefulModeMixin
     implements ChewieVideoInterface {
   List<String> source = [
     'assets/video/C.mp4',
@@ -56,7 +56,9 @@ class _ChewieVideoState extends State<ChewieVideo>
       vc.setSource(controller);
       vc.looping = true;
       vc.bufferColor = Colors.black;
+      vc.controllerWidgets = true;
       vc.initialize();
+
     }
     _index = nv;
   }
@@ -186,7 +188,7 @@ class _ChewieVideoState extends State<ChewieVideo>
 
     /// initializing VideoController and giving him source (videos)
     vc = VideoController(
-        controllerWidgets: false,
+        controllerWidgets: true,
         looping: true,
         autoplay: true,
         source: VideoPlayerController.asset(source[index]))
@@ -223,9 +225,29 @@ class _ChewieVideoState extends State<ChewieVideo>
         child: Stack(
           children: <Widget>[
             Center(
-              child: VideoBox(controller: vc),
+              child: VideoBox(controller: vc, 
+            //   beforeChildren:  <Widget>[
+            //     Positioned(
+            //   child: IndicatorsOnVideo(
+            //     controller: vc,
+            //     listLenght: source.length,
+            //     userDocument: widget.userDocument,
+            //     userTrainerDocument: widget.userTrainerDocument,
+            //     index: _index,
+            //     duration: exerciseDuration,
+            //     isReps: exerciseIsReps,
+            //     reps: exerciseReps,
+            //     sets: exerciseSets,
+            //     name: exerciseName,
+            //     showRest: showRest,
+            //     workoutID: widget.workoutID,
+            //     weekID: widget.weekID,
+            //   ),
+            // ),
+            //   ],
+              ),
             ),
-            Positioned(
+             Positioned(
               child: IndicatorsOnVideo(
                 controller: vc,
                 listLenght: source.length,

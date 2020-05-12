@@ -62,8 +62,6 @@ class _AddNoteState extends State<AddNote> {
           ),
           onPressed: () {
             FocusScope.of(context).requestFocus(new FocusNode());
-            SystemChrome.setPreferredOrientations(
-                [DeviceOrientation.landscapeRight]);
             setState(() {
               widget.timerPaused = false;
             });
