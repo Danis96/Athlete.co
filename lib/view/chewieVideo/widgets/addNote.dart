@@ -172,7 +172,6 @@ class _AddNoteState extends State<AddNote> {
 
   Future<bool> _onWillPop() async {
     FocusScope.of(context).requestFocus(new FocusNode());
-    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
     setState(() {
       widget.timerPaused = false;
       noteClicked = true;
