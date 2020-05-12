@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 
 
 String userName, userEmail, userPhoto, userUIDPref, userTU, userTP, keyOfExercise;
@@ -22,6 +23,13 @@ bool restShowed = false;
 /// for disabling android back button when rest and  ready are active
 bool restGoing = false, readyGoing = false;
 String userNotes = '';
+
+///Couunters for note and info
+bool infoClicked = true;
+bool noteClicked = true;
+
+
+Timer videoTimer;
 
 /// for alert back exit on video 
 bool alertQuit = false;

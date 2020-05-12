@@ -57,6 +57,7 @@ class _MyAlertDialogState extends State<MyAlertDialog> {
           onPressed: () {
             widget.vc.pause();
             alertQuit = true;
+            videoTimer.cancel();
             Navigator.of(context).pushReplacement(CardAnimationTween(
               widget: TrainingPlan(
                 userDocument: widget.userDocument,

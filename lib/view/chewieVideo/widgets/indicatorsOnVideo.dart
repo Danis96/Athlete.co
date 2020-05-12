@@ -104,7 +104,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
         _start = pausedOn;
       }
     }
-    if(widget.ctrl == true) {
+    if (widget.ctrl == true) {
       _start = widget.duration;
     }
     if (widget.index > 0) {
@@ -119,20 +119,19 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
 
   @override
   void dispose() {
-    _timer.cancel();
+    videoTimer.cancel();
     _controller.dispose();
     super.dispose();
   }
 
   int _start;
   int pausedOn;
-  Timer _timer;
   bool timerPaused = false;
   bool _isLessThan10 = false;
 
   void startTimer(int startingValue) async {
     const oneSec = const Duration(seconds: 1);
-    _timer = new Timer.periodic(
+    videoTimer = new Timer.periodic(
       oneSec,
       (Timer timer) => setState(
         () {
@@ -174,7 +173,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
               pausedOn = _start;
               widget.controller.pause();
               if (widget.isReps == 1) {
-                _timer.cancel();
+                videoTimer.cancel();
               }
               setState(() {
                 timerPaused = true;
@@ -205,34 +204,51 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                       /// number of reps
                       GestureDetector(
                         onTap: () {
-                          Timer(Duration(seconds: 2), () {
-                            if (widget.isReps == 1) {
-                              pausedOn = _start;
-                              _timer.cancel();
-                            }
-                            setState(() {
-                              timerPaused = true;
-                              goBackToChewie = true;
+                          if (infoClicked) {
+                            Timer(Duration(seconds: 0), () {
+                              if (widget.isReps == 1) {
+                                pausedOn = _start;
+                                videoTimer.cancel();
+                              }
+                              setState(() {
+                                timerPaused = true;
+                                goBackToChewie = true;
+                                infoClicked = false;
+                              });
+                              widget.controller.pause();
+                              _start = pausedOn;
+                              Navigator.of(context).push(SlideAnimationTeen(
+                                widget: InfoExercise(
+                                  vc: widget.controller,
+                                  exerciseNameForInfo: widget.name,
+                                  exerciseTips: exTips,
+                                  exerciseVideoForInfo: exVideo,
+                                ),
+                              ));
                             });
-                            widget.controller.pause();
-                            _start = pausedOn;
-                            Navigator.of(context).push(SlideAnimationTeen(
-                              widget: InfoExercise(
-                                vc: widget.controller,
-                                exerciseNameForInfo: widget.name,
-                                exerciseTips: exTips,
-                                exerciseVideoForInfo: exVideo,
-                              ),
-                            ));
-                          });
+                          } else {
+                            print('NE MOZE VIŠE PAŠA');
+                          }
                         },
                         child: Container(
-                          child: Text(widget.name,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 32.0,
-                                  fontWeight: FontWeight.bold,
-                                  fontStyle: FontStyle.italic)),
+                          child: RichText(
+                            text: TextSpan(children: [
+                              TextSpan(
+                                text: widget.name + ' ',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 32.0,
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FontStyle.italic),
+                              ),
+                              WidgetSpan(
+                                  child: Icon(
+                                Icons.info,
+                                size: SizeConfig.blockSizeHorizontal * 5,
+                                color: Colors.white,
+                              ))
+                            ]),
+                          ),
                         ),
                       ),
 
@@ -243,37 +259,42 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                             iconSize: SizeConfig.blockSizeHorizontal * 5.5,
                             icon: Icon(Icons.comment),
                             onPressed: () {
-                              Timer(Duration(seconds: 2), () {
-                                if (widget.isReps == 1) {
-                                  pausedOn = _start;
-                                  _timer.cancel();
-                                }
-                                setState(() {
-                                  timerPaused = true;
+                              if (noteClicked) {
+                                Timer(Duration(seconds: 0), () {
+                                  if (widget.isReps == 1) {
+                                    pausedOn = _start;
+                                    videoTimer.cancel();
+                                  }
+                                  setState(() {
+                                    timerPaused = true;
+                                    noteClicked = false;
+                                  });
+                                  widget.controller.pause();
+                                  _start = pausedOn;
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      maintainState: true,
+                                      builder: (_) => AddNote(
+                                          controller: widget.controller,
+                                          listLenght: widget.listLenght,
+                                          userDocument: widget.userDocument,
+                                          userTrainerDocument:
+                                              widget.userTrainerDocument,
+                                          index: widget.index,
+                                          duration: widget.duration,
+                                          isReps: widget.isReps,
+                                          reps: widget.reps,
+                                          sets: widget.sets,
+                                          name: widget.name,
+                                          showRest: widget.showRest,
+                                          workoutID: widget.workoutID,
+                                          weekID: widget.weekID),
+                                    ),
+                                  );
                                 });
-                                widget.controller.pause();
-                                _start = pausedOn;
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    maintainState: true,
-                                    builder: (_) => AddNote(
-                                        controller: widget.controller,
-                                        listLenght: widget.listLenght,
-                                        userDocument: widget.userDocument,
-                                        userTrainerDocument:
-                                            widget.userTrainerDocument,
-                                        index: widget.index,
-                                        duration: widget.duration,
-                                        isReps: widget.isReps,
-                                        reps: widget.reps,
-                                        sets: widget.sets,
-                                        name: widget.name,
-                                        showRest: widget.showRest,
-                                        workoutID: widget.workoutID,
-                                        weekID: widget.weekID),
-                                  ),
-                                );
-                              });
+                              } else {
+                                print('NE MOZE VIŠE PAŠA 2');
+                              }
                             }),
                       )
                     ],
