@@ -2,7 +2,6 @@ import 'dart:async';
 import 'package:attt/utils/customScreenAnimation.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/view/chewieVideo/widgets/addNote.dart';
-import 'package:attt/view/chewieVideo/widgets/finishWorkout.dart';
 import 'package:attt/view/workout/widgets/info.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -18,7 +17,7 @@ class IndicatorsOnVideo extends StatefulWidget {
   final DocumentSnapshot userDocument, userTrainerDocument;
   final int index, listLenght;
   final int duration;
-  final Function showRest, showAddNote;
+  final Function showRest, showAddNote, playNext;
   final int isReps, sets, reps, rest;
   final String name, workoutID, weekID, currentSet;
   final bool ctrl;
@@ -28,6 +27,7 @@ class IndicatorsOnVideo extends StatefulWidget {
       this.currentSet,
       this.showAddNote,
       this.workoutID,
+      this.playNext,
       this.listLenght,
       this.rest,
       this.weekID,
@@ -144,6 +144,10 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
         () {
           if (startingValue < 1) {
             if (widget.rest > 0) {
+              if (widget.index == widget.listLenght - 1) isTimerDone = true;
+              widget.showRest(context);
+            } else {
+              if (widget.index == widget.listLenght - 1) isTimerDone = true;
               widget.showRest(context);
             }
             setState(() {
@@ -151,7 +155,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
               timerPaused = false;
             });
             timer.cancel();
-            if (widget.index == widget.listLenght - 1) isTimerDone = true;
           } else {
             setState(() {
               startingValue = startingValue - 1;
@@ -407,10 +410,15 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                     CupertinoIcons.check_mark_circled_solid),
                                 onPressed: () {
                                   if (widget.rest > 0) {
+                                    if (widget.index == widget.listLenght - 1)
+                                    isTimerDone = true;
+                                    widget.showRest(context);
+                                  } else {
+                                    if (widget.index == widget.listLenght - 1)
+                                    isTimerDone = true;
                                     widget.showRest(context);
                                   }
-                                  if (widget.index == widget.listLenght - 1)
-                                    isTimerDone = true;
+                                  
                                   setState(() {
                                     restShowed = true;
                                     timerPaused = false;

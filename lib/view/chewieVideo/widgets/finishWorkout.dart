@@ -5,36 +5,19 @@ import 'package:attt/view_model/chewieVideoViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:video_box/video.controller.dart';
 
 class FinishWorkout extends StatefulWidget {
-  bool timerPaused;
-  final VideoController controller;
   final DocumentSnapshot userDocument, userTrainerDocument;
-  final int index, listLenght;
-  final int duration;
-  final Function showRest, showAddNote;
-  final int isReps, sets, reps;
-  final String name;
   final String workoutID, weekID;
-  FinishWorkout(
-      {Key key,
-      this.timerPaused,
-      this.weekID,
-      this.workoutID,
-      this.controller,
-      this.userDocument,
-      this.userTrainerDocument,
-      this.index,
-      this.listLenght,
-      this.duration,
-      this.showAddNote,
-      this.showRest,
-      this.isReps,
-      this.sets,
-      this.name,
-      this.reps})
-      : super(key: key);
+  FinishWorkout({
+    Key key,
+    this.weekID,
+    this.workoutID,
+    this.userDocument,
+    this.userTrainerDocument,
+  }) : super(key: key);
 
   @override
   _FinishWorkoutState createState() => _FinishWorkoutState();
@@ -53,6 +36,8 @@ class _FinishWorkoutState extends State<FinishWorkout> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
+      backgroundColor: MyColors().lightBlack,
+      resizeToAvoidBottomPadding: false,
       appBar: new AppBar(
         backgroundColor: MyColors().lightBlack,
         leading: IconButton(
@@ -62,11 +47,6 @@ class _FinishWorkoutState extends State<FinishWorkout> {
           ),
           onPressed: () {
             FocusScope.of(context).requestFocus(new FocusNode());
-            setState(() {
-              widget.timerPaused = false;
-              noteClicked = true;
-            });
-            Navigator.of(context).pop();
           },
         ),
         title: Text(
@@ -78,144 +58,167 @@ class _FinishWorkoutState extends State<FinishWorkout> {
       ),
       body: WillPopScope(
         onWillPop: () => _onWillPop(),
-        child: new Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            new Expanded(
-              child: new Material(
-                color: MyColors().lightBlack,
-                child: Column(
-                  children: <Widget>[
-                    Container(
-                      child: Column(
-                        children: <Widget>[
-                          SizedBox(
-                            height: SizeConfig.blockSizeVertical * 4,
-                          ),
-                          Text('45:31',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontStyle: FontStyle.italic,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize:
-                                      SizeConfig.blockSizeHorizontal * 20)),
-                          SizedBox(
-                            height: SizeConfig.blockSizeVertical * 1,
-                          ),
-                          Text('Workout Time',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontStyle: FontStyle.italic,
-                                  fontWeight: FontWeight.bold,
-                                  fontSize:
-                                      SizeConfig.blockSizeHorizontal * 7)),
-                          SizedBox(
-                            height: SizeConfig.blockSizeVertical * 4,
-                          ),
-                        ],
+        child: GestureDetector(
+          onTap: () {
+            FocusScope.of(context).requestFocus(new FocusNode());
+          },
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              children: <Widget>[
+                Container(
+                  child: Column(
+                    children: <Widget>[
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 4,
                       ),
-                    ),
-                    new TextFormField(
-                      enableInteractiveSelection: false,
-                      onChanged: (input) {
-                        newNote = input;
-                      },
-                      initialValue: userNotes,
-                      autofocus: false,
-                      enableSuggestions: false,
-                      maxLines: null,
-                      autocorrect: false,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: SizeConfig.safeBlockHorizontal * 4.5,
-                      ),
-                      cursorColor: Colors.white60,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        focusedBorder: InputBorder.none,
-                        enabledBorder: InputBorder.none,
-                        errorBorder: InputBorder.none,
-                        disabledBorder: InputBorder.none,
-                        contentPadding: EdgeInsets.symmetric(
-                            vertical: SizeConfig.blockSizeVertical * 2.5),
-                        labelStyle: TextStyle(
-                          color: Colors.white60,
-                          fontSize: SizeConfig.safeBlockHorizontal * 4.5,
-                          fontWeight: FontWeight.w400,
-                          fontFamily: 'Roboto',
-                          fontStyle: FontStyle.italic,
-                        ),
-                        labelText: 'Add a note',
-                        filled: true,
-                        fillColor: MyColors().black,
-                        prefixIcon: Icon(
-                          Icons.edit,
-                          color: MyColors().white,
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        child: Text(
+                          '45:31',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold,
+                              fontSize: SizeConfig.blockSizeHorizontal * 20),
+                          textAlign: TextAlign.center,
                         ),
                       ),
-                    ),
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical * 4,
-                    ),
-                    Container(
-                      color: MyColors().black,
-                      height: SizeConfig.blockSizeVertical * 10,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.mail,
-                            size: SizeConfig.blockSizeVertical * 5,
-                            color: MyColors().white,
-                          ),
-                        ],
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 1,
                       ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              child: RaisedButton(
-                elevation: 0,
-                onPressed: () {
-                  String note;
-                  if (newNote != null) {
-                    note =
-                        widget.userDocument.data['userUID'] + '_!_?_' + newNote;
-                    notes.add(note);
-                    userNotes = note.split('_!_?_')[1];
-                    ChewieVideoViewModel().updateWorkoutWithNote(
-                        widget.userTrainerDocument.data['trainerID'],
-                        widget.weekID,
-                        widget.workoutID,
-                        notes);
-                  }
-                  FocusScope.of(context).requestFocus(new FocusNode());
-                  SystemChrome.setPreferredOrientations(
-                      [DeviceOrientation.landscapeRight]);
-                  setState(() {
-                    widget.timerPaused = false;
-                    noteClicked = true;
-                  });
-                  Navigator.of(context).pop();
-                },
-                child: Padding(
-                  padding: EdgeInsets.all(22.0),
-                  child: Text(
-                    'FINISH',
-                    style: TextStyle(
-                        fontStyle: FontStyle.italic,
-                        fontSize: SizeConfig.blockSizeHorizontal * 4,
-                        fontWeight: FontWeight.w700),
+                      Text('Workout Time',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.bold,
+                              fontSize: SizeConfig.blockSizeHorizontal * 7)),
+                      SizedBox(
+                        height: SizeConfig.blockSizeVertical * 4,
+                      ),
+                    ],
                   ),
                 ),
-                color: Colors.white,
-              ),
+                new TextFormField(
+                  enableInteractiveSelection: false,
+                  onChanged: (input) {
+                    newNote = input;
+                  },
+                  initialValue: userNotes,
+                  autofocus: false,
+                  enableSuggestions: false,
+                  minLines: 1,
+                  maxLines: 12,
+                  autocorrect: false,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: SizeConfig.safeBlockHorizontal * 4.5,
+                  ),
+                  cursorColor: Colors.white60,
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(
+                        vertical: SizeConfig.blockSizeVertical * 2.5),
+                    labelStyle: TextStyle(
+                      color: Colors.white60,
+                      fontSize: SizeConfig.safeBlockHorizontal * 4.5,
+                      fontWeight: FontWeight.w400,
+                      fontFamily: 'Roboto',
+                      fontStyle: FontStyle.italic,
+                    ),
+                    labelText: 'Add a note',
+                    filled: true,
+                    fillColor: MyColors().black,
+                    prefixIcon: Icon(
+                      Icons.edit,
+                      color: MyColors().white,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: SizeConfig.blockSizeVertical * 4,
+                ),
+                TextFormField(
+                  onTap: () {
+                    print('PITAJ JARANE');
+                  },
+                  readOnly: true,
+                  enableInteractiveSelection: false,
+                  initialValue: 'ANY QUESTIONS FEEL FREE TO ASK',
+                  autofocus: false,
+                  enableSuggestions: false,
+                  maxLines: 1,
+                  autocorrect: false,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: SizeConfig.safeBlockHorizontal * 4.5,
+                  ),
+                  cursorColor: Colors.white60,
+                  decoration: InputDecoration(
+                    enabled: false,
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                    contentPadding: EdgeInsets.symmetric(
+                        vertical: SizeConfig.blockSizeVertical * 3),
+                    filled: true,
+                    fillColor: MyColors().black,
+                    prefixIcon: Icon(
+                      Icons.mail,
+                      color: MyColors().white,
+                    ),
+                  ),
+                ),
+              ],
             ),
-          ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: Container(
+        width: MediaQuery.of(context).size.width,
+        child: RaisedButton(
+          elevation: 0,
+          onPressed: () {
+            String note;
+            if (newNote != null) {
+              note = widget.userDocument.data['userUID'] + '_!_?_' + newNote;
+              notes.add(note);
+              userNotes = note.split('_!_?_')[1];
+              ChewieVideoViewModel().updateWorkoutWithNote(
+                  widget.userTrainerDocument.data['trainerID'],
+                  widget.weekID,
+                  widget.workoutID,
+                  notes);
+            }
+            FocusScope.of(context).requestFocus(new FocusNode());
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (_) => TrainingPlan(
+                    userDocument: widget.userDocument,
+                    userTrainerDocument: widget.userTrainerDocument,
+                  ),
+                ),
+                (Route<dynamic> route) => false);
+                userNotes = '';
+          },
+          child: Padding(
+            padding: EdgeInsets.all(22.0),
+            child: Text(
+              'FINISH',
+              style: TextStyle(
+                  fontStyle: FontStyle.italic,
+                  fontSize: SizeConfig.blockSizeHorizontal * 4,
+                  fontWeight: FontWeight.w700),
+            ),
+          ),
+          color: Colors.white,
         ),
       ),
     );
@@ -223,11 +226,5 @@ class _FinishWorkoutState extends State<FinishWorkout> {
 
   Future<bool> _onWillPop() async {
     FocusScope.of(context).requestFocus(new FocusNode());
-    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
-    setState(() {
-      widget.timerPaused = false;
-      noteClicked = true;
-    });
-    Navigator.of(context).pop();
   }
 }

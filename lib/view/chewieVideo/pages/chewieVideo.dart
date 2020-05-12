@@ -6,7 +6,7 @@ import 'package:attt/utils/screenOrientation/landscapeMode.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorsOnVideo.dart';
 import 'package:attt/view/chewieVideo/widgets/rest.dart';
 import 'package:attt/view/chewieVideo/widgets/getReady.dart';
-import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
+import 'package:attt/view/chewieVideo/widgets/finishWorkout.dart';
 import 'package:chewie/chewie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -158,12 +158,13 @@ class _ChewieVideoState extends State<ChewieVideo>
       onlineWarmup = [];
       onlineVideos = [];
       exerciseSnapshots = [];
-      userNotes = '';
       alertQuit = true;
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           maintainState: false,
-          builder: (_) => TrainingPlan(
+          builder: (_) => FinishWorkout(
+            weekID: widget.weekID,
+            workoutID: widget.workoutID,
             userDocument: widget.userDocument,
             userTrainerDocument: widget.userTrainerDocument,
           ),
@@ -293,6 +294,7 @@ class _ChewieVideoState extends State<ChewieVideo>
                     showRest: showRest,
                     workoutID: widget.workoutID,
                     weekID: widget.weekID,
+                    playNext: nextPlay,
                     ctrl: true,
                     rest: exerciseRest,
                     currentSet: exerciseSet),
