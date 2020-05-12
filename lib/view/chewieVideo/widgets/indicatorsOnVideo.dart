@@ -40,8 +40,7 @@ class IndicatorsOnVideo extends StatefulWidget {
       this.userTrainerDocument,
       this.userDocument,
       this.ctrl,
-      this.duration, 
-      this.playNext,
+      this.duration,
       });
 
   @override
