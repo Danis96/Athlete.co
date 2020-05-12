@@ -58,7 +58,11 @@ class _MyAppState extends State<Rest> with TickerProviderStateMixin {
       (Timer timer) => setState(
         () {
           if (_start < 1) {
-            timer.cancel();
+            isRestSkipped = true;
+            _timer.cancel();
+            widget.overlayEntry.remove();
+            restGoing = false;
+            widget.playNext();
             setState(() {
               restShowed = false;
             });
@@ -113,16 +117,17 @@ class _MyAppState extends State<Rest> with TickerProviderStateMixin {
               ),
               Container(
                 child: FlatButton(
-                    
                     onPressed: () {
                       isRestSkipped = true;
+                      _timer.cancel();
                       widget.overlayEntry.remove();
                       restGoing = false;
                       widget.playNext();
                       print('REST SKIPPED: ' + isRestSkipped.toString());
                     },
                     child: Text('Skip',
-                        style: TextStyle(color: MyColors().white, fontSize: 25))),
+                        style:
+                            TextStyle(color: MyColors().white, fontSize: 25))),
               ),
             ],
           ),

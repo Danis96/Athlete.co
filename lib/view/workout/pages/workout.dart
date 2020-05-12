@@ -68,6 +68,8 @@ class _WorkoutState extends State<Workout> {
     _trainerName = widget.userTrainerDocument.data['trainer_name'];
     _weekName = widget.weekName;
     _workoutName = widget.workoutName;
+    //getExerciseVideosAndImages(widget.userTrainerDocument.data['trainerID'],
+        //widget.weekID, widget.workoutID);
     return Scaffold(
       appBar: AppBar(
         /// workout name
@@ -128,9 +130,6 @@ class _WorkoutState extends State<Workout> {
   }
 
   getSeries() {
-    print('Trenerrrr ' + widget.userTrainerDocument.data['trainerID']);
-    print('WEEEEEEEEEEEEEEEK ' + widget.weekID);
-    print('WORKOUT ' + widget.workoutID);
     return FutureBuilder(
         future: WorkoutViewModel().getSeries(
             widget.userTrainerDocument.data['trainerID'],
@@ -144,7 +143,6 @@ class _WorkoutState extends State<Workout> {
                 itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index) {
                   serije.add(snapshot.data[index].data['seriesID']);
-                  print(serije);
                   return EmptyContainer();
                 });
           } else {
