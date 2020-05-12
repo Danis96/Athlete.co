@@ -1,8 +1,10 @@
 import 'package:attt/interface/chewieVideoInterface.dart';
 import 'package:attt/storage/storage.dart';
 import 'package:attt/utils/alertDialog.dart';
+import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/screenOrientation/landscapeMode.dart';
+import 'package:attt/utils/screenOrientation/portraitMode.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorsOnVideo.dart';
 import 'package:attt/view/chewieVideo/widgets/rest.dart';
 import 'package:attt/view/chewieVideo/widgets/getReady.dart';
@@ -10,9 +12,11 @@ import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:chewie/chewie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:video_box/video_box.dart';
 import 'dart:async';
 import 'package:attt/utils/size_config.dart';
+import 'package:video_box/widgets/buffer_slider.dart';
 
 class ChewieVideo extends StatefulWidget {
   final DocumentSnapshot userDocument, userTrainerDocument;
@@ -56,6 +60,7 @@ class _ChewieVideoState extends State<ChewieVideo>
   ];
   VideoController vc;
   VideoPlayerController controller;
+  bool _isFull = false;
   int exerciseDuration,
       exerciseIsReps,
       exerciseReps,
@@ -75,8 +80,13 @@ class _ChewieVideoState extends State<ChewieVideo>
       vc.looping = true;
       vc.bufferColor = Colors.black;
       vc.controllerWidgets = true;
-      vc.initialize();
+      vc.addFullScreenChangeListener((c, isFullScreen) async {
+        print('FULL SCREEN CHANGED TO : ' + isFullScreen.toString());
+        !isFullScreen ? SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]) 
+        : SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
+      });
 
+      vc.initialize();
     }
     _index = nv;
   }
@@ -213,6 +223,7 @@ class _ChewieVideoState extends State<ChewieVideo>
   void initState() {
     super.initState();
     // source = onlineVideos;
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
     /// initializing VideoController and giving him source (videos)
     vc = VideoController(
@@ -220,6 +231,11 @@ class _ChewieVideoState extends State<ChewieVideo>
         looping: true,
         autoplay: true,
         source: VideoPlayerController.asset(source[index]))
+      ..addFullScreenChangeListener((c, isFullScreen) async {
+        print('FULL SCREEN CHANGED TO : ' + isFullScreen.toString());
+        !isFullScreen ? SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]) 
+        : SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
+      })
       ..initialize();
   }
 
@@ -235,7 +251,6 @@ class _ChewieVideoState extends State<ChewieVideo>
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     initializeVariables();
-
     if (alertQuit) {
       print('NO READY, QUIT');
       dispose();
@@ -254,50 +269,32 @@ class _ChewieVideoState extends State<ChewieVideo>
         child: Stack(
           children: <Widget>[
             Center(
-              child: VideoBox(controller: vc, 
-            //   beforeChildren:  <Widget>[
-            //     Positioned(
-            //   child: IndicatorsOnVideo(
-            //     controller: vc,
-            //     listLenght: source.length,
-            //     userDocument: widget.userDocument,
-            //     userTrainerDocument: widget.userTrainerDocument,
-            //     index: _index,
-            //     duration: exerciseDuration,
-            //     isReps: exerciseIsReps,
-            //     reps: exerciseReps,
-            //     sets: exerciseSets,
-            //     name: exerciseName,
-            //     showRest: showRest,
-            //     workoutID: widget.workoutID,
-            //     weekID: widget.weekID,
-            //   ),
-            // ),
-            //   ],
+              child: VideoBox(
+                controller: vc,
               ),
             ),
-             Positioned(
+            Positioned(
               child: Container(
                 height: SizeConfig.blockSizeVertical * 90,
                 child: IndicatorsOnVideo(
-                    controller: vc,
-                    listLenght: source.length,
-                    userDocument: widget.userDocument,
-                    userTrainerDocument: widget.userTrainerDocument,
-                    index: _index,
-                    duration: exerciseDuration,
-                    isReps: exerciseIsReps,
-                    reps: exerciseReps,
-                    sets: exerciseSets,
-                    name: exerciseName,
-                    showRest: showRest,
-                    workoutID: widget.workoutID,
-                    weekID: widget.weekID,
-                    ctrl: true,
-                    rest: exerciseRest,
-                    currentSet: exerciseSet, 
-                    playNext: nextPlay,
-                    ),
+                  controller: vc,
+                  listLenght: source.length,
+                  userDocument: widget.userDocument,
+                  userTrainerDocument: widget.userTrainerDocument,
+                  index: _index,
+                  duration: exerciseDuration,
+                  isReps: exerciseIsReps,
+                  reps: exerciseReps,
+                  sets: exerciseSets,
+                  name: exerciseName,
+                  showRest: showRest,
+                  workoutID: widget.workoutID,
+                  weekID: widget.weekID,
+                  ctrl: true,
+                  rest: exerciseRest,
+                  currentSet: exerciseSet,
+                  playNext: nextPlay,
+                ),
               ),
             ),
           ],
@@ -327,7 +324,6 @@ class _ChewieVideoState extends State<ChewieVideo>
               vc: vc,
               close: dispose,
               isReps: exerciseIsReps,
-             
             ),
           ) ??
           true;
