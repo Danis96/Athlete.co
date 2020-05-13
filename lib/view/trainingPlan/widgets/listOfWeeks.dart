@@ -29,7 +29,7 @@ Widget listOfWeeks(DocumentSnapshot userDocument,
                     String weekName = snapshot.data[index]['name'];
                     return listOfWorkouts(userDocument, userTrainerDocument, snapshot, index, weekName);
                   } else {
-                    if (index < counter + 3)
+                    if (index < snapshot.data.length)
                       return weekContainer(snapshot, index);
                   }
                 }
