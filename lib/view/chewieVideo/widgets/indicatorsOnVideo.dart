@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:attt/utils/customScreenAnimation.dart';
+import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/view/chewieVideo/widgets/addNote.dart';
 import 'package:attt/view/workout/widgets/info.dart';
@@ -209,7 +210,11 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
             }
             isTips = false;
           },
-          child: Padding(
+          child:
+          MediaQuery.of(context).orientation == Orientation.landscape 
+          ?  
+          /// LANDSCAPE MOdE
+          Padding(
             padding: EdgeInsets.only(
                 top: SizeConfig.blockSizeVertical * 3,
                 left: SizeConfig.blockSizeHorizontal * 3,
@@ -255,20 +260,25 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                           }
                         },
                         child: Container(
+                         margin:
+                                 EdgeInsets.only(top: MediaQuery.of(context).orientation == Orientation.landscape ?
+                                         SizeConfig.blockSizeVertical * 5   : SizeConfig.blockSizeVertical * 10
+                                 ),
                           child: RichText(
                             text: TextSpan(children: [
                               TextSpan(
                                 text: widget.name + ' ',
                                 style: TextStyle(
                                     color: Colors.white,
-                                    fontSize: 32.0,
+                                    fontSize: MediaQuery.of(context).orientation == Orientation.portrait ?  32.0 : SizeConfig.safeBlockHorizontal * 3,
                                     fontWeight: FontWeight.bold,
                                     fontStyle: FontStyle.italic),
                               ),
                               WidgetSpan(
+                                alignment: PlaceholderAlignment.bottom,
                                   child: Icon(
                                 Icons.info,
-                                size: SizeConfig.blockSizeHorizontal * 5,
+                                size: SizeConfig.blockSizeHorizontal * 3,
                                 color: Colors.white,
                               ))
                             ]),
@@ -278,9 +288,13 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
 
                       /// icon note
                       Container(
+                        margin:
+                                 EdgeInsets.only(top: MediaQuery.of(context).orientation == Orientation.landscape ?
+                                         SizeConfig.blockSizeVertical * 6   : SizeConfig.blockSizeVertical * 10
+                                 ),
                         child: IconButton(
                             color: Colors.white,
-                            iconSize: SizeConfig.blockSizeHorizontal * 5.5,
+                            iconSize: SizeConfig.blockSizeHorizontal * 4.5,
                             icon: Icon(Icons.comment),
                             onPressed: () {
                               if (noteClicked) {
@@ -364,48 +378,24 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                           widget.repsDescription != null
                               ? Container(
                                   margin: EdgeInsets.only(
-                                      top: MediaQuery.of(context).orientation ==
-                                              Orientation.portrait
-                                          ? SizeConfig.blockSizeVertical * 27
-                                          : SizeConfig.blockSizeVertical * 20),
-                                  child: Text(
-                                      widget.repsDescription.toUpperCase(),
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 15,
-                                          fontWeight: FontWeight.bold,
-                                          fontStyle: FontStyle.italic)),
-                                )
-                              : Container(
-                                  margin: EdgeInsets.only(
-                                      top: MediaQuery.of(context).orientation ==
-                                              Orientation.portrait
-                                          ? SizeConfig.blockSizeVertical * 27
-                                          : SizeConfig.blockSizeVertical * 20),
-                                ),
+                                      top:SizeConfig.blockSizeVertical * 12,
+                                          right: SizeConfig.blockSizeHorizontal * 4
+                                          ),
 
-                          /// reps
-                          widget.isReps == 0
-                              ? Container(
-                                  margin: EdgeInsets.only(
-                                      top: SizeConfig.blockSizeVertical * 1),
-                                  // margin: EdgeInsets.only(
-                                  //     top: MediaQuery.of(context).orientation ==
-                                  //             Orientation.portrait
-                                  //         ? SizeConfig.blockSizeVertical * 27
-                                  //         : SizeConfig.blockSizeVertical * 20),
                                   child: Text('x' + widget.reps.toString(),
                                       style: TextStyle(
                                           color: Colors.white,
-                                          fontSize: 32.0,
+                                          fontSize: MediaQuery.of(context).orientation == Orientation.landscape ?
+                                         SizeConfig.safeBlockHorizontal * 6   : SizeConfig.blockSizeVertical * 10,
                                           fontWeight: FontWeight.bold,
                                           fontStyle: FontStyle.italic)),
                                 )
                               : Container(
                                   margin: EdgeInsets.only(
-                                      top: SizeConfig.blockSizeVertical * 1),
-                                  // margin: EdgeInsets.only(
-                                  //     top: SizeConfig.blockSizeVertical * 35),
+                                      top: MediaQuery.of(context).orientation ==
+                                              Orientation.portrait
+                                          ? SizeConfig.blockSizeVertical * 23
+                                          : SizeConfig.blockSizeVertical * 15),
                                   child: Text(
                                       _isLessThan10
                                           ? timerPaused
@@ -416,15 +406,18 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                               : '00:' + _start.toString(),
                                       style: TextStyle(
                                           color: Colors.white,
-                                          fontSize: 32.0,
-                                          fontWeight: FontWeight.bold,
+                                          fontSize: 
+                               MediaQuery.of(context).orientation == Orientation.landscape ?
+                                         SizeConfig.safeBlockHorizontal * 6   : SizeConfig.blockSizeVertical * 10,
+                                 
+                                          fontWeight: FontWeight.w800,
                                           fontStyle: FontStyle.italic)),
                                 ),
                           Container(
                             margin: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical * 1),
+                                top: SizeConfig.blockSizeVertical * 1, right: SizeConfig.blockSizeHorizontal * 4),
                             child: Text(
-                              widget.currentSet + '/' + widget.sets.toString(),
+                              widget.currentSet + '/' + widget.sets.toString()  + ' Sets',
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 25.0,
@@ -441,7 +434,8 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                               ? Container(
                                 height: SizeConfig.blockSizeHorizontal * 10,
                                   margin: EdgeInsets.only(
-                                      top: SizeConfig.blockSizeVertical * 20),
+                                      top: SizeConfig.blockSizeVertical * 14, 
+                                      ),
                                   child: IconButton(
                                     icon: Icon(CupertinoIcons
                                         .check_mark_circled_solid),
@@ -464,16 +458,23 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                     },
                                     color: Colors.white,
                                     iconSize:
-                                        SizeConfig.blockSizeHorizontal * 7,
+                                        SizeConfig.blockSizeHorizontal * 9,
                                   ),
                                 )
                               : Container(
                                   margin: EdgeInsets.only(
                                       top: SizeConfig.blockSizeVertical * 20),
                                   width: 0,
-                                  height: SizeConfig.blockSizeHorizontal * 10,
+                                  height: SizeConfig.blockSizeVertical * 38,
                                 ),
                           Container(
+                            margin:
+                                 EdgeInsets.only(top:
+                                       widget.isReps == 0  ?   SizeConfig.blockSizeVertical * 9  :  SizeConfig.blockSizeVertical *7,
+                                         
+                                      left: SizeConfig.blockSizeHorizontal * 4
+                                 )
+                            ,
                             child: IconButton(
                                 icon: Icon(Icons.fullscreen),
                                 color: Colors.white,
@@ -493,7 +494,282 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                 ],
               ),
             ),
-          ),
+          ) 
+          :
+          /// PORTRAIT MOdE
+           Padding(
+            padding: EdgeInsets.only(
+                top: SizeConfig.blockSizeVertical * 3,
+                left: SizeConfig.blockSizeHorizontal * 3,
+                right: SizeConfig.blockSizeVertical * 3),
+            child: Container(
+              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 50),
+              child: Center(
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        /// number of reps
+                        GestureDetector(
+                          onTap: () {
+                            if (infoClicked) {
+                              Timer(Duration(seconds: 0), () {
+                                if (widget.isReps == 1) {
+                                  pausedOn = _start;
+                                  videoTimer.cancel();
+                                }
+                                setState(() {
+                                  timerPaused = true;
+                                  goBackToChewie = true;
+                                  infoClicked = false;
+                                });
+                                widget.controller.pause();
+                                _start = pausedOn;
+                               if (MediaQuery.of(context).orientation ==
+                                        Orientation.portrait)
+                                      isFromPortrait = true;
+                                    else
+                                      isFromPortrait = false;
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (_) => InfoExercise(
+                                    vc: widget.controller,
+                                    exerciseNameForInfo: widget.name,
+                                    exerciseTips: exTips,
+                                    exerciseVideoForInfo: exVideo,
+                                  ),
+                                ));
+                              });
+                            } else {
+                              print('NE MOZE VIŠE PAŠA');
+                            }
+                          },
+                          child: Container(
+                             alignment: Alignment.center,
+                                                     margin:
+                                   EdgeInsets.only(top: SizeConfig.blockSizeVertical * 10, 
+                                   ),
+                            child: RichText(
+                              text: TextSpan(children: [
+                                TextSpan(
+                                  text: widget.name + ' ',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: SizeConfig.safeBlockHorizontal * 6,
+                                      fontWeight: FontWeight.bold,
+                                      fontStyle: FontStyle.italic),
+                                ),
+                                WidgetSpan(
+                                  alignment: PlaceholderAlignment.bottom,
+                                    child: Icon(
+                                  Icons.info,
+                                  size:  MediaQuery.of(context).orientation == Orientation.landscape ? SizeConfig.blockSizeHorizontal * 4.5 : SizeConfig.blockSizeHorizontal * 7.5,
+                                  color: Colors.white,
+                                ))
+                              ]),
+                            ),
+                          ),
+                        ),
+
+                        /// icon note
+                        Container(
+                          margin:
+                                   EdgeInsets.only(top: SizeConfig.blockSizeVertical * 10, left: SizeConfig.blockSizeHorizontal * 7),
+                          child: IconButton(
+                              color: Colors.white,
+                              iconSize:  MediaQuery.of(context).orientation == Orientation.landscape ? SizeConfig.blockSizeHorizontal * 4.5 : SizeConfig.blockSizeHorizontal * 7.5,
+                              icon: Icon(Icons.comment),
+                              onPressed: () {
+                                if (noteClicked) {
+                                  Timer(Duration(seconds: 0), () {
+                                    if (widget.isReps == 1) {
+                                      pausedOn = _start;
+                                      videoTimer.cancel();
+                                    }
+                                    setState(() {
+                                      timerPaused = true;
+                                      noteClicked = false;
+                                    });
+                                    widget.controller.pause();
+                                    _start = pausedOn;
+                                    if (MediaQuery.of(context).orientation ==
+                                        Orientation.portrait)
+                                      isFromPortrait = true;
+                                    else
+                                      isFromPortrait = false;
+                                    Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        maintainState: true,
+                                        builder: (_) => AddNote(
+                                            controller: widget.controller,
+                                            listLenght: widget.listLenght,
+                                            userDocument: widget.userDocument,
+                                            userTrainerDocument:
+                                                widget.userTrainerDocument,
+                                            index: widget.index,
+                                            duration: widget.duration,
+                                            isReps: widget.isReps,
+                                            reps: widget.reps,
+                                            sets: widget.sets,
+                                            name: widget.name,
+                                            showRest: widget.showRest,
+                                            workoutID: widget.workoutID,
+                                            weekID: widget.weekID),
+                                      ),
+                                    );
+                                  });
+                                } else {
+                                  print('NE MOZE VIŠE PAŠA 2');
+                                }
+                              }),
+                        )
+                      ],
+                    ),
+                    // Row(
+                    //   mainAxisAlignment: MainAxisAlignment.center,
+                    //   children: <Widget>[
+                    //     timerPaused || isTips
+                    //         ? Container(
+                    //             height: SizeConfig.blockSizeVertical * 20,
+                    //             width: SizeConfig.blockSizeHorizontal * 24,
+                    //             // decoration: BoxDecoration(
+                    //             //     color: Color.fromRGBO(28, 28, 28, 0.7),
+                    //             //     borderRadius:
+                    //             //         BorderRadius.all(Radius.circular(4.0))),
+                    //             // padding: EdgeInsets.all(20.0),
+                    //             //   child: Text(
+                    //             //     'PAUSED',
+                    //             //     style: TextStyle(
+                    //             //         color: Colors.white,
+                    //             //         fontSize: SizeConfig.blockSizeVertical * 9,
+                    //             //         fontWeight: FontWeight.bold,
+                    //             //         fontStyle: FontStyle.italic),
+                    //             //     textAlign: TextAlign.center,
+                    //             //   ),
+                    //           )
+                    //         : Container(
+                    //             height: SizeConfig.blockSizeVertical * 20,
+                    //             width: SizeConfig.blockSizeHorizontal * 24,
+                    //           )
+                    //   ],
+                    // ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Column(
+                          children: <Widget>[
+                            /// reps
+                            widget.isReps == 0
+                                ? Container(
+                                    margin: EdgeInsets.only(
+                                        top: SizeConfig.blockSizeVertical * 2,
+                                            left: SizeConfig.blockSizeHorizontal * 33
+                                            ),
+                                    child: Text('x' + widget.reps.toString(),
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: SizeConfig.blockSizeVertical * 5,
+                                            fontWeight: FontWeight.bold,
+                                            fontStyle: FontStyle.italic)),
+                                  )
+                                : Container(
+                                    margin: EdgeInsets.only(
+                                        top:  SizeConfig.blockSizeVertical * 2,
+                                        left: SizeConfig.blockSizeHorizontal * 30
+                                            ),
+                                    child: Text(
+                                        _isLessThan10
+                                            ? timerPaused
+                                                ? '00:0' + pausedOn.toString()
+                                                : '00:0' + _start.toString()
+                                            : timerPaused
+                                                ? '00:' + pausedOn.toString()
+                                                : '00:' + _start.toString(),
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize:  SizeConfig.blockSizeVertical * 5,
+                                            fontWeight: FontWeight.w800,
+                                            fontStyle: FontStyle.italic)),
+                                  ),
+                            Container(
+                              padding: EdgeInsets.all(8.0),
+                              margin: EdgeInsets.only(
+                                  top: SizeConfig.blockSizeVertical * 6,  left: SizeConfig.blockSizeHorizontal * 30),
+                              child: Text(
+                                ' ' + widget.currentSet + '/' + widget.sets.toString()  + '\nSets',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: SizeConfig.safeBlockHorizontal * 6.0,
+                                    fontWeight: FontWeight.bold,
+                                    fontStyle: FontStyle.italic),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: <Widget>[
+                            /// done icon
+                            widget.isReps == 0
+                                ? Container(
+                                    margin: EdgeInsets.only(
+                                        top: SizeConfig.blockSizeVertical * 6, 
+                                        
+                                        ),
+                                    child: IconButton(
+                                      icon: Icon(CupertinoIcons
+                                          .check_mark_circled_solid),
+                                      onPressed: () {
+                                        if (widget.rest > 0) {
+                                          if (widget.index ==
+                                              widget.listLenght - 1)
+                                            isTimerDone = true;
+                                          widget.showRest(context);
+                                        } else {
+                                          if (widget.index ==
+                                              widget.listLenght - 1)
+                                            isTimerDone = true;
+                                          widget.showRest(context);
+                                        }
+                                        setState(() {
+                                          restShowed = true;
+                                          timerPaused = false;
+                                        });
+                                      },
+                                      color: Colors.white,
+                                      iconSize:
+                                          SizeConfig.blockSizeHorizontal * 12,
+                                    ),
+                                  )
+                                : Container(
+                                    width: 0,
+                                    height: SizeConfig.blockSizeVertical * 20,
+                                  ),
+                            Container(
+                              margin: EdgeInsets.only(
+                                top: widget.isReps == 0 ?  SizeConfig.blockSizeVertical * 12 : SizeConfig.blockSizeVertical * 5.5,
+                                left: SizeConfig.blockSizeHorizontal * 18
+                              ),
+                              child: IconButton(
+                                  icon: Icon(Icons.fullscreen),
+                                  color: Colors.white,
+                                  onPressed: () {
+                                    MediaQuery.of(context).orientation ==
+                                            Orientation.portrait
+                                        ? SystemChrome.setPreferredOrientations(
+                                            [DeviceOrientation.landscapeRight])
+                                        : SystemChrome.setPreferredOrientations(
+                                            [DeviceOrientation.portraitUp]);
+                                  }),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ) ,
         ));
   }
 }

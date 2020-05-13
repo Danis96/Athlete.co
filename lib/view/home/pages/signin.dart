@@ -128,6 +128,7 @@ class _SigninState extends State<Signin> {
         Directory('${_appDocDir.path}/$folderName/');
 
     final File file = File(_appDocDirFolder.path);
+//    await file.writeAsStringSync(contents)
 
     Dio dio = Dio();
 

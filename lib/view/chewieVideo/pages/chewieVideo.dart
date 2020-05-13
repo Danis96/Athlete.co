@@ -222,14 +222,6 @@ class _ChewieVideoState extends State<ChewieVideo>
         looping: true,
         autoplay: true,
         source: VideoPlayerController.asset(source[index]))
-      // ..addFullScreenChangeListener((c, isFullScreen) async {
-      //   print('FULL SCREEN CHANGED TO : ' + isFullScreen.toString());
-      //   !isFullScreen
-      //       ? SystemChrome.setPreferredOrientations(
-      //           [DeviceOrientation.portraitUp])
-      //       : SystemChrome.setPreferredOrientations(
-      //           [DeviceOrientation.landscapeLeft]);
-      // })
       ..initialize();
   }
 
@@ -270,7 +262,7 @@ class _ChewieVideoState extends State<ChewieVideo>
             ),
             Positioned(
               child: Container(
-                height: SizeConfig.blockSizeVertical * 90,
+                height: SizeConfig.blockSizeVertical * 100,
                 child: IndicatorsOnVideo(
                   controller: vc,
                   listLenght: source.length,
