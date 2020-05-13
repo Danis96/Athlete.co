@@ -167,8 +167,7 @@ class _InfoExerciseState extends State<InfoExercise> {
   onDone() {
     setState(() {
       goBackToChewie
-          ? SystemChrome.setPreferredOrientations(
-              [DeviceOrientation.landscapeRight])
+          ? isFromPortrait ?  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])  : SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight])
           : print('NIJE SA VIDEA');
     });
     goBackToChewie ? isTips = true : isTips = false;
@@ -181,11 +180,18 @@ class _InfoExerciseState extends State<InfoExercise> {
 
   Future<bool> _onWillPop() async {
     if (goBackToChewie) {
-      SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
+        isFromPortrait ?  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])  : SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
     }
     setState(() {
       infoClicked = true;
     });
     Navigator.of(context).pop();
   }
+}
+
+checkForOrientationOnBack() {
+   isFromPortrait ? SystemChrome.setPreferredOrientations(
+                      [DeviceOrientation.portraitUp]) : 
+                  SystemChrome.setPreferredOrientations(
+                      [DeviceOrientation.landscapeRight]);
 }
