@@ -81,14 +81,6 @@ class _ChewieVideoState extends State<ChewieVideo>
       vc.looping = true;
       vc.bufferColor = Colors.black;
       vc.controllerWidgets = true;
-      vc.addFullScreenChangeListener((c, isFullScreen) async {
-        print('FULL SCREEN CHANGED TO : ' + isFullScreen.toString());
-        !isFullScreen
-            ? SystemChrome.setPreferredOrientations(
-                [DeviceOrientation.portraitUp])
-            : SystemChrome.setPreferredOrientations(
-                [DeviceOrientation.landscapeRight]);
-      });
 
       vc.initialize();
     }
@@ -237,14 +229,14 @@ class _ChewieVideoState extends State<ChewieVideo>
         looping: true,
         autoplay: true,
         source: VideoPlayerController.asset(source[index]))
-      ..addFullScreenChangeListener((c, isFullScreen) async {
-        print('FULL SCREEN CHANGED TO : ' + isFullScreen.toString());
-        !isFullScreen
-            ? SystemChrome.setPreferredOrientations(
-                [DeviceOrientation.portraitUp])
-            : SystemChrome.setPreferredOrientations(
-                [DeviceOrientation.landscapeLeft]);
-      })
+      // ..addFullScreenChangeListener((c, isFullScreen) async {
+      //   print('FULL SCREEN CHANGED TO : ' + isFullScreen.toString());
+      //   !isFullScreen
+      //       ? SystemChrome.setPreferredOrientations(
+      //           [DeviceOrientation.portraitUp])
+      //       : SystemChrome.setPreferredOrientations(
+      //           [DeviceOrientation.landscapeLeft]);
+      // })
       ..initialize();
   }
 
