@@ -66,7 +66,7 @@ class _TrainingPlanState extends State<TrainingPlan>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 trainingPlanHeadline(
-                    widget.userDocument, widget.userTrainerDocument),
+                    widget.userDocument, widget.userTrainerDocument, context),
                 SizedBox(
                   height: SizeConfig.blockSizeVertical * 2.5,
                 ),
