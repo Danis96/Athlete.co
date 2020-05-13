@@ -1,3 +1,4 @@
+import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view_model/trainingPlanViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -12,10 +13,11 @@ Widget workoutContainer(
     int index,
     BuildContext context,
     String weekName,
-    String workoutName
+    String workoutID,
+    List<dynamic> workoutIDs
     ) {
   return GestureDetector(
-    onTap: ()  {
+    onTap: !workoutIDs.contains(workoutID) ? () {
              TrainingPlanViewModel().navigateToWorkout(
         userDocument,
         userTrainerDocument,
@@ -28,7 +30,7 @@ Widget workoutContainer(
         weekName,
         snapshot2.data[index2].data['notes'],
         );
-    } ,
+    } : null,
     child: Container(
       margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 1.25),
       width: double.infinity,
@@ -45,29 +47,48 @@ Widget workoutContainer(
           left: SizeConfig.blockSizeHorizontal * 5.2,
           right: SizeConfig.blockSizeHorizontal * 5.2,
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Text(
-              snapshot2.data[index2]['name'].toString().toUpperCase(),
-              style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'Roboto',
-                  fontSize: SizeConfig.blockSizeVertical * 2.5,
-                  fontStyle: FontStyle.italic,
-                  fontWeight: FontWeight.w500),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  snapshot2.data[index2]['name'].toString().toUpperCase(),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Roboto',
+                      fontSize: SizeConfig.blockSizeVertical * 2.5,
+                      fontStyle: FontStyle.italic,
+                      fontWeight: FontWeight.w500),
+                ),
+                SizedBox(
+                  height: SizeConfig.blockSizeVertical * 0.4,
+                ),
+                Text(
+                  snapshot2.data[index2]['tag'].toString().toUpperCase(),
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Roboto',
+                      fontSize: SizeConfig.blockSizeVertical * 2.1,
+                      fontWeight: FontWeight.w500),
+                ),
+              ],
             ),
-            SizedBox(
-              height: SizeConfig.blockSizeVertical * 0.4,
-            ),
-            Text(
-              snapshot2.data[index2]['tag'].toString().toUpperCase(),
-              style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'Roboto',
-                  fontSize: SizeConfig.blockSizeVertical * 2.1,
-                  fontWeight: FontWeight.w500),
-            ),
+            workoutIDs.contains(workoutID) ?
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                Text(
+                  'DONE',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Roboto',
+                      fontSize: SizeConfig.blockSizeVertical * 2.1,
+                      fontWeight: FontWeight.w500),
+                ),
+              ],
+            ) : EmptyContainer()
           ],
         ),
       ),

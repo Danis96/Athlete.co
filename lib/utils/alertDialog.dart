@@ -47,7 +47,7 @@ class _MyAlertDialogState extends State<MyAlertDialog> {
       actions: <Widget>[
         new FlatButton(
           onPressed: () {
-            widget.vc.play();
+            widget.vc == null ? print('No controller') : widget.vc.play();
             Navigator.pop(context);
           },
           child: new Text(
@@ -57,9 +57,11 @@ class _MyAlertDialogState extends State<MyAlertDialog> {
         ),
         new FlatButton(
           onPressed: () {
-            widget.vc.pause();
+            widget.vc == null ? print('No controller') : widget.vc.pause();
             alertQuit = true;
-            widget.isReps == 0 ? print('No time cancel') : videoTimer.cancel();
+            userNotes = '';
+            widget.close();
+            widget.isReps == 0 || widget.isReps == null ? print('No time cancel') : videoTimer.cancel();
             Navigator.of(context).pushReplacement(CardAnimationTween(
               widget: TrainingPlan(
                 userDocument: widget.userDocument,

@@ -43,31 +43,31 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
 
   @override
   navigateToWorkout(
-      DocumentSnapshot userDocument,
-      DocumentSnapshot userTrainerDocument,
-      String trainerID,
-      String workoutName,
-      String weekID,
-      String workoutID,
-      String warmupDesc,
-      BuildContext context,
-      String weekName,
-      List<dynamic> listOfNotes,
-      ) {
+    DocumentSnapshot userDocument,
+    DocumentSnapshot userTrainerDocument,
+    String trainerID,
+    String workoutName,
+    String weekID,
+    String workoutID,
+    String warmupDesc,
+    BuildContext context,
+    String weekName,
+    List<dynamic> listOfNotes,
+  ) {
     Navigator.push(
         context,
         CardAnimationTween(
             widget: Workout(
-                userDocument: userDocument,
-                userTrainerDocument: userTrainerDocument,
-                trainerID: trainerID,
-                workoutName: workoutName,
-                weekID: weekID,
-                workoutID: workoutID,
-                warmupDesc: warmupDesc,
-                weekName: weekName,
-                listOfNotes: listOfNotes,
-                )));
+          userDocument: userDocument,
+          userTrainerDocument: userTrainerDocument,
+          trainerID: trainerID,
+          workoutName: workoutName,
+          weekID: weekID,
+          workoutID: workoutID,
+          warmupDesc: warmupDesc,
+          weekName: weekName,
+          listOfNotes: listOfNotes,
+        )));
   }
 
   @override
@@ -76,7 +76,18 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
     if (await canLaunch(whatsappUrl)) {
       await launch(whatsappUrl);
     } else {
-      throw 'Could not launch $whatsappUrl';
+      print('Could not launch WhatsApp!');
+      launchEmail();
+      throw 'Could not launch WhatsApp!';
+    }
+  }
+
+  launchEmail() async {
+    String email = 'jusuf97elfarahati@gmail.com';
+    if (await canLaunch("mailto:$email")) {
+      await launch("mailto:$email");
+    } else {
+      throw 'Could not launch';
     }
   }
 

@@ -5,10 +5,18 @@ import 'package:attt/view_model/trainingPlanViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-Widget listOfWorkouts(DocumentSnapshot userDocument,
-    DocumentSnapshot userTrainerDocument, AsyncSnapshot snapshot, int index, String weekName) {
+Widget listOfWorkouts(
+    DocumentSnapshot userDocument,
+    DocumentSnapshot userTrainerDocument,
+    AsyncSnapshot snapshot,
+    int index,
+    String weekName) {
   List<dynamic> workoutsFinished = [];
   workoutsFinished = userDocument.data['workouts_finished'];
+  List<dynamic> workoutIDs = [];
+  for (var i = 0; i < workoutsFinished.length; i++) {
+    workoutIDs.add(workoutsFinished[i].split('_')[0]);
+  }
   return FutureBuilder(
     future: TrainingPlanViewModel().getWorkouts(
         userTrainerDocument.data['trainerID'],
@@ -22,14 +30,18 @@ Widget listOfWorkouts(DocumentSnapshot userDocument,
               shrinkWrap: true,
               itemCount: snapshot2.data.length,
               itemBuilder: (BuildContext context, int index2) {
-                if (workoutsFinished
-                    .contains(snapshot2.data[index2].data['name'])) {
-                  return EmptyContainer();
-                } else {
-                  String workoutName = snapshot2.data[index2].data['name'];
-                  return workoutContainer(userDocument, snapshot2, index2,
-                      userTrainerDocument, snapshot, index, context, weekName, workoutName);
-                }
+                String workoutID = snapshot2.data[index2].data['workoutID'];
+                return workoutContainer(
+                    userDocument,
+                    snapshot2,
+                    index2,
+                    userTrainerDocument,
+                    snapshot,
+                    index,
+                    context,
+                    weekName,
+                    workoutID,
+                    workoutIDs);
               },
             ),
             SizedBox(
