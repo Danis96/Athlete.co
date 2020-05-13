@@ -5,9 +5,13 @@ import 'package:attt/utils/globals.dart';
 
 class FullTrainingStopwatch implements FullTrainingInterface {
   
-  // var swatch = Stopwatch();
   var duration = Duration(seconds: 1);
+   
 
+  /// [keepRunning]
+  /// 
+  /// here we check if the swatch s running or not,
+  /// and setting display time 
   @override
   void keepRunning() {
     if (swatch.isRunning) {
@@ -21,25 +25,40 @@ class FullTrainingStopwatch implements FullTrainingInterface {
         (swatch.elapsed.inSeconds % 60).toString().padLeft(2, '0');
   }
 
+
+  /// [resetStopwatch]
+  /// 
+  /// here we just reset stopwatch,
+  /// and setting displayTime to 00:00:00
   @override
   void resetStopwtach() {
     swatch.reset();
     displayTime = '00:00:00';
     print('FULL TRAINING STOPWATCH HAS RESETED**************************************');
   }
-
+  
+  /// [startStopwatch]
+  /// 
+  /// here we start the stopwatch and activating the timer method [startTimer]
   @override
   void startStopwtach() {
     swatch.start();
     startTimer();
     print('FULL TRAINING STOPWATCH HAS STARTED**************************************');
   }
+  
 
+  /// [startTimer]
+  /// 
+  /// activates tiemr that gets duration, and keepRunning method
   @override
   void startTimer() {
     Timer(duration, keepRunning);
   }
 
+  /// [stopStopwatch]
+  /// 
+  /// here we stop the stopwatch
   @override
   void stopStopwtach() {
     swatch.stop();

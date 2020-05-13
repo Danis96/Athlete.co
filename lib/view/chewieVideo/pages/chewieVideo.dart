@@ -83,8 +83,11 @@ class _ChewieVideoState extends State<ChewieVideo>
       vc.controllerWidgets = true;
       vc.addFullScreenChangeListener((c, isFullScreen) async {
         print('FULL SCREEN CHANGED TO : ' + isFullScreen.toString());
-        !isFullScreen ? SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]) 
-        : SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
+        !isFullScreen
+            ? SystemChrome.setPreferredOrientations(
+                [DeviceOrientation.portraitUp])
+            : SystemChrome.setPreferredOrientations(
+                [DeviceOrientation.landscapeRight]);
       });
 
       vc.initialize();
@@ -236,8 +239,11 @@ class _ChewieVideoState extends State<ChewieVideo>
         source: VideoPlayerController.asset(source[index]))
       ..addFullScreenChangeListener((c, isFullScreen) async {
         print('FULL SCREEN CHANGED TO : ' + isFullScreen.toString());
-        !isFullScreen ? SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]) 
-        : SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
+        !isFullScreen
+            ? SystemChrome.setPreferredOrientations(
+                [DeviceOrientation.portraitUp])
+            : SystemChrome.setPreferredOrientations(
+                [DeviceOrientation.landscapeLeft]);
       })
       ..initialize();
   }
@@ -272,6 +278,7 @@ class _ChewieVideoState extends State<ChewieVideo>
         child: Stack(
           children: <Widget>[
             Center(
+              /// video / beforeChildren / controllerWidgets-> children / afterChildren
               child: VideoBox(
                 controller: vc,
               ),
@@ -305,7 +312,9 @@ class _ChewieVideoState extends State<ChewieVideo>
       ),
     );
   }
+  
 
+  DateTime currentBackPressTime;
   /// [_onWillPop]
   ///
   /// async funstion that creates an exit dialog for our screen
@@ -315,7 +324,14 @@ class _ChewieVideoState extends State<ChewieVideo>
       print('Back button is disabled because REST || READY is active');
     else {
       vc.pause();
-      return showDialog(
+      DateTime now = DateTime.now();
+    if (currentBackPressTime == null || 
+        now.difference(currentBackPressTime) > Duration(seconds: 2)) {
+      currentBackPressTime = now;
+      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+      return Future.value(false);
+    }
+    return showDialog(
             context: context,
             builder: (context) => MyAlertDialog(
               no: 'Cancel',
