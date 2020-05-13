@@ -220,6 +220,7 @@ class _FinishWorkoutState extends State<FinishWorkout> {
                 ),
                 (Route<dynamic> route) => false);
             userNotes = '';
+            FullTrainingStopwatch().resetStopwtach();
           },
           child: Padding(
             padding: EdgeInsets.all(22.0),

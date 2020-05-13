@@ -1,4 +1,5 @@
 import 'package:attt/utils/colors.dart';
+import 'package:attt/utils/fullTrainingStopwatch/fullTrainingStopwatch.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -61,6 +62,8 @@ class _MyAlertDialogState extends State<MyAlertDialog> {
             alertQuit = true;
             userNotes = '';
             widget.close();
+            FullTrainingStopwatch().stopStopwtach();
+            FullTrainingStopwatch().resetStopwtach();
             widget.isReps == 0 || widget.isReps == null ? print('No time cancel') : videoTimer.cancel();
             Navigator.of(context).pushReplacement(CardAnimationTween(
               widget: TrainingPlan(
