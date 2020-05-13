@@ -67,7 +67,7 @@ class _ChewieVideoState extends State<ChewieVideo>
       exerciseReps,
       exerciseSets,
       exerciseRest;
-  String exerciseName;
+  String exerciseName, exerciseRepsDescription;
   String exerciseSet;
   int _index = 0;
   int get index => _index;
@@ -97,14 +97,7 @@ class _ChewieVideoState extends State<ChewieVideo>
     exerciseRest = workoutExercisesWithSets[index].data['rest'];
     exerciseName = exerciseNameAndSet.split('_')[1];
     exerciseSet = exerciseNameAndSet.split('_')[0];
-    print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAALLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL');
-    print(exerciseDuration);
-    print(exerciseIsReps);
-    print(exerciseReps);
-    print(exerciseSets);
-    print(exerciseRest);
-    print(exerciseName);
-    print(exerciseSet);
+    exerciseRepsDescription = workoutExercisesWithSets[index].data['repsDescription'];
   }
 
   /// when we want to play next video, we simply set index to increment
@@ -288,6 +281,7 @@ class _ChewieVideoState extends State<ChewieVideo>
                   rest: exerciseRest,
                   currentSet: exerciseSet,
                   playNext: nextPlay,
+                  repsDescription: exerciseRepsDescription
                 ),
               ),
             ),

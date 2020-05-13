@@ -20,12 +20,13 @@ class IndicatorsOnVideo extends StatefulWidget {
   final int duration;
   final Function showRest, showAddNote, playNext;
   final int isReps, sets, reps, rest;
-  final String name, workoutID, weekID, currentSet;
+  final String name, workoutID, weekID, currentSet, repsDescription;
   final bool ctrl;
 
   IndicatorsOnVideo({
     this.controller,
     this.currentSet,
+    this.repsDescription,
     this.showAddNote,
     this.workoutID,
     this.playNext,
@@ -240,11 +241,11 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                               });
                               widget.controller.pause();
                               _start = pausedOn;
-                             if (MediaQuery.of(context).orientation ==
-                                      Orientation.portrait)
-                                    isFromPortrait = true;
-                                  else
-                                    isFromPortrait = false;
+                              if (MediaQuery.of(context).orientation ==
+                                  Orientation.portrait)
+                                isFromPortrait = true;
+                              else
+                                isFromPortrait = false;
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (_) => InfoExercise(
                                   vc: widget.controller,
@@ -374,13 +375,13 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                     children: <Widget>[
                       Column(
                         children: <Widget>[
-                          /// reps
-                          widget.isReps == 0
+                          widget.repsDescription != null
                               ? Container(
                                   margin: EdgeInsets.only(
                                       top:SizeConfig.blockSizeVertical * 12,
                                           right: SizeConfig.blockSizeHorizontal * 4
                                           ),
+
                                   child: Text('x' + widget.reps.toString(),
                                       style: TextStyle(
                                           color: Colors.white,
@@ -413,7 +414,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                           fontStyle: FontStyle.italic)),
                                 ),
                           Container(
-                            padding: EdgeInsets.all(8.0),
                             margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 1, right: SizeConfig.blockSizeHorizontal * 4),
                             child: Text(
@@ -432,6 +432,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                           /// done icon
                           widget.isReps == 0
                               ? Container(
+                                height: SizeConfig.blockSizeHorizontal * 10,
                                   margin: EdgeInsets.only(
                                       top: SizeConfig.blockSizeVertical * 14, 
                                       ),
@@ -461,6 +462,8 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                   ),
                                 )
                               : Container(
+                                  margin: EdgeInsets.only(
+                                      top: SizeConfig.blockSizeVertical * 20),
                                   width: 0,
                                   height: SizeConfig.blockSizeVertical * 38,
                                 ),
