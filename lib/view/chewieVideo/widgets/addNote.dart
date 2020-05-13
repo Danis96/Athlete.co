@@ -67,6 +67,7 @@ class _AddNoteState extends State<AddNote> {
               noteClicked = true;
             });
             Navigator.of(context).pop();
+            SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
           },
         ),
         title: Text(
@@ -143,13 +144,13 @@ class _AddNoteState extends State<AddNote> {
                         notes);
                   }
                   FocusScope.of(context).requestFocus(new FocusNode());
-                  SystemChrome.setPreferredOrientations(
-                      [DeviceOrientation.landscapeRight]);
                   setState(() {
                     widget.timerPaused = false;
                     noteClicked = true;
                   });
                   Navigator.of(context).pop();
+                  SystemChrome.setPreferredOrientations(
+                      [DeviceOrientation.landscapeRight]);
                 },
                 child: Padding(
                   padding: EdgeInsets.all(22.0),
@@ -177,5 +178,7 @@ class _AddNoteState extends State<AddNote> {
       noteClicked = true;
     });
     Navigator.of(context).pop();
+    SystemChrome.setPreferredOrientations(
+                      [DeviceOrientation.landscapeRight]);
   }
 }

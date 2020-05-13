@@ -22,26 +22,26 @@ class IndicatorsOnVideo extends StatefulWidget {
   final String name, workoutID, weekID, currentSet;
   final bool ctrl;
 
-  IndicatorsOnVideo(
-      {this.controller,
-      this.currentSet,
-      this.showAddNote,
-      this.workoutID,
-      this.playNext,
-      this.listLenght,
-      this.rest,
-      this.weekID,
-      this.name,
-      this.sets,
-      this.reps,
-      this.isReps,
-      this.showRest,
-      this.index,
-      this.userTrainerDocument,
-      this.userDocument,
-      this.ctrl,
-      this.duration,
-      });
+  IndicatorsOnVideo({
+    this.controller,
+    this.currentSet,
+    this.showAddNote,
+    this.workoutID,
+    this.playNext,
+    this.listLenght,
+    this.rest,
+    this.weekID,
+    this.name,
+    this.sets,
+    this.reps,
+    this.isReps,
+    this.showRest,
+    this.index,
+    this.userTrainerDocument,
+    this.userDocument,
+    this.ctrl,
+    this.duration,
+  });
 
   @override
   _IndicatorsOnVideoState createState() => _IndicatorsOnVideoState();
@@ -182,7 +182,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
         position: _offsetAnimation,
         child: InkWell(
           // onDoubleTap: () {
-          //     widget.controller.isFullScreen ? 
+          //     widget.controller.isFullScreen ?
           //     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
           //     :
           //     SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
@@ -244,7 +244,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                               });
                               widget.controller.pause();
                               _start = pausedOn;
-                              Navigator.of(context).push(SlideAnimationTeen(
+                              Navigator.of(context).push(CardAnimationTween(
                                 widget: InfoExercise(
                                   vc: widget.controller,
                                   exerciseNameForInfo: widget.name,
@@ -341,15 +341,15 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                               //     borderRadius:
                               //         BorderRadius.all(Radius.circular(4.0))),
                               // padding: EdgeInsets.all(20.0),
-                            //   child: Text(
-                            //     'PAUSED',
-                            //     style: TextStyle(
-                            //         color: Colors.white,
-                            //         fontSize: SizeConfig.blockSizeVertical * 9,
-                            //         fontWeight: FontWeight.bold,
-                            //         fontStyle: FontStyle.italic),
-                            //     textAlign: TextAlign.center,
-                            //   ),
+                              //   child: Text(
+                              //     'PAUSED',
+                              //     style: TextStyle(
+                              //         color: Colors.white,
+                              //         fontSize: SizeConfig.blockSizeVertical * 9,
+                              //         fontWeight: FontWeight.bold,
+                              //         fontStyle: FontStyle.italic),
+                              //     textAlign: TextAlign.center,
+                              //   ),
                             )
                           : Container(
                               height: SizeConfig.blockSizeVertical * 20,
@@ -366,11 +366,10 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                           widget.isReps == 0
                               ? Container(
                                   margin: EdgeInsets.only(
-                                      top: MediaQuery.of(context).orientation == Orientation.portrait ?
-                                           SizeConfig.blockSizeVertical * 27
-                                           :
-                                           SizeConfig.blockSizeVertical * 20
-                                           ),
+                                      top: MediaQuery.of(context).orientation ==
+                                              Orientation.portrait
+                                          ? SizeConfig.blockSizeVertical * 27
+                                          : SizeConfig.blockSizeVertical * 20),
                                   child: Text('x' + widget.reps.toString(),
                                       style: TextStyle(
                                           color: Colors.white,
@@ -410,23 +409,25 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                           ),
                         ],
                       ),
-
-                      /// done icon
+                    
+                    Column(
+                      children: <Widget>[
+                             /// done icon 
                       widget.isReps == 0
                           ? Container(
                               margin: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical * 25),
+                                  top: SizeConfig.blockSizeVertical * 20),
                               child: IconButton(
                                 icon: Icon(
                                     CupertinoIcons.check_mark_circled_solid),
                                 onPressed: () {
                                   if (widget.rest > 0) {
                                     if (widget.index == widget.listLenght - 1)
-                                    isTimerDone = true;
+                                      isTimerDone = true;
                                     widget.showRest(context);
                                   } else {
                                     if (widget.index == widget.listLenght - 1)
-                                    isTimerDone = true;
+                                      isTimerDone = true;
                                     widget.showRest(context);
                                   }
                                   setState(() {
@@ -442,6 +443,23 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                               width: 0,
                               height: 0,
                             ),
+                      Container(
+                        child: IconButton(
+                          icon: Icon(Icons.fullscreen),
+                          color: Colors.white,
+                          onPressed: ()  {
+                           
+                            MediaQuery.of(context).orientation == Orientation.portrait ? 
+                              SystemChrome.setPreferredOrientations(
+                                  [DeviceOrientation.landscapeRight]) :
+                              SystemChrome.setPreferredOrientations(
+                                  [DeviceOrientation.portraitUp]);
+                          }
+                        ),
+                      ),
+                      ],
+                    ),
+                     
                     ],
                   ),
                 ],
