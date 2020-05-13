@@ -175,6 +175,7 @@ class _ChewieVideoState extends State<ChewieVideo>
           maintainState: false,
           builder: (_) => FinishWorkout(
             weekID: widget.weekID,
+            close: dispose,
             workoutID: widget.workoutID,
             userDocument: widget.userDocument,
             userTrainerDocument: widget.userTrainerDocument,

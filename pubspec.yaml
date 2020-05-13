@@ -41,6 +41,7 @@ dependencies:
   video_box: ^0.12.0
   flutter_appavailability: ^0.0.21
   flutter_downloader: ^1.4.4
+  intl:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

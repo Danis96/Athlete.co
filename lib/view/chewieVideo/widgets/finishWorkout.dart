@@ -1,20 +1,25 @@
+import 'package:attt/utils/alertDialog.dart';
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/fullTrainingStopwatch/fullTrainingStopwatch.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view_model/chewieVideoViewModel.dart';
+import 'package:attt/view_model/trainingPlanViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:video_box/video.controller.dart';
+import 'package:intl/intl.dart';
 
 class FinishWorkout extends StatefulWidget {
   final DocumentSnapshot userDocument, userTrainerDocument;
   final String workoutID, weekID;
+  final Function close;
   FinishWorkout({
     Key key,
     this.weekID,
+    this.close,
     this.workoutID,
     this.userDocument,
     this.userTrainerDocument,
@@ -49,6 +54,7 @@ class _FinishWorkoutState extends State<FinishWorkout> {
           ),
           onPressed: () {
             FocusScope.of(context).requestFocus(new FocusNode());
+            _onWillPop();
           },
         ),
         title: Text(
@@ -147,6 +153,8 @@ class _FinishWorkoutState extends State<FinishWorkout> {
                 ),
                 TextFormField(
                   onTap: () {
+                    TrainingPlanViewModel().whatsAppOpen('+38762623629',
+                        'Hello! I am writing from Finish Screen. I have a question!');
                     print('PITAJ JARANE');
                   },
                   readOnly: true,
@@ -200,6 +208,8 @@ class _FinishWorkoutState extends State<FinishWorkout> {
                   widget.workoutID,
                   notes);
             }
+            updateUserWithFinishedWorkout(
+                widget.userDocument, widget.workoutID);
             FocusScope.of(context).requestFocus(new FocusNode());
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
@@ -209,7 +219,7 @@ class _FinishWorkoutState extends State<FinishWorkout> {
                   ),
                 ),
                 (Route<dynamic> route) => false);
-                userNotes = '';
+            userNotes = '';
           },
           child: Padding(
             padding: EdgeInsets.all(22.0),
@@ -227,7 +237,34 @@ class _FinishWorkoutState extends State<FinishWorkout> {
     );
   }
 
+  updateUserWithFinishedWorkout(
+      DocumentSnapshot userDocument, String workoutID) async {
+    List<String> note = [];
+    String currentDay = DateFormat.d().format(DateTime.now());
+    String currentMonth = DateFormat.MMM().format(DateTime.now()).toUpperCase();
+    note.add(workoutID + '_' + currentDay + ' ' + currentMonth);
+    final db = Firestore.instance;
+    await db
+        .collection('Users')
+        .document(userDocument.documentID)
+        .updateData({"workouts_finished": FieldValue.arrayUnion(note)});
+  }
+
   Future<bool> _onWillPop() async {
-    FocusScope.of(context).requestFocus(new FocusNode());
+    return showDialog(
+          context: context,
+          builder: (context) => MyAlertDialog(
+            no: 'Cancel',
+            yes: 'Continue',
+            title: 'Back to Training plan?',
+            content: 'If you go back all your progress will be lost',
+            userDocument: widget.userDocument,
+            userTrainerDocument: widget.userTrainerDocument,
+            //vc: vc,
+            close: widget.close,
+            //isReps: exerciseIsReps,
+          ),
+        ) ??
+        true;
   }
 }
