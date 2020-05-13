@@ -181,6 +181,12 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
     return SlideTransition(
         position: _offsetAnimation,
         child: InkWell(
+          // onDoubleTap: () {
+          //     widget.controller.isFullScreen ? 
+          //     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+          //     :
+          //     SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
+          // },
           onTap: () {
             if (!timerPaused) {
               pausedOn = _start;
@@ -329,21 +335,21 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                       timerPaused || isTips
                           ? Container(
                               height: SizeConfig.blockSizeVertical * 20,
-                              width: SizeConfig.blockSizeHorizontal * 27,
-                              decoration: BoxDecoration(
-                                  color: Color.fromRGBO(28, 28, 28, 0.7),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(4.0))),
-                              padding: EdgeInsets.all(20.0),
-                              child: Text(
-                                'PAUSED',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: SizeConfig.blockSizeVertical * 9,
-                                    fontWeight: FontWeight.bold,
-                                    fontStyle: FontStyle.italic),
-                                textAlign: TextAlign.center,
-                              ),
+                              width: SizeConfig.blockSizeHorizontal * 24,
+                              // decoration: BoxDecoration(
+                              //     color: Color.fromRGBO(28, 28, 28, 0.7),
+                              //     borderRadius:
+                              //         BorderRadius.all(Radius.circular(4.0))),
+                              // padding: EdgeInsets.all(20.0),
+                            //   child: Text(
+                            //     'PAUSED',
+                            //     style: TextStyle(
+                            //         color: Colors.white,
+                            //         fontSize: SizeConfig.blockSizeVertical * 9,
+                            //         fontWeight: FontWeight.bold,
+                            //         fontStyle: FontStyle.italic),
+                            //     textAlign: TextAlign.center,
+                            //   ),
                             )
                           : Container(
                               height: SizeConfig.blockSizeVertical * 20,
@@ -360,7 +366,11 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                           widget.isReps == 0
                               ? Container(
                                   margin: EdgeInsets.only(
-                                      top: SizeConfig.blockSizeVertical * 30),
+                                      top: MediaQuery.of(context).orientation == Orientation.portrait ?
+                                           SizeConfig.blockSizeVertical * 27
+                                           :
+                                           SizeConfig.blockSizeVertical * 20
+                                           ),
                                   child: Text('x' + widget.reps.toString(),
                                       style: TextStyle(
                                           color: Colors.white,
