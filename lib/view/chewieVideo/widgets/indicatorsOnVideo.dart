@@ -181,12 +181,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
     return SlideTransition(
         position: _offsetAnimation,
         child: InkWell(
-          // onDoubleTap: () {
-          //     widget.controller.isFullScreen ?
-          //     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-          //     :
-          //     SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
-          // },
           onTap: () {
             if (!timerPaused) {
               pausedOn = _start;
@@ -234,9 +228,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                 pausedOn = _start;
                                 videoTimer.cancel();
                               }
-                              if (_start <= 5) {
-                                audioPlayer.pause();
-                              }
                               setState(() {
                                 timerPaused = true;
                                 goBackToChewie = true;
@@ -244,8 +235,13 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                               });
                               widget.controller.pause();
                               _start = pausedOn;
-                              Navigator.of(context).push(CardAnimationTween(
-                                widget: InfoExercise(
+                             if (MediaQuery.of(context).orientation ==
+                                      Orientation.portrait)
+                                    isFromPortrait = true;
+                                  else
+                                    isFromPortrait = false;
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (_) => InfoExercise(
                                   vc: widget.controller,
                                   exerciseNameForInfo: widget.name,
                                   exerciseTips: exTips,
@@ -292,15 +288,17 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                     pausedOn = _start;
                                     videoTimer.cancel();
                                   }
-                                  if (_start <= 5) {
-                                    audioPlayer.pause();
-                                  }
                                   setState(() {
                                     timerPaused = true;
                                     noteClicked = false;
                                   });
                                   widget.controller.pause();
                                   _start = pausedOn;
+                                  if (MediaQuery.of(context).orientation ==
+                                      Orientation.portrait)
+                                    isFromPortrait = true;
+                                  else
+                                    isFromPortrait = false;
                                   Navigator.of(context).push(
                                     MaterialPageRoute(
                                       maintainState: true,
@@ -409,57 +407,57 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                           ),
                         ],
                       ),
-                    
-                    Column(
-                      children: <Widget>[
-                             /// done icon 
-                      widget.isReps == 0
-                          ? Container(
-                              margin: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical * 20),
-                              child: IconButton(
-                                icon: Icon(
-                                    CupertinoIcons.check_mark_circled_solid),
-                                onPressed: () {
-                                  if (widget.rest > 0) {
-                                    if (widget.index == widget.listLenght - 1)
-                                      isTimerDone = true;
-                                    widget.showRest(context);
-                                  } else {
-                                    if (widget.index == widget.listLenght - 1)
-                                      isTimerDone = true;
-                                    widget.showRest(context);
-                                  }
-                                  setState(() {
-                                    restShowed = true;
-                                    timerPaused = false;
-                                  });
-                                },
+                      Column(
+                        children: <Widget>[
+                          /// done icon
+                          widget.isReps == 0
+                              ? Container(
+                                  margin: EdgeInsets.only(
+                                      top: SizeConfig.blockSizeVertical * 20),
+                                  child: IconButton(
+                                    icon: Icon(CupertinoIcons
+                                        .check_mark_circled_solid),
+                                    onPressed: () {
+                                      if (widget.rest > 0) {
+                                        if (widget.index ==
+                                            widget.listLenght - 1)
+                                          isTimerDone = true;
+                                        widget.showRest(context);
+                                      } else {
+                                        if (widget.index ==
+                                            widget.listLenght - 1)
+                                          isTimerDone = true;
+                                        widget.showRest(context);
+                                      }
+                                      setState(() {
+                                        restShowed = true;
+                                        timerPaused = false;
+                                      });
+                                    },
+                                    color: Colors.white,
+                                    iconSize:
+                                        SizeConfig.blockSizeHorizontal * 7,
+                                  ),
+                                )
+                              : Container(
+                                  width: 0,
+                                  height: 0,
+                                ),
+                          Container(
+                            child: IconButton(
+                                icon: Icon(Icons.fullscreen),
                                 color: Colors.white,
-                                iconSize: SizeConfig.blockSizeHorizontal * 7,
-                              ),
-                            )
-                          : Container(
-                              width: 0,
-                              height: 0,
-                            ),
-                      Container(
-                        child: IconButton(
-                          icon: Icon(Icons.fullscreen),
-                          color: Colors.white,
-                          onPressed: ()  {
-                           
-                            MediaQuery.of(context).orientation == Orientation.portrait ? 
-                              SystemChrome.setPreferredOrientations(
-                                  [DeviceOrientation.landscapeRight]) :
-                              SystemChrome.setPreferredOrientations(
-                                  [DeviceOrientation.portraitUp]);
-                          }
-                        ),
+                                onPressed: () {
+                                  MediaQuery.of(context).orientation ==
+                                          Orientation.portrait
+                                      ? SystemChrome.setPreferredOrientations(
+                                          [DeviceOrientation.landscapeRight])
+                                      : SystemChrome.setPreferredOrientations(
+                                          [DeviceOrientation.portraitUp]);
+                                }),
+                          ),
+                        ],
                       ),
-                      ],
-                    ),
-                     
                     ],
                   ),
                 ],

@@ -67,7 +67,7 @@ class _AddNoteState extends State<AddNote> {
               noteClicked = true;
             });
             Navigator.of(context).pop();
-            SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
+           checkForOrientationOnBack();
           },
         ),
         title: Text(
@@ -149,8 +149,7 @@ class _AddNoteState extends State<AddNote> {
                     noteClicked = true;
                   });
                   Navigator.of(context).pop();
-                  SystemChrome.setPreferredOrientations(
-                      [DeviceOrientation.landscapeRight]);
+                  checkForOrientationOnBack();
                 },
                 child: Padding(
                   padding: EdgeInsets.all(22.0),
@@ -178,7 +177,14 @@ class _AddNoteState extends State<AddNote> {
       noteClicked = true;
     });
     Navigator.of(context).pop();
-    SystemChrome.setPreferredOrientations(
-                      [DeviceOrientation.landscapeRight]);
+    checkForOrientationOnBack();
   }
+}
+
+
+checkForOrientationOnBack() {
+   isFromPortrait ? SystemChrome.setPreferredOrientations(
+                      [DeviceOrientation.portraitUp]) : 
+                  SystemChrome.setPreferredOrientations(
+                      [DeviceOrientation.landscapeRight]);
 }
