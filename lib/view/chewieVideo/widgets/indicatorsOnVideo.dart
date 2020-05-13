@@ -19,12 +19,13 @@ class IndicatorsOnVideo extends StatefulWidget {
   final int duration;
   final Function showRest, showAddNote, playNext;
   final int isReps, sets, reps, rest;
-  final String name, workoutID, weekID, currentSet;
+  final String name, workoutID, weekID, currentSet, repsDescription;
   final bool ctrl;
 
   IndicatorsOnVideo({
     this.controller,
     this.currentSet,
+    this.repsDescription,
     this.showAddNote,
     this.workoutID,
     this.playNext,
@@ -235,11 +236,11 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                               });
                               widget.controller.pause();
                               _start = pausedOn;
-                             if (MediaQuery.of(context).orientation ==
-                                      Orientation.portrait)
-                                    isFromPortrait = true;
-                                  else
-                                    isFromPortrait = false;
+                              if (MediaQuery.of(context).orientation ==
+                                  Orientation.portrait)
+                                isFromPortrait = true;
+                              else
+                                isFromPortrait = false;
                               Navigator.of(context).push(MaterialPageRoute(
                                 builder: (_) => InfoExercise(
                                   vc: widget.controller,
@@ -360,14 +361,39 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                     children: <Widget>[
                       Column(
                         children: <Widget>[
-                          /// reps
-                          widget.isReps == 0
+                          widget.repsDescription != null
                               ? Container(
                                   margin: EdgeInsets.only(
                                       top: MediaQuery.of(context).orientation ==
                                               Orientation.portrait
                                           ? SizeConfig.blockSizeVertical * 27
                                           : SizeConfig.blockSizeVertical * 20),
+                                  child: Text(
+                                      widget.repsDescription.toUpperCase(),
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold,
+                                          fontStyle: FontStyle.italic)),
+                                )
+                              : Container(
+                                  margin: EdgeInsets.only(
+                                      top: MediaQuery.of(context).orientation ==
+                                              Orientation.portrait
+                                          ? SizeConfig.blockSizeVertical * 27
+                                          : SizeConfig.blockSizeVertical * 20),
+                                ),
+
+                          /// reps
+                          widget.isReps == 0
+                              ? Container(
+                                  margin: EdgeInsets.only(
+                                      top: SizeConfig.blockSizeVertical * 1),
+                                  // margin: EdgeInsets.only(
+                                  //     top: MediaQuery.of(context).orientation ==
+                                  //             Orientation.portrait
+                                  //         ? SizeConfig.blockSizeVertical * 27
+                                  //         : SizeConfig.blockSizeVertical * 20),
                                   child: Text('x' + widget.reps.toString(),
                                       style: TextStyle(
                                           color: Colors.white,
@@ -377,7 +403,9 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                 )
                               : Container(
                                   margin: EdgeInsets.only(
-                                      top: SizeConfig.blockSizeVertical * 35),
+                                      top: SizeConfig.blockSizeVertical * 1),
+                                  // margin: EdgeInsets.only(
+                                  //     top: SizeConfig.blockSizeVertical * 35),
                                   child: Text(
                                       _isLessThan10
                                           ? timerPaused
@@ -393,7 +421,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                           fontStyle: FontStyle.italic)),
                                 ),
                           Container(
-                            padding: EdgeInsets.all(8.0),
                             margin: EdgeInsets.only(
                                 top: SizeConfig.blockSizeVertical * 1),
                             child: Text(
@@ -412,6 +439,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                           /// done icon
                           widget.isReps == 0
                               ? Container(
+                                height: SizeConfig.blockSizeHorizontal * 10,
                                   margin: EdgeInsets.only(
                                       top: SizeConfig.blockSizeVertical * 20),
                                   child: IconButton(
@@ -440,8 +468,10 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                   ),
                                 )
                               : Container(
+                                  margin: EdgeInsets.only(
+                                      top: SizeConfig.blockSizeVertical * 20),
                                   width: 0,
-                                  height: 0,
+                                  height: SizeConfig.blockSizeHorizontal * 10,
                                 ),
                           Container(
                             child: IconButton(
