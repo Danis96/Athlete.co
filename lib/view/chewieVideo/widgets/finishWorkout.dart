@@ -4,6 +4,7 @@ import 'package:attt/utils/fullTrainingStopwatch/fullTrainingStopwatch.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view_model/chewieVideoViewModel.dart';
+import 'package:attt/view_model/signInViewModel.dart';
 import 'package:attt/view_model/trainingPlanViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -195,7 +196,7 @@ class _FinishWorkoutState extends State<FinishWorkout> {
         width: MediaQuery.of(context).size.width,
         child: RaisedButton(
           elevation: 0,
-          onPressed: () {
+          onPressed: () async {
             FullTrainingStopwatch().resetStopwtach();
             String note;
             if (newNote != null) {
@@ -210,11 +211,13 @@ class _FinishWorkoutState extends State<FinishWorkout> {
             }
             updateUserWithFinishedWorkout(
                 widget.userDocument, widget.workoutID);
+                List<DocumentSnapshot> newUserDocument = await SignInViewModel().getCurrentUserDocument(widget.userDocument.data['userUID']);
+
             FocusScope.of(context).requestFocus(new FocusNode());
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (_) => TrainingPlan(
-                    userDocument: widget.userDocument,
+                    userDocument: newUserDocument[0],
                     userTrainerDocument: widget.userTrainerDocument,
                   ),
                 ),
