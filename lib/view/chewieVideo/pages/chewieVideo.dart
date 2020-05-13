@@ -1,23 +1,17 @@
 import 'package:attt/interface/chewieVideoInterface.dart';
 import 'package:attt/storage/storage.dart';
 import 'package:attt/utils/alertDialog.dart';
-import 'package:attt/utils/emptyContainer.dart';
-import 'package:attt/utils/fullTrainingStopwatch/fullTrainingStopwatch.dart';
 import 'package:attt/utils/globals.dart';
-import 'package:attt/utils/screenOrientation/landscapeMode.dart';
-import 'package:attt/utils/screenOrientation/portraitMode.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorsOnVideo.dart';
 import 'package:attt/view/chewieVideo/widgets/rest.dart';
 import 'package:attt/view/chewieVideo/widgets/getReady.dart';
 import 'package:attt/view/chewieVideo/widgets/finishWorkout.dart';
-import 'package:chewie/chewie.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:video_box/video_box.dart';
 import 'dart:async';
 import 'package:attt/utils/size_config.dart';
-import 'package:video_box/widgets/buffer_slider.dart';
 
 class ChewieVideo extends StatefulWidget {
   final DocumentSnapshot userDocument, userTrainerDocument;

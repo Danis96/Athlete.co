@@ -1,11 +1,13 @@
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
+import 'package:attt/utils/customScreenAnimation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:attt/view/settings/pages/settingsPage.dart';
 
 Widget trainingPlanHeadline(
-    DocumentSnapshot userDocument, DocumentSnapshot userTrainerDocument) {
+    DocumentSnapshot userDocument, DocumentSnapshot userTrainerDocument, BuildContext context) {
   String name = userDocument.data['display_name'];
   List<String> nameSurname = name.split(' ');
   String justName = nameSurname[0];
@@ -30,7 +32,7 @@ Widget trainingPlanHeadline(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            width: SizeConfig.blockSizeHorizontal * 60,
+            width: SizeConfig.blockSizeHorizontal * 40,
             child: Text(
               'Hi $justName,',
               //'Week $currentWeek of $totalWeeks',
@@ -46,8 +48,9 @@ Widget trainingPlanHeadline(
             height: SizeConfig.blockSizeVertical * 0.3,
           ),
           Container(
-            width: SizeConfig.blockSizeHorizontal * 60,
-            child: Text('Week $currentWeek of $totalWeeks',
+            width: SizeConfig.blockSizeHorizontal * 40,
+            child: Text(
+              'Week $currentWeek of $totalWeeks',
               //'Your training plan is:\n$trainingPlan',
               style: TextStyle(
                   color: Colors.white,
@@ -58,6 +61,17 @@ Widget trainingPlanHeadline(
             ),
           ),
         ],
+      ),
+      Container(
+        margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 10),
+        child: IconButton(
+          onPressed: () => Navigator.of(context).push(CardAnimationTween(widget: SettingsPage())) ,
+          icon: Icon(
+            Icons.settings,
+            color: MyColors().white,
+            size: SizeConfig.blockSizeHorizontal * 7,
+          ),
+        ),
       )
     ],
   );
