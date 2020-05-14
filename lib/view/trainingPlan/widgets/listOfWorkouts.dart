@@ -15,7 +15,7 @@ Widget listOfWorkouts(
   workoutsFinished = userDocument.data['workouts_finished'];
   List<dynamic> workoutIDs = [];
   for (var i = 0; i < workoutsFinished.length; i++) {
-    workoutIDs.add(workoutsFinished[i].split('_')[0]);
+    workoutIDs.add(workoutsFinished[i].split('_')[2]);
   }
   return FutureBuilder(
     future: TrainingPlanViewModel().getWorkouts(
