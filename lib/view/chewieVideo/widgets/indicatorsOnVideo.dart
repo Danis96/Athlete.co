@@ -492,7 +492,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                 Container(
                                   margin: EdgeInsets.only(
                                       top: widget.isReps == 0
-                                          ? SizeConfig.blockSizeVertical * 9
+                                          ? SizeConfig.blockSizeVertical * 6.7
                                           : SizeConfig.blockSizeVertical * 3,
                                       left: SizeConfig.blockSizeHorizontal * 4),
                                   child: IconButton(
@@ -700,7 +700,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                           margin: EdgeInsets.only(
                                               top:
                                                   SizeConfig.blockSizeVertical *
-                                                      2,
+                                                      6,
                                               left: SizeConfig
                                                       .blockSizeHorizontal *
                                                   33),
@@ -773,6 +773,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                           margin: EdgeInsets.only(
                                             top: SizeConfig.blockSizeVertical *
                                                 6,
+                                                left: SizeConfig.blockSizeHorizontal * 5
                                           ),
                                           child: IconButton(
                                             icon: Icon(CupertinoIcons
@@ -808,7 +809,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                   Container(
                                     margin: EdgeInsets.only(
                                         top: widget.isReps == 0
-                                            ? SizeConfig.blockSizeVertical * 12
+                                            ? SizeConfig.blockSizeVertical * 10
                                             : SizeConfig.blockSizeVertical *
                                                 3.9,
                                         left: SizeConfig.blockSizeHorizontal *
