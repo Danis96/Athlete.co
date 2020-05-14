@@ -325,6 +325,7 @@ class _FinishWorkoutState extends State<FinishWorkout> {
             userTrainerDocument: widget.userTrainerDocument,
             //vc: vc,
             close: widget.close,
+            ctrl: true
             //isReps: exerciseIsReps,
           ),
         ) ??

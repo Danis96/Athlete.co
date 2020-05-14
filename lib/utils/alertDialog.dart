@@ -13,12 +13,14 @@ class MyAlertDialog extends StatefulWidget {
   final Function onExit, close;
   final VideoController vc;
   final int isReps;
+  final bool ctrl;
 
   MyAlertDialog({
     Key key,
     this.onExit,
     this.title,
     this.content,
+    this.ctrl,
     this.yes,
     this.no,
     this.userDocument,
@@ -61,7 +63,7 @@ class _MyAlertDialogState extends State<MyAlertDialog> {
             widget.vc == null ? print('No controller') : widget.vc.pause();
             alertQuit = true;
             userNotes = '';
-            widget.close();
+            widget.ctrl == true ? print('NO DISPOSEEEEEE') : widget.close();
             FullTrainingStopwatch().stopStopwtach();
             FullTrainingStopwatch().resetStopwtach();
             widget.isReps == 0 || widget.isReps == null ? print('No time cancel') : videoTimer.cancel();
