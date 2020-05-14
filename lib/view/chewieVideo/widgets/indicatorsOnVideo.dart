@@ -811,9 +811,10 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                         top: widget.isReps == 0
                                             ? SizeConfig.blockSizeVertical * 7.7
                                             : SizeConfig.blockSizeVertical *
-                                               0,
-                                        left: SizeConfig.blockSizeHorizontal *
-                                            18),
+                                             0,
+                                    left:   widget.isReps == 0 ?   SizeConfig.blockSizeHorizontal *
+                                            21 : SizeConfig.blockSizeHorizontal *
+                                            18 ),
                                     child: IconButton(
                                         icon: Icon(Icons.fullscreen),
                                         color: Colors.white,
