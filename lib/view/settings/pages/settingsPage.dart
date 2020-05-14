@@ -1,8 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/settings/widgets/settingsContainers.dart';
 
 class SettingsPage extends StatelessWidget {
+  final DocumentSnapshot userDocument;
+  final String userUID;
+  SettingsPage({this.userDocument, this.userUID});
+
   String _isAthlete = 'athlete',
       _isQuestions = 'question',
       _isTerms = 'terms',
@@ -27,12 +32,19 @@ class SettingsPage extends StatelessWidget {
       ),
       body: Column(
         children: <Widget>[
-          settingsContainer('Athlete', 'Name of athelte', _isAthlete),
-          settingsContainer('Any questions',
-              'If you have any questions feel free to ask.', _isQuestions),
-          settingsContainer('Terms of Service', '', _isTerms),
-          settingsContainer('Privacy Policy', '', _isPrivacy),
-          settingsContainer('Log Out', '', _isLogOut),
+          settingsContainer('Athlete', 'Name of athelte', _isAthlete,
+              userDocument, context, userUID),
+          settingsContainer(
+              'Any questions',
+              'If you have any questions feel free to ask.',
+              _isQuestions,
+              userDocument,
+              context,
+              userUID),
+          settingsContainer(
+              'Terms of Service', '', _isTerms, userDocument, context, userUID),
+          settingsContainer(
+              'Log Out', '', _isLogOut, userDocument, context, userUID),
         ],
       ),
     );

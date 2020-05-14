@@ -48,6 +48,7 @@ Widget trainerContainer(
              widget: TrainingPlan(
                     userTrainerDocument: currentUserTrainerDocument,
                     userDocument: userDocument,
+                    userUID: userUID,
                   )));
     },
     child: Container(

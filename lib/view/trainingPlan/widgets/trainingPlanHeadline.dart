@@ -6,8 +6,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:attt/view/settings/pages/settingsPage.dart';
 
-Widget trainingPlanHeadline(
-    DocumentSnapshot userDocument, DocumentSnapshot userTrainerDocument, BuildContext context) {
+Widget trainingPlanHeadline(DocumentSnapshot userDocument,
+    DocumentSnapshot userTrainerDocument, BuildContext context, String userUID) {
   String name = userDocument.data['display_name'];
   List<String> nameSurname = name.split(' ');
   String justName = nameSurname[0];
@@ -65,7 +65,11 @@ Widget trainingPlanHeadline(
       Container(
         margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 10),
         child: IconButton(
-          onPressed: () => Navigator.of(context).push(CardAnimationTween(widget: SettingsPage())) ,
+          onPressed: () => Navigator.of(context)
+              .push(CardAnimationTween(widget: SettingsPage(
+                userDocument: userDocument,
+                userUID: userUID,
+              ))),
           icon: Icon(
             Icons.settings,
             color: MyColors().white,

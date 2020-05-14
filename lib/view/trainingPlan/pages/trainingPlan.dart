@@ -13,25 +13,25 @@ import 'package:attt/utils/globals.dart';
 class TrainingPlan extends StatefulWidget {
   final DocumentSnapshot userDocument;
   final DocumentSnapshot userTrainerDocument;
+  final String userUID;
   TrainingPlan({
     this.userTrainerDocument,
     this.userDocument,
+    this.userUID,
   });
 
   @override
   _TrainingPlanState createState() => _TrainingPlanState();
 }
 
-class _TrainingPlanState extends State<TrainingPlan>
-{
+class _TrainingPlanState extends State<TrainingPlan> {
   /// treba danisu warmup
   String warmup;
 
   @override
-  void initState() { 
+  void initState() {
     super.initState();
-    SystemChrome.setPreferredOrientations(
-            [DeviceOrientation.portraitUp]);
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   }
 
   @override
@@ -45,12 +45,11 @@ class _TrainingPlanState extends State<TrainingPlan>
         ' ready iz bilda || rest iz builda ' +
         restGoing.toString());
     print(alertQuit.toString() + ' == ALERTQUIT');
-  
-      if (alertQuit) {
-        SystemChrome.setPreferredOrientations(
-            [DeviceOrientation.portraitUp]);
-      }
-    
+
+    if (alertQuit) {
+      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    }
+
     SizeConfig().init(context);
     return Scaffold(
       backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
@@ -65,8 +64,8 @@ class _TrainingPlanState extends State<TrainingPlan>
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                trainingPlanHeadline(
-                    widget.userDocument, widget.userTrainerDocument, context),
+                trainingPlanHeadline(widget.userDocument,
+                    widget.userTrainerDocument, context, widget.userUID),
                 SizedBox(
                   height: SizeConfig.blockSizeVertical * 2.5,
                 ),
