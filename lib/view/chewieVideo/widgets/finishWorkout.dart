@@ -210,8 +210,46 @@ class _FinishWorkoutState extends State<FinishWorkout> {
                   notes);
             }
             updateUserWithFinishedWorkout(
-                widget.userDocument, widget.workoutID);
-                List<DocumentSnapshot> newUserDocument = await SignInViewModel().getCurrentUserDocument(widget.userDocument.data['userUID']);
+                widget.userDocument,
+                widget.userTrainerDocument.data['trainerID'],
+                widget.weekID,
+                widget.workoutID);
+            List<DocumentSnapshot> newUserDocument = await SignInViewModel()
+                .getCurrentUserDocument(widget.userDocument.data['userUID']);
+
+            List<dynamic> workoutsFinished =
+                newUserDocument[0].data['workouts_finished'];
+            print(workoutsFinished);
+
+            List<dynamic> weekIDs = [];
+            int counter = 1;
+            for (var i = 0; i < workoutsFinished.length; i++) {
+              if (!weekIDs.contains(workoutsFinished[i].split('_')[1])) {
+                weekIDs.add(workoutsFinished[i].split('_')[1]);
+              } else {
+                if (workoutsFinished[i].split('_')[1] == widget.weekID) {
+                  counter++;
+                }
+              }
+            }
+
+            print(weekIDs);
+            List<dynamic> weekWorkouts = await TrainingPlanViewModel()
+                .getWorkouts(widget.userTrainerDocument.data['trainerID'],
+                    widget.weekID);
+            print(weekWorkouts.length);
+            print(counter);
+
+            if (counter == weekWorkouts.length) {
+              updateUserWithFinishedWeek(
+                  widget.userDocument,
+                  widget.userTrainerDocument.data['trainerID'],
+                  widget.weekID,
+                  widget.workoutID);
+            }
+
+            newUserDocument = await SignInViewModel()
+                .getCurrentUserDocument(widget.userDocument.data['userUID']);
 
             FocusScope.of(context).requestFocus(new FocusNode());
             Navigator.of(context).pushAndRemoveUntil(
@@ -241,17 +279,38 @@ class _FinishWorkoutState extends State<FinishWorkout> {
     );
   }
 
-  updateUserWithFinishedWorkout(
-      DocumentSnapshot userDocument, String workoutID) async {
+  updateUserWithFinishedWorkout(DocumentSnapshot userDocument, String trainerID,
+      String weekID, String workoutID) async {
     List<String> note = [];
     String currentDay = DateFormat.d().format(DateTime.now());
     String currentMonth = DateFormat.MMM().format(DateTime.now()).toUpperCase();
-    note.add(workoutID + '_' + currentDay + ' ' + currentMonth);
+    note.add(trainerID +
+        '_' +
+        weekID +
+        '_' +
+        workoutID +
+        '_' +
+        currentDay +
+        ' ' +
+        currentMonth +
+        '_' +
+        (DateTime.now()).toString());
     final db = Firestore.instance;
     await db
         .collection('Users')
         .document(userDocument.documentID)
         .updateData({"workouts_finished": FieldValue.arrayUnion(note)});
+  }
+
+  updateUserWithFinishedWeek(DocumentSnapshot userDocument, String trainerID,
+      String weekID, String workoutID) async {
+    List<String> note = [];
+    note.add(weekID);
+    final db = Firestore.instance;
+    await db
+        .collection('Users')
+        .document(userDocument.documentID)
+        .updateData({"weeks_finished": FieldValue.arrayUnion(note)});
   }
 
   Future<bool> _onWillPop() async {
