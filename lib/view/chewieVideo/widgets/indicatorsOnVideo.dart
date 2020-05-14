@@ -493,7 +493,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                   margin: EdgeInsets.only(
                                       top: widget.isReps == 0
                                           ? SizeConfig.blockSizeVertical * 9
-                                          : SizeConfig.blockSizeVertical * 7,
+                                          : SizeConfig.blockSizeVertical * 3,
                                       left: SizeConfig.blockSizeHorizontal * 4),
                                   child: IconButton(
                                       icon: Icon(Icons.fullscreen),
@@ -810,7 +810,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                         top: widget.isReps == 0
                                             ? SizeConfig.blockSizeVertical * 12
                                             : SizeConfig.blockSizeVertical *
-                                                5.5,
+                                                3.9,
                                         left: SizeConfig.blockSizeHorizontal *
                                             18),
                                     child: IconButton(

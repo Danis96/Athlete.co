@@ -91,7 +91,8 @@ class _ChewieVideoState extends State<ChewieVideo>
     exerciseRest = workoutExercisesWithSets[index].data['rest'];
     exerciseName = exerciseNameAndSet.split('_')[1];
     exerciseSet = exerciseNameAndSet.split('_')[0];
-    exerciseRepsDescription = workoutExercisesWithSets[index].data['repsDescription'];
+    exerciseRepsDescription =
+        workoutExercisesWithSets[index].data['repsDescription'];
   }
 
   /// when we want to play next video, we simply set index to increment
@@ -256,27 +257,29 @@ class _ChewieVideoState extends State<ChewieVideo>
             ),
             Positioned(
               child: Container(
-                height: SizeConfig.blockSizeVertical * 100,
+                height:
+                    MediaQuery.of(context).orientation == Orientation.portrait
+                        ? SizeConfig.blockSizeVertical * 98
+                        : SizeConfig.blockSizeVertical * 95,
                 child: IndicatorsOnVideo(
-                  controller: vc,
-                  listLenght: source.length,
-                  userDocument: widget.userDocument,
-                  userTrainerDocument: widget.userTrainerDocument,
-                  index: _index,
-                  duration: exerciseDuration,
-                  isReps: exerciseIsReps,
-                  reps: exerciseReps,
-                  sets: exerciseSets,
-                  name: exerciseName,
-                  showRest: showRest,
-                  workoutID: widget.workoutID,
-                  weekID: widget.weekID,
-                  ctrl: true,
-                  rest: exerciseRest,
-                  currentSet: exerciseSet,
-                  playNext: nextPlay,
-                  repsDescription: exerciseRepsDescription
-                ),
+                    controller: vc,
+                    listLenght: source.length,
+                    userDocument: widget.userDocument,
+                    userTrainerDocument: widget.userTrainerDocument,
+                    index: _index,
+                    duration: exerciseDuration,
+                    isReps: exerciseIsReps,
+                    reps: exerciseReps,
+                    sets: exerciseSets,
+                    name: exerciseName,
+                    showRest: showRest,
+                    workoutID: widget.workoutID,
+                    weekID: widget.weekID,
+                    ctrl: true,
+                    rest: exerciseRest,
+                    currentSet: exerciseSet,
+                    playNext: nextPlay,
+                    repsDescription: exerciseRepsDescription),
               ),
             ),
           ],
@@ -284,9 +287,9 @@ class _ChewieVideoState extends State<ChewieVideo>
       ),
     );
   }
-  
 
   DateTime currentBackPressTime;
+
   /// [_onWillPop]
   ///
   /// async funstion that creates an exit dialog for our screen
@@ -297,13 +300,13 @@ class _ChewieVideoState extends State<ChewieVideo>
     else {
       vc.pause();
       DateTime now = DateTime.now();
-    if (currentBackPressTime == null || 
-        now.difference(currentBackPressTime) > Duration(seconds: 2)) {
-      currentBackPressTime = now;
-      SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-      return Future.value(false);
-    }
-    return showDialog(
+      if (currentBackPressTime == null ||
+          now.difference(currentBackPressTime) > Duration(seconds: 2)) {
+        currentBackPressTime = now;
+        SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+        return Future.value(false);
+      }
+      return showDialog(
             context: context,
             builder: (context) => MyAlertDialog(
               no: 'Cancel',
