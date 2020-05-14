@@ -154,8 +154,11 @@ class _FinishWorkoutState extends State<FinishWorkout> {
                 ),
                 TextFormField(
                   onTap: () {
-                    TrainingPlanViewModel().whatsAppOpen('+38762623629',
-                        'Hello! I am writing from Finish Screen. I have a question!');
+                    TrainingPlanViewModel().whatsAppOpen(
+                        '+38762623629',
+                        'Hello! I am writing from Finish Screen. I have a question!',
+                        '',
+                        context);
                     print('PITAJ JARANE');
                   },
                   readOnly: true,
@@ -317,17 +320,17 @@ class _FinishWorkoutState extends State<FinishWorkout> {
     return showDialog(
           context: context,
           builder: (context) => MyAlertDialog(
-            no: 'Cancel',
-            yes: 'Continue',
-            title: 'Back to Training plan?',
-            content: 'If you go back all your progress will be lost',
-            userDocument: widget.userDocument,
-            userTrainerDocument: widget.userTrainerDocument,
-            //vc: vc,
-            close: widget.close,
-            ctrl: true
-            //isReps: exerciseIsReps,
-          ),
+              no: 'Cancel',
+              yes: 'Continue',
+              title: 'Back to Training plan?',
+              content: 'If you go back all your progress will be lost',
+              userDocument: widget.userDocument,
+              userTrainerDocument: widget.userTrainerDocument,
+              //vc: vc,
+              close: widget.close,
+              ctrl: true
+              //isReps: exerciseIsReps,
+              ),
         ) ??
         true;
   }

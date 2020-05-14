@@ -45,7 +45,7 @@ checkAndDo(String isFrom, DocumentSnapshot userDocument, BuildContext context,
     SettingsViewModel().changeAthlete(context, userDocument, userUID);
   } else if (isFrom == 'question') {
     TrainingPlanViewModel()
-        .whatsAppOpen(phoneNumberForWhatsApp, messageForWhatsApp);
+        .whatsAppOpen(phoneNumberForWhatsApp, messageForWhatsApp, '', context);
   } else if (isFrom == 'terms') {
     SettingsViewModel().goToTermsAndPrivacy(context);
   } else if (isFrom == 'privacy') {
@@ -54,4 +54,3 @@ checkAndDo(String isFrom, DocumentSnapshot userDocument, BuildContext context,
     SettingsViewModel().logOut(context, userDocument['platform']);
   }
 }
-

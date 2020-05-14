@@ -1,6 +1,7 @@
 import 'package:attt/interface/trainingPlanInterface.dart';
 import 'package:attt/utils/customScreenAnimation.dart';
 import 'package:attt/utils/globals.dart';
+import 'package:attt/utils/colors.dart';
 import 'package:attt/view/history/page/history.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:attt/view/workout/pages/workout.dart';
@@ -71,16 +72,53 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
   }
 
   @override
-  whatsAppOpen(String phoneNumber, String message) async {
+  whatsAppOpen(String phoneNumber, String message, String screen, BuildContext context) async {
     var whatsappUrl = "whatsapp://send?phone=$phoneNumber&text=$message";
     if (await canLaunch(whatsappUrl)) {
       await launch(whatsappUrl);
     } else {
-      print('Could not launch WhatsApp!');
-      launchEmail();
-      throw 'Could not launch WhatsApp!';
+      if(screen == 'Training Plan') {
+        showAlertDialog(context);
+      } else {
+        launchEmail();
+      }
     }
   }
+
+  @override
+  showAlertDialog(BuildContext context) {
+  // set up the button
+  Widget okButton = FlatButton(
+    child: Text(
+      "OK",
+      style: TextStyle(color: MyColors().lightWhite),
+    ),
+    onPressed: () => Navigator.of(context).pop(),
+  );
+  // set up the AlertDialog
+  AlertDialog alert = AlertDialog(
+    title: Text(
+      "Could not launch WhatsApp!",
+      style: TextStyle(color: MyColors().lightWhite),
+    ),
+    content: Text(
+      "Please check if you have WhatsApp application installed on your device. If no, please install it.",
+      style: TextStyle(color: MyColors().lightWhite),
+    ),
+    backgroundColor: Color.fromRGBO(37, 211, 102, 1.0),
+    actions: [
+      okButton,
+    ],
+  );
+
+  // show the dialog
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+}
 
   launchEmail() async {
     String email = 'jusuf97elfarahati@gmail.com';
