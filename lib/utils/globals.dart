@@ -50,3 +50,5 @@ String displayTime = '00:00:00';
 var swatch = Stopwatch();
 /// for landscape mode from info and note 
 bool isFromPortrait = true;
+/// from settings and chooseAthlete
+bool isFromSettings = false;
