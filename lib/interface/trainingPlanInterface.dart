@@ -6,9 +6,10 @@ abstract class TrainingPlanInterface {
   Future getWorkouts(String trainerID, String weekID);
   navigateToWorkout(DocumentSnapshot userDocument, DocumentSnapshot userTrainerDocument, String trainerID, String workoutName, String weekID,
       String workoutID, String warmupDesc, BuildContext context, String weekName, List<dynamic> listOfNotes);
-  whatsAppOpen(String phoneNumber, String message);
+  whatsAppOpen(String phoneNumber, String message, String screen, BuildContext context);
   secondTabPressed(BuildContext context, DocumentSnapshot userTrainerDocument,
       DocumentSnapshot userDocument, String userUID);
   firstTabPressed(BuildContext context, DocumentSnapshot userTrainerDocument,
       DocumentSnapshot userDocument);
+  showAlertDialog(BuildContext context);
 }
