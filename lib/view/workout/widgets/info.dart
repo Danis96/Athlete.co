@@ -56,7 +56,7 @@ class _InfoExerciseState extends State<InfoExercise> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 5),
+              margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 4),
               child: Center(
                 child: VideoBox(controller: vc),
               ),
@@ -136,7 +136,7 @@ class _InfoExerciseState extends State<InfoExercise> {
                             Container(
                               alignment: Alignment.bottomRight,
                               margin: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical * 10),
+                                  top: SizeConfig.blockSizeVertical * 10,),
                               child: FlatButton(
                                   color: MyColors().black,
                                   onPressed: () => onDone(),
