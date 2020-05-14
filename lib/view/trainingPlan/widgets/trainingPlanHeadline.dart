@@ -63,7 +63,8 @@ Widget trainingPlanHeadline(DocumentSnapshot userDocument,
         ],
       ),
       Container(
-        margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 10),
+        alignment: Alignment.centerRight,
+        margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 8),
         child: IconButton(
           onPressed: () => Navigator.of(context)
               .push(CardAnimationTween(widget: SettingsPage(
