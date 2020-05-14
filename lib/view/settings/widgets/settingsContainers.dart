@@ -1,3 +1,4 @@
+import 'package:attt/utils/globals.dart';
 import 'package:attt/view_model/settingsViewModel.dart';
 import 'package:attt/view_model/trainingPlanViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -40,6 +41,7 @@ Widget settingsContainer(String headText, subText, isFrom,
 checkAndDo(String isFrom, DocumentSnapshot userDocument, BuildContext context,
     String phoneNumberForWhatsApp, messageForWhatsApp, String userUID) {
   if (isFrom == 'athlete') {
+    isFromSettings = true;
     SettingsViewModel().changeAthlete(context, userDocument, userUID);
   } else if (isFrom == 'question') {
     TrainingPlanViewModel()
@@ -52,3 +54,4 @@ checkAndDo(String isFrom, DocumentSnapshot userDocument, BuildContext context,
     SettingsViewModel().logOut(context, userDocument['platform']);
   }
 }
+

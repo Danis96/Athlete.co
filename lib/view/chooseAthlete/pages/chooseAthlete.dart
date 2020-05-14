@@ -5,6 +5,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:attt/view/chooseAthlete/widgets/nameHeadline.dart';
 import 'package:attt/view/chooseAthlete/widgets/trainerList.dart';
+import 'package:attt/utils/customScreenAnimation.dart';
+import 'package:attt/view/settings/pages/settingsPage.dart';
+import 'dart:io';
 
 class ChooseAthlete extends StatefulWidget {
   final String name, email, photo, userUID;
@@ -33,12 +36,23 @@ class _ChooseAthleteState extends State<ChooseAthlete> {
 
     return Scaffold(
       backgroundColor: MyColors().lightBlack,
-      body: ListView(
-        children: <Widget>[
-          nameHeadline(usersName, usersPhoto, context, widget.userDocument),
-          trainersList(context, userName, userPhoto, userEmail, widget.userDocument, userUID),
-        ],
+      body: WillPopScope(
+        onWillPop: () =>  _onWillPop(context),
+              child: ListView(
+          children: <Widget>[
+            nameHeadline(usersName, usersPhoto, context, widget.userDocument),
+            trainersList(context, userName, userPhoto, userEmail, widget.userDocument, userUID),
+          ],
+        ),
       ),
     );
   }
+}
+
+
+_onWillPop(BuildContext context) {
+  print(isFromSettings.toString() + ' SETTINGS');
+  isFromSettings ? Navigator.of(context)
+              .pop() : exit(0);
+  isFromSettings = false;
 }

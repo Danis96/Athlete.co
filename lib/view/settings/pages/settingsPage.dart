@@ -1,3 +1,6 @@
+import 'package:attt/utils/customScreenAnimation.dart';
+import 'package:attt/utils/globals.dart';
+import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:attt/utils/size_config.dart';
@@ -30,23 +33,30 @@ class SettingsPage extends StatelessWidget {
         title: Text('Settings'),
         backgroundColor: Colors.black,
       ),
-      body: Column(
-        children: <Widget>[
-          settingsContainer('Athlete', 'Name of athelte', _isAthlete,
-              userDocument, context, userUID),
-          settingsContainer(
-              'Any questions',
-              'If you have any questions feel free to ask.',
-              _isQuestions,
-              userDocument,
-              context,
-              userUID),
-          settingsContainer(
-              'Terms of Service', '', _isTerms, userDocument, context, userUID),
-          settingsContainer(
-              'Log Out', '', _isLogOut, userDocument, context, userUID),
-        ],
+      body: WillPopScope(
+        onWillPop: () => _onWillPop(context, userDocument, userUID),
+              child: Column(
+          children: <Widget>[
+            settingsContainer('Athlete', 'Name of athelte', _isAthlete,
+                  userDocument, context, userUID),
+            settingsContainer(
+                'Any questions',
+                'If you have any questions feel free to ask.',
+                _isQuestions,
+                userDocument,
+                context,
+                userUID),
+            settingsContainer(
+                'Terms of Service', '', _isTerms, userDocument, context, userUID),
+            settingsContainer(
+                'Log Out', '', _isLogOut, userDocument, context, userUID),
+          ],
+        ),
       ),
     );
   }
+}
+
+_onWillPop(BuildContext context, DocumentSnapshot userDocument, String userUID) {
+   isFromSettings ? Navigator.of(context).push(CardAnimationTween(widget: TrainingPlan(userDocument: userDocument,userUID: userUID,))) : Navigator.of(context).pop(); 
 }

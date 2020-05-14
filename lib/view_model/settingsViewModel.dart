@@ -11,7 +11,7 @@ class SettingsViewModel implements SettingsInterface {
   @override
   changeAthlete(
       BuildContext context, DocumentSnapshot userDocument, String userUID) {
-    Navigator.of(context).pushAndRemoveUntil(
+    Navigator.of(context).push(
         CardAnimationTween(
           widget: ChooseAthlete(
             userDocument: userDocument,
@@ -20,8 +20,7 @@ class SettingsViewModel implements SettingsInterface {
             photo: userDocument['image'],
             userUID: userUID,
           ),
-        ),
-        (Route<dynamic> route) => false);
+        ));
   }
 
   @override
