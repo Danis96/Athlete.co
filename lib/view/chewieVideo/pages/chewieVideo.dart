@@ -1,6 +1,7 @@
 import 'package:attt/interface/chewieVideoInterface.dart';
 import 'package:attt/storage/storage.dart';
 import 'package:attt/utils/alertDialog.dart';
+import 'package:attt/utils/fullTrainingStopwatch/fullTrainingStopwatch.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorsOnVideo.dart';
 import 'package:attt/view/chewieVideo/widgets/rest.dart';
@@ -153,6 +154,7 @@ class _ChewieVideoState extends State<ChewieVideo>
       onlineVideos = [];
       exerciseSnapshots = [];
       alertQuit = true;
+      FullTrainingStopwatch().stopStopwtach();
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
           maintainState: false,

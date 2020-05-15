@@ -55,6 +55,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   Animation<Offset> _offsetAnimation;
   AudioCache audioCache;
   AudioPlayer audioPlayer;
+  bool isOrientation = false;
 
   @override
   void initState() {
@@ -101,18 +102,26 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
 
   @override
   void didUpdateWidget(IndicatorsOnVideo oldWidget) {
-    print(widget.isReps.toString() + '   ISSSSSSSSS REEEEEEEEEEPS');
     super.didUpdateWidget(oldWidget);
     _isLessThan10 = false;
     if (widget.index == 0) {
       if (pausedOn == null) {
-        _start = widget.duration;
+        if(!isOrientation) {
+              _start = widget.duration;
+        } else {
+          _start = pausedOn;
+        }
+        
       } else {
         _start = pausedOn;
       }
     }
     if (widget.ctrl == true) {
-      _start = widget.duration;
+      if(!isOrientation) {
+              _start = widget.duration;
+        } else {
+          _start = pausedOn;
+        }
     }
     if (widget.index > 0) {
       if (widget.isReps == 1 && !timerPaused) {
@@ -184,354 +193,149 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
     return SlideTransition(
         position: _offsetAnimation,
         child: InkWell(
-          onTap: () {
-            if (!timerPaused) {
-              pausedOn = _start;
-              widget.controller.pause();
-              if (widget.isReps == 1) {
-                videoTimer.cancel();
+            onTap: () {
+              if (!timerPaused) {
+                pausedOn = _start;
+                widget.controller.pause();
+                if (widget.isReps == 1) {
+                  videoTimer.cancel();
+                }
+                if (_start <= 5) {
+                  audioPlayer.pause();
+                }
+                setState(() {
+                  timerPaused = true;
+                });
+              } else {
+                widget.controller.play();
+                if (widget.isReps == 1) {
+                  startTimer(pausedOn);
+                }
+                setState(() {
+                  timerPaused = false;
+                });
+                if (pausedOn <= 5) {
+                  audioPlayer.resume();
+                }
               }
-              if (_start <= 5) {
-                audioPlayer.pause();
-              }
-              setState(() {
-                timerPaused = true;
-              });
-            } else {
-              widget.controller.play();
-              if (widget.isReps == 1) {
-                startTimer(pausedOn);
-              }
-              setState(() {
-                timerPaused = false;
-              });
-              if (pausedOn <= 5) {
-                audioPlayer.resume();
-              }
-            }
-            isTips = false;
-          },
-          child: MediaQuery.of(context).orientation == Orientation.landscape
-              ?
+              isTips = false;
+            },
+            child:
 
-              /// LANDSCAPE MOdE
-              Padding(
-                  padding: EdgeInsets.only(
-                      top: SizeConfig.blockSizeVertical * 3,
-                      left: SizeConfig.blockSizeHorizontal * 3,
-                      right: SizeConfig.blockSizeVertical * 3),
-                  child: Center(
-                    child: Column(
-                      children: <Widget>[
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            /// number of reps
-                            GestureDetector(
-                              onTap: () {
-                                if (infoClicked) {
-                                  Timer(Duration(seconds: 0), () {
-                                    if (widget.isReps == 1) {
-                                      pausedOn = _start;
-                                      videoTimer.cancel();
-                                    }
-                                    setState(() {
-                                      timerPaused = true;
-                                      goBackToChewie = true;
-                                      infoClicked = false;
-                                    });
-                                    widget.controller.pause();
-                                    _start = pausedOn;
-                                    if (MediaQuery.of(context).orientation ==
-                                        Orientation.portrait)
-                                      isFromPortrait = true;
-                                    else
-                                      isFromPortrait = false;
-                                    Navigator.of(context)
-                                        .push(MaterialPageRoute(
-                                      builder: (_) => InfoExercise(
-                                        vc: widget.controller,
-                                        exerciseNameForInfo: widget.name,
-                                        exerciseTips: exTips,
-                                        exerciseVideoForInfo: exVideo,
-                                      ),
-                                    ));
+                /// LANDSCAPE MOdE
+                Padding(
+              padding: EdgeInsets.only(
+                  top: SizeConfig.blockSizeVertical * 3,
+                  left: SizeConfig.blockSizeHorizontal * 3,
+                  right: SizeConfig.blockSizeVertical * 3),
+              child: Container(
+                margin: EdgeInsets.only(
+                    top: MediaQuery.of(context).orientation ==
+                            Orientation.landscape
+                        ? SizeConfig.blockSizeVertical * 0
+                        : SizeConfig.blockSizeVertical * 50),
+                child: Center(
+                  child: Column(
+                    children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MediaQuery.of(context).orientation ==
+                                Orientation.landscape
+                            ? MainAxisAlignment.spaceBetween
+                            : MainAxisAlignment.center,
+                        children: <Widget>[
+                          /// number of reps
+                          GestureDetector(
+                            onTap: () {
+                              if (infoClicked) {
+                                Timer(Duration(seconds: 0), () {
+                                  if (widget.isReps == 1) {
+                                    pausedOn = _start;
+                                    videoTimer.cancel();
+                                  }
+                                  setState(() {
+                                    timerPaused = true;
+                                    goBackToChewie = true;
+                                    infoClicked = false;
                                   });
-                                } else {
-                                  print('NE MOZE VIŠE PAŠA');
-                                }
-                              },
-                              child: Container(
-                                margin: EdgeInsets.only(
-                                    top: SizeConfig.blockSizeVertical * 5),
-                                child: RichText(
-                                  text: TextSpan(children: [
-                                    TextSpan(
-                                      text: widget.name + ' ',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: MediaQuery.of(context)
-                                                      .orientation ==
-                                                  Orientation.portrait
-                                              ? 32.0
-                                              : SizeConfig.safeBlockHorizontal *
-                                                  3,
-                                          fontWeight: FontWeight.bold,
-                                          fontStyle: FontStyle.italic),
+                                  widget.controller.pause();
+                                  _start = pausedOn;
+                                  if (MediaQuery.of(context).orientation ==
+                                      Orientation.portrait)
+                                    isFromPortrait = true;
+                                  else
+                                    isFromPortrait = false;
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (_) => InfoExercise(
+                                      vc: widget.controller,
+                                      exerciseNameForInfo: widget.name,
+                                      exerciseTips: exTips,
+                                      exerciseVideoForInfo: exVideo,
                                     ),
-                                    WidgetSpan(
-                                        alignment: PlaceholderAlignment.bottom,
-                                        child: Icon(
-                                          Icons.info,
-                                          size: SizeConfig.blockSizeHorizontal *
-                                              3,
-                                          color: Colors.white,
-                                        ))
-                                  ]),
-                                ),
-                              ),
-                            ),
-
-                            /// icon note
-                            Container(
+                                  ));
+                                });
+                              } else {
+                                print('NE MOZE VIŠE PAŠA');
+                              }
+                            },
+                            child: Container(
                               margin: EdgeInsets.only(
                                   top: MediaQuery.of(context).orientation ==
                                           Orientation.landscape
-                                      ? SizeConfig.blockSizeVertical * 6
+                                      ? SizeConfig.blockSizeVertical * 5
                                       : SizeConfig.blockSizeVertical * 10),
-                              child: IconButton(
-                                  color: Colors.white,
-                                  iconSize:
-                                      SizeConfig.blockSizeHorizontal * 4.5,
-                                  icon: Icon(Icons.comment),
-                                  onPressed: () {
-                                    if (noteClicked) {
-                                      Timer(Duration(seconds: 0), () {
-                                        if (widget.isReps == 1) {
-                                          pausedOn = _start;
-                                          videoTimer.cancel();
-                                        }
-                                        setState(() {
-                                          timerPaused = true;
-                                          noteClicked = false;
-                                        });
-                                        widget.controller.pause();
-                                        _start = pausedOn;
-                                        if (MediaQuery.of(context)
-                                                .orientation ==
-                                            Orientation.portrait)
-                                          isFromPortrait = true;
-                                        else
-                                          isFromPortrait = false;
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            maintainState: true,
-                                            builder: (_) => AddNote(
-                                                controller: widget.controller,
-                                                listLenght: widget.listLenght,
-                                                userDocument:
-                                                    widget.userDocument,
-                                                userTrainerDocument:
-                                                    widget.userTrainerDocument,
-                                                index: widget.index,
-                                                duration: widget.duration,
-                                                isReps: widget.isReps,
-                                                reps: widget.reps,
-                                                sets: widget.sets,
-                                                name: widget.name,
-                                                showRest: widget.showRest,
-                                                workoutID: widget.workoutID,
-                                                weekID: widget.weekID),
-                                          ),
-                                        );
-                                      });
-                                    } else {
-                                      print('NE MOZE VIŠE PAŠA 2');
-                                    }
-                                  }),
-                            )
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            timerPaused || isTips
-                                ? Container(
-                                    height: SizeConfig.blockSizeVertical * 20,
-                                    width: SizeConfig.blockSizeHorizontal * 24,
-                                    // decoration: BoxDecoration(
-                                    //     color: Color.fromRGBO(28, 28, 28, 0.7),
-                                    //     borderRadius:
-                                    //         BorderRadius.all(Radius.circular(4.0))),
-                                    // padding: EdgeInsets.all(20.0),
-                                    //   child: Text(
-                                    //     'PAUSED',
-                                    //     style: TextStyle(
-                                    //         color: Colors.white,
-                                    //         fontSize: SizeConfig.blockSizeVertical * 9,
-                                    //         fontWeight: FontWeight.bold,
-                                    //         fontStyle: FontStyle.italic),
-                                    //     textAlign: TextAlign.center,
-                                    //   ),
-                                  )
-                                : Container(
-                                    height: SizeConfig.blockSizeVertical * 20,
-                                    width: SizeConfig.blockSizeHorizontal * 24,
-                                  )
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Column(
-                              children: <Widget>[
-                                widget.isReps == 0
-                                    ? Container(
-                                        margin: EdgeInsets.only(
-                                            top: SizeConfig.blockSizeVertical *
-                                                12,
-                                            right:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    4),
-                                        child: Text(
-                                            'x' + widget.reps.toString(),
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: SizeConfig
-                                                        .blockSizeVertical *
-                                                    10,
-                                                fontWeight: FontWeight.bold,
-                                                fontStyle: FontStyle.italic)),
-                                      )
-                                    : Container(
-                                        margin: EdgeInsets.only(
-                                            top: SizeConfig.blockSizeVertical *
-                                                2),
-                                        child: Text(
-                                            _isLessThan10
-                                                ? timerPaused
-                                                    ? '00:0' +
-                                                        pausedOn.toString()
-                                                    : '00:0' + _start.toString()
-                                                : timerPaused
-                                                    ? '00:' +
-                                                        pausedOn.toString()
-                                                    : '00:' + _start.toString(),
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: SizeConfig
-                                                        .blockSizeVertical *
-                                                    10,
-                                                fontWeight: FontWeight.w800,
-                                                fontStyle: FontStyle.italic)),
-                                      ),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      top: SizeConfig.blockSizeVertical * 1,
-                                      right:
-                                          SizeConfig.blockSizeHorizontal * 4),
-                                  child: Text(
-                                    widget.currentSet +
-                                        '/' +
-                                        widget.sets.toString() +
-                                        ' Sets',
+                              child: RichText(
+                                text: TextSpan(children: [
+                                  TextSpan(
+                                    text: widget.name + ' ',
                                     style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 25.0,
+                                        fontSize: MediaQuery.of(context)
+                                                    .orientation ==
+                                                Orientation.landscape
+                                            ? SizeConfig.safeBlockHorizontal * 3
+                                            : SizeConfig.safeBlockHorizontal *
+                                                6,
                                         fontWeight: FontWeight.bold,
                                         fontStyle: FontStyle.italic),
                                   ),
-                                ),
-                              ],
+                                  WidgetSpan(
+                                      alignment: PlaceholderAlignment.bottom,
+                                      child: Icon(
+                                        Icons.info,
+                                        size: MediaQuery.of(context)
+                                                    .orientation ==
+                                                Orientation.landscape
+                                            ? SizeConfig.blockSizeHorizontal *
+                                                4.5
+                                            : SizeConfig.blockSizeHorizontal *
+                                                7.5,
+                                        color: Colors.white,
+                                      ))
+                                ]),
+                              ),
                             ),
-                            Column(
-                              children: <Widget>[
-                                /// done icon
-                                widget.isReps == 0
-                                    ? Container(
-                                        height:
-                                            SizeConfig.blockSizeHorizontal * 10,
-                                        margin: EdgeInsets.only(
-                                          top:
-                                              SizeConfig.blockSizeVertical * 14,
-                                        ),
-                                        child: IconButton(
-                                          icon: Icon(CupertinoIcons
-                                              .check_mark_circled_solid),
-                                          onPressed: () {
-                                            if (widget.rest > 0) {
-                                              if (widget.index ==
-                                                  widget.listLenght - 1)
-                                                isTimerDone = true;
-                                              widget.showRest(context);
-                                            } else {
-                                              if (widget.index ==
-                                                  widget.listLenght - 1)
-                                                isTimerDone = true;
-                                              widget.showRest(context);
-                                            }
-                                            setState(() {
-                                              restShowed = true;
-                                              timerPaused = false;
-                                            });
-                                          },
-                                          color: Colors.white,
-                                          iconSize:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  9,
-                                        ),
-                                      )
-                                    : Container(
-                                        margin: EdgeInsets.only(
-                                            top: SizeConfig.blockSizeVertical *
-                                                0),
-                                        width: 0,
-                                        height:
-                                            SizeConfig.blockSizeVertical * 38,
-                                      ),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      top: widget.isReps == 0
-                                          ? SizeConfig.blockSizeVertical * 6.7
-                                          : SizeConfig.blockSizeVertical * 1.3,
-                                      left: SizeConfig.blockSizeHorizontal * 4),
-                                  child: IconButton(
-                                      icon: Icon(Icons.fullscreen),
-                                      color: Colors.white,
-                                      onPressed: () {
-                                        SystemChrome.setPreferredOrientations(
-                                            [DeviceOrientation.portraitUp]);
-                                      }),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              :
+                          ),
 
-              /// PORTRAIT MOdE
-              Padding(
-                  padding: EdgeInsets.only(
-                      top: SizeConfig.blockSizeVertical * 3,
-                      left: SizeConfig.blockSizeHorizontal * 3,
-                      right: SizeConfig.blockSizeVertical * 3),
-                  child: Container(
-                    margin:
-                        EdgeInsets.only(top: SizeConfig.blockSizeVertical * 50),
-                    child: Center(
-                      child: Column(
-                        children: <Widget>[
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: <Widget>[
-                              /// number of reps
-                              GestureDetector(
-                                onTap: () {
-                                  if (infoClicked) {
+                          /// icon note
+                          Container(
+                            margin: EdgeInsets.only(
+                                top: MediaQuery.of(context).orientation ==
+                                        Orientation.landscape
+                                    ? SizeConfig.blockSizeVertical * 6
+                                    : SizeConfig.blockSizeVertical * 10,
+                                left: MediaQuery.of(context).orientation ==
+                                        Orientation.landscape
+                                    ? SizeConfig.blockSizeHorizontal * 0
+                                    : SizeConfig.blockSizeHorizontal * 7),
+                            child: IconButton(
+                                color: Colors.white,
+                                iconSize: MediaQuery.of(context).orientation ==
+                                        Orientation.landscape
+                                    ? SizeConfig.blockSizeHorizontal * 4.5
+                                    : SizeConfig.blockSizeHorizontal * 7.5,
+                                icon: Icon(Icons.comment),
+                                onPressed: () {
+                                  if (noteClicked) {
                                     Timer(Duration(seconds: 0), () {
                                       if (widget.isReps == 1) {
                                         pausedOn = _start;
@@ -539,8 +343,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                       }
                                       setState(() {
                                         timerPaused = true;
-                                        goBackToChewie = true;
-                                        infoClicked = false;
+                                        noteClicked = false;
                                       });
                                       widget.controller.pause();
                                       _start = pausedOn;
@@ -549,299 +352,314 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                         isFromPortrait = true;
                                       else
                                         isFromPortrait = false;
-                                      Navigator.of(context)
-                                          .push(MaterialPageRoute(
-                                        builder: (_) => InfoExercise(
-                                          vc: widget.controller,
-                                          exerciseNameForInfo: widget.name,
-                                          exerciseTips: exTips,
-                                          exerciseVideoForInfo: exVideo,
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          maintainState: true,
+                                          builder: (_) => AddNote(
+                                              controller: widget.controller,
+                                              listLenght: widget.listLenght,
+                                              userDocument: widget.userDocument,
+                                              userTrainerDocument:
+                                                  widget.userTrainerDocument,
+                                              index: widget.index,
+                                              duration: widget.duration,
+                                              isReps: widget.isReps,
+                                              reps: widget.reps,
+                                              sets: widget.sets,
+                                              name: widget.name,
+                                              showRest: widget.showRest,
+                                              workoutID: widget.workoutID,
+                                              weekID: widget.weekID),
                                         ),
-                                      ));
+                                      );
                                     });
                                   } else {
-                                    print('NE MOZE VIŠE PAŠA');
+                                    print('NE MOZE VIŠE PAŠA 2');
                                   }
-                                },
-                                child: Flexible(
-                                  child: Container(
-                                    width: SizeConfig.blockSizeHorizontal * 75,
-                                    //alignment: Alignment.center,
-                                    margin: EdgeInsets.only(
-                                      top: SizeConfig.blockSizeVertical * 10,
-                                    ),
-                                    child: RichText(
-                                      overflow: TextOverflow.ellipsis,
-                                      textAlign: TextAlign.start,
-                                      text: TextSpan(
-                                        children: [
-                                        TextSpan(
-                                          text: widget.name + ' ',
+                                }),
+                          )
+                        ],
+                      ),
+                      MediaQuery.of(context).orientation ==
+                              Orientation.landscape
+                          ? Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                timerPaused || isTips
+                                    ? Container(
+                                        height:
+                                            SizeConfig.blockSizeVertical * 20,
+                                        width:
+                                            SizeConfig.blockSizeHorizontal * 24,
+                                        // decoration: BoxDecoration(
+                                        //     color: Color.fromRGBO(28, 28, 28, 0.7),
+                                        //     borderRadius:
+                                        //         BorderRadius.all(Radius.circular(4.0))),
+                                        // padding: EdgeInsets.all(20.0),
+                                        //   child: Text(
+                                        //     'PAUSED',
+                                        //     style: TextStyle(
+                                        //         color: Colors.white,
+                                        //         fontSize: SizeConfig.blockSizeVertical * 9,
+                                        //         fontWeight: FontWeight.bold,
+                                        //         fontStyle: FontStyle.italic),
+                                        //     textAlign: TextAlign.center,
+                                        //   ),
+                                      )
+                                    : Container(
+                                        height:
+                                            SizeConfig.blockSizeVertical * 20,
+                                        width:
+                                            SizeConfig.blockSizeHorizontal * 24,
+                                      )
+                              ],
+                            )
+                          : EmptyContainer(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Column(
+                            children: <Widget>[
+                              widget.isReps == 0
+                                  ? Container(
+                                      margin: EdgeInsets.only(
+                                          top: MediaQuery.of(context).orientation ==
+                                                  Orientation.landscape
+                                              ? SizeConfig.blockSizeVertical *
+                                                  12
+                                              : widget.isReps == 0  ? SizeConfig.blockSizeVertical * 3 : SizeConfig.blockSizeVertical *
+                                                  2,
+                                          right: MediaQuery.of(context)
+                                                      .orientation ==
+                                                  Orientation.landscape
+                                              ? SizeConfig.blockSizeHorizontal *
+                                                  4
+                                              : SizeConfig.blockSizeHorizontal *
+                                                  0,
+                                          left: MediaQuery.of(context)
+                                                      .orientation ==
+                                                  Orientation.landscape
+                                              ? SizeConfig.blockSizeHorizontal *
+                                                  0
+                                              : SizeConfig.blockSizeHorizontal *
+                                                  33),
+                                      child: Text('x' + widget.reps.toString(),
                                           style: TextStyle(
                                               color: Colors.white,
-                                              fontSize: SizeConfig
-                                                      .safeBlockHorizontal *
-                                                  6,
-                                              fontWeight: FontWeight.bold,
-                                              fontStyle: FontStyle.italic),
-                                        ),
-                                        WidgetSpan(
-                                            alignment:
-                                                PlaceholderAlignment.bottom,
-                                            child: Icon(
-                                              Icons.info,
-                                              size: MediaQuery.of(context)
+                                              fontSize: MediaQuery.of(context)
                                                           .orientation ==
                                                       Orientation.landscape
                                                   ? SizeConfig
-                                                          .blockSizeHorizontal *
-                                                      4.5
+                                                          .blockSizeVertical *
+                                                      10
                                                   : SizeConfig
-                                                          .blockSizeHorizontal *
-                                                      7.5,
+                                                          .blockSizeVertical *
+                                                      5,
+                                              fontWeight: FontWeight.bold,
+                                              fontStyle: FontStyle.italic)),
+                                    )
+                                  : Container(
+                                      margin: EdgeInsets.only(
+                                          top: MediaQuery.of(context)
+                                                      .orientation ==
+                                                  Orientation.landscape
+                                              ? SizeConfig.blockSizeVertical * 11 : SizeConfig.blockSizeVertical * 3,
+                                          left: MediaQuery.of(context)
+                                                      .orientation ==
+                                                  Orientation.landscape
+                                              ? SizeConfig.blockSizeHorizontal *
+                                                  0
+                                              : SizeConfig.blockSizeHorizontal *
+                                                  30),
+                                      child: Text(
+                                          _isLessThan10
+                                              ? timerPaused
+                                                  ? '00:0' + pausedOn.toString()
+                                                  : '00:0' + _start.toString()
+                                              : timerPaused
+                                                  ? '00:' + pausedOn.toString()
+                                                  : '00:' + _start.toString(),
+                                          style: TextStyle(
                                               color: Colors.white,
-                                            ))
-                                      ]),
+                                              fontSize: MediaQuery.of(context)
+                                                          .orientation ==
+                                                      Orientation.landscape
+                                                  ? SizeConfig
+                                                          .blockSizeVertical *
+                                                      10
+                                                  : SizeConfig
+                                                          .blockSizeVertical *
+                                                      5,
+                                              fontWeight: FontWeight.w800,
+                                              fontStyle: FontStyle.italic)),
                                     ),
-                                  ),
+                              Container(
+                                padding: MediaQuery.of(context).orientation ==
+                                        Orientation.landscape
+                                    ? EdgeInsets.all(0)
+                                    : EdgeInsets.all(8.0),
+                                margin: EdgeInsets.only(
+                                    top: MediaQuery.of(context).orientation ==
+                                            Orientation.landscape
+                                        ? SizeConfig.blockSizeVertical * 1
+                                        : SizeConfig.blockSizeVertical * 2,
+                                    right: MediaQuery.of(context).orientation ==
+                                            Orientation.landscape
+                                        ? SizeConfig.blockSizeHorizontal * 4
+                                        : SizeConfig.blockSizeHorizontal * 0,
+                                    left: MediaQuery.of(context).orientation ==
+                                            Orientation.landscape
+                                        ? SizeConfig.blockSizeHorizontal * 0
+                                        : SizeConfig.blockSizeHorizontal * 30),
+                                child: Text(
+                                  widget.currentSet +
+                                      '/' +
+                                      widget.sets.toString() +
+                                      ' Sets',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize:
+                                          MediaQuery.of(context).orientation ==
+                                                  Orientation.landscape
+                                              ? 25.0
+                                              : SizeConfig.safeBlockHorizontal *
+                                                  6.0,
+                                      fontWeight: FontWeight.bold,
+                                      fontStyle: FontStyle.italic),
                                 ),
                               ),
-
-                              /// icon note
-                              Container(
-                                margin: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical * 10,
-                                  // left: SizeConfig.blockSizeHorizontal * 7
-                                ),
-                                child: IconButton(
-                                    color: Colors.white,
-                                    iconSize:
-                                        SizeConfig.blockSizeHorizontal * 7.5,
-                                    icon: Icon(Icons.comment),
-                                    onPressed: () {
-                                      if (noteClicked) {
-                                        Timer(Duration(seconds: 0), () {
-                                          if (widget.isReps == 1) {
-                                            pausedOn = _start;
-                                            videoTimer.cancel();
-                                          }
-                                          setState(() {
-                                            timerPaused = true;
-                                            noteClicked = false;
-                                          });
-                                          widget.controller.pause();
-                                          _start = pausedOn;
-                                          if (MediaQuery.of(context)
-                                                  .orientation ==
-                                              Orientation.portrait)
-                                            isFromPortrait = true;
-                                          else
-                                            isFromPortrait = false;
-                                          Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              maintainState: true,
-                                              builder: (_) => AddNote(
-                                                  controller: widget.controller,
-                                                  listLenght: widget.listLenght,
-                                                  userDocument:
-                                                      widget.userDocument,
-                                                  userTrainerDocument: widget
-                                                      .userTrainerDocument,
-                                                  index: widget.index,
-                                                  duration: widget.duration,
-                                                  isReps: widget.isReps,
-                                                  reps: widget.reps,
-                                                  sets: widget.sets,
-                                                  name: widget.name,
-                                                  showRest: widget.showRest,
-                                                  workoutID: widget.workoutID,
-                                                  weekID: widget.weekID),
-                                            ),
-                                          );
-                                        });
-                                      } else {
-                                        print('NE MOZE VIŠE PAŠA 2');
-                                      }
-                                    }),
-                              )
                             ],
                           ),
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.center,
-                          //   children: <Widget>[
-                          //     timerPaused || isTips
-                          //         ? Container(
-                          //             height: SizeConfig.blockSizeVertical * 20,
-                          //             width: SizeConfig.blockSizeHorizontal * 24,
-                          //             // decoration: BoxDecoration(
-                          //             //     color: Color.fromRGBO(28, 28, 28, 0.7),
-                          //             //     borderRadius:
-                          //             //         BorderRadius.all(Radius.circular(4.0))),
-                          //             // padding: EdgeInsets.all(20.0),
-                          //             //   child: Text(
-                          //             //     'PAUSED',
-                          //             //     style: TextStyle(
-                          //             //         color: Colors.white,
-                          //             //         fontSize: SizeConfig.blockSizeVertical * 9,
-                          //             //         fontWeight: FontWeight.bold,
-                          //             //         fontStyle: FontStyle.italic),
-                          //             //     textAlign: TextAlign.center,
-                          //             //   ),
-                          //           )
-                          //         : Container(
-                          //             height: SizeConfig.blockSizeVertical * 20,
-                          //             width: SizeConfig.blockSizeHorizontal * 24,
-                          //           )
-                          //   ],
-                          // ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                          Column(
                             children: <Widget>[
-                              Column(
-                                children: <Widget>[
-                                  /// reps
-                                  widget.isReps == 0
-                                      ? Container(
-                                          margin: EdgeInsets.only(
-                                              top:
-                                                  SizeConfig.blockSizeVertical *
-                                                      2,
-                                              left: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                  33),
-                                          child: Text(
-                                              'x' + widget.reps.toString(),
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical *
-                                                      5,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontStyle: FontStyle.italic)),
-                                        )
-                                      : Container(
-                                          margin: EdgeInsets.only(
-                                              top:
-                                                  SizeConfig.blockSizeVertical *
-                                                      2,
-                                              left: SizeConfig
-                                                      .blockSizeHorizontal *
-                                                  30),
-                                          child: Text(
-                                              _isLessThan10
-                                                  ? timerPaused
-                                                      ? '00:0' +
-                                                          pausedOn.toString()
-                                                      : '00:0' +
-                                                          _start.toString()
-                                                  : timerPaused
-                                                      ? '00:' +
-                                                          pausedOn.toString()
-                                                      : '00:' +
-                                                          _start.toString(),
-                                              style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: SizeConfig
-                                                          .blockSizeVertical *
-                                                      5,
-                                                  fontWeight: FontWeight.w800,
-                                                  fontStyle: FontStyle.italic)),
-                                        ),
-                                  Container(
-                                    padding: EdgeInsets.all(8.0),
-                                    margin: EdgeInsets.only(
-                                        top: SizeConfig.blockSizeVertical * 2,
-                                        left: SizeConfig.blockSizeHorizontal *
-                                            30),
-                                    child: Text(
-                                      ' ' +
-                                          widget.currentSet +
-                                          '/' +
-                                          widget.sets.toString() +
-                                          '\nSets',
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize:
-                                              SizeConfig.safeBlockHorizontal *
-                                                  6.0,
-                                          fontWeight: FontWeight.bold,
-                                          fontStyle: FontStyle.italic),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              Column(
-                                children: <Widget>[
-                                  /// done icon
-                                  widget.isReps == 0
-                                      ? Container(
-                                          margin: EdgeInsets.only(
-                                              top:
-                                                  SizeConfig.blockSizeVertical *
-                                                      3,
-                                              left: SizeConfig
-                                                      .blockSizeHorizontal *
+                              /// done icon
+                              widget.isReps == 0
+                                  ? Container(
+                                      height: MediaQuery.of(context)
+                                                  .orientation ==
+                                              Orientation.landscape
+                                          ? SizeConfig.blockSizeHorizontal * 10
+                                          : SizeConfig.blockSizeHorizontal * 10,
+                                      margin: EdgeInsets.only(
+                                          top: MediaQuery.of(context)
+                                                      .orientation ==
+                                                  Orientation.landscape
+                                              ? SizeConfig.blockSizeVertical *
+                                                  14
+                                              : SizeConfig.blockSizeVertical *
+                                                  5,
+                                          left: MediaQuery.of(context)
+                                                      .orientation ==
+                                                  Orientation.landscape
+                                              ? 0
+                                              : SizeConfig.blockSizeHorizontal *
                                                   5),
-                                          child: IconButton(
-                                            icon: Icon(CupertinoIcons
-                                                .check_mark_circled_solid),
-                                            onPressed: () {
-                                              if (widget.rest > 0) {
-                                                if (widget.index ==
-                                                    widget.listLenght - 1)
-                                                  isTimerDone = true;
-                                                widget.showRest(context);
-                                              } else {
-                                                if (widget.index ==
-                                                    widget.listLenght - 1)
-                                                  isTimerDone = true;
-                                                widget.showRest(context);
-                                              }
-                                              setState(() {
-                                                restShowed = true;
-                                                timerPaused = false;
-                                              });
-                                            },
-                                            color: Colors.white,
-                                            iconSize:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    12,
-                                          ),
-                                        )
-                                      : Container(
-                                          width: 0,
-                                          height:
-                                              SizeConfig.blockSizeVertical * 20,
-                                        ),
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                        top: widget.isReps == 0
-                                            ? SizeConfig.blockSizeVertical * 7.7
+                                      child: IconButton(
+                                        icon: Icon(CupertinoIcons
+                                            .check_mark_circled_solid),
+                                        onPressed: () {
+                                          if (widget.rest > 0) {
+                                            if (widget.index ==
+                                                widget.listLenght - 1)
+                                              isTimerDone = true;
+                                            widget.showRest(context);
+                                          } else {
+                                            if (widget.index ==
+                                                widget.listLenght - 1)
+                                              isTimerDone = true;
+                                            widget.showRest(context);
+                                          }
+                                          setState(() {
+                                            restShowed = true;
+                                            timerPaused = false;
+                                          });
+                                        },
+                                        color: Colors.white,
+                                        iconSize: MediaQuery.of(context)
+                                                    .orientation ==
+                                                Orientation.landscape
+                                            ? SizeConfig.blockSizeHorizontal * 9
+                                            : SizeConfig.blockSizeHorizontal *
+                                                12,
+                                      ),
+                                    )
+                                  : Container(
+                                      width: 0,
+                                      height: MediaQuery.of(context)
+                                                  .orientation ==
+                                              Orientation.landscape
+                                          ? SizeConfig.blockSizeVertical * 38
+                                          : SizeConfig.blockSizeVertical * 20,
+                                    ),
+                              Container(
+                                margin: EdgeInsets.only(
+                                    top: MediaQuery.of(context).orientation ==
+                                            Orientation.landscape
+                                        ? widget.isReps == 0
+                                            ? SizeConfig.blockSizeVertical * 6.7
+                                            : SizeConfig.blockSizeVertical * 1.3
+                                        : widget.isReps == 0
+                                            ? SizeConfig.blockSizeVertical * 7.8
                                             : SizeConfig.blockSizeVertical * 0,
-                                        left: widget.isReps == 0
+                                    left: MediaQuery.of(context).orientation ==
+                                            Orientation.landscape
+                                        ? SizeConfig.blockSizeHorizontal * 4
+                                        : widget.isReps == 0
                                             ? SizeConfig.blockSizeHorizontal *
-                                                21
+                                                19
                                             : SizeConfig.blockSizeHorizontal *
                                                 18),
-                                    child: IconButton(
-                                        icon: Icon(Icons.fullscreen),
-                                        color: Colors.white,
-                                        onPressed: () {
-                                          SystemChrome
+                                child: IconButton(
+                                    icon: Icon(Icons.fullscreen),
+                                    color: Colors.white,
+                                    onPressed: () {
+                                      if (!timerPaused) {
+                                        pausedOn = _start;
+                                        widget.controller.pause();
+                                        if (widget.isReps == 1) {
+                                          videoTimer.cancel();
+                                        }
+                                        if (_start <= 5) {
+                                          audioPlayer.pause();
+                                        }
+                                        setState(() {
+                                          timerPaused = true;
+                                        });
+                                      } else {
+                                        widget.controller.play();
+                                        if (widget.isReps == 1) {
+                                          startTimer(pausedOn);
+                                        }
+                                        setState(() {
+                                          timerPaused = false;
+                                        });
+                                        if (pausedOn <= 5) {
+                                          audioPlayer.resume();
+                                        }
+                                      }
+                                      isOrientation = true;
+                                      Future.delayed(Duration(seconds: 1));
+                                      MediaQuery.of(context).orientation ==
+                                              Orientation.landscape
+                                          ? SystemChrome
                                               .setPreferredOrientations([
-                                            DeviceOrientation.landscapeRight
-                                          ]);
-                                        }),
-                                  ),
-                                ],
+                                              DeviceOrientation.portraitUp
+                                            ])
+                                          : SystemChrome
+                                              .setPreferredOrientations([
+                                              DeviceOrientation.landscapeRight
+                                            ]);
+                                    }),
                               ),
                             ],
                           ),
                         ],
                       ),
-                    ),
+                    ],
                   ),
                 ),
-        ));
+              ),
+            )
+            ));
   }
 }

@@ -37,7 +37,7 @@ class _FinishWorkoutState extends State<FinishWorkout> {
   void initState() {
     super.initState();
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    FullTrainingStopwatch().stopStopwtach();
+    
   }
 
   @override
@@ -200,7 +200,7 @@ class _FinishWorkoutState extends State<FinishWorkout> {
         child: RaisedButton(
           elevation: 0,
           onPressed: () async {
-            FullTrainingStopwatch().resetStopwtach();
+           
             String note;
             if (newNote != null) {
               note = widget.userDocument.data['userUID'] + '_!_?_' + newNote;
@@ -264,7 +264,9 @@ class _FinishWorkoutState extends State<FinishWorkout> {
                 ),
                 (Route<dynamic> route) => false);
             userNotes = '';
-            FullTrainingStopwatch().resetStopwtach();
+            await Future.delayed(Duration(seconds: 1), () {
+                  FullTrainingStopwatch().resetStopwtach();
+            });
           },
           child: Padding(
             padding: EdgeInsets.all(22.0),
