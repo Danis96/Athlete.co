@@ -92,6 +92,7 @@ showAlertDialog(BuildContext context, DocumentSnapshot userDocument,
       onPressed: () async {
         SignInViewModel()
             .updateUserWithTrainer(userDocument, userUID, _trainerName);
+        SignInViewModel().updateUserProgress(userDocument);
         List<DocumentSnapshot> currentUserTrainerDocuments = [];
         DocumentSnapshot currentUserTrainerDocument;
 
