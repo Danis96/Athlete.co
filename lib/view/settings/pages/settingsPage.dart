@@ -27,10 +27,11 @@ class SettingsPage extends StatelessWidget {
         leading: IconButton(
           icon: Icon(
             Icons.clear,
+            size: SizeConfig.blockSizeHorizontal * 5,
           ),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text('Settings'),
+        title: Text('Settings', style: TextStyle(fontSize: SizeConfig.safeBlockHorizontal * 5.5),),
         backgroundColor: Colors.black,
       ),
       body: WillPopScope(

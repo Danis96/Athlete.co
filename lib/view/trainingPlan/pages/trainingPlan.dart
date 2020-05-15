@@ -1,9 +1,11 @@
 import 'dart:io';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/trainingPlan/widgets/listOfWeeks.dart';
+import 'package:attt/view/trainingPlan/widgets/messengerButton.dart';
 import 'package:attt/view/trainingPlan/widgets/trainingCustomBottomNavigationBar.dart';
 import 'package:attt/view/trainingPlan/widgets/trainingPlanGuides.dart';
 import 'package:attt/view/trainingPlan/widgets/trainingPlanHeadline.dart';
+import 'package:attt/view/trainingPlan/widgets/viberButton.dart';
 import 'package:attt/view/trainingPlan/widgets/whatsAppButton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +75,9 @@ class _TrainingPlanState extends State<TrainingPlan> {
                 SizedBox(
                   height: SizeConfig.blockSizeVertical * 2.5,
                 ),
-                whatsAppButton(context),
+                whatsAppButton(context,),
+                messengerButton(context),
+                viberrButton(context),
                 listOfWeeks(
                   widget.userDocument,
                   widget.userTrainerDocument,

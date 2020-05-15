@@ -128,6 +128,27 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
       throw 'Could not launch';
     }
   }
+   
+
+   /// launch messenger 
+  launchMessenger()async {
+     var messengerUrl = 'http://m.me/dzefka.dzefka.3';
+     if(await canLaunch(messengerUrl))
+     {
+         await launch(messengerUrl);
+     } else {
+         throw 'Could not launch';
+     }
+  }
+  /// launch viber
+  launchViber() async {
+     var viberUrl = 'viber://contact?number=%2B38762748065';
+     if(await canLaunch(viberUrl)) {
+          await launch(viberUrl);
+     } else {
+        throw 'Could not';
+     }
+  }
 
   @override
   secondTabPressed(BuildContext context, DocumentSnapshot userTrainerDocument,
