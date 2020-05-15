@@ -1,5 +1,6 @@
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/emptyContainer.dart';
+import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/workout/widgets/bottomStartButton.dart';
 import 'package:attt/view/workout/widgets/workoutList.dart';
@@ -58,7 +59,7 @@ class _WorkoutState extends State<Workout> {
   @override
   void initState() {
     super.initState();
-    WorkoutViewModel()
+    userNotes = WorkoutViewModel()
         .getUserNotes(widget.listOfNotes, widget.userDocument.data['userUID']);
   }
 
