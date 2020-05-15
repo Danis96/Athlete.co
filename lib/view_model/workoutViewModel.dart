@@ -70,16 +70,17 @@ class WorkoutViewModel implements WorkoutInterface {
 
   @override
   String getUserNotes(List<dynamic> notesList, String userId) {
+    String note = '';
       for (int i = 0; i < notesList.length; i++) {
         String item = notesList[i];
         if (item.contains(userId)) {
           List<String> splited = item.split('_!_?_');
           item = splited[1];
-          userNotes = item;
+          note = item;
         }
       }
-      print(userNotes.trim());
-      return userNotes.trim();
+      print(note.trim());
+      return note.trim();
     }
 
   @override
