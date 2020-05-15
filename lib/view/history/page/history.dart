@@ -188,6 +188,7 @@ class _HistoryState extends State<History> {
                                         (BuildContext context, int index2) {
                                       String workoutName = '';
                                       String workoutTag = '';
+                                      List<dynamic> workoutNotes = [];
                                       return FutureBuilder(
                                         future: getWorkoutName(
                                             finishedWeeksWithAthlete[index]
@@ -202,15 +203,18 @@ class _HistoryState extends State<History> {
                                         builder: (BuildContext context,
                                             AsyncSnapshot snapshot3) {
                                           if (snapshot3.hasData) {
-                                            userNotes = '';
+                                            userNotesHistory = '';
                                             if (snapshot3 != null) {
                                               workoutName = snapshot3
                                                   .data[0].data['name'];
                                               workoutTag =
                                                   snapshot3.data[0].data['tag'];
+                                              workoutNotes =
+                                                  snapshot3.data[0].data['notes'];
+                                              print('AAAAAAAAAAAAAAAAAA   ' + workoutNotes.toString());
                                             }
-                                            WorkoutViewModel().getUserNotes(
-                                                snapshot3.data[0].data['notes'],
+                                            userNotesHistory = WorkoutViewModel().getUserNotes(
+                                                workoutNotes,
                                                 widget.userDocument
                                                     .data['userUID']);
                                             return Container(
@@ -282,7 +286,7 @@ class _HistoryState extends State<History> {
                                                           fontWeight:
                                                               FontWeight.w500),
                                                     ),
-                                                    userNotes != ''
+                                                    userNotesHistory != ''
                                                         ? Column(
                                                             crossAxisAlignment:
                                                                 CrossAxisAlignment
@@ -306,7 +310,7 @@ class _HistoryState extends State<History> {
                                                               ),
                                                               Container(
                                                                 child: Text(
-                                                                  userNotes,
+                                                                  userNotesHistory,
                                                                   style:
                                                                       TextStyle(
                                                                     color: Colors
@@ -390,7 +394,7 @@ class _HistoryState extends State<History> {
                                                           fontWeight:
                                                               FontWeight.w500),
                                                     ),
-                                                    userNotes != ''
+                                                    userNotesHistory != ''
                                                         ? Column(
                                                             crossAxisAlignment:
                                                                 CrossAxisAlignment
