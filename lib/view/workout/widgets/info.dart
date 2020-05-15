@@ -51,12 +51,12 @@ class _InfoExerciseState extends State<InfoExercise> {
       backgroundColor: MyColors().black,
       body: WillPopScope(
         onWillPop: () => _onWillPop(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
+          shrinkWrap: true, 
+          physics: NeverScrollableScrollPhysics(),
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 4),
+              margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 2),
               child: Center(
                 child: VideoBox(controller: vc),
               ),
@@ -85,7 +85,7 @@ class _InfoExerciseState extends State<InfoExercise> {
                                     child: IconButton(
                                       color: MyColors().white,
                                       iconSize:
-                                          SizeConfig.blockSizeHorizontal * 8,
+                                          SizeConfig.blockSizeHorizontal * 6,
                                       icon: Icon(Icons.clear),
                                       onPressed: () => onDone(),
                                     ),
@@ -125,7 +125,7 @@ class _InfoExerciseState extends State<InfoExercise> {
                                             SizeConfig.blockSizeHorizontal * 5),
                                     child: Text(
                                       widget.exerciseTips[index].toString(),
-                                      style: TextStyle(color: MyColors().white),
+                                      style: TextStyle(color: MyColors().white, fontSize: SizeConfig.safeBlockHorizontal * 3.5),
                                     ),
                                   );
                                 },
@@ -136,7 +136,7 @@ class _InfoExerciseState extends State<InfoExercise> {
                             Container(
                               alignment: Alignment.bottomRight,
                               margin: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical * 10,),
+                                  top: SizeConfig.blockSizeVertical * 6,),
                               child: FlatButton(
                                   color: MyColors().black,
                                   onPressed: () => onDone(),

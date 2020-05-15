@@ -58,7 +58,7 @@ class _AddNoteState extends State<AddNote> {
         leading: IconButton(
           icon: Icon(
             Icons.clear,
-            size: SizeConfig.blockSizeHorizontal * 8,
+            size: SizeConfig.blockSizeHorizontal * 5.5,
           ),
           onPressed: () {
             FocusScope.of(context).requestFocus(new FocusNode());

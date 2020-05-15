@@ -2,12 +2,16 @@ import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/utils/customScreenAnimation.dart';
+import 'package:attt/view_model/trainingPlanViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:attt/view/settings/pages/settingsPage.dart';
 
-Widget trainingPlanHeadline(DocumentSnapshot userDocument,
-    DocumentSnapshot userTrainerDocument, BuildContext context, String userUID) {
+Widget trainingPlanHeadline(
+    DocumentSnapshot userDocument,
+    DocumentSnapshot userTrainerDocument,
+    BuildContext context,
+    String userUID) {
   String name = userDocument.data['display_name'];
   List<String> nameSurname = name.split(' ');
   String justName = nameSurname[0];
@@ -65,12 +69,13 @@ Widget trainingPlanHeadline(DocumentSnapshot userDocument,
       Container(
         alignment: Alignment.centerRight,
         margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 8),
-        child: IconButton(
-          onPressed: () => Navigator.of(context)
+        child: IconButton( 
+          onPressed: () => 
+           Navigator.of(context)
               .push(CardAnimationTween(widget: SettingsPage(
                 userDocument: userDocument,
                 userUID: userUID,
-              ))),
+          ))),
           icon: Icon(
             Icons.settings,
             color: MyColors().white,

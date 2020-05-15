@@ -83,7 +83,7 @@ class _WorkoutState extends State<Workout> {
           icon: Icon(
             Icons.clear,
             color: MyColors().white,
-            size: SizeConfig.blockSizeHorizontal * 8,
+            size: SizeConfig.blockSizeHorizontal * 5.5,
           ),
           onPressed: () => WorkoutViewModel().xBack(context),
         ),
