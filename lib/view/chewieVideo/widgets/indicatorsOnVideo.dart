@@ -405,8 +405,8 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                       )
                                     : Container(
                                         margin: EdgeInsets.only(
-                                            top:  SizeConfig.blockSizeVertical *
-                                                    2),
+                                            top: SizeConfig.blockSizeVertical *
+                                                2),
                                         child: Text(
                                             _isLessThan10
                                                 ? timerPaused
@@ -499,10 +499,8 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                       icon: Icon(Icons.fullscreen),
                                       color: Colors.white,
                                       onPressed: () {
-                                         SystemChrome
-                                                .setPreferredOrientations([
-                                                DeviceOrientation.portraitUp
-                                              ]);
+                                        SystemChrome.setPreferredOrientations(
+                                            [DeviceOrientation.portraitUp]);
                                       }),
                                 ),
                               ],
@@ -528,7 +526,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                       child: Column(
                         children: <Widget>[
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: <Widget>[
                               /// number of reps
                               GestureDetector(
@@ -565,40 +563,46 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                     print('NE MOZE VIŠE PAŠA');
                                   }
                                 },
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  margin: EdgeInsets.only(
-                                    top: SizeConfig.blockSizeVertical * 10,
-                                  ),
-                                  child: RichText(
-                                    text: TextSpan(children: [
-                                      TextSpan(
-                                        text: widget.name + ' ',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize:
-                                                SizeConfig.safeBlockHorizontal *
-                                                    6,
-                                            fontWeight: FontWeight.bold,
-                                            fontStyle: FontStyle.italic),
-                                      ),
-                                      WidgetSpan(
-                                          alignment:
-                                              PlaceholderAlignment.bottom,
-                                          child: Icon(
-                                            Icons.info,
-                                            size: MediaQuery.of(context)
-                                                        .orientation ==
-                                                    Orientation.landscape
-                                                ? SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    4.5
-                                                : SizeConfig
-                                                        .blockSizeHorizontal *
-                                                    7.5,
-                                            color: Colors.white,
-                                          ))
-                                    ]),
+                                child: Flexible(
+                                  child: Container(
+                                    width: SizeConfig.blockSizeHorizontal * 75,
+                                    //alignment: Alignment.center,
+                                    margin: EdgeInsets.only(
+                                      top: SizeConfig.blockSizeVertical * 10,
+                                    ),
+                                    child: RichText(
+                                      overflow: TextOverflow.ellipsis,
+                                      textAlign: TextAlign.start,
+                                      text: TextSpan(
+                                        children: [
+                                        TextSpan(
+                                          text: widget.name + ' ',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: SizeConfig
+                                                      .safeBlockHorizontal *
+                                                  6,
+                                              fontWeight: FontWeight.bold,
+                                              fontStyle: FontStyle.italic),
+                                        ),
+                                        WidgetSpan(
+                                            alignment:
+                                                PlaceholderAlignment.bottom,
+                                            child: Icon(
+                                              Icons.info,
+                                              size: MediaQuery.of(context)
+                                                          .orientation ==
+                                                      Orientation.landscape
+                                                  ? SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      4.5
+                                                  : SizeConfig
+                                                          .blockSizeHorizontal *
+                                                      7.5,
+                                              color: Colors.white,
+                                            ))
+                                      ]),
+                                    ),
                                   ),
                                 ),
                               ),
@@ -606,8 +610,9 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                               /// icon note
                               Container(
                                 margin: EdgeInsets.only(
-                                    top: SizeConfig.blockSizeVertical * 10,
-                                    left: SizeConfig.blockSizeHorizontal * 7),
+                                  top: SizeConfig.blockSizeVertical * 10,
+                                  // left: SizeConfig.blockSizeHorizontal * 7
+                                ),
                                 child: IconButton(
                                     color: Colors.white,
                                     iconSize:
@@ -771,10 +776,12 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                   widget.isReps == 0
                                       ? Container(
                                           margin: EdgeInsets.only(
-                                            top: SizeConfig.blockSizeVertical *
-                                                3,
-                                                left: SizeConfig.blockSizeHorizontal * 5
-                                          ),
+                                              top:
+                                                  SizeConfig.blockSizeVertical *
+                                                      3,
+                                              left: SizeConfig
+                                                      .blockSizeHorizontal *
+                                                  5),
                                           child: IconButton(
                                             icon: Icon(CupertinoIcons
                                                 .check_mark_circled_solid),
@@ -810,21 +817,20 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                     margin: EdgeInsets.only(
                                         top: widget.isReps == 0
                                             ? SizeConfig.blockSizeVertical * 7.7
-                                            : SizeConfig.blockSizeVertical *
-                                             0,
-                                    left:   widget.isReps == 0 ?   SizeConfig.blockSizeHorizontal *
-                                            21 : SizeConfig.blockSizeHorizontal *
-                                            18 ),
+                                            : SizeConfig.blockSizeVertical * 0,
+                                        left: widget.isReps == 0
+                                            ? SizeConfig.blockSizeHorizontal *
+                                                21
+                                            : SizeConfig.blockSizeHorizontal *
+                                                18),
                                     child: IconButton(
                                         icon: Icon(Icons.fullscreen),
                                         color: Colors.white,
                                         onPressed: () {
-                                         SystemChrome
-                                                  .setPreferredOrientations([
-                                                  DeviceOrientation
-                                                      .landscapeRight
-                                                ]);
-                                              
+                                          SystemChrome
+                                              .setPreferredOrientations([
+                                            DeviceOrientation.landscapeRight
+                                          ]);
                                         }),
                                   ),
                                 ],
