@@ -617,4 +617,27 @@ class SignInViewModel implements SignInInterface {
       'trainer': trainer,
     });
   }
+
+  @override
+  updateUserProgress(DocumentSnapshot userDocument) {
+    Firestore.instance
+        .collection('Users')
+        .document(userDocument.documentID)
+        .updateData({'workouts_finished': FieldValue.delete()});
+
+    Firestore.instance
+        .collection('Users')
+        .document(userDocument.documentID)
+        .updateData({'workouts_finished': FieldValue.arrayUnion([])});
+
+    Firestore.instance
+        .collection('Users')
+        .document(userDocument.documentID)
+        .updateData({'weeks_finished': FieldValue.delete()});
+
+    Firestore.instance
+        .collection('Users')
+        .document(userDocument.documentID)
+        .updateData({'weeks_finished': FieldValue.arrayUnion([])});
+  }
 }

@@ -241,7 +241,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                         mainAxisAlignment: MediaQuery.of(context).orientation ==
                                 Orientation.landscape
                             ? MainAxisAlignment.spaceBetween
-                            : MainAxisAlignment.center,
+                            : MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           /// number of reps
                           GestureDetector(
@@ -278,12 +278,14 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                               }
                             },
                             child: Container(
+                              width: SizeConfig.blockSizeHorizontal * 75,
                               margin: EdgeInsets.only(
                                   top: MediaQuery.of(context).orientation ==
                                           Orientation.landscape
                                       ? SizeConfig.blockSizeVertical * 5
                                       : SizeConfig.blockSizeVertical * 10),
                               child: RichText(
+                                overflow: TextOverflow.ellipsis,
                                 text: TextSpan(children: [
                                   TextSpan(
                                     text: widget.name + ' ',
@@ -306,9 +308,9 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                                     .orientation ==
                                                 Orientation.landscape
                                             ? SizeConfig.blockSizeHorizontal *
-                                                4.5
+                                                2
                                             : SizeConfig.blockSizeHorizontal *
-                                                7.5,
+                                                3,
                                         color: Colors.white,
                                       ))
                                 ]),
@@ -322,11 +324,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                 top: MediaQuery.of(context).orientation ==
                                         Orientation.landscape
                                     ? SizeConfig.blockSizeVertical * 6
-                                    : SizeConfig.blockSizeVertical * 10,
-                                left: MediaQuery.of(context).orientation ==
-                                        Orientation.landscape
-                                    ? SizeConfig.blockSizeHorizontal * 0
-                                    : SizeConfig.blockSizeHorizontal * 7),
+                                    : SizeConfig.blockSizeVertical * 10),
                             child: IconButton(
                                 color: Colors.white,
                                 iconSize: MediaQuery.of(context).orientation ==
