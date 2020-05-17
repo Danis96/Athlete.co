@@ -413,6 +413,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                         children: <Widget>[
                           Column(
                             children: <Widget>[
+                              widget.repsDescription == 'as many reps as possible' ?
                               Container(
                                 margin: EdgeInsets.only(
                                     top: MediaQuery.of(context).orientation ==
@@ -442,8 +443,29 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                               Orientation.landscape
                                           ? SizeConfig.safeBlockVertical * 4
                                           : SizeConfig.safeBlockVertical * 2),
+                                          textAlign: TextAlign.center,
                                 ),
-                              ),
+                              ) : 
+                              Container(
+                                margin: EdgeInsets.only(
+                                    top: MediaQuery.of(context).orientation ==
+                                            Orientation.landscape
+                                        ? SizeConfig.blockSizeVertical * 20
+                                        : SizeConfig.blockSizeVertical * 3,
+                                    right: MediaQuery.of(context).orientation ==
+                                            Orientation.landscape
+                                        ? SizeConfig.blockSizeHorizontal * 2.5
+                                        : SizeConfig.blockSizeHorizontal * 0,
+                                    left: MediaQuery.of(context).orientation ==
+                                            Orientation.landscape
+                                        ? SizeConfig.blockSizeHorizontal * 0
+                                        : SizeConfig.blockSizeHorizontal * 35),
+                                width: MediaQuery.of(context).orientation ==
+                                        Orientation.landscape
+                                    ? SizeConfig.blockSizeHorizontal * 16
+                                    : SizeConfig.blockSizeHorizontal * 30,
+                              )
+                              ,
                               widget.isReps == 0
                                   ? Container(
                                       margin: EdgeInsets.only(

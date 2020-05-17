@@ -86,7 +86,7 @@ class _HistoryState extends State<History> {
 
     return Scaffold(
       backgroundColor: MyColors().lightBlack,
-      body: finishedWorkouts == []
+      body: finishedWorkouts != []
           ? SingleChildScrollView(
               child: Padding(
                 padding: EdgeInsets.only(
