@@ -102,33 +102,60 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
 
   @override
   void didUpdateWidget(IndicatorsOnVideo oldWidget) {
+    print('DOLAZIM IZ DIDUPDATEWIDGET ');
     super.didUpdateWidget(oldWidget);
-    _isLessThan10 = false;
-    if (widget.index == 0) {
-      if (pausedOn == null) {
-        if(!isOrientation) {
-              _start = widget.duration;
-        } else {
-          _start = pausedOn;
-        }
-        
-      } else {
-        _start = pausedOn;
+    Future.delayed(Duration(milliseconds: 400));
+    if (isOrientation) {
+      widget.controller.play();
+      if (widget.isReps == 1) {
+        startTimer(pausedOn);
       }
-    }
-    if (widget.ctrl == true) {
-      if(!isOrientation) {
-              _start = widget.duration;
+      timerPaused = false;
+      isOrientation = false;
+      if (pausedOn <= 5) {
+        audioPlayer.resume();
+      }
+    } else {
+      if (widget.index == 0) {
+        if (pausedOn == null) {
+          _start = widget.duration;
         } else {
           _start = pausedOn;
+
+          /// this is added to solve 00:1
+          if (_start < 10)
+            _isLessThan10 = true;
+          else
+            _isLessThan10 = false;
         }
-    }
-    if (widget.index > 0) {
-      if (widget.isReps == 1 && !timerPaused) {
-        startTimer(_start);
-        widget.controller.play();
-      } else if (widget.isReps == 0 && !restShowed) {
-        widget.controller.play();
+      }
+      if (widget.ctrl == true) {
+        _start = widget.duration;
+
+        /// this is added to solve 00:1
+        if (_start < 10)
+          _isLessThan10 = true;
+        else
+          _isLessThan10 = false;
+      }
+      if (widget.index > 0) {
+        if (widget.isReps == 1 && !timerPaused) {
+          startTimer(_start);
+          widget.controller.play();
+        } else if (widget.isReps == 0 && !restShowed) {
+          widget.controller.play();
+        }
+      }
+      if (widget.isReps == 1) {
+        if (isOrientation) {
+          pausedOn = _start;
+
+          /// this is added to solve 00:1
+          if (pausedOn < 10)
+            _isLessThan10 = true;
+          else
+            _isLessThan10 = false;
+        }
       }
     }
   }
@@ -150,6 +177,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   }
 
   void startTimer(int startingValue) async {
+    print('DOLAZIM IZ TIMERA ');
     const oneSec = const Duration(seconds: 1);
     videoTimer = new Timer.periodic(
       oneSec,
@@ -163,20 +191,21 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
               if (widget.index == widget.listLenght - 1) isTimerDone = true;
               widget.showRest(context);
             }
-            setState(() {
-              restShowed = true;
-              timerPaused = false;
-            });
+            // setState(() {
+            restShowed = true;
+            timerPaused = false;
+            // });
             timer.cancel();
           } else {
-            setState(() {
-              startingValue = startingValue - 1;
-              _start = startingValue;
-            });
+            // setState(() {
+            startingValue = startingValue - 1;
+            _start = startingValue;
+            // });
             if (_start < 10) {
-              setState(() {
-                _isLessThan10 = true;
-              });
+              // setState(() {
+              _isLessThan10 = true;
+              // }
+              // );
               if (startingValue == 5 && widget.isReps == 1) {
                 initializeAudioPlayer();
               }
@@ -194,30 +223,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
         position: _offsetAnimation,
         child: InkWell(
             onTap: () {
-              if (!timerPaused) {
-                pausedOn = _start;
-                widget.controller.pause();
-                if (widget.isReps == 1) {
-                  videoTimer.cancel();
-                }
-                if (_start <= 5) {
-                  audioPlayer.pause();
-                }
-                setState(() {
-                  timerPaused = true;
-                });
-              } else {
-                widget.controller.play();
-                if (widget.isReps == 1) {
-                  startTimer(pausedOn);
-                }
-                setState(() {
-                  timerPaused = false;
-                });
-                if (pausedOn <= 5) {
-                  audioPlayer.resume();
-                }
-              }
+              pauseAndPlayFunction();
               isTips = false;
             },
             child:
@@ -307,8 +313,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                         size: MediaQuery.of(context)
                                                     .orientation ==
                                                 Orientation.landscape
-                                            ? SizeConfig.blockSizeHorizontal *
-                                                2
+                                            ? SizeConfig.blockSizeHorizontal * 2
                                             : SizeConfig.blockSizeHorizontal *
                                                 3,
                                         color: Colors.white,
@@ -385,30 +390,20 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                               children: <Widget>[
                                 timerPaused || isTips
                                     ? Container(
-                                        height:
-                                            SizeConfig.blockSizeVertical * 20,
-                                        width:
-                                            SizeConfig.blockSizeHorizontal * 24,
-                                        // decoration: BoxDecoration(
-                                        //     color: Color.fromRGBO(28, 28, 28, 0.7),
-                                        //     borderRadius:
-                                        //         BorderRadius.all(Radius.circular(4.0))),
-                                        // padding: EdgeInsets.all(20.0),
-                                        //   child: Text(
-                                        //     'PAUSED',
-                                        //     style: TextStyle(
-                                        //         color: Colors.white,
-                                        //         fontSize: SizeConfig.blockSizeVertical * 9,
-                                        //         fontWeight: FontWeight.bold,
-                                        //         fontStyle: FontStyle.italic),
-                                        //     textAlign: TextAlign.center,
-                                        //   ),
+                                        margin: EdgeInsets.only(
+                                          top: SizeConfig.blockSizeVertical * 5,
+                                        ),
+                                        child: Text(
+                                          '',
+                                        ),
                                       )
                                     : Container(
-                                        height:
-                                            SizeConfig.blockSizeVertical * 20,
-                                        width:
-                                            SizeConfig.blockSizeHorizontal * 24,
+                                        margin: EdgeInsets.only(
+                                          top: SizeConfig.blockSizeVertical * 5,
+                                        ),
+                                        child: Text(
+                                          '',
+                                        ),
                                       )
                               ],
                             )
@@ -418,15 +413,49 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                         children: <Widget>[
                           Column(
                             children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.only(
+                                    top: MediaQuery.of(context).orientation ==
+                                            Orientation.landscape
+                                        ? SizeConfig.blockSizeVertical * 20
+                                        : SizeConfig.blockSizeVertical * 3,
+                                    right: MediaQuery.of(context).orientation ==
+                                            Orientation.landscape
+                                        ? SizeConfig.blockSizeHorizontal * 2.5
+                                        : SizeConfig.blockSizeHorizontal * 0,
+                                    left: MediaQuery.of(context).orientation ==
+                                            Orientation.landscape
+                                        ? SizeConfig.blockSizeHorizontal * 0
+                                        : SizeConfig.blockSizeHorizontal * 35),
+                                width: MediaQuery.of(context).orientation ==
+                                        Orientation.landscape
+                                    ? SizeConfig.blockSizeHorizontal * 16
+                                    : SizeConfig.blockSizeHorizontal * 30,
+                                child: Text(
+                                  'AS MANY REPS AS POSSIBLE',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w600,
+                                      fontStyle: FontStyle.italic,
+                                      fontSize: MediaQuery.of(context)
+                                                  .orientation ==
+                                              Orientation.landscape
+                                          ? SizeConfig.safeBlockVertical * 4
+                                          : SizeConfig.safeBlockVertical * 2),
+                                ),
+                              ),
                               widget.isReps == 0
                                   ? Container(
                                       margin: EdgeInsets.only(
-                                          top: MediaQuery.of(context).orientation ==
+                                          top: MediaQuery.of(context)
+                                                      .orientation ==
                                                   Orientation.landscape
-                                              ? SizeConfig.blockSizeVertical *
-                                                  12
-                                              : widget.isReps == 0  ? SizeConfig.blockSizeVertical * 3 : SizeConfig.blockSizeVertical *
-                                                  2,
+                                              ? SizeConfig.blockSizeVertical * 0
+                                              : widget.isReps == 0
+                                                  ? SizeConfig.blockSizeVertical *
+                                                      3
+                                                  : SizeConfig.blockSizeVertical *
+                                                      2,
                                           right: MediaQuery.of(context)
                                                       .orientation ==
                                                   Orientation.landscape
@@ -437,10 +466,8 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                           left: MediaQuery.of(context)
                                                       .orientation ==
                                                   Orientation.landscape
-                                              ? SizeConfig.blockSizeHorizontal *
-                                                  0
-                                              : SizeConfig.blockSizeHorizontal *
-                                                  33),
+                                              ? SizeConfig.blockSizeHorizontal * 0
+                                              : SizeConfig.blockSizeHorizontal * 33),
                                       child: Text('x' + widget.reps.toString(),
                                           style: TextStyle(
                                               color: Colors.white,
@@ -461,7 +488,9 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                           top: MediaQuery.of(context)
                                                       .orientation ==
                                                   Orientation.landscape
-                                              ? SizeConfig.blockSizeVertical * 11 : SizeConfig.blockSizeVertical * 3,
+                                              ? SizeConfig.blockSizeVertical * 0
+                                              : SizeConfig.blockSizeVertical *
+                                                  3,
                                           left: MediaQuery.of(context)
                                                       .orientation ==
                                                   Orientation.landscape
@@ -483,8 +512,8 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                                           .orientation ==
                                                       Orientation.landscape
                                                   ? SizeConfig
-                                                          .blockSizeVertical *
-                                                      10
+                                                          .safeBlockHorizontal *
+                                                      7
                                                   : SizeConfig
                                                           .blockSizeVertical *
                                                       5,
@@ -495,7 +524,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                 padding: MediaQuery.of(context).orientation ==
                                         Orientation.landscape
                                     ? EdgeInsets.all(0)
-                                    : EdgeInsets.all(8.0),
+                                    : EdgeInsets.all(4.0),
                                 margin: EdgeInsets.only(
                                     top: MediaQuery.of(context).orientation ==
                                             Orientation.landscape
@@ -586,7 +615,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                       height: MediaQuery.of(context)
                                                   .orientation ==
                                               Orientation.landscape
-                                          ? SizeConfig.blockSizeVertical * 38
+                                          ? SizeConfig.blockSizeVertical * 30
                                           : SizeConfig.blockSizeVertical * 20,
                                     ),
                               Container(
@@ -595,7 +624,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                             Orientation.landscape
                                         ? widget.isReps == 0
                                             ? SizeConfig.blockSizeVertical * 6.7
-                                            : SizeConfig.blockSizeVertical * 1.3
+                                            : SizeConfig.blockSizeVertical * 18
                                         : widget.isReps == 0
                                             ? SizeConfig.blockSizeVertical * 7.8
                                             : SizeConfig.blockSizeVertical * 0,
@@ -604,50 +633,13 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                         ? SizeConfig.blockSizeHorizontal * 4
                                         : widget.isReps == 0
                                             ? SizeConfig.blockSizeHorizontal *
-                                                19
+                                                12
                                             : SizeConfig.blockSizeHorizontal *
-                                                18),
+                                                12),
                                 child: IconButton(
                                     icon: Icon(Icons.fullscreen),
                                     color: Colors.white,
-                                    onPressed: () {
-                                      if (!timerPaused) {
-                                        pausedOn = _start;
-                                        widget.controller.pause();
-                                        if (widget.isReps == 1) {
-                                          videoTimer.cancel();
-                                        }
-                                        if (_start <= 5) {
-                                          audioPlayer.pause();
-                                        }
-                                        setState(() {
-                                          timerPaused = true;
-                                        });
-                                      } else {
-                                        widget.controller.play();
-                                        if (widget.isReps == 1) {
-                                          startTimer(pausedOn);
-                                        }
-                                        setState(() {
-                                          timerPaused = false;
-                                        });
-                                        if (pausedOn <= 5) {
-                                          audioPlayer.resume();
-                                        }
-                                      }
-                                      isOrientation = true;
-                                      Future.delayed(Duration(seconds: 1));
-                                      MediaQuery.of(context).orientation ==
-                                              Orientation.landscape
-                                          ? SystemChrome
-                                              .setPreferredOrientations([
-                                              DeviceOrientation.portraitUp
-                                            ])
-                                          : SystemChrome
-                                              .setPreferredOrientations([
-                                              DeviceOrientation.landscapeRight
-                                            ]);
-                                    }),
+                                    onPressed: () => rotateScreen()),
                               ),
                             ],
                           ),
@@ -657,7 +649,58 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                   ),
                 ),
               ),
-            )
-            ));
+            )));
+  }
+
+  pauseAndPlayFunction() {
+    if (!timerPaused) {
+      pausedOn = _start;
+      widget.controller.pause();
+      if (widget.isReps == 1) {
+        videoTimer.cancel();
+      }
+      if (_start <= 5) {
+        audioPlayer.pause();
+      }
+      setState(() {
+        timerPaused = true;
+      });
+    } else {
+      widget.controller.play();
+      if (widget.isReps == 1) {
+        startTimer(pausedOn);
+      }
+      setState(() {
+        timerPaused = false;
+      });
+      if (pausedOn <= 5) {
+        audioPlayer.resume();
+      }
+    }
+  }
+
+  rotateScreen() {
+    isOrientation = true;
+    // widget.controller.controllerWidgets = false;
+    if (!timerPaused) {
+      pausedOn = _start;
+      widget.controller.pause();
+      if (widget.isReps == 1) {
+        videoTimer.cancel();
+      }
+      if (_start <= 5) {
+        audioPlayer.pause();
+      }
+      setState(() {
+        timerPaused = true;
+      });
+    }
+    Future.delayed(Duration(milliseconds: 400)).then((value) => {
+          MediaQuery.of(context).orientation == Orientation.landscape
+              ? SystemChrome.setPreferredOrientations(
+                  [DeviceOrientation.portraitUp])
+              : SystemChrome.setPreferredOrientations(
+                  [DeviceOrientation.landscapeRight]),
+        });
   }
 }
