@@ -8,6 +8,8 @@ import 'package:attt/view/workout/widgets/exerciseCard.dart';
 import 'package:attt/view_model/workoutViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:attt/utils/customExpansion.dart' as custom;
+import 'package:flutter/scheduler.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class WarmupContainer extends StatefulWidget {
   String trainerName;
@@ -54,9 +56,13 @@ class WarmupContainer extends StatefulWidget {
 
 class _WarmupContainerState extends State<WarmupContainer> {
   Future _future;
+  bool refreshed = false;
+  String warmupDescription = '';
+  List<DocumentSnapshot> warmupDoc;
   @override
   void initState() {
     super.initState();
+    getWarmupDescription();
     _future = WorkoutViewModel()
         .getWarmupDocumentID(widget.trainerID, widget.weekID, widget.workoutID);
   }
@@ -101,7 +107,7 @@ class _WarmupContainerState extends State<WarmupContainer> {
                   color: MyColors().white,
                   fontSize: SizeConfig.blockSizeHorizontal * 5),
             ),
-            subtitle: widget.warmupDesc,
+            subtitle: warmupDescription,
             iconColor: MyColors().white,
             backgroundColor: MyColors().black,
             initiallyExpanded: false,
@@ -143,5 +149,22 @@ class _WarmupContainerState extends State<WarmupContainer> {
         ),
       ],
     );
+  }
+
+  getWarmupDescription() async {
+    warmupDoc = await WorkoutViewModel()
+        .getWarmupDocumentID(widget.trainerID, widget.weekID, widget.workoutID);
+    for (var i = 0; i < warmupDoc.length; i++) {
+      if (warmupDescription == '') {
+        setState(() {
+          warmupDescription = warmupDescription + warmupDoc[i].data['name'];
+        });
+      } else {
+        setState(() {
+          warmupDescription =
+              warmupDescription + ' - ' + warmupDoc[i].data['name'];
+        });
+      }
+    }
   }
 }
