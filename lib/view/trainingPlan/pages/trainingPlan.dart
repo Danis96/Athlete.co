@@ -75,13 +75,16 @@ class _TrainingPlanState extends State<TrainingPlan> {
                 SizedBox(
                   height: SizeConfig.blockSizeVertical * 2.5,
                 ),
-                whatsAppButton(context,),
+                whatsAppButton(
+                  context,
+                ),
                 messengerButton(context),
                 viberrButton(context),
                 listOfWeeks(
                   widget.userDocument,
                   widget.userTrainerDocument,
                   widget.userDocument.data['weeks_finished'],
+                  context,
                 ),
               ],
             ),
