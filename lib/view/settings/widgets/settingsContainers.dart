@@ -27,13 +27,17 @@ Widget settingsContainer(String headText, subText, isFrom,
                   fontWeight: FontWeight.w400)),
           Text(subText,
               style: TextStyle(
-                  color: MyColors().lightWhite,
+                  color: Colors.white60,
                   fontSize: SizeConfig.safeBlockHorizontal * 4.0,
                   fontWeight: FontWeight.w400)),
         ],
       ),
-      decoration: BoxDecoration(
-          border: Border(bottom: BorderSide(color: MyColors().lightWhite))),
+      // decoration: BoxDecoration(
+      //   border: Border(
+      //     bottom: BorderSide(color: Colors.white70),
+      //     top: BorderSide(color: Colors.white60),
+      //   ),
+      // ),
     ),
   );
 }

@@ -1,5 +1,6 @@
 import 'package:attt/utils/customScreenAnimation.dart';
 import 'package:attt/utils/globals.dart';
+import 'package:attt/utils/colors.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: MyColors().lightBlack,
       appBar: AppBar(
         elevation: 0,
         leading: IconButton(
@@ -31,15 +32,28 @@ class SettingsPage extends StatelessWidget {
           ),
           onPressed: () => Navigator.of(context).pop(),
         ),
-        title: Text('Settings', style: TextStyle(fontSize: SizeConfig.safeBlockHorizontal * 5.5),),
-        backgroundColor: Colors.black,
+        title: Text(
+          'Settings',
+          style: TextStyle(fontSize: SizeConfig.safeBlockHorizontal * 5.5),
+        ),
+        backgroundColor: MyColors().lightBlack,
       ),
       body: WillPopScope(
         onWillPop: () => _onWillPop(context, userDocument, userUID),
-              child: Column(
+        child: Column(
           children: <Widget>[
+            Divider(
+              thickness: 1,
+              height: 1,
+              color: Colors.white24,
+            ),
             settingsContainer('Athlete', 'Name of athelte', _isAthlete,
-                  userDocument, context, userUID),
+                userDocument, context, userUID),
+            Divider(
+              thickness: 1,
+              height: 1,
+              color: Colors.white24,
+            ),
             settingsContainer(
                 'Any questions',
                 'If you have any questions feel free to ask.',
@@ -47,10 +61,25 @@ class SettingsPage extends StatelessWidget {
                 userDocument,
                 context,
                 userUID),
-            settingsContainer(
-                'Terms of Service', '', _isTerms, userDocument, context, userUID),
+            Divider(
+              thickness: 1,
+              height: 1,
+              color: Colors.white24,
+            ),
+            settingsContainer('Terms of Service', '', _isTerms, userDocument,
+                context, userUID),
+            Divider(
+              thickness: 1,
+              height: 1,
+              color: Colors.white24,
+            ),
             settingsContainer(
                 'Log Out', '', _isLogOut, userDocument, context, userUID),
+            Divider(
+              thickness: 1,
+              height: 1,
+              color: Colors.white24,
+            ),
           ],
         ),
       ),
@@ -58,6 +87,13 @@ class SettingsPage extends StatelessWidget {
   }
 }
 
-_onWillPop(BuildContext context, DocumentSnapshot userDocument, String userUID) {
-   isFromSettings ? Navigator.of(context).push(CardAnimationTween(widget: TrainingPlan(userDocument: userDocument,userUID: userUID,))) : Navigator.of(context).pop(); 
+_onWillPop(
+    BuildContext context, DocumentSnapshot userDocument, String userUID) {
+  isFromSettings
+      ? Navigator.of(context).push(CardAnimationTween(
+          widget: TrainingPlan(
+          userDocument: userDocument,
+          userUID: userUID,
+        )))
+      : Navigator.of(context).pop();
 }
