@@ -104,6 +104,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   void didUpdateWidget(IndicatorsOnVideo oldWidget) {
     print('DOLAZIM IZ DIDUPDATEWIDGET ');
     super.didUpdateWidget(oldWidget);
+    widget.controller.controllerWidgets = true;
     Future.delayed(Duration(milliseconds: 400));
     if (isOrientation) {
       widget.controller.play();
@@ -703,7 +704,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
 
   rotateScreen() {
     isOrientation = true;
-    // widget.controller.controllerWidgets = false;
+    widget.controller.controllerWidgets = false;
     if (!timerPaused) {
       pausedOn = _start;
       widget.controller.pause();

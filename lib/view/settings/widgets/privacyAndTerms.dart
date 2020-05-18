@@ -11,6 +11,10 @@ class PrivacyAndTerms extends StatelessWidget {
     SizeConfig().init(context);
     return Scaffold(
       backgroundColor: MyColors().lightBlack,
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        leading: IconButton(icon: Icon(Icons.clear), onPressed: () => Navigator.pop(context)),
+        title: Text('Privacy and Terms'),),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Center(
@@ -18,7 +22,7 @@ class PrivacyAndTerms extends StatelessWidget {
             children: <Widget>[
               Container(
                 margin: EdgeInsets.only(
-                  top: SizeConfig.blockSizeVertical * 8,
+                  top: SizeConfig.blockSizeVertical * 3,
                 ),
                 child: Text(
                   'Trainer + Plus Ltd - Privacy & Policies ',

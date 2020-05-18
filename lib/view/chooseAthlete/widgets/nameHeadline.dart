@@ -15,7 +15,7 @@ Widget nameHeadline(String name, String usersPhoto, BuildContext context,
   SizeConfig().init(context);
   return Container(
     margin: EdgeInsets.only(
-        top: SizeConfig.blockSizeVertical * 5,
+        top: SizeConfig.blockSizeVertical * 2,
         left: SizeConfig.blockSizeHorizontal * 5),
     child: Row(
       children: <Widget>[

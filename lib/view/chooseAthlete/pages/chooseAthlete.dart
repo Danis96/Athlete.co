@@ -12,36 +12,58 @@ import 'dart:io';
 class ChooseAthlete extends StatefulWidget {
   final String name, email, photo, userUID;
   final DocumentSnapshot userDocument;
-  ChooseAthlete({Key key, this.email, this.name, this.photo, this.userDocument, this.userUID}) : super(key: key);
+  ChooseAthlete(
+      {Key key,
+      this.email,
+      this.name,
+      this.photo,
+      this.userDocument,
+      this.userUID})
+      : super(key: key);
 
   @override
   _ChooseAthleteState createState() => _ChooseAthleteState();
 }
 
 class _ChooseAthleteState extends State<ChooseAthlete> {
-  
   @override
-  void initState() { 
+  void initState() {
     super.initState();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    print('Dispose athlete.');
+    isFromSettings = false;
+  }
 
   @override
   Widget build(BuildContext context) {
-  
     SizeConfig().init(context);
     String usersName = widget.name;
     String usersPhoto = widget.photo;
     String userUID = widget.userUID;
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: MyColors().lightBlack,
+        title: Text(''),
+        leading: IconButton(
+            icon: Icon(Icons.clear),
+            onPressed: () {
+              isFromSettings ? Navigator.of(context).pop() : exit(0);
+              isFromSettings = false;
+            }),
+      ),
       backgroundColor: MyColors().lightBlack,
       body: WillPopScope(
-        onWillPop: () =>  _onWillPop(context),
-              child: ListView(
+        onWillPop: () => _onWillPop(context),
+        child: ListView(
           children: <Widget>[
             nameHeadline(usersName, usersPhoto, context, widget.userDocument),
-            trainersList(context, userName, userPhoto, userEmail, widget.userDocument, userUID),
+            trainersList(context, userName, userPhoto, userEmail,
+                widget.userDocument, userUID),
           ],
         ),
       ),
@@ -49,10 +71,7 @@ class _ChooseAthleteState extends State<ChooseAthlete> {
   }
 }
 
-
 _onWillPop(BuildContext context) {
-  print(isFromSettings.toString() + ' SETTINGS');
-  isFromSettings ? Navigator.of(context)
-              .pop() : exit(0);
+  isFromSettings ? Navigator.of(context).pop() : exit(0);
   isFromSettings = false;
 }
