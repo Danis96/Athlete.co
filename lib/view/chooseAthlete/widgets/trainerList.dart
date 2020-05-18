@@ -34,7 +34,7 @@ Widget trainersList(BuildContext context, String name, String photo,
                   _trainingPlanDuration =
                       _trainerData[index].trainingPlanDuration;
                   _trainerImage = _trainerData[index].trainerImage;
-                  if (trainersFinished.contains(_trainerName)) {
+                  if (trainersFinished.contains(_trainerID)) {
                       return EmptyContainer();
                   } else {
                     return Center(

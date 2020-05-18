@@ -8,6 +8,7 @@ import 'package:attt/utils/size_config.dart';
 
 Widget listOfWeeks(DocumentSnapshot userDocument,
     DocumentSnapshot userTrainerDocument, List<dynamic> finishedWeeks, BuildContext context) {
+
       SizeConfig().init(context);
   List<dynamic> weeksFinished = [];
   weeksFinished = userDocument.data['weeks_finished'];
@@ -15,6 +16,17 @@ Widget listOfWeeks(DocumentSnapshot userDocument,
   for (var i = 0; i < weeksFinished.length; i++) {
     weekIDs.add(weeksFinished[i]);
   }
+
+  updateUserWithFinisheAthlete(DocumentSnapshot userDocument, String trainerID) async {
+    List<String> note = [];
+    note.add(trainerID);
+    final db = Firestore.instance;
+    await db
+        .collection('Users')
+        .document(userDocument.documentID)
+        .updateData({"trainers_finished": FieldValue.arrayUnion(note)});
+  }
+
   return FutureBuilder(
       future: TrainingPlanViewModel()
           .getWeeks(userTrainerDocument.data['trainerID']),
@@ -22,9 +34,10 @@ Widget listOfWeeks(DocumentSnapshot userDocument,
         if (snapshot.hasData) {
           int counter = 0;
           if (weekIDs.length == snapshot.data.length) {
+            updateUserWithFinisheAthlete(userDocument, userTrainerDocument.data['trainerID']);
             return Padding(
                   padding: EdgeInsets.only(
-                    top: SizeConfig.blockSizeVertical * 5,
+                    top: SizeConfig.blockSizeVertical * 2,
                     left: SizeConfig.blockSizeHorizontal * 4.5,
                     right: SizeConfig.blockSizeHorizontal * 4.5,
                     bottom: SizeConfig.blockSizeVertical * 2
