@@ -30,7 +30,7 @@ class _HistoryState extends State<History> {
     SizeConfig().init(context);
     String username = widget.userDocument.data['display_name'];
     List<dynamic> finishedWorkouts =
-        widget.userDocument.data['workouts_finished'];
+        widget.userDocument.data['workouts_finished_history'];
     List<dynamic> finishedWeeksWithAthlete = [];
     for (var i = finishedWorkouts.length - 1; i >= 0; i--) {
       if (!finishedWeeksWithAthlete.contains(
@@ -83,18 +83,36 @@ class _HistoryState extends State<History> {
           .getDocuments();
       return qn.documents;
     }
-
+    
     return Scaffold(
       backgroundColor: MyColors().lightBlack,
-      body: finishedWorkouts != []
-          ? SingleChildScrollView(
-              child: Padding(
-                padding: EdgeInsets.only(
-                  top: SizeConfig.blockSizeVertical * 5,
-                  left: SizeConfig.blockSizeHorizontal * 4.5,
-                  right: SizeConfig.blockSizeHorizontal * 4.5,
-                ),
-                child: ListView.builder(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: SizeConfig.blockSizeVertical * 5,
+            left: SizeConfig.blockSizeHorizontal * 4.5,
+            right: SizeConfig.blockSizeHorizontal * 4.5,
+          ),
+          child: finishedWorkouts.isEmpty
+              ? Padding(
+                  padding: EdgeInsets.only(
+                    top: SizeConfig.blockSizeVertical * 5,
+                    left: SizeConfig.blockSizeHorizontal * 4.5,
+                    right: SizeConfig.blockSizeHorizontal * 4.5,
+                  ),
+                  child: Center(
+                    child: Text(
+                      "Hi $username, you do not have any history log yet. When you begin completing workouts, come back to check you log. Hope to see you soon!",
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'Roboto',
+                          fontStyle: FontStyle.italic,
+                          fontSize: SizeConfig.blockSizeVertical * 2.5),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                )
+              : ListView.builder(
                   shrinkWrap: true,
                   physics: ScrollPhysics(),
                   itemCount: finishedWeeksWithAthlete.length,
@@ -506,26 +524,8 @@ class _HistoryState extends State<History> {
                     );
                   },
                 ),
-              ),
-            )
-          : Padding(
-              padding: EdgeInsets.only(
-                top: SizeConfig.blockSizeVertical * 5,
-                left: SizeConfig.blockSizeHorizontal * 4.5,
-                right: SizeConfig.blockSizeHorizontal * 4.5,
-              ),
-              child: Center(
-                child: Text(
-                  "Hi $username, you do not have any history log yet. When you begin completing workouts, come back to check you log. Hope to see you soon!",
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Roboto',
-                      fontStyle: FontStyle.italic,
-                      fontSize: SizeConfig.blockSizeVertical * 2.5),
-                      textAlign: TextAlign.center,
-                ),
-              ),
-            ),
+        ),
+      ),
       bottomNavigationBar: historyCustomBottomNavigationBar(
           context, widget.userDocument, widget.userTrainerDocument),
     );
