@@ -77,6 +77,7 @@ Widget trainerContainer(
 showAlertDialog(BuildContext context, DocumentSnapshot userDocument,
     String userUID, _trainerName) {
   // set up the buttons
+
   Widget cancelButton = FlatButton(
     child: Text(
       "Cancel",
@@ -90,6 +91,7 @@ showAlertDialog(BuildContext context, DocumentSnapshot userDocument,
         style: TextStyle(color: MyColors().error),
       ),
       onPressed: () async {
+        isFromSettings = false;
         SignInViewModel()
             .updateUserWithTrainer(userDocument, userUID, _trainerName);
         SignInViewModel().updateUserProgress(userDocument);
