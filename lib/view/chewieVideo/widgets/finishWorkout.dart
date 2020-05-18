@@ -305,6 +305,11 @@ class _FinishWorkoutState extends State<FinishWorkout> {
         .collection('Users')
         .document(userDocument.documentID)
         .updateData({"workouts_finished": FieldValue.arrayUnion(note)});
+
+    await db
+        .collection('Users')
+        .document(userDocument.documentID)
+        .updateData({"workouts_finished_history": FieldValue.arrayUnion(note)});
   }
 
   updateUserWithFinishedWeek(DocumentSnapshot userDocument, String trainerID,
@@ -316,6 +321,11 @@ class _FinishWorkoutState extends State<FinishWorkout> {
         .collection('Users')
         .document(userDocument.documentID)
         .updateData({"weeks_finished": FieldValue.arrayUnion(note)});
+
+    await db
+        .collection('Users')
+        .document(userDocument.documentID)
+        .updateData({"weeks_finished_history": FieldValue.arrayUnion(note)});
   }
 
   Future<bool> _onWillPop() async {

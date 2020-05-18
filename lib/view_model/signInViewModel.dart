@@ -554,6 +554,8 @@ class SignInViewModel implements SignInInterface {
       'trainers_finished': [],
       'weeks_finished': [],
       'workouts_finished': [],
+      'weeks_finished_history': [],
+      'workouts_finished_history': [],
       'platform': platform
     });
   }
