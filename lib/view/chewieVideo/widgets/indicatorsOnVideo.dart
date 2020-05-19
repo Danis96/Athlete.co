@@ -621,7 +621,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                                       .orientation ==
                                                   Orientation.landscape
                                               ? SizeConfig.blockSizeVertical *
-                                                  14
+                                                  23
                                               : SizeConfig.blockSizeVertical *
                                                   5,
                                           left: MediaQuery.of(context)
