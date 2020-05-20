@@ -30,7 +30,7 @@ class _TrainingPlanState extends State<TrainingPlan> {
   @override
   void initState() {
     super.initState();
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+//    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   }
 
   @override
@@ -102,6 +102,8 @@ class _TrainingPlanState extends State<TrainingPlan> {
     exit(0);
   }
 }
+
+//+44 7725 514766  NUMBER TO PUT IN SOCIAL MEDIA BUTTONS
 
 showSocialMediaDialog(BuildContext context) {
   Widget whatsAppButton = IconButton(

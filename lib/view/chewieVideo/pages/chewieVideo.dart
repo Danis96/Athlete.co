@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:attt/interface/chewieVideoInterface.dart';
 import 'package:attt/storage/storage.dart';
 import 'package:attt/utils/alertDialog.dart';
@@ -30,6 +32,7 @@ class ChewieVideo extends StatefulWidget {
 }
 
 class _ChewieVideoState extends State<ChewieVideo>
+    with WidgetsBindingObserver
     implements ChewieVideoInterface {
   List<String> source = [
     'assets/video/C.mp4',
@@ -210,6 +213,7 @@ class _ChewieVideoState extends State<ChewieVideo>
   void initState() {
     super.initState();
     // source = onlineVideos;
+    WidgetsBinding.instance.addObserver(this);
 
     /// initializing VideoController and giving him source (videos)
     vc = VideoController(
@@ -218,6 +222,23 @@ class _ChewieVideoState extends State<ChewieVideo>
         autoplay: true,
         source: VideoPlayerController.asset(source[index]))
       ..initialize();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight
+    ]);
+  }
+
+  double width = 0.0;
+  double height = 0.0;
+
+  @override
+  void didChangeMetrics() {
+    setState(() {
+      width = window.physicalSize.width;
+      height = window.physicalSize.height;
+    });
+    print('ROTATE');
   }
 
   /// dispose whole widget and [vc] controller
@@ -225,6 +246,7 @@ class _ChewieVideoState extends State<ChewieVideo>
   void dispose() {
     super.dispose();
     vc.dispose();
+    WidgetsBinding.instance.removeObserver(this);
     print('CHEWIE VIDEO DISPOSED');
   }
 

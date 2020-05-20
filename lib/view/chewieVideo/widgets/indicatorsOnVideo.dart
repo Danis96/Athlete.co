@@ -729,7 +729,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   }
 
   rotateScreen() {
-    isOrientation = true;
+//    isOrientation = true;
     widget.controller.controllerWidgets = false;
     if (!timerPaused) {
       pausedOn = _start;
