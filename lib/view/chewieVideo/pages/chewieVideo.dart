@@ -210,7 +210,6 @@ class _ChewieVideoState extends State<ChewieVideo>
   void initState() {
     super.initState();
     // source = onlineVideos;
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
     /// initializing VideoController and giving him source (videos)
     vc = VideoController(
