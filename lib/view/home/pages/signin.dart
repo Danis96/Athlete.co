@@ -259,8 +259,8 @@ class _SigninState extends State<Signin> {
                                                                                           imageFileFolderName = trainerID.toString() + '/' + weekID.toString() + '/' + workoutID.toString() + '/' + seriesID.toString() + '/' + exerciseID.toString() + '/' + exerciseName.toString() + 'IMG'.toString();
                                                                                           String videoFileFolderName = trainerID.toString() + '/' + weekID.toString() + '/' + workoutID.toString() + '/' + seriesID.toString() + '/' + exerciseID.toString() + '/' + exerciseName.toString();
 
-                                                                                          downloadFile(exerciseImg, exerciseName, imageFileFolderName)
-                                                                                              .whenComplete(() => downloadFile(exercisevideo, exerciseName, videoFileFolderName));
+//                                                                                          downloadFile(exerciseImg, exerciseName, imageFileFolderName)
+//                                                                                              .whenComplete(() => downloadFile(exercisevideo, exerciseName, videoFileFolderName));
 //
 
                                                                                           /// EXERCISES
