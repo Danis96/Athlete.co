@@ -166,7 +166,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   bool timerPaused = false;
   bool _isLessThan10 = false;
 
-
   void startTimer(int startingValue) async {
     print('DOLAZIM IZ TIMERA ');
     const oneSec = const Duration(seconds: 1);
@@ -274,7 +273,9 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                 Timer(Duration(seconds: 0), () {
                                   if (widget.isReps == 1) {
                                     pausedOn = _start;
-                                    videoTimer.cancel();
+                                    if (videoTimer != null) {
+                                      videoTimer.cancel();
+                                    }
                                   }
                                   setState(() {
                                     timerPaused = true;
@@ -360,7 +361,9 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                     Timer(Duration(seconds: 0), () {
                                       if (widget.isReps == 1) {
                                         pausedOn = _start;
-                                        videoTimer.cancel();
+                                        if (videoTimer != null) {
+                                          videoTimer.cancel();
+                                        }
                                       }
                                       setState(() {
                                         timerPaused = true;
@@ -410,10 +413,10 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                       'as many reps as possible'
                                   ? Container(
                                       margin: EdgeInsets.only(
-                                          top: MediaQuery.of(context).orientation ==
+                                          top: MediaQuery.of(context)
+                                                      .orientation ==
                                                   Orientation.landscape
-                                              ? SizeConfig.blockSizeVertical *
-                                                  0
+                                              ? SizeConfig.blockSizeVertical * 0
                                               : SizeConfig.blockSizeVertical *
                                                   3,
                                           right: MediaQuery.of(context)
@@ -453,10 +456,10 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                     )
                                   : Container(
                                       margin: EdgeInsets.only(
-                                          top: MediaQuery.of(context).orientation ==
+                                          top: MediaQuery.of(context)
+                                                      .orientation ==
                                                   Orientation.landscape
-                                              ? SizeConfig.blockSizeVertical *
-                                                  0
+                                              ? SizeConfig.blockSizeVertical * 0
                                               : SizeConfig.blockSizeVertical *
                                                   3,
                                           right: MediaQuery.of(context)
@@ -606,8 +609,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                           top: MediaQuery.of(context)
                                                       .orientation ==
                                                   Orientation.landscape
-                                              ? SizeConfig.blockSizeVertical *
-                                                  0
+                                              ? SizeConfig.blockSizeVertical * 0
                                               : SizeConfig.blockSizeVertical *
                                                   5,
                                           left: MediaQuery.of(context)
@@ -692,7 +694,9 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       pausedOn = _start;
       widget.controller.pause();
       if (widget.isReps == 1) {
-        videoTimer.cancel();
+        if (videoTimer != null) {
+          videoTimer.cancel();
+        }
       }
       setState(() {
         timerPaused = true;
@@ -715,7 +719,9 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       pausedOn = _start;
       widget.controller.pause();
       if (widget.isReps == 1) {
-        videoTimer.cancel();
+        if (videoTimer != null) {
+          videoTimer.cancel();
+        }
       }
       setState(() {
         timerPaused = true;
