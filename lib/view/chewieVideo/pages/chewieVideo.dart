@@ -314,7 +314,9 @@ class _ChewieVideoState extends State<ChewieVideo>
                     currentSet: exerciseSet,
                     playNext: nextPlay,
                     playPrevious: previousPlay,
-                    repsDescription: exerciseRepsDescription),
+                    repsDescription: exerciseRepsDescription,
+                    onWill: _onWillPop,
+                ),
               ),
             ),
           ],
@@ -334,13 +336,6 @@ class _ChewieVideoState extends State<ChewieVideo>
       print('Back button is disabled because REST || READY is active');
     else {
       vc.pause();
-      DateTime now = DateTime.now();
-      if (currentBackPressTime == null ||
-          now.difference(currentBackPressTime) > Duration(seconds: 2)) {
-        currentBackPressTime = now;
-        SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-        return Future.value(false);
-      }
       return showDialog(
             context: context,
             builder: (context) => MyAlertDialog(

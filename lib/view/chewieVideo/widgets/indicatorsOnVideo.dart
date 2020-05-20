@@ -17,7 +17,7 @@ class IndicatorsOnVideo extends StatefulWidget {
   final DocumentSnapshot userDocument, userTrainerDocument;
   final int index, listLenght;
   final int duration;
-  final Function showRest, showAddNote, playNext, playPrevious;
+  final Function showRest, showAddNote, playNext, playPrevious, onWill;
   final int isReps, sets, reps, rest;
   final String name, workoutID, weekID, currentSet, repsDescription;
   final bool ctrl;
@@ -43,6 +43,7 @@ class IndicatorsOnVideo extends StatefulWidget {
     this.userDocument,
     this.ctrl,
     this.duration,
+    this.onWill,
   });
 
   @override
@@ -76,12 +77,12 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
     if (widget.index == 0) {
       if (widget.isReps == 1 && !timerPaused) {
         // Timer(Duration(seconds: 6), () {
-        //   startTimer(_start);
-        //   widget.controller.play();
+        startTimer(_start);
+        widget.controller.play();
         // });
       } else if (widget.isReps == 0) {
         // Timer(Duration(seconds: 6), () {
-        //   widget.controller.play();
+        widget.controller.play();
         // });
       }
     } else {
@@ -166,7 +167,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   bool timerPaused = false;
   bool _isLessThan10 = false;
 
-
   void startTimer(int startingValue) async {
     print('DOLAZIM IZ TIMERA ');
     const oneSec = const Duration(seconds: 1);
@@ -207,23 +207,39 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
               pauseAndPlayFunction();
               isTips = false;
             },
-            child:
-
-                /// LANDSCAPE MOdE
-                Padding(
+            child: Padding(
               padding: EdgeInsets.only(
-                  top: SizeConfig.blockSizeVertical * 3,
+                  top: SizeConfig.blockSizeVertical * 1,
                   left: SizeConfig.blockSizeHorizontal * 3,
                   right: SizeConfig.blockSizeVertical * 3),
               child: Container(
                 margin: EdgeInsets.only(
                     top: MediaQuery.of(context).orientation ==
                             Orientation.landscape
-                        ? SizeConfig.blockSizeVertical * 10
-                        : SizeConfig.blockSizeVertical * 45),
+                        ? SizeConfig.blockSizeVertical * 0
+                        : SizeConfig.blockSizeVertical * 29),
                 child: Center(
                   child: Column(
                     children: <Widget>[
+                      Container(
+                        margin: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).orientation ==
+                                    Orientation.landscape
+                                ? SizeConfig.blockSizeVertical * 0
+                                : SizeConfig.blockSizeVertical * 10,
+                            right: MediaQuery.of(context).orientation ==
+                                    Orientation.landscape
+                                ? SizeConfig.blockSizeHorizontal * 90
+                                : SizeConfig.blockSizeHorizontal * 80),
+                        child: IconButton(
+                          icon: Icon(Icons.clear),
+                          iconSize:  MediaQuery.of(context).orientation ==
+                              Orientation.landscape
+                              ? SizeConfig.blockSizeHorizontal * 4  : SizeConfig.blockSizeHorizontal * 7,
+                          onPressed: () => widget.onWill(),
+                          color: Colors.white,
+                        ),
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
@@ -235,7 +251,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                     iconSize: MediaQuery.of(context)
                                                 .orientation ==
                                             Orientation.landscape
-                                        ? SizeConfig.blockSizeHorizontal * 9
+                                        ? SizeConfig.blockSizeHorizontal * 6
                                         : SizeConfig.blockSizeHorizontal * 10,
                                     color: Colors.white54,
                                     onPressed: () {
@@ -251,7 +267,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                     iconSize: MediaQuery.of(context)
                                                 .orientation ==
                                             Orientation.landscape
-                                        ? SizeConfig.blockSizeHorizontal * 9
+                                        ? SizeConfig.blockSizeHorizontal * 6
                                         : SizeConfig.blockSizeHorizontal * 10,
                                     color: Colors.white54,
                                     onPressed: () {
@@ -306,7 +322,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                               margin: EdgeInsets.only(
                                   top: MediaQuery.of(context).orientation ==
                                           Orientation.landscape
-                                      ? SizeConfig.blockSizeVertical * 5
+                                      ? SizeConfig.blockSizeVertical * 2
                                       : SizeConfig.blockSizeVertical * 8),
                               child: RichText(
                                 overflow: TextOverflow.ellipsis,
@@ -410,10 +426,10 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                       'as many reps as possible'
                                   ? Container(
                                       margin: EdgeInsets.only(
-                                          top: MediaQuery.of(context).orientation ==
+                                          top: MediaQuery.of(context)
+                                                      .orientation ==
                                                   Orientation.landscape
-                                              ? SizeConfig.blockSizeVertical *
-                                                  0
+                                              ? SizeConfig.blockSizeVertical * 0
                                               : SizeConfig.blockSizeVertical *
                                                   3,
                                           right: MediaQuery.of(context)
@@ -453,10 +469,10 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                     )
                                   : Container(
                                       margin: EdgeInsets.only(
-                                          top: MediaQuery.of(context).orientation ==
+                                          top: MediaQuery.of(context)
+                                                      .orientation ==
                                                   Orientation.landscape
-                                              ? SizeConfig.blockSizeVertical *
-                                                  0
+                                              ? SizeConfig.blockSizeVertical * 0
                                               : SizeConfig.blockSizeVertical *
                                                   3,
                                           right: MediaQuery.of(context)
@@ -606,8 +622,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                           top: MediaQuery.of(context)
                                                       .orientation ==
                                                   Orientation.landscape
-                                              ? SizeConfig.blockSizeVertical *
-                                                  0
+                                              ? SizeConfig.blockSizeVertical * 0
                                               : SizeConfig.blockSizeVertical *
                                                   5,
                                           left: MediaQuery.of(context)
