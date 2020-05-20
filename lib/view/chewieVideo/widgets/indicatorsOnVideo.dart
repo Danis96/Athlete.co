@@ -4,8 +4,6 @@ import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/view/chewieVideo/widgets/addNote.dart';
 import 'package:attt/view/workout/widgets/info.dart';
-import 'package:audioplayers/audio_cache.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -53,8 +51,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
     with TickerProviderStateMixin {
   AnimationController _controller;
   Animation<Offset> _offsetAnimation;
-  AudioCache audioCache;
-  AudioPlayer audioPlayer;
   bool isOrientation = false;
 
   @override
@@ -94,10 +90,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
         widget.controller.play();
       }
     }
-
-    audioCache = AudioCache(
-        prefix: "audio/",
-        fixedPlayer: AudioPlayer()..setReleaseMode(ReleaseMode.STOP));
   }
 
   @override
@@ -113,9 +105,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       }
       timerPaused = false;
       isOrientation = false;
-      if (pausedOn <= 5) {
-        audioPlayer.resume();
-      }
     } else {
       if (widget.index == 0) {
         if (pausedOn == null) {
@@ -173,9 +162,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   bool timerPaused = false;
   bool _isLessThan10 = false;
 
-  initializeAudioPlayer() async {
-    audioPlayer = await audioCache.play('zvuk.mp3');
-  }
 
   void startTimer(int startingValue) async {
     print('DOLAZIM IZ TIMERA ');
@@ -192,24 +178,14 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
               if (widget.index == widget.listLenght - 1) isTimerDone = true;
               widget.showRest(context);
             }
-            // setState(() {
             restShowed = true;
             timerPaused = false;
-            // });
             timer.cancel();
           } else {
-            // setState(() {
             startingValue = startingValue - 1;
             _start = startingValue;
-            // });
             if (_start < 10) {
-              // setState(() {
               _isLessThan10 = true;
-              // }
-              // );
-              if (startingValue == 5 && widget.isReps == 1) {
-                initializeAudioPlayer();
-              }
             }
           }
         },
@@ -255,9 +231,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                             onTap: () {
                               if (infoClicked) {
                                 Timer(Duration(seconds: 0), () {
-                                  if (_start <= 5) {
-                                    audioPlayer.pause();
-                                  }
                                   if (widget.isReps == 1) {
                                     pausedOn = _start;
                                     videoTimer.cancel();
@@ -344,9 +317,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                 onPressed: () {
                                   if (noteClicked) {
                                     Timer(Duration(seconds: 0), () {
-                                      if (_start <= 5) {
-                                        audioPlayer.pause();
-                                      }
                                       if (widget.isReps == 1) {
                                         pausedOn = _start;
                                         videoTimer.cancel();
@@ -708,9 +678,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       if (widget.isReps == 1) {
         videoTimer.cancel();
       }
-      if (_start <= 5) {
-        audioPlayer.pause();
-      }
       setState(() {
         timerPaused = true;
       });
@@ -722,9 +689,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       setState(() {
         timerPaused = false;
       });
-      if (pausedOn <= 5) {
-        audioPlayer.resume();
-      }
     }
   }
 
@@ -736,9 +700,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       widget.controller.pause();
       if (widget.isReps == 1) {
         videoTimer.cancel();
-      }
-      if (_start <= 5) {
-        audioPlayer.pause();
       }
       setState(() {
         timerPaused = true;
