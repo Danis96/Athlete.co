@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/customScreenAnimation.dart';
 import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
@@ -18,7 +19,7 @@ class IndicatorsOnVideo extends StatefulWidget {
   final DocumentSnapshot userDocument, userTrainerDocument;
   final int index, listLenght;
   final int duration;
-  final Function showRest, showAddNote, playNext;
+  final Function showRest, showAddNote, playNext, playPrevious;
   final int isReps, sets, reps, rest;
   final String name, workoutID, weekID, currentSet, repsDescription;
   final bool ctrl;
@@ -29,6 +30,7 @@ class IndicatorsOnVideo extends StatefulWidget {
     this.repsDescription,
     this.showAddNote,
     this.workoutID,
+    this.playPrevious,
     this.playNext,
     this.listLenght,
     this.rest,
@@ -77,14 +79,14 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
 
     if (widget.index == 0) {
       if (widget.isReps == 1 && !timerPaused) {
-        Timer(Duration(seconds: 6), () {
-          startTimer(_start);
-          widget.controller.play();
-        });
+        // Timer(Duration(seconds: 6), () {
+        //   startTimer(_start);
+        //   widget.controller.play();
+        // });
       } else if (widget.isReps == 0) {
-        Timer(Duration(seconds: 6), () {
-          widget.controller.play();
-        });
+        // Timer(Duration(seconds: 6), () {
+        //   widget.controller.play();
+        // });
       }
     } else {
       if (widget.isReps == 1 && !timerPaused) {
@@ -104,7 +106,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   void didUpdateWidget(IndicatorsOnVideo oldWidget) {
     print('DOLAZIM IZ DIDUPDATEWIDGET ');
     super.didUpdateWidget(oldWidget);
-    widget.controller.controllerWidgets = true;
+    //widget.controller.controllerWidgets = true;
     Future.delayed(Duration(milliseconds: 400));
     if (isOrientation) {
       widget.controller.play();
@@ -163,7 +165,9 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
 
   @override
   void dispose() {
-    videoTimer.cancel();
+    if (videoTimer != null) {
+      videoTimer.cancel();
+    }
     _controller.dispose();
     super.dispose();
   }
@@ -187,10 +191,10 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
           if (startingValue < 1) {
             if (widget.rest > 0) {
               if (widget.index == widget.listLenght - 1) isTimerDone = true;
-              widget.showRest(context);
+              widget.showRest(context, 'next');
             } else {
               if (widget.index == widget.listLenght - 1) isTimerDone = true;
-              widget.showRest(context);
+              widget.showRest(context, 'next');
             }
             // setState(() {
             restShowed = true;
@@ -239,11 +243,48 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                 margin: EdgeInsets.only(
                     top: MediaQuery.of(context).orientation ==
                             Orientation.landscape
-                        ? SizeConfig.blockSizeVertical * 0
-                        : SizeConfig.blockSizeVertical * 50),
+                        ? SizeConfig.blockSizeVertical * 10
+                        : SizeConfig.blockSizeVertical * 45),
                 child: Center(
                   child: Column(
                     children: <Widget>[
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          widget.index == 0
+                              ? EmptyContainer()
+                              : Container(
+                                  child: IconButton(
+                                    icon: Icon(Icons.skip_previous),
+                                    iconSize: MediaQuery.of(context)
+                                                .orientation ==
+                                            Orientation.landscape
+                                        ? SizeConfig.blockSizeHorizontal * 9
+                                        : SizeConfig.blockSizeHorizontal * 10,
+                                    color: Colors.white54,
+                                    onPressed: () {
+                                      widget.showRest(context, 'previous');
+                                    },
+                                  ),
+                                ),
+                          widget.index == (widget.listLenght - 1)
+                              ? EmptyContainer()
+                              : Container(
+                                  child: IconButton(
+                                    icon: Icon(Icons.skip_next),
+                                    iconSize: MediaQuery.of(context)
+                                                .orientation ==
+                                            Orientation.landscape
+                                        ? SizeConfig.blockSizeHorizontal * 9
+                                        : SizeConfig.blockSizeHorizontal * 10,
+                                    color: Colors.white54,
+                                    onPressed: () {
+                                      widget.showRest(context, 'next');
+                                    },
+                                  ),
+                                ),
+                        ],
+                      ),
                       Row(
                         mainAxisAlignment: MediaQuery.of(context).orientation ==
                                 Orientation.landscape
@@ -293,7 +334,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                   top: MediaQuery.of(context).orientation ==
                                           Orientation.landscape
                                       ? SizeConfig.blockSizeVertical * 5
-                                      : SizeConfig.blockSizeVertical * 10),
+                                      : SizeConfig.blockSizeVertical * 8),
                               child: RichText(
                                 overflow: TextOverflow.ellipsis,
                                 text: TextSpan(children: [
@@ -333,7 +374,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                 top: MediaQuery.of(context).orientation ==
                                         Orientation.landscape
                                     ? SizeConfig.blockSizeVertical * 6
-                                    : SizeConfig.blockSizeVertical * 10),
+                                    : SizeConfig.blockSizeVertical * 8),
                             child: IconButton(
                                 color: Colors.white,
                                 iconSize: MediaQuery.of(context).orientation ==
@@ -390,31 +431,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                           )
                         ],
                       ),
-                      MediaQuery.of(context).orientation ==
-                              Orientation.landscape
-                          ? Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                timerPaused || isTips
-                                    ? Container(
-                                        margin: EdgeInsets.only(
-                                          top: SizeConfig.blockSizeVertical * 5,
-                                        ),
-                                        child: Text(
-                                          '',
-                                        ),
-                                      )
-                                    : Container(
-                                        margin: EdgeInsets.only(
-                                          top: SizeConfig.blockSizeVertical * 5,
-                                        ),
-                                        child: Text(
-                                          '',
-                                        ),
-                                      )
-                              ],
-                            )
-                          : EmptyContainer(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
@@ -427,7 +443,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                           top: MediaQuery.of(context).orientation ==
                                                   Orientation.landscape
                                               ? SizeConfig.blockSizeVertical *
-                                                  20
+                                                  0
                                               : SizeConfig.blockSizeVertical *
                                                   3,
                                           right: MediaQuery.of(context)
@@ -470,7 +486,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                           top: MediaQuery.of(context).orientation ==
                                                   Orientation.landscape
                                               ? SizeConfig.blockSizeVertical *
-                                                  20
+                                                  0
                                               : SizeConfig.blockSizeVertical *
                                                   3,
                                           right: MediaQuery.of(context)
@@ -621,7 +637,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                                       .orientation ==
                                                   Orientation.landscape
                                               ? SizeConfig.blockSizeVertical *
-                                                  23
+                                                  0
                                               : SizeConfig.blockSizeVertical *
                                                   5,
                                           left: MediaQuery.of(context)
@@ -638,12 +654,12 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                             if (widget.index ==
                                                 widget.listLenght - 1)
                                               isTimerDone = true;
-                                            widget.showRest(context);
+                                            widget.showRest(context, 'next');
                                           } else {
                                             if (widget.index ==
                                                 widget.listLenght - 1)
                                               isTimerDone = true;
-                                            widget.showRest(context);
+                                            widget.showRest(context, 'next');
                                           }
                                           setState(() {
                                             restShowed = true;

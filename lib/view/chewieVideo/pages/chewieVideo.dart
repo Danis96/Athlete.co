@@ -35,7 +35,7 @@ class _ChewieVideoState extends State<ChewieVideo>
     with WidgetsBindingObserver
     implements ChewieVideoInterface {
   List<String> source = [
-    'assets/video/C.mp4',
+    'assets/video/F.mp4',
     'assets/video/C.mp4',
     'assets/video/C.mp4',
     'assets/video/C.mp4',
@@ -102,6 +102,14 @@ class _ChewieVideoState extends State<ChewieVideo>
   nextPlay() {
     setState(() {
       index++;
+      isPrevious = true;
+    });
+  }
+
+  /// when we want to play previous video, we simply set index to decrement
+  previousPlay() {
+    setState(() {
+      index = index - 1;
     });
   }
 
@@ -113,24 +121,24 @@ class _ChewieVideoState extends State<ChewieVideo>
   /// then we create overlayState, overlayEntry is [GetReady] screen
   /// then insert GetReady into overlayState
   /// after 5 seconds we remove entry, then set controll variable [getReady] to false
-  showGetReady(BuildContext context) async {
-    WidgetsBinding.instance.addPostFrameCallback((_) => readyGoing = true);
+  // showGetReady(BuildContext context) async {
+  //   WidgetsBinding.instance.addPostFrameCallback((_) => readyGoing = true);
 
-    /// create overlay
-    OverlayState overlayState = Overlay.of(context);
-    OverlayEntry overlayEntry = OverlayEntry(
-        builder: (BuildContext context) =>
-            Visibility(visible: true, child: GetReady()));
+  //   /// create overlay
+  //   OverlayState overlayState = Overlay.of(context);
+  //   OverlayEntry overlayEntry = OverlayEntry(
+  //       builder: (BuildContext context) =>
+  //           Visibility(visible: true, child: GetReady()));
 
-    /// add to overlay overlayEntry that is getReady widget
-    overlayState.insert(overlayEntry);
+  //   /// add to overlay overlayEntry that is getReady widget
+  //   overlayState.insert(overlayEntry);
 
-    /// wait for [getReady] time and then remove the overlay widget
-    await Future.delayed(Duration(seconds: 5));
-    overlayEntry.remove();
-    isReady = true;
-    readyGoing = false;
-  }
+  //   /// wait for [getReady] time and then remove the overlay widget
+  //   await Future.delayed(Duration(seconds: 5));
+  //   overlayEntry.remove();
+  //   isReady = true;
+  //   readyGoing = false;
+  // }
 
   /// showRest screen that is showed every time video is changed
   /// here we firstly check for [isTimerDone] (are all videos done playing)
@@ -146,9 +154,9 @@ class _ChewieVideoState extends State<ChewieVideo>
   /// after time that is predictet for rest, we remove entry,
   /// then set controll variable [restGoing] to false
   /// then call [nextPlay] to play enxt video
-  showRest(BuildContext context) async {
+  showRest(BuildContext context, String toPlay) async {
     if (isTimerDone) {
-      vc.pause();
+      //vc.pause();
       print('GOTOV SAM BRUDA');
       restGoing = false;
       onlineExercises = [];
@@ -176,35 +184,39 @@ class _ChewieVideoState extends State<ChewieVideo>
       print('INDEX JE: ' + index.toString());
       print('LISTA JE: ' + (source.length - 1).toString());
 
-      vc.pause();
+      //vc.pause();
 
       /// create overlay
-      OverlayState overlayState = Overlay.of(context);
-      OverlayEntry overlayEntryRest;
-      overlayEntryRest = OverlayEntry(
-          builder: (BuildContext context) => Visibility(
-              visible: true,
-              child: Rest(
-                rest: exerciseRest,
-                overlayEntry: overlayEntryRest,
-                playNext: nextPlay,
-              )));
+      // OverlayState overlayState = Overlay.of(context);
+      // OverlayEntry overlayEntryRest;
+      // overlayEntryRest = OverlayEntry(
+      //     builder: (BuildContext context) => Visibility(
+      //         visible: true,
+      //         child: Rest(
+      //           rest: exerciseRest,
+      //           overlayEntry: overlayEntryRest,
+      //           playNext: nextPlay,
+      //         )));
 
       /// add to overlay overlayEntry that is rest widget
       if (alertQuit) {
         print('No rest, alertQuit');
       } else {
-        overlayState.insert(overlayEntryRest);
+        //overlayState.insert(overlayEntryRest);
       }
 
       if (isRestSkipped) {
         print('Rest is skipped');
       } else {
         /// wait for [rest] time and then remove the overlay widget
-        await Future.delayed(Duration(seconds: exerciseRest));
-        overlayEntryRest.remove();
+        //await Future.delayed(Duration(seconds: exerciseRest));
+        //overlayEntryRest.remove();
         restGoing = false;
-        nextPlay();
+        if (toPlay == 'next') {
+          nextPlay();
+        } else {
+          previousPlay();
+        }
       }
     }
   }
@@ -258,10 +270,10 @@ class _ChewieVideoState extends State<ChewieVideo>
       print('NO READY, QUIT');
       dispose();
     } else {
-      if (_index == 0 && isReady == false) {
-        Timer(Duration(seconds: 1), () {
+      if (_index == 0 && !isPrevious) {
+        Timer(Duration(seconds: 2), () {
           vc.pause();
-          showGetReady(context);
+          //showGetReady(context);
         });
       }
     }
@@ -301,6 +313,7 @@ class _ChewieVideoState extends State<ChewieVideo>
                     rest: exerciseRest,
                     currentSet: exerciseSet,
                     playNext: nextPlay,
+                    playPrevious: previousPlay,
                     repsDescription: exerciseRepsDescription),
               ),
             ),

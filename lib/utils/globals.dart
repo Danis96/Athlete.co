@@ -53,3 +53,5 @@ var swatch = Stopwatch();
 bool isFromPortrait = true;
 /// from settings and chooseAthlete
 bool isFromSettings = false;
+///if index is 0 from previous or not
+bool isPrevious = false;
