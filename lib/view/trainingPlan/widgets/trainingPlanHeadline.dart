@@ -66,23 +66,6 @@ Widget trainingPlanHeadline(
           ),
         ],
       ),
-      Container(
-        alignment: Alignment.centerRight,
-        margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 8),
-        child: IconButton( 
-          onPressed: () => 
-           Navigator.of(context)
-              .push(CardAnimationTween(widget: SettingsPage(
-                userDocument: userDocument,
-                userUID: userUID,
-          ))),
-          icon: Icon(
-            Icons.settings,
-            color: MyColors().white,
-            size: SizeConfig.blockSizeHorizontal * 7,
-          ),
-        ),
-      )
     ],
   );
 }
