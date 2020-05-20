@@ -73,15 +73,15 @@ class _TrainingPlanState extends State<TrainingPlan> {
                   height: SizeConfig.blockSizeVertical * 2.5,
                 ),
                 Container(
-                  child: IconButton(
-                    icon: FaIcon(
-                      FontAwesomeIcons.questionCircle,
-                      color: Colors.white,
-                      size: SizeConfig.blockSizeHorizontal * 9,
-                    ),
-                    onPressed: () => showSocialMediaDialog(context),
+                    child: FlatButton.icon(
+                  onPressed: () => showSocialMediaDialog(context),
+                  label: Text('Feel free to ask', style: TextStyle(color: MyColors().lightWhite, fontSize: SizeConfig.safeBlockHorizontal * 4),),
+                  icon: FaIcon(
+                    FontAwesomeIcons.questionCircle,
+                    color: Colors.white,
+                    size: SizeConfig.blockSizeHorizontal * 9,
                   ),
-                ),
+                )),
                 listOfWeeks(
                   widget.userDocument,
                   widget.userTrainerDocument,
