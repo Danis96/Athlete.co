@@ -37,10 +37,10 @@ class _ChewieVideoState extends State<ChewieVideo>
   List<String> source = [
     'assets/video/F.mp4',
     'assets/video/C.mp4',
+    'assets/video/F.mp4',
+    'assets/video/F.mp4',
     'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
+    'assets/video/F.mp4',
     'assets/video/C.mp4',
     'assets/video/C.mp4',
     'assets/video/C.mp4',
@@ -69,7 +69,7 @@ class _ChewieVideoState extends State<ChewieVideo>
   int _index = 0;
   int get index => _index;
   set index(int nv) {
-    if (nv > _index) {
+   // if (nv > _index) {
       // +
       nv = nv % source.length;
       vc.autoplay = true;
@@ -80,7 +80,7 @@ class _ChewieVideoState extends State<ChewieVideo>
       vc.controllerWidgets = true;
 
       vc.initialize();
-    }
+   // }
     _index = nv;
   }
 
