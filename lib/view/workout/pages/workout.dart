@@ -46,10 +46,6 @@ class _WorkoutState extends State<Workout> {
   List<dynamic> _series = [], _exercises = [], _exerciseTips = [];
   List<dynamic> serije = [];
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
 
   refreshFromInfo() {
     setState(() {});
