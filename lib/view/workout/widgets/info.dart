@@ -52,13 +52,26 @@ class _InfoExerciseState extends State<InfoExercise> {
       body: WillPopScope(
         onWillPop: () => _onWillPop(),
         child: ListView(
-          shrinkWrap: true, 
+          shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           children: <Widget>[
             Container(
+              height: SizeConfig.blockSizeVertical * 30,
+              width: SizeConfig.blockSizeHorizontal * 100,
               margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 2),
               child: Center(
-                child: VideoBox(controller: vc),
+                child: VideoBox(
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: () async =>  await playAndPause(),
+                        child: Container(
+                          height: SizeConfig.blockSizeVertical * 90,
+                           child: Text('s'),
+                           width: SizeConfig.blockSizeHorizontal * 100,
+                        ),
+                      ),
+                    ],
+                    controller: vc),
               ),
             ),
             Container(
@@ -125,7 +138,11 @@ class _InfoExerciseState extends State<InfoExercise> {
                                             SizeConfig.blockSizeHorizontal * 5),
                                     child: Text(
                                       widget.exerciseTips[index].toString(),
-                                      style: TextStyle(color: MyColors().white, fontSize: SizeConfig.safeBlockHorizontal * 3.5),
+                                      style: TextStyle(
+                                          color: MyColors().white,
+                                          fontSize:
+                                              SizeConfig.safeBlockHorizontal *
+                                                  3.5),
                                     ),
                                   );
                                 },
@@ -136,7 +153,8 @@ class _InfoExerciseState extends State<InfoExercise> {
                             Container(
                               alignment: Alignment.bottomRight,
                               margin: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical * 6,),
+                                top: SizeConfig.blockSizeVertical * 6,
+                              ),
                               child: FlatButton(
                                   color: MyColors().black,
                                   onPressed: () => onDone(),
@@ -167,7 +185,11 @@ class _InfoExerciseState extends State<InfoExercise> {
   onDone() {
     setState(() {
       goBackToChewie
-          ? isFromPortrait ?  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])  : SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight])
+          ? isFromPortrait
+              ? SystemChrome.setPreferredOrientations(
+                  [DeviceOrientation.portraitUp])
+              : SystemChrome.setPreferredOrientations(
+                  [DeviceOrientation.landscapeRight])
           : print('NIJE SA VIDEA');
     });
     goBackToChewie ? isTips = true : isTips = false;
@@ -178,9 +200,17 @@ class _InfoExerciseState extends State<InfoExercise> {
     goBackToChewie = false;
   }
 
+  playAndPause() {
+    vc.value.isPlaying ? vc.pause() : vc.play();
+  }
+
   Future<bool> _onWillPop() async {
     if (goBackToChewie) {
-        isFromPortrait ?  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])  : SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeRight]);
+      isFromPortrait
+          ? SystemChrome.setPreferredOrientations(
+              [DeviceOrientation.portraitUp])
+          : SystemChrome.setPreferredOrientations(
+              [DeviceOrientation.landscapeRight]);
     }
     setState(() {
       infoClicked = true;
@@ -190,8 +220,8 @@ class _InfoExerciseState extends State<InfoExercise> {
 }
 
 checkForOrientationOnBack() {
-   isFromPortrait ? SystemChrome.setPreferredOrientations(
-                      [DeviceOrientation.portraitUp]) : 
-                  SystemChrome.setPreferredOrientations(
-                      [DeviceOrientation.landscapeRight]);
+  isFromPortrait
+      ? SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      : SystemChrome.setPreferredOrientations(
+          [DeviceOrientation.landscapeRight]);
 }
