@@ -106,15 +106,15 @@ class SignInViewModel implements SignInInterface {
           userUIDTwitter, 'Twitter');
       currentUserDocuments = await getCurrentUserDocument(userUIDTwitter);
       currentUserDocument = currentUserDocuments[0];
-      List<dynamic> listOfWeeksFinished =
-          currentUserDocument.data['weeks_finished'];
-      currentWeek = listOfWeeksFinished.length + 1;
+      // List<dynamic> listOfWeeksFinished =
+      //     currentUserDocument.data['weeks_finished'];
+      // currentWeek = listOfWeeksFinished.length + 1;
     } else {
       currentUserDocuments = await getCurrentUserDocument(userUIDTwitter);
       currentUserDocument = currentUserDocuments[0];
-      List<dynamic> listOfWeeksFinished =
-          currentUserDocument.data['weeks_finished'];
-      currentWeek = listOfWeeksFinished.length + 1;
+      // List<dynamic> listOfWeeksFinished =
+      //     currentUserDocument.data['weeks_finished'];
+      // currentWeek = listOfWeeksFinished.length + 1;
       if (currentUserDocument.data['trainer'] != null &&
           currentUserDocument.data['trainer'] != '') {
         currentUserTrainerDocuments =
@@ -209,15 +209,15 @@ class SignInViewModel implements SignInInterface {
       createUser(userName, userEmail, userPhoto, userUIDGoogle, 'Google');
       currentUserDocuments = await getCurrentUserDocument(userUIDGoogle);
       currentUserDocument = currentUserDocuments[0];
-      List<dynamic> listOfWeeksFinished =
-          currentUserDocument.data['weeks_finished'];
-      currentWeek = listOfWeeksFinished.length + 1;
+      // List<dynamic> listOfWeeksFinished =
+      //     currentUserDocument.data['weeks_finished'];
+      // currentWeek = listOfWeeksFinished.length + 1;
     } else {
       currentUserDocuments = await getCurrentUserDocument(userUIDGoogle);
       currentUserDocument = currentUserDocuments[0];
-      List<dynamic> listOfWeeksFinished =
-          currentUserDocument.data['weeks_finished'];
-      currentWeek = listOfWeeksFinished.length + 1;
+      // List<dynamic> listOfWeeksFinished =
+      //     currentUserDocument.data['weeks_finished'];
+      // currentWeek = listOfWeeksFinished.length + 1;
       if (currentUserDocument.data['trainer'] != null &&
           currentUserDocument.data['trainer'] != '') {
         currentUserTrainerDocuments =
@@ -304,15 +304,15 @@ class SignInViewModel implements SignInInterface {
       createUser(userName, userEmail, userPhoto, userUIDFacebook, 'Facebook');
       currentUserDocuments = await getCurrentUserDocument(userUIDFacebook);
       currentUserDocument = currentUserDocuments[0];
-      List<dynamic> listOfWeeksFinished =
-          currentUserDocument.data['weeks_finished'];
-      currentWeek = listOfWeeksFinished.length + 1;
+      // List<dynamic> listOfWeeksFinished =
+      //     currentUserDocument.data['weeks_finished'];
+      // currentWeek = listOfWeeksFinished.length + 1;
     } else {
       currentUserDocuments = await getCurrentUserDocument(userUIDFacebook);
       currentUserDocument = currentUserDocuments[0];
-      List<dynamic> listOfWeeksFinished =
-          currentUserDocument.data['weeks_finished'];
-      currentWeek = listOfWeeksFinished.length + 1;
+      // List<dynamic> listOfWeeksFinished =
+      //     currentUserDocument.data['weeks_finished'];
+      // currentWeek = listOfWeeksFinished.length + 1;
       if (currentUserDocument.data['trainer'] != null &&
           currentUserDocument.data['trainer'] != '') {
         currentUserTrainerDocuments =
@@ -440,9 +440,9 @@ class SignInViewModel implements SignInInterface {
 
     currentUserDocuments = await getCurrentUserDocument(userUIDP);
     currentUserDocument = currentUserDocuments[0];
-    List<dynamic> listOfWeeksFinished =
-        currentUserDocument.data['weeks_finished'];
-    currentWeek = listOfWeeksFinished.length + 1;
+    // List<dynamic> listOfWeeksFinished =
+    //     currentUserDocument.data['weeks_finished'];
+    // currentWeek = listOfWeeksFinished.length + 1;
 
     if (currentUserDocument.data['trainer'] != null &&
         currentUserDocument.data['trainer'] != '') {
