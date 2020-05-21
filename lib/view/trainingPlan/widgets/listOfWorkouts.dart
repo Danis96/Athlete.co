@@ -1,9 +1,65 @@
+import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/trainingPlan/widgets/workoutContainer.dart';
 import 'package:attt/view_model/trainingPlanViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
+class ListOfWorkouts extends StatelessWidget {
+  final DocumentSnapshot userDocument, userTrainerDocument;
+  final AsyncSnapshot snapshot;
+  final int index;
+  final String weekName;
+  const ListOfWorkouts(
+      {Key key,
+      this.userDocument,
+      this.weekName,
+      this.index,
+      this.snapshot,
+      this.userTrainerDocument})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        /// workout name
+        title: Text(
+              userTrainerDocument.data['trainer_name'] +
+              ' ' +
+              snapshot.data[index]['name']
+                  .toString()
+                  .substring(0, 1)
+                  .toUpperCase() +
+              snapshot.data[index]['name'].toString().substring(1),
+          style: TextStyle(fontSize: SizeConfig.blockSizeHorizontal * 5),
+        ),
+        backgroundColor: MyColors().lightBlack,
+        elevation: 0,
+        leading: IconButton(
+          icon: Icon(
+            Icons.clear,
+            color: MyColors().white,
+            size: SizeConfig.blockSizeHorizontal * 5.5,
+          ),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+      ),
+      backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
+      body: Padding(
+        padding: EdgeInsets.only(
+            top: SizeConfig.blockSizeVertical * 2,
+            left: SizeConfig.blockSizeHorizontal * 4.5,
+            right: SizeConfig.blockSizeHorizontal * 4.5),
+        child: SingleChildScrollView(
+          child: listOfWorkouts(
+              userDocument, userTrainerDocument, snapshot, index, weekName),
+        ),
+      ),
+    );
+  }
+}
 
 Widget listOfWorkouts(
     DocumentSnapshot userDocument,
@@ -43,17 +99,6 @@ Widget listOfWorkouts(
                     workoutID,
                     workoutIDs);
               },
-            ),
-            SizedBox(
-              height: SizeConfig.blockSizeVertical * 1.25,
-            ),
-            Divider(
-              height: SizeConfig.blockSizeVertical * 0.16,
-              thickness: SizeConfig.blockSizeVertical * 0.16,
-              color: Color.fromRGBO(255, 255, 255, 0.2),
-            ),
-            SizedBox(
-              height: SizeConfig.blockSizeVertical * 3,
             ),
           ],
         );

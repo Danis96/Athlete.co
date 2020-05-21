@@ -62,7 +62,9 @@ Widget workoutContainer(
                   .toUpperCase() +
               snapshot2.data[index2]['tag'].toString().substring(1),
           style: TextStyle(
-              color: Colors.white,
+              color: workoutIDs.contains(workoutID)
+                  ? Colors.white60
+                  : Colors.white,
               fontFamily: 'Roboto',
               fontSize: SizeConfig.blockSizeVertical * 2.5,
               fontWeight: FontWeight.w500),
@@ -75,36 +77,40 @@ Widget workoutContainer(
         leading: Icon(
           Icons.fitness_center,
           size: SizeConfig.blockSizeVertical * 5,
-          color: MyColors().white,
+          color: workoutIDs.contains(workoutID) ? Colors.white60 : Colors.white,
         ),
-        trailing: Icon(
-          Icons.arrow_forward_ios,
-          size: SizeConfig.blockSizeHorizontal * 5,
-          color: MyColors().white,
-        ),
-        subtitle: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Text(
-              snapshot2.data[index2].data['numberOfExercises'].toString() +
-                  ' Exercises',
-              style: TextStyle(
-                  color: Colors.white60,
-                  fontFamily: 'Roboto',
-                  fontSize: SizeConfig.blockSizeVertical * 2,
-                  fontWeight: FontWeight.w400),
-            ),
-            workoutIDs.contains(workoutID)
-                ? Text(
+        trailing: workoutIDs.contains(workoutID)
+            ? Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(
+                    Icons.check,
+                    size: SizeConfig.blockSizeVertical * 3,
+                    color: MyColors().white,
+                  ),
+                  Text(
                     'DONE',
                     style: TextStyle(
-                        color: Colors.white60,
+                        color: Colors.white,
                         fontFamily: 'Roboto',
-                        fontSize: SizeConfig.blockSizeVertical * 2,
-                        fontWeight: FontWeight.w500),
+                        fontSize: SizeConfig.blockSizeVertical * 2.5,
+                        fontWeight: FontWeight.w700),
                   )
-                : EmptyContainer()
-          ],
+                ],
+              )
+            : Icon(
+                Icons.arrow_forward_ios,
+                size: SizeConfig.blockSizeHorizontal * 5,
+                color: MyColors().white,
+              ),
+        subtitle: Text(
+          snapshot2.data[index2].data['numberOfExercises'].toString() +
+              ' Exercises',
+          style: TextStyle(
+              color: workoutIDs.contains(workoutID) ? Colors.white70 : Colors.white,
+              fontFamily: 'Roboto',
+              fontSize: SizeConfig.blockSizeVertical * 2,
+              fontWeight: FontWeight.w400),
         ),
       ),
     ),
