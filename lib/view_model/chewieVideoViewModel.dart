@@ -1,4 +1,3 @@
-import 'package:attt/storage/storage.dart';
 import 'package:attt/view/chewieVideo/pages/chewieVideo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +9,6 @@ class ChewieVideoViewModel {
         builder: (_) => ChewieVideo(
               userDocument: userDocument,
               userTrainerDocument: userTrainerDocument,
-              storage: Storage(),
               workoutID: workoutID,
               weekID: weekID
             )));

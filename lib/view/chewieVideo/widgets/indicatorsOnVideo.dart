@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:attt/utils/colors.dart';
-import 'package:attt/utils/customScreenAnimation.dart';
 import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/view/chewieVideo/widgets/addNote.dart';
@@ -9,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:quiver/async.dart';
 import 'package:video_box/video.controller.dart';
 import 'package:attt/utils/size_config.dart';
 
@@ -16,35 +16,31 @@ class IndicatorsOnVideo extends StatefulWidget {
   final VideoController controller;
   final DocumentSnapshot userDocument, userTrainerDocument;
   final int index, listLenght;
-  final int duration;
-  final Function showRest, showAddNote, playNext, playPrevious, onWill;
-  final int isReps, sets, reps, rest;
+  final Function showAddNote, playNext, playPrevious, onWill, showTimerDialog;
+  final int isReps, sets, reps;
   final String name, workoutID, weekID, currentSet, repsDescription;
   final bool ctrl;
 
-  IndicatorsOnVideo({
-    this.controller,
-    this.currentSet,
-    this.repsDescription,
-    this.showAddNote,
-    this.workoutID,
-    this.playPrevious,
-    this.playNext,
-    this.listLenght,
-    this.rest,
-    this.weekID,
-    this.name,
-    this.sets,
-    this.reps,
-    this.isReps,
-    this.showRest,
-    this.index,
-    this.userTrainerDocument,
-    this.userDocument,
-    this.ctrl,
-    this.duration,
-    this.onWill,
-  });
+  IndicatorsOnVideo(
+      {this.controller,
+      this.currentSet,
+      this.repsDescription,
+      this.showAddNote,
+      this.workoutID,
+      this.playPrevious,
+      this.playNext,
+      this.listLenght,
+      this.weekID,
+      this.name,
+      this.sets,
+      this.reps,
+      this.isReps,
+      this.index,
+      this.userTrainerDocument,
+      this.userDocument,
+      this.ctrl,
+      this.onWill,
+      this.showTimerDialog});
 
   @override
   _IndicatorsOnVideoState createState() => _IndicatorsOnVideoState();
@@ -71,130 +67,69 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       parent: _controller,
       curve: Curves.easeInOut,
     ));
-    _start = widget.duration;
-    _isLessThan10 = false;
-
-    if (widget.index == 0) {
-      if (widget.isReps == 1 && !timerPaused) {
-        // Timer(Duration(seconds: 6), () {
-        startTimer(_start);
-        widget.controller.play();
-        // });
-      } else if (widget.isReps == 0) {
-        // Timer(Duration(seconds: 6), () {
-        widget.controller.play();
-        // });
-      }
-    } else {
-      if (widget.isReps == 1 && !timerPaused) {
-        startTimer(_start);
-        widget.controller.play();
-      } else if (widget.isReps == 0) {
-        widget.controller.play();
-      }
-    }
-  }
-
-  @override
-  void didUpdateWidget(IndicatorsOnVideo oldWidget) {
-    print('DOLAZIM IZ DIDUPDATEWIDGET ');
-    super.didUpdateWidget(oldWidget);
-    //widget.controller.controllerWidgets = true;
-    Future.delayed(Duration(milliseconds: 400));
-    if (isOrientation) {
-      widget.controller.play();
-      if (widget.isReps == 1) {
-        startTimer(pausedOn);
-      }
-      timerPaused = false;
-      isOrientation = false;
-    } else {
-      if (widget.index == 0) {
-        if (pausedOn == null) {
-          _start = widget.duration;
-        } else {
-          _start = pausedOn;
-
-          /// this is added to solve 00:1
-          if (_start < 10)
-            _isLessThan10 = true;
-          else
-            _isLessThan10 = false;
-        }
-      }
-      if (widget.ctrl == true) {
-        _start = widget.duration;
-
-        /// this is added to solve 00:1
-        if (_start < 10)
-          _isLessThan10 = true;
-        else
-          _isLessThan10 = false;
-      }
-      if (widget.index > 0) {
-        if (widget.isReps == 1 && !timerPaused) {
-          startTimer(_start);
-          widget.controller.play();
-        } else if (widget.isReps == 0 && !restShowed) {
-          widget.controller.play();
-        }
-      }
-      if (widget.isReps == 1) {
-        if (isOrientation) {
-          pausedOn = _start;
-
-          /// this is added to solve 00:1
-          if (pausedOn < 10)
-            _isLessThan10 = true;
-          else
-            _isLessThan10 = false;
-        }
-      }
-    }
   }
 
   @override
   void dispose() {
-    if (videoTimer != null) {
-      videoTimer.cancel();
-    }
     _controller.dispose();
     super.dispose();
   }
 
-  int _start;
-  int pausedOn;
-  bool timerPaused = false;
-  bool _isLessThan10 = false;
+  /// for displaying the current time
+  Duration _current = Duration();
 
-  void startTimer(int startingValue) async {
-    print('DOLAZIM IZ TIMERA ');
-    const oneSec = const Duration(seconds: 1);
-    videoTimer = new Timer.periodic(
-      oneSec,
-      (Timer timer) => setState(
-        () {
-          if (startingValue < 1) {
-            if (widget.rest > 0) {
-              if (widget.index == widget.listLenght - 1) isTimerDone = true;
-              widget.showRest(context, 'next');
-            } else {
-              if (widget.index == widget.listLenght - 1) isTimerDone = true;
-              widget.showRest(context, 'next');
-            }
-            restShowed = true;
-            timerPaused = false;
-            timer.cancel();
-          } else {
-            startingValue = startingValue - 1;
-            _start = startingValue;
-            if (_start < 10) {
-              _isLessThan10 = true;
-            }
-          }
-        },
-      ),
+  /// when we pause video/timer we want to get the current time
+  Duration _pausedOn = Duration();
+
+  /// initial calue of [d1] => before we choose the time in dialog
+  var d1 =
+      Duration(minutes: minutesForIndicators, seconds: secondsForIndicators);
+
+  /// function for formating duration
+  format(Duration d) => d.toString().substring(2, 7);
+
+  /// instance for [CountDownTimer]
+  CountdownTimer countDownTimer;
+
+  /// here we create new instance of [CountDownTimer],
+  /// and we set the [d1] variable (after we have choose the time)
+  ///
+  /// then create listener and add value to [_current] for displaying the time
+  void startTimer(Duration dur) {
+    countDownTimer = new CountdownTimer(
+      new Duration(seconds: dur.inSeconds),
+      new Duration(seconds: 1),
     );
+
+    var sub = countDownTimer.listen(null);
+    sub.onData((duration) {
+      setState(() {
+        _current = Duration(seconds: dur.inSeconds - duration.elapsed.inSeconds);
+      });
+    });
+
+    /// when timer is done activate this
+    sub.onDone(() {
+      print("Done");
+      countDownTimer.cancel();
+      sub.cancel();
+    });
+    isTimeChoosed = false;
+    isTimerPaused = false;
+  }
+
+
+  /// activates every time the widget is changed
+  @override
+  void didUpdateWidget(IndicatorsOnVideo oldWidget) {
+    print('DOLAZIM IZ DIDUPDATEWIDGET ');
+    super.didUpdateWidget(oldWidget);
+    /// if time is choosed  set the minutes and seconds that user choosed
+    /// into duration [d1] variable
+    if (isTimeChoosed) {
+      d1 = Duration(
+          minutes: minutesForIndicators, seconds: secondsForIndicators);
+    }
   }
 
   @override
@@ -233,9 +168,10 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                 : SizeConfig.blockSizeHorizontal * 80),
                         child: IconButton(
                           icon: Icon(Icons.clear),
-                          iconSize:  MediaQuery.of(context).orientation ==
-                              Orientation.landscape
-                              ? SizeConfig.blockSizeHorizontal * 4  : SizeConfig.blockSizeHorizontal * 7,
+                          iconSize: MediaQuery.of(context).orientation ==
+                                  Orientation.landscape
+                              ? SizeConfig.blockSizeHorizontal * 4
+                              : SizeConfig.blockSizeHorizontal * 7,
                           onPressed: () => widget.onWill(),
                           color: Colors.white,
                         ),
@@ -255,12 +191,40 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                         : SizeConfig.blockSizeHorizontal * 10,
                                     color: Colors.white54,
                                     onPressed: () {
-                                      widget.showRest(context, 'previous');
+                                      widget.playPrevious();
                                     },
                                   ),
                                 ),
                           widget.index == (widget.listLenght - 1)
-                              ? EmptyContainer()
+                              ? Container(
+                                  height: MediaQuery.of(context).orientation ==
+                                          Orientation.landscape
+                                      ? SizeConfig.blockSizeHorizontal * 10
+                                      : SizeConfig.blockSizeHorizontal * 10,
+                                  margin: EdgeInsets.only(
+                                      top: MediaQuery.of(context).orientation ==
+                                              Orientation.landscape
+                                          ? SizeConfig.blockSizeVertical * 0
+                                          : SizeConfig.blockSizeVertical * 5,
+                                      left: MediaQuery.of(context)
+                                                  .orientation ==
+                                              Orientation.landscape
+                                          ? 0
+                                          : SizeConfig.blockSizeHorizontal * 5),
+                                  child: IconButton(
+                                    icon: Icon(CupertinoIcons
+                                        .check_mark_circled_solid),
+                                    onPressed: () {
+                                      widget.playNext();
+                                    },
+                                    color: Colors.white,
+                                    iconSize: MediaQuery.of(context)
+                                                .orientation ==
+                                            Orientation.landscape
+                                        ? SizeConfig.blockSizeHorizontal * 9
+                                        : SizeConfig.blockSizeHorizontal * 12,
+                                  ),
+                                )
                               : Container(
                                   child: IconButton(
                                     icon: Icon(Icons.skip_next),
@@ -271,7 +235,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                         : SizeConfig.blockSizeHorizontal * 10,
                                     color: Colors.white54,
                                     onPressed: () {
-                                      widget.showRest(context, 'next');
+                                      widget.playNext();
                                     },
                                   ),
                                 ),
@@ -289,18 +253,15 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                               if (infoClicked) {
                                 Timer(Duration(seconds: 0), () {
                                   if (widget.isReps == 1) {
-                                    pausedOn = _start;
-                                    if (videoTimer != null) {
-                                      videoTimer.cancel();
-                                    }
+                                    /// pause timer
+
                                   }
                                   setState(() {
-                                    timerPaused = true;
                                     goBackToChewie = true;
                                     infoClicked = false;
                                   });
                                   widget.controller.pause();
-                                  _start = pausedOn;
+
                                   if (MediaQuery.of(context).orientation ==
                                       Orientation.portrait)
                                     isFromPortrait = true;
@@ -377,17 +338,12 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                   if (noteClicked) {
                                     Timer(Duration(seconds: 0), () {
                                       if (widget.isReps == 1) {
-                                        pausedOn = _start;
-                                        if (videoTimer != null) {
-                                          videoTimer.cancel();
-                                        }
+                                        /// pause timer
                                       }
                                       setState(() {
-                                        timerPaused = true;
                                         noteClicked = false;
                                       });
                                       widget.controller.pause();
-                                      _start = pausedOn;
                                       if (MediaQuery.of(context).orientation ==
                                           Orientation.portrait)
                                         isFromPortrait = true;
@@ -403,12 +359,10 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                               userTrainerDocument:
                                                   widget.userTrainerDocument,
                                               index: widget.index,
-                                              duration: widget.duration,
                                               isReps: widget.isReps,
                                               reps: widget.reps,
                                               sets: widget.sets,
                                               name: widget.name,
-                                              showRest: widget.showRest,
                                               workoutID: widget.workoutID,
                                               weekID: widget.weekID),
                                         ),
@@ -538,42 +492,32 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                               fontWeight: FontWeight.bold,
                                               fontStyle: FontStyle.italic)),
                                     )
-                                  : Container(
-                                      margin: EdgeInsets.only(
-                                          top: MediaQuery.of(context)
-                                                      .orientation ==
-                                                  Orientation.landscape
-                                              ? SizeConfig.blockSizeVertical * 0
-                                              : SizeConfig.blockSizeVertical *
-                                                  3,
-                                          left: MediaQuery.of(context)
-                                                      .orientation ==
-                                                  Orientation.landscape
-                                              ? SizeConfig.blockSizeHorizontal *
-                                                  0
-                                              : SizeConfig.blockSizeHorizontal *
-                                                  30),
-                                      child: Text(
-                                          _isLessThan10
-                                              ? timerPaused
-                                                  ? '00:0' + pausedOn.toString()
-                                                  : '00:0' + _start.toString()
-                                              : timerPaused
-                                                  ? '00:' + pausedOn.toString()
-                                                  : '00:' + _start.toString(),
+                                  :
+//                              EmptyContainer(),
+                                  GestureDetector(
+                                      onTap: () {
+                                        widget.showTimerDialog(context);
+                                        widget.controller.pause();
+                                        _pausedOn = _current;
+                                        countDownTimer.cancel();
+                                        isTimerPaused = true;
+                                      },
+                                      child: Container(
+                                        margin: EdgeInsets.only(
+                                            top: SizeConfig.blockSizeVertical *
+                                                4,
+                                            left:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    32),
+                                        child: Text(
+                                          format(_current),
                                           style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: MediaQuery.of(context)
-                                                          .orientation ==
-                                                      Orientation.landscape
-                                                  ? SizeConfig
-                                                          .safeBlockHorizontal *
-                                                      7
-                                                  : SizeConfig
-                                                          .blockSizeVertical *
-                                                      5,
-                                              fontWeight: FontWeight.w800,
-                                              fontStyle: FontStyle.italic)),
+                                              fontSize: SizeConfig
+                                                      .safeBlockHorizontal *
+                                                  10,
+                                              color: Colors.white),
+                                        ),
+                                      ),
                                     ),
                               Container(
                                 padding: MediaQuery.of(context).orientation ==
@@ -616,54 +560,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                             children: <Widget>[
                               /// done icon
                               widget.isReps == 0
-                                  ? Container(
-                                      height: MediaQuery.of(context)
-                                                  .orientation ==
-                                              Orientation.landscape
-                                          ? SizeConfig.blockSizeHorizontal * 10
-                                          : SizeConfig.blockSizeHorizontal * 10,
-                                      margin: EdgeInsets.only(
-                                          top: MediaQuery.of(context)
-                                                      .orientation ==
-                                                  Orientation.landscape
-                                              ? SizeConfig.blockSizeVertical * 0
-                                              : SizeConfig.blockSizeVertical *
-                                                  5,
-                                          left: MediaQuery.of(context)
-                                                      .orientation ==
-                                                  Orientation.landscape
-                                              ? 0
-                                              : SizeConfig.blockSizeHorizontal *
-                                                  5),
-                                      child: IconButton(
-                                        icon: Icon(CupertinoIcons
-                                            .check_mark_circled_solid),
-                                        onPressed: () {
-                                          if (widget.rest > 0) {
-                                            if (widget.index ==
-                                                widget.listLenght - 1)
-                                              isTimerDone = true;
-                                            widget.showRest(context, 'next');
-                                          } else {
-                                            if (widget.index ==
-                                                widget.listLenght - 1)
-                                              isTimerDone = true;
-                                            widget.showRest(context, 'next');
-                                          }
-                                          setState(() {
-                                            restShowed = true;
-                                            timerPaused = false;
-                                          });
-                                        },
-                                        color: Colors.white,
-                                        iconSize: MediaQuery.of(context)
-                                                    .orientation ==
-                                                Orientation.landscape
-                                            ? SizeConfig.blockSizeHorizontal * 9
-                                            : SizeConfig.blockSizeHorizontal *
-                                                12,
-                                      ),
-                                    )
+                                  ? EmptyContainer()
                                   : Container(
                                       width: 0,
                                       height: MediaQuery.of(context)
@@ -707,43 +604,52 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   }
 
   pauseAndPlayFunction() {
-    if (!timerPaused) {
-      pausedOn = _start;
+    /// if controller is playing - pause it, else play it
+    if (widget.controller.value.isPlaying) {
       widget.controller.pause();
-      if (widget.isReps == 1) {
-        if (videoTimer != null) {
-          videoTimer.cancel();
-        }
-      }
-      setState(() {
-        timerPaused = true;
-      });
+      _pausedOn = _current;
+      countDownTimer.cancel();
+      isTimerPaused = true;
     } else {
       widget.controller.play();
-      if (widget.isReps == 1) {
-        startTimer(pausedOn);
+      if (isTimeChoosed) {
+        startTimer(d1);
       }
-      setState(() {
-        timerPaused = false;
-      });
+      if(isTimerPaused) {
+        startTimer(_pausedOn);
+      }
     }
+//    if (!timerPaused) {
+//
+//      widget.controller.pause();
+//
+//
+//    }
+
+//    else {
+//      widget.controller.play();
+//
+//      /// start timer again
+//    }
   }
 
   rotateScreen() {
 //    isOrientation = true;
     widget.controller.controllerWidgets = false;
-    if (!timerPaused) {
-      pausedOn = _start;
-      widget.controller.pause();
-      if (widget.isReps == 1) {
-        if (videoTimer != null) {
-          videoTimer.cancel();
-        }
-      }
-      setState(() {
-        timerPaused = true;
-      });
-    }
+
+    /// if timer is not paused
+//    if (!timerPaused) {
+////      pausedOn = _start;
+//      widget.controller.pause();
+//      if (widget.isReps == 1) {
+//        if (videoTimer != null) {
+//          videoTimer.cancel();
+//        }
+//      }
+//      setState(() {
+////        timerPaused = true;
+//      });
+//    }
     Future.delayed(Duration(milliseconds: 400)).then((value) => {
           MediaQuery.of(context).orientation == Orientation.landscape
               ? SystemChrome.setPreferredOrientations(

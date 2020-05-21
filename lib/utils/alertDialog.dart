@@ -60,6 +60,7 @@ class _MyAlertDialogState extends State<MyAlertDialog> {
         ),
         new FlatButton(
           onPressed: () {
+            isTimeChoosed = false;
             widget.vc == null ? print('No controller') : widget.vc.pause();
             alertQuit = true;
             userNotes = '';
