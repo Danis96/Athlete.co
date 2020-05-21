@@ -30,7 +30,6 @@ class _TrainingPlanState extends State<TrainingPlan> {
   @override
   void initState() {
     super.initState();
-//    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   }
 
   @override

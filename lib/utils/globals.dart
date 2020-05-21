@@ -55,3 +55,8 @@ bool isFromPortrait = true;
 bool isFromSettings = false;
 ///if index is 0 from previous or not
 bool isPrevious = false;
+/// when button done is pressed on time choose dialog
+/// we set this to true to start timer
+bool isTimeChoosed = false;
+int minutesForIndicators = 0, secondsForIndicators = 0;
+bool isTimerPaused = false;
