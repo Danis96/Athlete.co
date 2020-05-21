@@ -60,3 +60,9 @@ bool isPrevious = false;
 bool isTimeChoosed = false;
 int minutesForIndicators = 0, secondsForIndicators = 0;
 bool isTimerPaused = false;
+/// activate pause from chewie on indicators
+bool activatePause = false;
+/// actiavte reset from chewie
+bool resetFromChewie = false;
+/// for reseting
+bool reseted = false;
