@@ -3,6 +3,7 @@ import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/fullTrainingStopwatch/fullTrainingStopwatch.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
+import 'package:attt/view/trainingPlan/widgets/socialMediaDialog.dart';
 import 'package:attt/view_model/chewieVideoViewModel.dart';
 import 'package:attt/view_model/signInViewModel.dart';
 import 'package:attt/view_model/trainingPlanViewModel.dart';
@@ -153,14 +154,7 @@ class _FinishWorkoutState extends State<FinishWorkout> {
                   height: SizeConfig.blockSizeVertical * 4,
                 ),
                 TextFormField(
-                  onTap: () {
-                    TrainingPlanViewModel().whatsAppOpen(
-                        '+38762623629',
-                        'Hello! I am writing from Finish Screen. I have a question!',
-                        '',
-                        context);
-                    print('PITAJ JARANE');
-                  },
+                  onTap: () => showSocialMediaDialog(context),
                   readOnly: true,
                   enableInteractiveSelection: false,
                   initialValue: 'ANY QUESTIONS FEEL FREE TO ASK',

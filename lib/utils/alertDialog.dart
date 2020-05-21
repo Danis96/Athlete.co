@@ -50,7 +50,6 @@ class _MyAlertDialogState extends State<MyAlertDialog> {
       actions: <Widget>[
         new FlatButton(
           onPressed: () {
-            widget.vc == null ? print('No controller') : widget.vc.play();
             Navigator.pop(context);
           },
           child: new Text(
@@ -61,20 +60,16 @@ class _MyAlertDialogState extends State<MyAlertDialog> {
         new FlatButton(
           onPressed: () {
             isTimeChoosed = false;
-            widget.vc == null ? print('No controller') : widget.vc.pause();
-            alertQuit = true;
             userNotes = '';
-            widget.ctrl == true ? print('NO DISPOSEEEEEE') : widget.close();
+            alertQuit = true;
             FullTrainingStopwatch().stopStopwtach();
             FullTrainingStopwatch().resetStopwtach();
-            widget.isReps == 0 || widget.isReps == null ? print('No time cancel') : videoTimer.cancel();
             Navigator.of(context).pushReplacement(CardAnimationTween(
               widget: TrainingPlan(
                 userDocument: widget.userDocument,
                 userTrainerDocument: widget.userTrainerDocument,
               ),
             ));
-            isReady = false;
             onlineVideos = [];
             exerciseSnapshots = [];
           },

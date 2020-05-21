@@ -1,4 +1,5 @@
 import 'package:attt/utils/globals.dart';
+import 'package:attt/view/trainingPlan/widgets/socialMediaDialog.dart';
 import 'package:attt/view_model/settingsViewModel.dart';
 import 'package:attt/view_model/trainingPlanViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -32,12 +33,6 @@ Widget settingsContainer(String headText, subText, isFrom,
                   fontWeight: FontWeight.w400)),
         ],
       ),
-      // decoration: BoxDecoration(
-      //   border: Border(
-      //     bottom: BorderSide(color: Colors.white70),
-      //     top: BorderSide(color: Colors.white60),
-      //   ),
-      // ),
     ),
   );
 }
@@ -48,8 +43,7 @@ checkAndDo(String isFrom, DocumentSnapshot userDocument, BuildContext context,
     isFromSettings = true;
     SettingsViewModel().changeAthlete(context, userDocument, userUID);
   } else if (isFrom == 'question') {
-    TrainingPlanViewModel()
-        .whatsAppOpen(phoneNumberForWhatsApp, messageForWhatsApp, '', context);
+    showSocialMediaDialog(context);
   } else if (isFrom == 'terms') {
     SettingsViewModel().goToTermsAndPrivacy(context);
   } else if (isFrom == 'privacy') {

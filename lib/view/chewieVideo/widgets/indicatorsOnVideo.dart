@@ -67,6 +67,11 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       parent: _controller,
       curve: Curves.easeInOut,
     ));
+
+
+    /// check if countDown is running ,
+    /// if it is RESET IT
+    checkIsCountDownRunning();
   }
 
   @override
@@ -104,7 +109,8 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
     var sub = countDownTimer.listen(null);
     sub.onData((duration) {
       setState(() {
-        _current = Duration(seconds: dur.inSeconds - duration.elapsed.inSeconds);
+        _current =
+            Duration(seconds: dur.inSeconds - duration.elapsed.inSeconds);
       });
     });
 
@@ -118,18 +124,27 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
     isTimerPaused = false;
   }
 
-
   /// activates every time the widget is changed
   @override
   void didUpdateWidget(IndicatorsOnVideo oldWidget) {
     print('DOLAZIM IZ DIDUPDATEWIDGET ');
     super.didUpdateWidget(oldWidget);
+
     /// if time is choosed  set the minutes and seconds that user choosed
     /// into duration [d1] variable
     if (isTimeChoosed) {
       d1 = Duration(
           minutes: minutesForIndicators, seconds: secondsForIndicators);
     }
+    if(activatePause) {
+      checkIsOnTimeAndPauseTimer();
+    }
+    if(resetFromChewie) {
+      resetTimer();
+    }
+
+    resetFromChewie = false;
+    activatePause = false;
   }
 
   @override
@@ -172,7 +187,10 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                   Orientation.landscape
                               ? SizeConfig.blockSizeHorizontal * 4
                               : SizeConfig.blockSizeHorizontal * 7,
-                          onPressed: () => widget.onWill(),
+                          onPressed: ()  {
+                            checkIsOnTimeAndPauseTimer();
+                            widget.onWill();
+                          },
                           color: Colors.white,
                         ),
                       ),
@@ -192,6 +210,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                     color: Colors.white54,
                                     onPressed: () {
                                       widget.playPrevious();
+                                      resetTimer();
                                     },
                                   ),
                                 ),
@@ -216,6 +235,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                         .check_mark_circled_solid),
                                     onPressed: () {
                                       widget.playNext();
+                                      resetTimer();
                                     },
                                     color: Colors.white,
                                     iconSize: MediaQuery.of(context)
@@ -236,6 +256,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                     color: Colors.white54,
                                     onPressed: () {
                                       widget.playNext();
+                                      resetTimer();
                                     },
                                   ),
                                 ),
@@ -251,11 +272,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                           GestureDetector(
                             onTap: () {
                               if (infoClicked) {
-                                Timer(Duration(seconds: 0), () {
-                                  if (widget.isReps == 1) {
-                                    /// pause timer
-
-                                  }
+                                 checkIsOnTimeAndPauseTimer();
                                   setState(() {
                                     goBackToChewie = true;
                                     infoClicked = false;
@@ -275,7 +292,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                       exerciseVideoForInfo: exVideo,
                                     ),
                                   ));
-                                });
                               } else {
                                 print('NE MOZE VIŠE PAŠA');
                               }
@@ -336,10 +352,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                 icon: Icon(Icons.comment),
                                 onPressed: () {
                                   if (noteClicked) {
-                                    Timer(Duration(seconds: 0), () {
-                                      if (widget.isReps == 1) {
-                                        /// pause timer
-                                      }
+                                      checkIsOnTimeAndPauseTimer();
                                       setState(() {
                                         noteClicked = false;
                                       });
@@ -367,7 +380,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                               weekID: widget.weekID),
                                         ),
                                       );
-                                    });
                                   } else {
                                     print('NE MOZE VIŠE PAŠA 2');
                                   }
@@ -607,49 +619,54 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
     /// if controller is playing - pause it, else play it
     if (widget.controller.value.isPlaying) {
       widget.controller.pause();
+      checkIsOnTimeAndPauseTimer();
+    } else {
+      widget.controller.play();
+         if(reseted) {
+            print('Timer has been reseted');
+            reseted = false;
+         } else {
+           if (widget.isReps == 1) {
+             if (isTimeChoosed) {
+               startTimer(d1);
+             }
+             if (isTimerPaused) {
+               startTimer(_pausedOn);
+             }
+           }
+         }
+
+    }
+  }
+
+  resetTimer() {
+    if(countDownTimer != null) {
+      countDownTimer.cancel();
+      _current = Duration(seconds: 0);
+      reseted = true;
+    }
+  }
+
+
+  /// if exercise is on time, het the paused time,
+  /// cancel the timer, set [isTimerPaused] on true
+  checkIsOnTimeAndPauseTimer() {
+    if (widget.isReps == 1) {
       _pausedOn = _current;
       countDownTimer.cancel();
       isTimerPaused = true;
-    } else {
-      widget.controller.play();
-      if (isTimeChoosed) {
-        startTimer(d1);
-      }
-      if(isTimerPaused) {
-        startTimer(_pausedOn);
+    }
+  }
+
+  checkIsCountDownRunning() {
+    if(countDownTimer != null) {
+      if(countDownTimer.isRunning) {
+        resetTimer();
       }
     }
-//    if (!timerPaused) {
-//
-//      widget.controller.pause();
-//
-//
-//    }
-
-//    else {
-//      widget.controller.play();
-//
-//      /// start timer again
-//    }
   }
 
   rotateScreen() {
-//    isOrientation = true;
-    widget.controller.controllerWidgets = false;
-
-    /// if timer is not paused
-//    if (!timerPaused) {
-////      pausedOn = _start;
-//      widget.controller.pause();
-//      if (widget.isReps == 1) {
-//        if (videoTimer != null) {
-//          videoTimer.cancel();
-//        }
-//      }
-//      setState(() {
-////        timerPaused = true;
-//      });
-//    }
     Future.delayed(Duration(milliseconds: 400)).then((value) => {
           MediaQuery.of(context).orientation == Orientation.landscape
               ? SystemChrome.setPreferredOrientations(
@@ -658,4 +675,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                   [DeviceOrientation.landscapeRight]),
         });
   }
+
+
 }
