@@ -30,7 +30,7 @@ class ChewieVideo extends StatefulWidget {
 }
 
 class _ChewieVideoState extends State<ChewieVideo>
-    with WidgetsBindingObserver, TickerProviderStateMixin
+    with WidgetsBindingObserver
     implements ChewieVideoInterface {
   List<String> source = [
     'assets/video/F.mp4',
@@ -55,8 +55,6 @@ class _ChewieVideoState extends State<ChewieVideo>
     'assets/video/C.mp4',
     'assets/video/C.mp4',
   ];
-  AnimationController _controllerTimer;
-  Animation<Offset> _offsetAnimationTimer;
   VideoController vc;
   VideoPlayerController controller;
   int exerciseDuration,
@@ -116,7 +114,7 @@ class _ChewieVideoState extends State<ChewieVideo>
             });
             Navigator.of(context).pop();
           },
-          child: Text('Done',style: TextStyle(color: MyColors().lightWhite),));
+          child: Text('Done',));
     }
 
     Widget buttonReset() {
@@ -127,15 +125,15 @@ class _ChewieVideoState extends State<ChewieVideo>
             });
             Navigator.of(context).pop();
           },
-          child: Text('Reset',style: TextStyle(color: MyColors().lightWhite),));
+          child: Text('Reset'));
     }
 
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
-      backgroundColor: MyColors().lightBlack,
+      backgroundColor: Colors.white,
       title: Text(
         "Choose your time",
-        style: TextStyle(color: MyColors().lightWhite),
+        style: TextStyle(color: MyColors().lightBlack),
       ),
       content: Container(
         alignment: Alignment.center,
@@ -146,7 +144,7 @@ class _ChewieVideoState extends State<ChewieVideo>
           children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[Text('Minutes', style: TextStyle(color: MyColors().lightWhite),), Text('Seconds',style: TextStyle(color: MyColors().lightWhite),)],
+              children: <Widget>[Text('Minutes',), Text('Seconds')],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -261,18 +259,6 @@ class _ChewieVideoState extends State<ChewieVideo>
     super.initState();
     // source = onlineVideos;
     WidgetsBinding.instance.addObserver(this);
-    _controllerTimer = AnimationController(
-      duration: const Duration(milliseconds: 1200),
-      vsync: this,
-    )..forward();
-
-    _offsetAnimationTimer = Tween<Offset>(
-      begin: const Offset(0.8, 0.0),
-      end: const Offset(0.0, 0.0),
-    ).animate(CurvedAnimation(
-      parent: _controllerTimer,
-      curve: Curves.easeInOut,
-    ));
 
     /// initializing VideoController and giving him source (videos)
     vc = VideoController(
