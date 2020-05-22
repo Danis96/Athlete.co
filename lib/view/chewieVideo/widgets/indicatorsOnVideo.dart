@@ -477,31 +477,32 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                     )
                                   :
 //                              EmptyContainer(),
-                                  GestureDetector(
-                                      onTap: () {
+                                  Container(
+                                    margin: EdgeInsets.only(
+                                        top: SizeConfig.blockSizeVertical *
+                                            4,
+                                        left:
+                                            SizeConfig.blockSizeHorizontal *
+                                                31),
+                                    child: RaisedButton(
+                                      color: Colors.white,
+                                      onPressed: () {
                                         widget.showTimerDialog(context);
                                         widget.controller.pause();
                                         _pausedOn = _current;
                                         countDownTimer.cancel();
                                         isTimerPaused = true;
                                       },
-                                      child: Container(
-                                        margin: EdgeInsets.only(
-                                            top: SizeConfig.blockSizeVertical *
-                                                4,
-                                            left:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    32),
-                                        child: Text(
-                                          format(_current),
-                                          style: TextStyle(
-                                              fontSize: SizeConfig
-                                                      .safeBlockHorizontal *
-                                                  10,
-                                              color: Colors.white),
-                                        ),
+                                      child: Text(
+                                        format(_current),
+                                        style: TextStyle(
+                                            fontSize: SizeConfig
+                                                    .safeBlockHorizontal *
+                                                10,
+                                            color: Colors.black),
                                       ),
                                     ),
+                                  ),
                               Container(
                                 padding: MediaQuery.of(context).orientation ==
                                         Orientation.landscape
@@ -541,7 +542,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                           ),
                           Column(
                             children: <Widget>[
-                              /// done icon
                               widget.isReps == 0
                                   ? EmptyContainer()
                                   : Container(
