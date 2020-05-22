@@ -215,30 +215,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                   ),
                                 ),
                           widget.index == (widget.listLenght - 1)
-                              ? Container(
-                                  height: MediaQuery.of(context).orientation ==
-                                          Orientation.landscape
-                                      ? SizeConfig.blockSizeHorizontal * 10
-                                      : SizeConfig.blockSizeHorizontal * 10,
-                                  margin: EdgeInsets.only(
-                                      top: MediaQuery.of(context).orientation ==
-                                              Orientation.landscape
-                                          ? SizeConfig.blockSizeVertical * 0
-                                          : SizeConfig.blockSizeVertical * 5,
-                                      left: MediaQuery.of(context)
-                                                  .orientation ==
-                                              Orientation.landscape
-                                          ? 0
-                                          : SizeConfig.blockSizeHorizontal * 5),
-                                  child: FlatButton(
-                                    child: Text('Finish Workout'),
-                                    onPressed: () {
-                                      widget.playNext();
-                                      resetTimer();
-                                    },
-                                    color: Colors.white,
-                                  ),
-                                )
+                              ? EmptyContainer()
                               : Container(
                                   child: IconButton(
                                     icon: Icon(Icons.skip_next),
