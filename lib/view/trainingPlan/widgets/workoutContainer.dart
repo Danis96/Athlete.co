@@ -22,18 +22,17 @@ Widget workoutContainer(
     onTap: !workoutIDs.contains(workoutID)
         ? () {
             TrainingPlanViewModel().navigateToWorkout(
-              userDocument,
-              userTrainerDocument,
-              userTrainerDocument.data['trainerID'],
-              snapshot2.data[index2]['name'],
-              snapshot.data[index].data['weekID'],
-              snapshot2.data[index2].data['workoutID'],
-              snapshot2.data[index2].data['warmup'],
-              context,
-              weekName,
-              snapshot2.data[index2].data['notes'],
-              true
-            );
+                userDocument,
+                userTrainerDocument,
+                userTrainerDocument.data['trainerID'],
+                snapshot2.data[index2]['name'],
+                snapshot.data[index].data['weekID'],
+                snapshot2.data[index2].data['workoutID'],
+                snapshot2.data[index2].data['warmup'],
+                context,
+                weekName,
+                snapshot2.data[index2].data['notes'],
+                true);
           }
         : null,
     child: Container(
@@ -75,40 +74,52 @@ Widget workoutContainer(
           horizontal: SizeConfig.blockSizeHorizontal * 4,
         ),
         enabled: false,
-        leading: Icon(
-          Icons.fitness_center,
-          size: SizeConfig.blockSizeVertical * 5,
-          color: workoutIDs.contains(workoutID) ? Colors.white60 : Colors.white,
+        leading: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Icon(
+              Icons.fitness_center,
+              size: SizeConfig.blockSizeVertical * 5,
+              color: Colors.blueAccent,
+            ),
+          ],
         ),
         trailing: workoutIDs.contains(workoutID)
             ? Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Icon(
                     Icons.check,
                     size: SizeConfig.blockSizeVertical * 3,
-                    color: MyColors().white,
+                    color: Colors.blueAccent,
                   ),
                   Text(
                     'DONE',
                     style: TextStyle(
-                        color: Colors.white,
+                        color: Colors.blueAccent,
                         fontFamily: 'Roboto',
                         fontSize: SizeConfig.blockSizeVertical * 2.5,
                         fontWeight: FontWeight.w700),
                   )
                 ],
               )
-            : Icon(
-                Icons.arrow_forward_ios,
-                size: SizeConfig.blockSizeHorizontal * 5,
-                color: MyColors().white,
+            : Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Icon(
+                    Icons.arrow_forward_ios,
+                    size: SizeConfig.blockSizeHorizontal * 5,
+                    color: MyColors().white,
+                  ),
+                ],
               ),
         subtitle: Text(
           snapshot2.data[index2].data['numberOfExercises'].toString() +
               ' Exercises',
           style: TextStyle(
-              color: workoutIDs.contains(workoutID) ? Colors.white70 : Colors.white,
+              color: workoutIDs.contains(workoutID)
+                  ? Colors.white70
+                  : Colors.white,
               fontFamily: 'Roboto',
               fontSize: SizeConfig.blockSizeVertical * 2,
               fontWeight: FontWeight.w400),

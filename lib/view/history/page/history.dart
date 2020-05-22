@@ -114,29 +114,25 @@ class _HistoryState extends State<History> {
                   ),
                 ),
                 finishedWorkouts.isEmpty
-                    ? Padding(
-                        padding: EdgeInsets.only(
-                          top: SizeConfig.blockSizeVertical * 5,
-                          left: SizeConfig.blockSizeHorizontal * 4.5,
-                          right: SizeConfig.blockSizeHorizontal * 4.5,
+                    ? Column(
+                      children: <Widget>[
+                        SizedBox(
+                          height: SizeConfig.blockSizeVertical * 35,
                         ),
-                        child: Center(
-                          child: Column(
-                            children: <Widget>[
-                              Text(
-                                "Hi $username, you do not have any history log yet. When you begin completing workouts, come back to check you log. Hope to see you soon!",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontFamily: 'Roboto',
-                                    fontStyle: FontStyle.italic,
-                                    fontSize:
-                                        SizeConfig.blockSizeVertical * 2.5),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
+                        Center(
+                          child: Text(
+                            "You do not have any history log yet. When you begin completing workouts, come back to check you log.",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontFamily: 'Roboto',
+                                fontStyle: FontStyle.italic,
+                                fontSize:
+                                    SizeConfig.blockSizeVertical * 2.5),
+                            textAlign: TextAlign.center,
                           ),
                         ),
-                      )
+                      ],
+                    )
                     : ListView.builder(
                         shrinkWrap: true,
                         physics: ScrollPhysics(),
