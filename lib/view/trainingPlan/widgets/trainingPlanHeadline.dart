@@ -38,7 +38,7 @@ Widget trainingPlanHeadline(
           Container(
             width: SizeConfig.blockSizeHorizontal * 40,
             child: Text(
-              'Hi $justName,',
+              'Hi $justName',//,',
               //'Week $currentWeek of $totalWeeks',
               style: TextStyle(
                   color: Colors.white,
@@ -48,22 +48,22 @@ Widget trainingPlanHeadline(
               textAlign: TextAlign.left,
             ),
           ),
-          SizedBox(
-            height: SizeConfig.blockSizeVertical * 0.3,
-          ),
-          Container(
-            width: SizeConfig.blockSizeHorizontal * 40,
-            child: Text(
-              'Week $currentWeek of $totalWeeks',
-              //'Your training plan is:\n$trainingPlan',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontFamily: 'Roboto',
-                  fontSize: SizeConfig.blockSizeVertical * 2.5,
-                  fontWeight: FontWeight.w400),
-              textAlign: TextAlign.left,
-            ),
-          ),
+          // SizedBox(
+          //   height: SizeConfig.blockSizeVertical * 0.3,
+          // ),
+          // Container(
+          //   width: SizeConfig.blockSizeHorizontal * 40,
+          //   child: Text(
+          //     'Week $currentWeek of $totalWeeks',
+          //     //'Your training plan is:\n$trainingPlan',
+          //     style: TextStyle(
+          //         color: Colors.white,
+          //         fontFamily: 'Roboto',
+          //         fontSize: SizeConfig.blockSizeVertical * 2.5,
+          //         fontWeight: FontWeight.w400),
+          //     textAlign: TextAlign.left,
+          //   ),
+          // ),
         ],
       ),
     ],

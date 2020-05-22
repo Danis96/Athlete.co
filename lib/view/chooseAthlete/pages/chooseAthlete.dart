@@ -11,11 +11,12 @@ import 'dart:io';
 
 class ChooseAthlete extends StatefulWidget {
   final String name, email, photo, userUID;
-  final DocumentSnapshot userDocument;
+  final DocumentSnapshot userDocument, userTrainerDocument;
   ChooseAthlete(
       {Key key,
       this.email,
       this.name,
+      this.userTrainerDocument,
       this.photo,
       this.userDocument,
       this.userUID})
