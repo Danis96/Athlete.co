@@ -26,5 +26,5 @@ abstract class SignInInterface {
   updateUserWithTrainer(
       DocumentSnapshot userDocument, String email, String trainer);
   Future<int> getCurrentUserTrainerWeeks(String trainer);
-  updateUserProgress(DocumentSnapshot userDocument);
+  updateUserProgress(DocumentSnapshot userDocument, List<dynamic> listToKeep);
 }

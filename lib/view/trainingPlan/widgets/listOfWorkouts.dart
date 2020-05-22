@@ -26,7 +26,7 @@ class ListOfWorkouts extends StatelessWidget {
       appBar: AppBar(
         /// workout name
         title: Text(
-              userTrainerDocument.data['trainer_name'] +
+          userTrainerDocument.data['trainer_name'] +
               ' ' +
               snapshot.data[index]['name']
                   .toString()
@@ -71,7 +71,10 @@ Widget listOfWorkouts(
   workoutsFinished = userDocument.data['workouts_finished'];
   List<dynamic> workoutIDs = [];
   for (var i = 0; i < workoutsFinished.length; i++) {
-    workoutIDs.add(workoutsFinished[i].split('_')[2]);
+    if (workoutsFinished[i].toString().split('_')[0] ==
+        userTrainerDocument.data['trainerID']) {
+      workoutIDs.add(workoutsFinished[i].split('_')[2]);
+    }
   }
   return FutureBuilder(
     future: TrainingPlanViewModel().getWorkouts(

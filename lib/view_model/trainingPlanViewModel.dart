@@ -54,6 +54,7 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
     BuildContext context,
     String weekName,
     List<dynamic> listOfNotes,
+    bool alreadyFinishedWorkout
   ) {
     Navigator.push(
         context,
@@ -68,6 +69,7 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
           warmupDesc: warmupDesc,
           weekName: weekName,
           listOfNotes: listOfNotes,
+          alreadyFinishedWorkout: alreadyFinishedWorkout
         )));
   }
 

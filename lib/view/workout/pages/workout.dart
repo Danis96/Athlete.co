@@ -13,6 +13,7 @@ class Workout extends StatefulWidget {
   final String trainerID;
   final String workoutName, workoutID, weekID, warmupDesc, weekName;
   final List<dynamic> listOfNotes;
+  final bool alreadyFinishedWorkout;
 
   Workout(
       {Key key,
@@ -22,6 +23,7 @@ class Workout extends StatefulWidget {
       this.trainerID,
       this.workoutName,
       this.workoutID,
+      this.alreadyFinishedWorkout,
       this.weekID,
       this.warmupDesc,
       this.weekName})
@@ -55,8 +57,10 @@ class _WorkoutState extends State<Workout> {
   @override
   void initState() {
     super.initState();
-    userNotes = WorkoutViewModel()
+    if(!widget.alreadyFinishedWorkout) {
+      userNotes = WorkoutViewModel()
         .getUserNotes(widget.listOfNotes, widget.userDocument.data['userUID']);
+    }
   }
 
   @override
