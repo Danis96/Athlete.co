@@ -154,7 +154,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
         position: _offsetAnimation,
         child: InkWell(
             onTap: () {
-              pauseAndPlayFunction();
+                pauseAndPlayFunction();
               isTips = false;
             },
             child: Padding(
@@ -624,7 +624,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       widget.controller.play();
          if(reseted) {
             print('Timer has been reseted');
-            reseted = false;
+              reseted = false;
          } else {
            if (widget.isReps == 1) {
              if (isTimeChoosed) {
