@@ -85,7 +85,6 @@ class _TrainingPlanState extends State<TrainingPlan> {
                 listOfWeeks(
                   widget.userDocument,
                   widget.userTrainerDocument,
-                  widget.userDocument.data['weeks_finished'],
                   context,
                 ),
               ],

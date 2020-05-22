@@ -75,39 +75,4 @@ Widget weekContainer(
       ),
     ),
   );
-  //  return Container(
-  //    margin EdgeInsets.only(bottom SizeConfig.blockSizeVertical  1.25),
-  //    width double.infinity,
-  //    height SizeConfig.blockSizeVertical  8.75,
-  //    decoration BoxDecoration(
-  //      borderRadius BorderRadius.all(
-  //        Radius.circular(4),
-  //      ),
-  //      border Border.all(
-  //        width 1,
-  //        color Color.fromRGBO(255, 255, 255, 0.2),
-  //      ),
-  //    ),
-  //    child Padding(
-  //      padding EdgeInsets.only(
-  //        top SizeConfig.blockSizeVertical  3,
-  //        bottom SizeConfig.blockSizeVertical  3,
-  //        left SizeConfig.blockSizeHorizontal  5.2,
-  //        right SizeConfig.blockSizeHorizontal  5.2,
-  //      ),
-  //      child Text(
-  //        (index + 1).toString() +
-  //            '. ' +
-  //            userTrainerDocument.data['trainer_name'] +
-  //            ' ' +
-  //            snapshot.data[index]['name'].toString().substring(0, 1).toUpperCase() + snapshot.data[index]['name'].toString().substring(1),
-  //        style TextStyle(
-  //            color Colors.white,
-  //            fontFamily 'Roboto',
-  //            fontSize SizeConfig.blockSizeVertical  2.5,
-  //            fontStyle FontStyle.italic,
-  //            fontWeight FontWeight.w500),
-  //      ),
-  //    ),
-  //  );
 }

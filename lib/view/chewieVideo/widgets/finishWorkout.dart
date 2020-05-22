@@ -214,36 +214,36 @@ class _FinishWorkoutState extends State<FinishWorkout> {
             List<DocumentSnapshot> newUserDocument = await SignInViewModel()
                 .getCurrentUserDocument(widget.userDocument.data['userUID']);
 
-            List<dynamic> workoutsFinished =
-                newUserDocument[0].data['workouts_finished'];
-            print(workoutsFinished);
+            // List<dynamic> workoutsFinished =
+            //     newUserDocument[0].data['workouts_finished'];
+            // print(workoutsFinished);
 
-            List<dynamic> weekIDs = [];
-            int counter = 1;
-            for (var i = 0; i < workoutsFinished.length; i++) {
-              if (!weekIDs.contains(workoutsFinished[i].split('_')[1])) {
-                weekIDs.add(workoutsFinished[i].split('_')[1]);
-              } else {
-                if (workoutsFinished[i].split('_')[1] == widget.weekID) {
-                  counter++;
-                }
-              }
-            }
+            // List<dynamic> weekIDs = [];
+            // int counter = 1;
+            // for (var i = 0; i < workoutsFinished.length; i++) {
+            //   if (!weekIDs.contains(workoutsFinished[i].split('_')[1])) {
+            //     weekIDs.add(workoutsFinished[i].split('_')[1]);
+            //   } else {
+            //     if (workoutsFinished[i].split('_')[1] == widget.weekID) {
+            //       counter++;
+            //     }
+            //   }
+            // }
 
-            print(weekIDs);
-            List<dynamic> weekWorkouts = await TrainingPlanViewModel()
-                .getWorkouts(widget.userTrainerDocument.data['trainerID'],
-                    widget.weekID);
-            print(weekWorkouts.length);
-            print(counter);
+            // print(weekIDs);
+            // List<dynamic> weekWorkouts = await TrainingPlanViewModel()
+            //     .getWorkouts(widget.userTrainerDocument.data['trainerID'],
+            //         widget.weekID);
+            // print(weekWorkouts.length);
+            // print(counter);
 
-            if (counter == weekWorkouts.length) {
-              updateUserWithFinishedWeek(
-                  widget.userDocument,
-                  widget.userTrainerDocument.data['trainerID'],
-                  widget.weekID,
-                  widget.workoutID);
-            }
+            // if (counter == weekWorkouts.length) {
+            //   updateUserWithFinishedWeek(
+            //       widget.userDocument,
+            //       widget.userTrainerDocument.data['trainerID'],
+            //       widget.weekID,
+            //       widget.workoutID);
+            // }
 
             newUserDocument = await SignInViewModel()
                 .getCurrentUserDocument(widget.userDocument.data['userUID']);
@@ -306,21 +306,21 @@ class _FinishWorkoutState extends State<FinishWorkout> {
         .updateData({"workouts_finished_history": FieldValue.arrayUnion(note)});
   }
 
-  updateUserWithFinishedWeek(DocumentSnapshot userDocument, String trainerID,
-      String weekID, String workoutID) async {
-    List<String> note = [];
-    note.add(weekID);
-    final db = Firestore.instance;
-    await db
-        .collection('Users')
-        .document(userDocument.documentID)
-        .updateData({"weeks_finished": FieldValue.arrayUnion(note)});
+  // updateUserWithFinishedWeek(DocumentSnapshot userDocument, String trainerID,
+  //     String weekID, String workoutID) async {
+  //   List<String> note = [];
+  //   note.add(weekID);
+  //   final db = Firestore.instance;
+  //   await db
+  //       .collection('Users')
+  //       .document(userDocument.documentID)
+  //       .updateData({"weeks_finished": FieldValue.arrayUnion(note)});
 
-    await db
-        .collection('Users')
-        .document(userDocument.documentID)
-        .updateData({"weeks_finished_history": FieldValue.arrayUnion(note)});
-  }
+  //   await db
+  //       .collection('Users')
+  //       .document(userDocument.documentID)
+  //       .updateData({"weeks_finished_history": FieldValue.arrayUnion(note)});
+  // }
 
   Future<bool> _onWillPop() async {
     return showDialog(

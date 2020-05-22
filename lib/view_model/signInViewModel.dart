@@ -621,7 +621,7 @@ class SignInViewModel implements SignInInterface {
   }
 
   @override
-  updateUserProgress(DocumentSnapshot userDocument) {
+  updateUserProgress(DocumentSnapshot userDocument, List<dynamic> listToKeep) {
     Firestore.instance
         .collection('Users')
         .document(userDocument.documentID)
@@ -630,16 +630,16 @@ class SignInViewModel implements SignInInterface {
     Firestore.instance
         .collection('Users')
         .document(userDocument.documentID)
-        .updateData({'workouts_finished': FieldValue.arrayUnion([])});
+        .updateData({'workouts_finished': FieldValue.arrayUnion(listToKeep)});
 
-    Firestore.instance
-        .collection('Users')
-        .document(userDocument.documentID)
-        .updateData({'weeks_finished': FieldValue.delete()});
+    // Firestore.instance
+    //     .collection('Users')
+    //     .document(userDocument.documentID)
+    //     .updateData({'weeks_finished': FieldValue.delete()});
 
-    Firestore.instance
-        .collection('Users')
-        .document(userDocument.documentID)
-        .updateData({'weeks_finished': FieldValue.arrayUnion([])});
+    // Firestore.instance
+    //     .collection('Users')
+    //     .document(userDocument.documentID)
+    //     .updateData({'weeks_finished': FieldValue.arrayUnion([])});
   }
 }

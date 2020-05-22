@@ -32,6 +32,7 @@ Widget workoutContainer(
               context,
               weekName,
               snapshot2.data[index2].data['notes'],
+              true
             );
           }
         : null,
