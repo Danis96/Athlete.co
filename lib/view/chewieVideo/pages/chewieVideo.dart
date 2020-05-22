@@ -70,11 +70,14 @@ class _ChewieVideoState extends State<ChewieVideo>
     // if (nv > _index) {
     // +
     nv = nv % source.length;
-    vc.autoplay = true;
+    vc.autoplay = false;
     controller = VideoPlayerController.asset(source[nv]);
     vc.setSource(controller);
     vc.looping = true;
     vc.bufferColor = Colors.black;
+    vc.cover = Container(
+       child: Image.asset('assets/images/ar.jpg'),
+    );
     vc.controllerWidgets = true;
 
     vc.initialize();
@@ -265,6 +268,9 @@ class _ChewieVideoState extends State<ChewieVideo>
         controllerWidgets: true,
         looping: true,
         autoplay: false,
+        cover: Container(
+          child: Image.asset('assets/images/ar.jpg'),
+        ),
         source: VideoPlayerController.asset(source[index]))
       ..initialize();
     SystemChrome.setPreferredOrientations([

@@ -230,19 +230,13 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                               Orientation.landscape
                                           ? 0
                                           : SizeConfig.blockSizeHorizontal * 5),
-                                  child: IconButton(
-                                    icon: Icon(CupertinoIcons
-                                        .check_mark_circled_solid),
+                                  child: FlatButton(
+                                    child: Text('Finish Workout'),
                                     onPressed: () {
                                       widget.playNext();
                                       resetTimer();
                                     },
                                     color: Colors.white,
-                                    iconSize: MediaQuery.of(context)
-                                                .orientation ==
-                                            Orientation.landscape
-                                        ? SizeConfig.blockSizeHorizontal * 9
-                                        : SizeConfig.blockSizeHorizontal * 12,
                                   ),
                                 )
                               : Container(
