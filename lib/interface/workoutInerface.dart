@@ -7,4 +7,5 @@ abstract class WorkoutInterface {
   xBack(BuildContext context);
   Future getWarmupDocumentID(String trainerID, String weekID, String workoutID);
   String getUserNotes(List<dynamic> notesList, String userId);
+  String getUserHistoryNotes(List<dynamic> notesList, String userId, String time);
 }

@@ -38,7 +38,6 @@ class _FinishWorkoutState extends State<FinishWorkout> {
   void initState() {
     super.initState();
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    
   }
 
   @override
@@ -194,8 +193,10 @@ class _FinishWorkoutState extends State<FinishWorkout> {
         child: RaisedButton(
           elevation: 0,
           onPressed: () async {
-           
+            String currentTime = DateTime.now().toString();
             String note;
+            String historyNote;
+            List<dynamic> historyNotes = [];
             if (newNote != null) {
               note = widget.userDocument.data['userUID'] + '_!_?_' + newNote;
               notes.add(note);
@@ -205,12 +206,30 @@ class _FinishWorkoutState extends State<FinishWorkout> {
                   widget.weekID,
                   widget.workoutID,
                   notes);
+            } else {
+              newNote = userNotes;
             }
+
+            note = widget.userDocument.data['userUID'] +
+                '_!_?_' +
+                newNote +
+                '_!_?_' +
+                currentTime;
+            historyNotes.add(note);
+            ChewieVideoViewModel().updateWorkoutHistoryNote(
+              widget.userTrainerDocument.data['trainerID'],
+              widget.weekID,
+              widget.workoutID,
+              historyNotes,
+            );
+
             updateUserWithFinishedWorkout(
-                widget.userDocument,
-                widget.userTrainerDocument.data['trainerID'],
-                widget.weekID,
-                widget.workoutID);
+              widget.userDocument,
+              widget.userTrainerDocument.data['trainerID'],
+              widget.weekID,
+              widget.workoutID,
+              currentTime,
+            );
             List<DocumentSnapshot> newUserDocument = await SignInViewModel()
                 .getCurrentUserDocument(widget.userDocument.data['userUID']);
 
@@ -259,7 +278,7 @@ class _FinishWorkoutState extends State<FinishWorkout> {
                 (Route<dynamic> route) => false);
             userNotes = '';
             await Future.delayed(Duration(seconds: 1), () {
-                  FullTrainingStopwatch().resetStopwtach();
+              FullTrainingStopwatch().resetStopwtach();
             });
           },
           child: Padding(
@@ -279,7 +298,7 @@ class _FinishWorkoutState extends State<FinishWorkout> {
   }
 
   updateUserWithFinishedWorkout(DocumentSnapshot userDocument, String trainerID,
-      String weekID, String workoutID) async {
+      String weekID, String workoutID, String currentTime) async {
     List<String> note = [];
     String currentDay = DateFormat.d().format(DateTime.now());
     String currentMonth = DateFormat.MMM().format(DateTime.now()).toUpperCase();
@@ -293,7 +312,7 @@ class _FinishWorkoutState extends State<FinishWorkout> {
         ' ' +
         currentMonth +
         '_' +
-        (DateTime.now()).toString());
+        currentTime);
     final db = Firestore.instance;
     await db
         .collection('Users')

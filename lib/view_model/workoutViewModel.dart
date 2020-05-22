@@ -84,6 +84,21 @@ class WorkoutViewModel implements WorkoutInterface {
     }
 
   @override
+  String getUserHistoryNotes(List<dynamic> notesList, String userId, String time) {
+    String note = '';
+      for (int i = 0; i < notesList.length; i++) {
+        String item = notesList[i];
+        if (item.contains(userId) && item.split('_!_?_')[2] == time) {
+          List<String> splited = item.split('_!_?_');
+          item = splited[1];
+          note = item;
+        }
+      }
+      print(note.trim());
+      return note.trim();
+    }
+
+  @override
   Future getWarmupDocumentID(String trainerID, String weekID, String workoutID) async {
         var firestore = Firestore.instance;
     QuerySnapshot qn = await firestore

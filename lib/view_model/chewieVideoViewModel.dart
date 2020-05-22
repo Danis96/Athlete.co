@@ -23,4 +23,14 @@ class ChewieVideoViewModel {
         .document(workoutID)
         .updateData({"notes": FieldValue.arrayUnion(note)});
   }
+
+  updateWorkoutHistoryNote(String trainerID, String weekID, String workoutID, List<dynamic> note) async {
+    await Firestore.instance.collection('Trainers')
+        .document(trainerID)
+        .collection('weeks')
+        .document(weekID)
+        .collection('workouts')
+        .document(workoutID)
+        .updateData({"historyNotes": FieldValue.arrayUnion(note)});
+  }
 }
