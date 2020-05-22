@@ -53,12 +53,58 @@ class ListOfWorkouts extends StatelessWidget {
             left: SizeConfig.blockSizeHorizontal * 4.5,
             right: SizeConfig.blockSizeHorizontal * 4.5),
         child: SingleChildScrollView(
-          child: listOfWorkouts(
-              userDocument, userTrainerDocument, snapshot, index, weekName),
+          child: Column(
+            children: <Widget>[
+              weekDescription(weekName, snapshot, index),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical * 1.5,
+              ),
+              Divider(
+                height: 1,
+                thickness: 1,
+                color: Colors.white24,
+              ),
+              SizedBox(
+                height: SizeConfig.blockSizeVertical * 1.5,
+              ),
+              listOfWorkouts(
+                  userDocument, userTrainerDocument, snapshot, index, weekName),
+            ],
+          ),
         ),
       ),
     );
   }
+}
+
+Widget weekDescription(String weekName, AsyncSnapshot snapshot, int index) {
+  String description = snapshot.data[index]['weekDescription'];
+  return Container(
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          "Welcome to " +
+              weekName.substring(0, 1).toUpperCase() +
+              weekName.substring(1) +
+              "\n",
+          style: TextStyle(
+              color: Color.fromRGBO(255, 255, 255, 0.8),
+              fontFamily: 'Roboto',
+              fontSize: SizeConfig.blockSizeVertical * 2.2,
+              fontWeight: FontWeight.w400),
+        ),
+        Text(
+          description.replaceAll("\\n", "\n"),
+          style: TextStyle(
+              color: Color.fromRGBO(255, 255, 255, 0.8),
+              fontFamily: 'Roboto',
+              fontSize: SizeConfig.blockSizeVertical * 2.2,
+              fontWeight: FontWeight.w400),
+        )
+      ],
+    ),
+  );
 }
 
 Widget listOfWorkouts(
