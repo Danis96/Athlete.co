@@ -1,4 +1,4 @@
-package com.Athlete.co
+package com.flutter.Athlete.co
 
 import androidx.annotation.NonNull;
 import io.flutter.embedding.android.FlutterActivity
