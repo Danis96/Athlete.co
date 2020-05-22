@@ -1,9 +1,15 @@
 import 'dart:async';
-import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
-import 'package:attt/view/chewieVideo/widgets/addNote.dart';
-import 'package:attt/view/workout/widgets/info.dart';
+import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/clearButton.dart';
+import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/fullscreenButton.dart';
+import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/nameWidget.dart';
+import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/nextbutton.dart';
+import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/noteButton.dart';
+import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/previousButton.dart';
+import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/repsWidget.dart';
+import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/setsWidget.dart';
+import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/timerWidget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -67,7 +73,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       parent: _controller,
       curve: Curves.easeInOut,
     ));
-
 
     /// check if countDown is running ,
     /// if it is RESET IT
@@ -136,10 +141,10 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       d1 = Duration(
           minutes: minutesForIndicators, seconds: secondsForIndicators);
     }
-    if(activatePause) {
+    if (activatePause) {
       checkIsOnTimeAndPauseTimer();
     }
-    if(resetFromChewie) {
+    if (resetFromChewie) {
       resetTimer();
     }
 
@@ -154,7 +159,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
         position: _offsetAnimation,
         child: InkWell(
             onTap: () {
-                pauseAndPlayFunction();
+              pauseAndPlayFunction();
               isTips = false;
             },
             child: Padding(
@@ -171,66 +176,20 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                 child: Center(
                   child: Column(
                     children: <Widget>[
-                      Container(
-                        margin: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).orientation ==
-                                    Orientation.landscape
-                                ? SizeConfig.blockSizeVertical * 0
-                                : SizeConfig.blockSizeVertical * 10,
-                            right: MediaQuery.of(context).orientation ==
-                                    Orientation.landscape
-                                ? SizeConfig.blockSizeHorizontal * 90
-                                : SizeConfig.blockSizeHorizontal * 80),
-                        child: IconButton(
-                          icon: Icon(Icons.clear),
-                          iconSize: MediaQuery.of(context).orientation ==
-                                  Orientation.landscape
-                              ? SizeConfig.blockSizeHorizontal * 4
-                              : SizeConfig.blockSizeHorizontal * 7,
-                          onPressed: ()  {
-                            checkIsOnTimeAndPauseTimer();
-                            widget.onWill();
-                          },
-                          color: Colors.white,
-                        ),
-                      ),
+                      /// clear icon
+                      clearIcon(
+                          context, checkIsOnTimeAndPauseTimer, widget.onWill),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           widget.index == 0
                               ? EmptyContainer()
-                              : Container(
-                                  child: IconButton(
-                                    icon: Icon(Icons.skip_previous),
-                                    iconSize: MediaQuery.of(context)
-                                                .orientation ==
-                                            Orientation.landscape
-                                        ? SizeConfig.blockSizeHorizontal * 6
-                                        : SizeConfig.blockSizeHorizontal * 10,
-                                    color: Colors.white54,
-                                    onPressed: () {
-                                      widget.playPrevious();
-                                      resetTimer();
-                                    },
-                                  ),
-                                ),
+                              : previousButton(
+                                  context, resetTimer, widget.playPrevious),
                           widget.index == (widget.listLenght - 1)
                               ? EmptyContainer()
-                              : Container(
-                                  child: IconButton(
-                                    icon: Icon(Icons.skip_next),
-                                    iconSize: MediaQuery.of(context)
-                                                .orientation ==
-                                            Orientation.landscape
-                                        ? SizeConfig.blockSizeHorizontal * 6
-                                        : SizeConfig.blockSizeHorizontal * 10,
-                                    color: Colors.white54,
-                                    onPressed: () {
-                                      widget.playNext();
-                                      resetTimer();
-                                    },
-                                  ),
-                                ),
+                              : nextButton(
+                                  context, resetTimer, widget.playNext),
                         ],
                       ),
                       Row(
@@ -239,123 +198,35 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                             ? MainAxisAlignment.spaceBetween
                             : MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          /// number of reps
-                          GestureDetector(
-                            onTap: () {
-                              if (infoClicked) {
-                                 checkIsOnTimeAndPauseTimer();
-                                  setState(() {
-                                    goBackToChewie = true;
-                                    infoClicked = false;
-                                  });
-                                  widget.controller.pause();
-
-                                  if (MediaQuery.of(context).orientation ==
-                                      Orientation.portrait)
-                                    isFromPortrait = true;
-                                  else
-                                    isFromPortrait = false;
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                    builder: (_) => InfoExercise(
-                                      vc: widget.controller,
-                                      exerciseNameForInfo: widget.name,
-                                      exerciseTips: exTips,
-                                      exerciseVideoForInfo: exVideo,
-                                    ),
-                                  ));
-                              } else {
-                                print('NE MOZE VIŠE PAŠA');
-                              }
-                            },
-                            child: Container(
-                              width: SizeConfig.blockSizeHorizontal * 75,
-                              margin: EdgeInsets.only(
-                                  top: MediaQuery.of(context).orientation ==
-                                          Orientation.landscape
-                                      ? SizeConfig.blockSizeVertical * 2
-                                      : SizeConfig.blockSizeVertical * 8),
-                              child: RichText(
-                                overflow: TextOverflow.ellipsis,
-                                text: TextSpan(children: [
-                                  TextSpan(
-                                    text: widget.name + ' ',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: MediaQuery.of(context)
-                                                    .orientation ==
-                                                Orientation.landscape
-                                            ? SizeConfig.safeBlockHorizontal * 3
-                                            : SizeConfig.safeBlockHorizontal *
-                                                6,
-                                        fontWeight: FontWeight.bold,
-                                        fontStyle: FontStyle.italic),
-                                  ),
-                                  WidgetSpan(
-                                      alignment: PlaceholderAlignment.bottom,
-                                      child: Icon(
-                                        Icons.info,
-                                        size: MediaQuery.of(context)
-                                                    .orientation ==
-                                                Orientation.landscape
-                                            ? SizeConfig.blockSizeHorizontal * 2
-                                            : SizeConfig.blockSizeHorizontal *
-                                                3,
-                                        color: Colors.white,
-                                      ))
-                                ]),
-                              ),
-                            ),
-                          ),
+                          /// name of exercise
+                          nameWidget(
+                              infoClicked,
+                              goBackToChewie,
+                              isFromPortrait,
+                              context,
+                              widget.controller,
+                              checkIsOnTimeAndPauseTimer,
+                              widget.name,
+                              exVideo,
+                              exTips),
 
                           /// icon note
-                          Container(
-                            margin: EdgeInsets.only(
-                                top: MediaQuery.of(context).orientation ==
-                                        Orientation.landscape
-                                    ? SizeConfig.blockSizeVertical * 6
-                                    : SizeConfig.blockSizeVertical * 8),
-                            child: IconButton(
-                                color: Colors.white,
-                                iconSize: MediaQuery.of(context).orientation ==
-                                        Orientation.landscape
-                                    ? SizeConfig.blockSizeHorizontal * 4.5
-                                    : SizeConfig.blockSizeHorizontal * 7.5,
-                                icon: Icon(Icons.comment),
-                                onPressed: () {
-                                  if (noteClicked) {
-                                      checkIsOnTimeAndPauseTimer();
-                                      setState(() {
-                                        noteClicked = false;
-                                      });
-                                      widget.controller.pause();
-                                      if (MediaQuery.of(context).orientation ==
-                                          Orientation.portrait)
-                                        isFromPortrait = true;
-                                      else
-                                        isFromPortrait = false;
-                                      Navigator.of(context).push(
-                                        MaterialPageRoute(
-                                          maintainState: true,
-                                          builder: (_) => AddNote(
-                                              controller: widget.controller,
-                                              listLenght: widget.listLenght,
-                                              userDocument: widget.userDocument,
-                                              userTrainerDocument:
-                                                  widget.userTrainerDocument,
-                                              index: widget.index,
-                                              isReps: widget.isReps,
-                                              reps: widget.reps,
-                                              sets: widget.sets,
-                                              name: widget.name,
-                                              workoutID: widget.workoutID,
-                                              weekID: widget.weekID),
-                                        ),
-                                      );
-                                  } else {
-                                    print('NE MOZE VIŠE PAŠA 2');
-                                  }
-                                }),
-                          )
+                          noteButton(
+                              context,
+                              noteClicked,
+                              isFromPortrait,
+                              widget.controller,
+                              checkIsOnTimeAndPauseTimer,
+                              widget.userDocument,
+                              widget.userTrainerDocument,
+                              widget.index,
+                              widget.listLenght,
+                              widget.isReps,
+                              widget.sets,
+                              widget.reps,
+                              widget.name,
+                              widget.workoutID,
+                              widget.weekID)
                         ],
                       ),
                       Row(
@@ -437,107 +308,19 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                           : SizeConfig.blockSizeHorizontal * 30,
                                     ),
                               widget.isReps == 0
-                                  ? Container(
-                                      margin: EdgeInsets.only(
-                                          top: MediaQuery.of(context)
-                                                      .orientation ==
-                                                  Orientation.landscape
-                                              ? SizeConfig.blockSizeVertical * 0
-                                              : widget.isReps == 0
-                                                  ? SizeConfig.blockSizeVertical *
-                                                      3
-                                                  : SizeConfig.blockSizeVertical *
-                                                      2,
-                                          right: MediaQuery.of(context)
-                                                      .orientation ==
-                                                  Orientation.landscape
-                                              ? SizeConfig.blockSizeHorizontal *
-                                                  4
-                                              : SizeConfig.blockSizeHorizontal *
-                                                  0,
-                                          left: MediaQuery.of(context)
-                                                      .orientation ==
-                                                  Orientation.landscape
-                                              ? SizeConfig.blockSizeHorizontal * 0
-                                              : SizeConfig.blockSizeHorizontal * 33),
-                                      child: Text('x' + widget.reps.toString(),
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: MediaQuery.of(context)
-                                                          .orientation ==
-                                                      Orientation.landscape
-                                                  ? SizeConfig
-                                                          .blockSizeVertical *
-                                                      10
-                                                  : SizeConfig
-                                                          .blockSizeVertical *
-                                                      5,
-                                              fontWeight: FontWeight.bold,
-                                              fontStyle: FontStyle.italic)),
-                                    )
-                                  :
-//                              EmptyContainer(),
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                        top: SizeConfig.blockSizeVertical *
-                                            4,
-                                        left:
-                                            SizeConfig.blockSizeHorizontal *
-                                                31),
-                                    child: RaisedButton(
-                                      color: Colors.white,
-                                      onPressed: () {
-                                        widget.showTimerDialog(context);
-                                        widget.controller.pause();
-                                        _pausedOn = _current;
-                                        countDownTimer.cancel();
-                                        isTimerPaused = true;
-                                      },
-                                      child: Text(
-                                        format(_current),
-                                        style: TextStyle(
-                                            fontSize: SizeConfig
-                                                    .safeBlockHorizontal *
-                                                10,
-                                            color: Colors.black),
-                                      ),
-                                    ),
-                                  ),
-                              Container(
-                                padding: MediaQuery.of(context).orientation ==
-                                        Orientation.landscape
-                                    ? EdgeInsets.all(0)
-                                    : EdgeInsets.all(4.0),
-                                margin: EdgeInsets.only(
-                                    top: MediaQuery.of(context).orientation ==
-                                            Orientation.landscape
-                                        ? SizeConfig.blockSizeVertical * 1
-                                        : SizeConfig.blockSizeVertical * 2,
-                                    right: MediaQuery.of(context).orientation ==
-                                            Orientation.landscape
-                                        ? SizeConfig.blockSizeHorizontal * 4
-                                        : SizeConfig.blockSizeHorizontal * 0,
-                                    left: MediaQuery.of(context).orientation ==
-                                            Orientation.landscape
-                                        ? SizeConfig.blockSizeHorizontal * 0
-                                        : SizeConfig.blockSizeHorizontal * 30),
-                                child: Text(
-                                  widget.currentSet +
-                                      '/' +
-                                      widget.sets.toString() +
-                                      ' Sets',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize:
-                                          MediaQuery.of(context).orientation ==
-                                                  Orientation.landscape
-                                              ? 25.0
-                                              : SizeConfig.safeBlockHorizontal *
-                                                  6.0,
-                                      fontWeight: FontWeight.bold,
-                                      fontStyle: FontStyle.italic),
-                                ),
-                              ),
+                                  ? repsWidget(
+                                      context, widget.isReps, widget.reps)
+                                  : timerWidget(
+                                      context,
+                                      widget.showTimerDialog,
+                                      format,
+                                      widget.controller,
+                                      isTimerPaused,
+                                      _current,
+                                      _pausedOn,
+                                      countDownTimer),
+                              setsWidget(
+                                  context, widget.currentSet, widget.sets)
                             ],
                           ),
                           Column(
@@ -552,29 +335,13 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                           ? SizeConfig.blockSizeVertical * 30
                                           : SizeConfig.blockSizeVertical * 20,
                                     ),
-                              Container(
-                                margin: EdgeInsets.only(
-                                    top: MediaQuery.of(context).orientation ==
-                                            Orientation.landscape
-                                        ? widget.isReps == 0
-                                            ? SizeConfig.blockSizeVertical * 6.7
-                                            : SizeConfig.blockSizeVertical * 18
-                                        : widget.isReps == 0
-                                            ? SizeConfig.blockSizeVertical * 7.8
-                                            : SizeConfig.blockSizeVertical * 0,
-                                    left: MediaQuery.of(context).orientation ==
-                                            Orientation.landscape
-                                        ? SizeConfig.blockSizeHorizontal * 4
-                                        : widget.isReps == 0
-                                            ? SizeConfig.blockSizeHorizontal *
-                                                12
-                                            : SizeConfig.blockSizeHorizontal *
-                                                12),
-                                child: IconButton(
-                                    icon: Icon(Icons.fullscreen),
-                                    color: Colors.white,
-                                    onPressed: () => rotateScreen()),
-                              ),
+                              /// fullScreen button on indicators
+                              /// it takes:
+                              /// context
+                              /// isReps
+                              /// and Function rotateScreen
+                              fullscreenButton(
+                                  context, widget.isReps, rotateScreen),
                             ],
                           ),
                         ],
@@ -593,45 +360,45 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       checkIsOnTimeAndPauseTimer();
     } else {
       widget.controller.play();
-         if(reseted) {
-            print('Timer has been reseted');
-              reseted = false;
-         } else {
-           if (widget.isReps == 1) {
-             if (isTimeChoosed) {
-               startTimer(d1);
-             }
-             if (isTimerPaused) {
-               startTimer(_pausedOn);
-             }
-           }
-         }
-
+      if (reseted) {
+        print('Timer has been reseted');
+        reseted = false;
+      } else {
+        if (widget.isReps == 1) {
+          if (isTimeChoosed) {
+            startTimer(d1);
+          }
+          if (isTimerPaused) {
+            startTimer(_pausedOn);
+          }
+        }
+      }
     }
   }
 
   resetTimer() {
-    if(countDownTimer != null) {
+    if (countDownTimer != null) {
       countDownTimer.cancel();
       _current = Duration(seconds: 0);
       reseted = true;
     }
   }
 
-
   /// if exercise is on time, het the paused time,
   /// cancel the timer, set [isTimerPaused] on true
   checkIsOnTimeAndPauseTimer() {
-    if (widget.isReps == 1) {
-      _pausedOn = _current;
-      countDownTimer.cancel();
-      isTimerPaused = true;
+    if (countDownTimer != null) {
+      if (widget.isReps == 1) {
+        _pausedOn = _current;
+        countDownTimer.cancel();
+        isTimerPaused = true;
+      }
     }
   }
 
   checkIsCountDownRunning() {
-    if(countDownTimer != null) {
-      if(countDownTimer.isRunning) {
+    if (countDownTimer != null) {
+      if (countDownTimer.isRunning) {
         resetTimer();
       }
     }
@@ -646,6 +413,4 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                   [DeviceOrientation.landscapeRight]),
         });
   }
-
-
 }
