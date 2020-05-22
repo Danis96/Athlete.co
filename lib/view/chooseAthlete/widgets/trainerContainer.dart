@@ -35,10 +35,10 @@ Widget trainerContainer(
 
   return GestureDetector(
     onTap: () =>
-      isFromSettings
-          ? showAlertDialog(context, userDocument, userUID, _trainerName)
-          : onClickContainer(context, userDocument, userUID, _trainerName),
-    
+        // isFromSettings
+        //     ? showAlertDialog(context, userDocument, userUID, _trainerName)
+        //     :
+        onClickContainer(context, userDocument, userUID, _trainerName),
     child: Container(
       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 1),
       child: Stack(
@@ -74,83 +74,82 @@ Widget trainerContainer(
   );
 }
 
-showAlertDialog(BuildContext context, DocumentSnapshot userDocument,
-    String userUID, _trainerName) {
-  // set up the buttons
+// showAlertDialog(BuildContext context, DocumentSnapshot userDocument,
+//     String userUID, _trainerName) {
+//   // set up the buttons
 
-  Widget cancelButton = FlatButton(
-    child: Text(
-      "Cancel",
-      style: TextStyle(color: MyColors().lightWhite),
-    ),
-    onPressed: () => Navigator.of(context).pop(),
-  );
-  Widget continueButton = FlatButton(
-      child: Text(
-        "Continue",
-        style: TextStyle(color: MyColors().error),
-      ),
-      onPressed: () async {
-        isFromSettings = false;
-        SignInViewModel()
-            .updateUserWithTrainer(userDocument, userUID, _trainerName);
-        //SignInViewModel().updateUserProgress(userDocument);
-        List<DocumentSnapshot> currentUserTrainerDocuments = [];
-        DocumentSnapshot currentUserTrainerDocument;
+//   Widget cancelButton = FlatButton(
+//     child: Text(
+//       "Cancel",
+//       style: TextStyle(color: MyColors().lightWhite),
+//     ),
+//     onPressed: () => Navigator.of(context).pop(),
+//   );
+//   Widget continueButton = FlatButton(
+//       child: Text(
+//         "Continue",
+//         style: TextStyle(color: MyColors().error),
+//       ),
+//       onPressed: () async {
+//         isFromSettings = false;
+//         SignInViewModel()
+//             .updateUserWithTrainer(userDocument, userUID, _trainerName);
+//         //SignInViewModel().updateUserProgress(userDocument);
+//         List<DocumentSnapshot> currentUserTrainerDocuments = [];
+//         DocumentSnapshot currentUserTrainerDocument;
 
-        currentUserTrainerDocuments =
-            await SignInViewModel().getCurrentUserTrainer(_trainerName);
-        currentUserTrainerDocument = currentUserTrainerDocuments[0];
+//         currentUserTrainerDocuments =
+//             await SignInViewModel().getCurrentUserTrainer(_trainerName);
+//         currentUserTrainerDocument = currentUserTrainerDocuments[0];
 
-        Navigator.of(context).push(CardAnimationTween(
-            widget: TrainingPlan(
-          userTrainerDocument: currentUserTrainerDocument,
-          userDocument: userDocument,
-          userUID: userUID,
-        )));
-      });
+//         Navigator.of(context).push(CardAnimationTween(
+//             widget: TrainingPlan(
+//           userTrainerDocument: currentUserTrainerDocument,
+//           userDocument: userDocument,
+//           userUID: userUID,
+//         )));
+//       });
 
-  // set up the AlertDialog
-  AlertDialog alert = AlertDialog(
-    backgroundColor: MyColors().lightBlack,
-    title: Text(
-      "Change Athlete?",
-      style: TextStyle(color: MyColors().lightWhite),
-    ),
-    content: Text(
-      "If you continue, all your progress will be lost",
-      style: TextStyle(color: MyColors().lightWhite),
-    ),
-    actions: [
-      cancelButton,
-      continueButton,
-    ],
-  );
+//   // set up the AlertDialog
+//   AlertDialog alert = AlertDialog(
+//     backgroundColor: MyColors().lightBlack,
+//     title: Text(
+//       "Change Athlete?",
+//       style: TextStyle(color: MyColors().lightWhite),
+//     ),
+//     content: Text(
+//       "If you continue, all your progress will be lost",
+//       style: TextStyle(color: MyColors().lightWhite),
+//     ),
+//     actions: [
+//       cancelButton,
+//       continueButton,
+//     ],
+//   );
 
-  // show the dialog
-  showDialog(
-    context: context,
-    builder: (BuildContext context) {
-      return alert;
-    },
-  );
-}
+//   // show the dialog
+//   showDialog(
+//     context: context,
+//     builder: (BuildContext context) {
+//       return alert;
+//     },
+//   );
+// }
 
+onClickContainer(BuildContext context, DocumentSnapshot userDocument,
+    String userUID, String _trainerName) async {
+  SignInViewModel().updateUserWithTrainer(userDocument, userUID, _trainerName);
+  List<DocumentSnapshot> currentUserTrainerDocuments = [];
+  DocumentSnapshot currentUserTrainerDocument;
 
-onClickContainer(BuildContext context, DocumentSnapshot userDocument, String userUID, String _trainerName) async {
-  SignInViewModel()
-              .updateUserWithTrainer(userDocument, userUID, _trainerName);
-      List<DocumentSnapshot> currentUserTrainerDocuments = [];
-      DocumentSnapshot currentUserTrainerDocument;
+  currentUserTrainerDocuments =
+      await SignInViewModel().getCurrentUserTrainer(_trainerName);
+  currentUserTrainerDocument = currentUserTrainerDocuments[0];
 
-      currentUserTrainerDocuments =
-          await SignInViewModel().getCurrentUserTrainer(_trainerName);
-      currentUserTrainerDocument = currentUserTrainerDocuments[0];
-
-      Navigator.of(context).push(CardAnimationTween(
-          widget: TrainingPlan(
-        userTrainerDocument: currentUserTrainerDocument,
-        userDocument: userDocument,
-        userUID: userUID,
-      )));
+  Navigator.of(context).push(CardAnimationTween(
+      widget: TrainingPlan(
+    userTrainerDocument: currentUserTrainerDocument,
+    userDocument: userDocument,
+    userUID: userUID,
+  )));
 }

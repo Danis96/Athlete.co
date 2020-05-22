@@ -1,4 +1,10 @@
+import 'dart:async';
+
+import 'package:attt/utils/colors.dart';
+import 'package:attt/utils/customScreenAnimation.dart';
 import 'package:attt/utils/emptyContainer.dart';
+import 'package:attt/view/chooseAthlete/pages/chooseAthlete.dart';
+import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:attt/view/trainingPlan/widgets/listOfWorkouts.dart';
 import 'package:attt/view/trainingPlan/widgets/weekContainer.dart';
 import 'package:attt/view_model/signInViewModel.dart';
@@ -23,15 +29,78 @@ Widget listOfWeeks(DocumentSnapshot userDocument,
     }
   }
 
-  updateUserWithFinisheAthlete(
-      DocumentSnapshot userDocument, String trainerID) async {
-    List<String> note = [];
-    note.add(trainerID);
-    final db = Firestore.instance;
-    await db
-        .collection('Users')
-        .document(userDocument.documentID)
-        .updateData({"trainers_finished": FieldValue.arrayUnion(note)});
+  // updateUserWithFinisheAthlete(
+  //     DocumentSnapshot userDocument, String trainerID) async {
+  //   List<String> note = [];
+  //   note.add(trainerID);
+  //   final db = Firestore.instance;
+  //   await db
+  //       .collection('Users')
+  //       .document(userDocument.documentID)
+  //       .updateData({"trainers_finished": FieldValue.arrayUnion(note)});
+  // }
+
+  showAlertDialog(
+      BuildContext context, DocumentSnapshot userDocument, String userUID) {
+    // set up the buttons
+
+    Widget cancelButton = FlatButton(
+      child: Text(
+        "Continue with same trainer",
+        style: TextStyle(color: MyColors().lightWhite),
+      ),
+      onPressed: () => Navigator.of(context).pop(),
+    );
+    Widget continueButton = FlatButton(
+        child: Text(
+          "Change",
+          style: TextStyle(color: MyColors().error),
+        ),
+        onPressed: () async {
+          // SignInViewModel()
+          //     .updateUserWithTrainer(userDocument, userUID, _trainerName);
+          // List<DocumentSnapshot> currentUserTrainerDocuments = [];
+          // DocumentSnapshot currentUserTrainerDocument;
+
+          // currentUserTrainerDocuments =
+          //     await SignInViewModel().getCurrentUserTrainer(_trainerName);
+          // currentUserTrainerDocument = currentUserTrainerDocuments[0];
+
+          Navigator.of(context).push(CardAnimationTween(
+              widget: ChooseAthlete(
+            userTrainerDocument: userTrainerDocument,
+            userDocument: userDocument,
+            userUID: userUID,
+            email: userDocument.data['email'],
+            name: userDocument.data['display_name'],
+            photo: userDocument.data['image'],
+          )));
+        });
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      backgroundColor: MyColors().lightBlack,
+      title: Text(
+        "Congradulations! You have completed this training plan.",
+        style: TextStyle(color: MyColors().lightWhite),
+      ),
+      content: Text(
+        "Do you want to train again with the same trainer, or you want to change your trainer?",
+        style: TextStyle(color: MyColors().lightWhite),
+      ),
+      actions: [
+        cancelButton,
+        continueButton,
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 
   return FutureBuilder(
@@ -41,9 +110,13 @@ Widget listOfWeeks(DocumentSnapshot userDocument,
         if (snapshot.hasData) {
           //int counter = 0;
           if (weekIDs.length == snapshot.data.length) {
-            updateUserWithFinisheAthlete(
-                userDocument, userTrainerDocument.data['trainerID']);
+            // updateUserWithFinisheAthlete(
+            //     userDocument, userTrainerDocument.data['trainerID']);
             SignInViewModel().updateUserProgress(userDocument, weeksToKeep);
+            Timer(Duration(milliseconds: 250), () {
+              showAlertDialog(
+                  context, userDocument, userDocument.data['userUID']);
+            });
           }
           return ListView.builder(
               physics: NeverScrollableScrollPhysics(),
