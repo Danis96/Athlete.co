@@ -15,6 +15,30 @@
       },
       "oauth_client": [
         {
+          "client_id": "83943705826-m9oiia3afke3257t2cm817g9and9ejcj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flutter.Athlete.co",
+            "certificate_hash": "165185d103636fad8ffe723f369420f1ba3fa4f1"
+          }
+        },
+        {
+          "client_id": "83943705826-336h2sjcud8urlc6pja2cv56fl91mp4s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flutter.Athlete.co",
+            "certificate_hash": "0691076012a8601b0d53375da91b8a6c0cf1e7fc"
+          }
+        },
+        {
+          "client_id": "83943705826-0e9nv8pirlm68emk2a1uiudt64ajf03v.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flutter.Athlete.co",
+            "certificate_hash": "10ff9e711a8d9837de9dc0f262215ae9dd0d6df3"
+          }
+        },
+        {
           "client_id": "83943705826-8cbedclr648did5tc66ru3gu0dm4qd95.apps.googleusercontent.com",
           "client_type": 3
         }
