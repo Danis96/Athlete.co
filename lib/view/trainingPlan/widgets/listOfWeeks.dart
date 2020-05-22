@@ -45,12 +45,23 @@ Widget listOfWeeks(DocumentSnapshot userDocument,
     // set up the buttons
 
     Widget cancelButton = FlatButton(
-      child: Text(
-        "Continue with same trainer",
-        style: TextStyle(color: MyColors().lightWhite),
-      ),
-      onPressed: () => Navigator.of(context).pop(),
-    );
+        child: Text(
+          "Continue with same trainer",
+          style: TextStyle(color: MyColors().lightWhite),
+        ),
+        onPressed: () async {
+          List<dynamic> currentUserDocuments = [];
+          DocumentSnapshot currentUserDocument;
+          currentUserDocuments =
+              await SignInViewModel().getCurrentUserDocument(userUID);
+          currentUserDocument = currentUserDocuments[0];
+          Navigator.of(context).push(CardAnimationTween(
+              widget: TrainingPlan(
+            userTrainerDocument: userTrainerDocument,
+            userDocument: currentUserDocument,
+            userUID: userUID,
+          )));
+        });
     Widget continueButton = FlatButton(
         child: Text(
           "Change",
