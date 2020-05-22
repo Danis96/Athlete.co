@@ -108,29 +108,35 @@ class _ChewieVideoState extends State<ChewieVideo>
     }
 
     Widget buttonDone() {
-      return FlatButton(
-          onPressed: () {
-            setState(() {
-              secondsForIndicators = _currentSeconds;
-              minutesForIndicators = _currentMinutes;
-              isTimeChoosed = true;
-            });
-            Navigator.of(context).pop();
-          },
-          child: Text(
-            'Done',
-          ));
+      return Container(
+        child: RaisedButton(
+          color: Colors.green,
+            onPressed: () {
+              setState(() {
+                secondsForIndicators = _currentSeconds;
+                minutesForIndicators = _currentMinutes;
+                isTimeChoosed = true;
+              });
+              Navigator.of(context).pop();
+            },
+            child: Text(
+              'Done',
+            )),
+      );
     }
 
     Widget buttonReset() {
-      return FlatButton(
-          onPressed: () {
-            setState(() {
-              resetFromChewie = true;
-            });
-            Navigator.of(context).pop();
-          },
-          child: Text('Reset'));
+      return Container(
+        child: RaisedButton(
+            color: Colors.red,
+            onPressed: () {
+              setState(() {
+                resetFromChewie = true;
+              });
+              Navigator.of(context).pop();
+            },
+            child: Text('Reset')),
+      );
     }
 
     // set up the AlertDialog
@@ -166,8 +172,8 @@ class _ChewieVideoState extends State<ChewieVideo>
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                buttonDone(),
                 buttonReset(),
+                buttonDone(),
               ],
             )
           ],

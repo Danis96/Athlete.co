@@ -13,7 +13,7 @@ Widget finishButton(Function nextPlay, BuildContext context) {
         child: Text(
           'Finish workout'.toUpperCase(),
           style: TextStyle(
-              fontSize: SizeConfig.safeBlockHorizontal * 5,
+              fontSize: SizeConfig.safeBlockHorizontal * 4.2,
               fontStyle: FontStyle.italic,
               fontWeight: FontWeight.w600),
         )),
