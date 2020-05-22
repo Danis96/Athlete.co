@@ -1,11 +1,11 @@
 import 'dart:ui';
-
 import 'package:attt/interface/chewieVideoInterface.dart';
-import 'package:attt/storage/storage.dart';
 import 'package:attt/utils/alertDialog.dart';
 import 'package:attt/utils/colors.dart';
+import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/fullTrainingStopwatch/fullTrainingStopwatch.dart';
 import 'package:attt/utils/globals.dart';
+import 'package:attt/view/chewieVideo/widgets/finishButton.dart';
 import 'package:attt/view/chewieVideo/widgets/finishWorkout.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorsOnVideo.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -76,7 +76,7 @@ class _ChewieVideoState extends State<ChewieVideo>
     vc.looping = true;
     vc.bufferColor = Colors.black;
     vc.cover = Container(
-       child: Image.asset('assets/images/ar.jpg'),
+      child: Image.asset('assets/images/ar.jpg'),
     );
     vc.controllerWidgets = true;
 
@@ -117,7 +117,9 @@ class _ChewieVideoState extends State<ChewieVideo>
             });
             Navigator.of(context).pop();
           },
-          child: Text('Done',));
+          child: Text(
+            'Done',
+          ));
     }
 
     Widget buttonReset() {
@@ -147,7 +149,12 @@ class _ChewieVideoState extends State<ChewieVideo>
           children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[Text('Minutes',), Text('Seconds')],
+              children: <Widget>[
+                Text(
+                  'Minutes',
+                ),
+                Text('Seconds')
+              ],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -295,6 +302,9 @@ class _ChewieVideoState extends State<ChewieVideo>
     initializeVariables();
 
     return Scaffold(
+      bottomNavigationBar: index == source.length - 1
+          ? finishButton(nextPlay, context)
+          : EmptyContainer(),
       body: WillPopScope(
         onWillPop: () => _onWillPop(),
         child: Stack(
@@ -309,8 +319,8 @@ class _ChewieVideoState extends State<ChewieVideo>
               child: Container(
                 height:
                     MediaQuery.of(context).orientation == Orientation.portrait
-                        ? SizeConfig.blockSizeVertical * 98
-                        : SizeConfig.blockSizeVertical * 95,
+                        ? index == source.length - 1 ?  SizeConfig.blockSizeVertical * 92 :  SizeConfig.blockSizeVertical * 95
+                        : SizeConfig.blockSizeVertical * 92,
                 child: IndicatorsOnVideo(
                   controller: vc,
                   listLenght: source.length,
@@ -345,3 +355,5 @@ class _ChewieVideoState extends State<ChewieVideo>
 //    throw UnimplementedError();
   }
 }
+
+
