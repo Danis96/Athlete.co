@@ -8,24 +8,24 @@ Widget repsWidget(BuildContext context, int isReps, int reps ) {
         top: MediaQuery.of(context)
             .orientation ==
             Orientation.landscape
-            ? SizeConfig.blockSizeVertical * 0
+            ? SizeConfig.blockSizeVertical * 5
             : isReps == 0
             ? SizeConfig.blockSizeVertical *
-            3
+           5
             : SizeConfig.blockSizeVertical *
             2,
         right: MediaQuery.of(context)
             .orientation ==
             Orientation.landscape
             ? SizeConfig.blockSizeHorizontal *
-            4
+            8
             : SizeConfig.blockSizeHorizontal *
             0,
         left: MediaQuery.of(context)
             .orientation ==
             Orientation.landscape
             ? SizeConfig.blockSizeHorizontal * 0
-            : SizeConfig.blockSizeHorizontal * 33),
+            : SizeConfig.blockSizeHorizontal * 30),
     child: Text('x' + reps.toString(),
         style: TextStyle(
             color: Colors.white,

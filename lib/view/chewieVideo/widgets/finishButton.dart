@@ -1,10 +1,13 @@
 import 'package:attt/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
-Widget finishButton(Function nextPlay, BuildContext context) {
+Widget finishButton(
+    Function nextPlay, BuildContext context, int index, listLenght) {
   SizeConfig().init(context);
   return Container(
-    height: SizeConfig.blockSizeVertical * 6,
+    height: MediaQuery.of(context).orientation == Orientation.landscape
+        ? SizeConfig.blockSizeVertical * 10
+        : SizeConfig.blockSizeVertical * 6,
     color: Colors.white,
     child: FlatButton(
         onPressed: () {
@@ -13,7 +16,8 @@ Widget finishButton(Function nextPlay, BuildContext context) {
         child: Text(
           'Finish workout'.toUpperCase(),
           style: TextStyle(
-              fontSize: SizeConfig.safeBlockHorizontal * 4.2,
+              fontSize: MediaQuery.of(context).orientation == Orientation.landscape
+                  ? SizeConfig.safeBlockHorizontal * 3 : SizeConfig.safeBlockHorizontal * 4.2,
               fontStyle: FontStyle.italic,
               fontWeight: FontWeight.w600),
         )),

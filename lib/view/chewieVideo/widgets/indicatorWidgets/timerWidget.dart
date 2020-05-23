@@ -14,8 +14,12 @@ Widget timerWidget(
 ) {
   return Container(
     margin: EdgeInsets.only(
-        top: SizeConfig.blockSizeVertical * 4,
-        left: SizeConfig.blockSizeHorizontal * 31),
+        top:  MediaQuery.of(context).orientation ==
+            Orientation.landscape
+            ? SizeConfig.blockSizeVertical * 28 : SizeConfig.blockSizeVertical * 9,
+        left: MediaQuery.of(context).orientation == Orientation.landscape
+            ? SizeConfig.blockSizeHorizontal * 35 : SizeConfig.blockSizeHorizontal * 15,
+    ),
     child: RaisedButton(
       color: Colors.white,
       onPressed: () {
@@ -28,7 +32,9 @@ Widget timerWidget(
       child: Text(
         format(_current),
         style: TextStyle(
-            fontSize: SizeConfig.safeBlockHorizontal * 10, color: Colors.black),
+            fontSize: MediaQuery.of(context).orientation ==
+                Orientation.landscape
+                ? SizeConfig.safeBlockHorizontal * 5 :  SizeConfig.safeBlockHorizontal * 12, color: Colors.black),
       ),
     ),
   );

@@ -13,13 +13,13 @@ Widget setsWidget(
     margin: EdgeInsets.only(
         top: MediaQuery.of(context).orientation == Orientation.landscape
             ? SizeConfig.blockSizeVertical * 1
-            : SizeConfig.blockSizeVertical * 2,
+            : SizeConfig.blockSizeVertical * 0,
         right: MediaQuery.of(context).orientation == Orientation.landscape
             ? SizeConfig.blockSizeHorizontal * 4
             : SizeConfig.blockSizeHorizontal * 0,
         left: MediaQuery.of(context).orientation == Orientation.landscape
             ? SizeConfig.blockSizeHorizontal * 0
-            : SizeConfig.blockSizeHorizontal * 30),
+            : SizeConfig.blockSizeHorizontal * 0),
     child: Text(
       currentSet + '/' + sets.toString() + ' Sets',
       style: TextStyle(

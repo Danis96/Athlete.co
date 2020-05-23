@@ -13,7 +13,9 @@ Widget nameWidget(
   String name,
   exVideo,
   List<dynamic> exTips,
+    int isReps
 ) {
+  SizeConfig().init(context);
   return GestureDetector(
     onTap: () {
       if (infoClicked) {
@@ -38,11 +40,20 @@ Widget nameWidget(
       }
     },
     child: Container(
-      width: SizeConfig.blockSizeHorizontal * 75,
+      width: MediaQuery.of(context).orientation == Orientation.landscape
+          ? SizeConfig.blockSizeHorizontal * 35  : SizeConfig.blockSizeHorizontal * 55,
       margin: EdgeInsets.only(
           top: MediaQuery.of(context).orientation == Orientation.landscape
-              ? SizeConfig.blockSizeVertical * 2
-              : SizeConfig.blockSizeVertical * 8),
+              ? isReps == 0 ?  SizeConfig.blockSizeVertical * 19 : SizeConfig.blockSizeVertical * 25
+              : isReps == 0 ? SizeConfig.blockSizeVertical * 13 : SizeConfig.blockSizeVertical * 23,
+          left: MediaQuery.of(context).orientation == Orientation.landscape
+              ? SizeConfig.blockSizeHorizontal * 0
+              : SizeConfig.blockSizeHorizontal * 13,
+          right: MediaQuery.of(context).orientation == Orientation.landscape
+              ?  isReps == 0 ? SizeConfig.blockSizeHorizontal * 20  : SizeConfig.blockSizeHorizontal * 5
+              : SizeConfig.blockSizeHorizontal * 0,
+
+      ),
       child: RichText(
         overflow: TextOverflow.ellipsis,
         text: TextSpan(children: [
