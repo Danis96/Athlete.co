@@ -55,7 +55,7 @@ class IndicatorsOnVideo extends StatefulWidget {
 }
 
 class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
-    with TickerProviderStateMixin {
+    with TickerProviderStateMixin, WidgetsBindingObserver {
   AnimationController _controller;
   Animation<Offset> _offsetAnimation;
   bool isOrientation = false;
@@ -63,6 +63,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     _controller = AnimationController(
       duration: const Duration(milliseconds: 1200),
       vsync: this,
@@ -81,8 +82,51 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
     checkIsCountDownRunning();
   }
 
+  /// here it is where we check for the state of the app
+  /// as I was doing research for the minimize and working
+  /// of the app in the background I
+  /// learned that every app has 4 states
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    switch (state) {
+
+      /// this state of the app activates first when the app
+      /// is going into the background
+      case AppLifecycleState.inactive:
+        print('Inactive');
+        break;
+
+      /// if app is in background we want to
+      /// pause timer if it is going and
+      /// pause the video
+      case AppLifecycleState.paused:
+        print('Paused');
+        checkIsOnTimeAndPauseTimer();
+        if (widget.controller.value.isPlaying) widget.controller.pause();
+        break;
+
+      /// when the app is back into foreground
+      /// we want to start the timer  and
+      /// start the video
+      case AppLifecycleState.resumed:
+        print('Resumed');
+        if (isTimerPaused) {
+          startTimer(_pausedOn);
+        }
+        if(!widget.controller.value.isPlaying) widget.controller.play();
+        break;
+
+        /// when the app is in the foreground but it is not
+      case AppLifecycleState.detached:
+        print('Detached');
+        break;
+    }
+  }
+
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _controller.dispose();
     super.dispose();
   }
@@ -231,7 +275,8 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                           top: MediaQuery.of(context).orientation ==
                                   Orientation.landscape
                               ? widget.index == (widget.listLenght - 1)
-                              ? SizeConfig.blockSizeVertical * 30 : SizeConfig.blockSizeVertical * 46
+                                  ? SizeConfig.blockSizeVertical * 30
+                                  : SizeConfig.blockSizeVertical * 46
                               : SizeConfig.blockSizeVertical * 43,
                           right: MediaQuery.of(context).orientation ==
                                   Orientation.landscape
@@ -283,9 +328,11 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                         top: MediaQuery.of(context).orientation ==
                                 Orientation.landscape
                             ? widget.index == (widget.listLenght - 1)
-                            ? SizeConfig.blockSizeVertical * 68  : SizeConfig.blockSizeVertical * 80
+                                ? SizeConfig.blockSizeVertical * 68
+                                : SizeConfig.blockSizeVertical * 80
                             : widget.index == (widget.listLenght - 1)
-                            ? SizeConfig.blockSizeVertical * 82 : SizeConfig.blockSizeVertical * 87,
+                                ? SizeConfig.blockSizeVertical * 82
+                                : SizeConfig.blockSizeVertical * 87,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

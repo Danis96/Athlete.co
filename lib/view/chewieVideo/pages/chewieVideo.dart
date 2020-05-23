@@ -311,6 +311,7 @@ class _ChewieVideoState extends State<ChewieVideo>
     ]);
   }
 
+
   /// dispose whole widget and [vc] controller
   @override
   void dispose() {
