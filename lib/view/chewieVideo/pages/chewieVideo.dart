@@ -86,7 +86,7 @@ class _ChewieVideoState extends State<ChewieVideo>
   }
 
   /// minutes for timer and seconds
-  int _currentMinutes = 0, _currentSeconds = 0;
+  int _currentMinutes = 1, _currentSeconds = 1;
 
   showTmerInputDialog(BuildContext context) {
     Widget minuteChoose() {
@@ -110,7 +110,7 @@ class _ChewieVideoState extends State<ChewieVideo>
     Widget buttonDone() {
       return Container(
         child: RaisedButton(
-          color: Colors.green,
+            color: Colors.green,
             onPressed: () {
               setState(() {
                 secondsForIndicators = _currentSeconds;
@@ -119,9 +119,12 @@ class _ChewieVideoState extends State<ChewieVideo>
               });
               Navigator.of(context).pop();
             },
-            child: Text(
-              'Done',
-            )),
+            child: Text('Done',
+                style: TextStyle(
+                    fontSize: MediaQuery.of(context).orientation ==
+                            Orientation.landscape
+                        ? SizeConfig.safeBlockHorizontal * 3
+                        : SizeConfig.safeBlockHorizontal * 4))),
       );
     }
 
@@ -135,7 +138,14 @@ class _ChewieVideoState extends State<ChewieVideo>
               });
               Navigator.of(context).pop();
             },
-            child: Text('Reset')),
+            child: Text(
+              'Reset',
+              style: TextStyle(
+                  fontSize: MediaQuery.of(context).orientation ==
+                          Orientation.landscape
+                      ? SizeConfig.safeBlockHorizontal * 3
+                      : SizeConfig.safeBlockHorizontal * 4),
+            )),
       );
     }
 
@@ -144,14 +154,22 @@ class _ChewieVideoState extends State<ChewieVideo>
       backgroundColor: Colors.white,
       title: Text(
         "Choose your time",
-        style: TextStyle(color: MyColors().lightBlack),
+        style: TextStyle(
+            color: MyColors().lightBlack,
+            fontSize:
+                MediaQuery.of(context).orientation == Orientation.landscape
+                    ? SizeConfig.safeBlockHorizontal * 3
+                    : SizeConfig.safeBlockHorizontal * 5),
       ),
       content: Container(
-        alignment: Alignment.center,
-        height: SizeConfig.blockSizeVertical * 27,
+        height: MediaQuery.of(context).orientation == Orientation.landscape
+            ? SizeConfig.blockSizeVertical * 75
+            : SizeConfig.blockSizeVertical * 35,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment:
+              MediaQuery.of(context).orientation == Orientation.landscape
+                  ? MainAxisAlignment.spaceBetween
+                  : MainAxisAlignment.center,
           children: <Widget>[
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -309,7 +327,7 @@ class _ChewieVideoState extends State<ChewieVideo>
 
     return Scaffold(
       bottomNavigationBar: index == source.length - 1
-          ? finishButton(nextPlay, context)
+          ? finishButton(nextPlay, context, index, source.length)
           : EmptyContainer(),
       body: WillPopScope(
         onWillPop: () => _onWillPop(),
@@ -325,7 +343,9 @@ class _ChewieVideoState extends State<ChewieVideo>
               child: Container(
                 height:
                     MediaQuery.of(context).orientation == Orientation.portrait
-                        ? index == source.length - 1 ?  SizeConfig.blockSizeVertical * 92 :  SizeConfig.blockSizeVertical * 95
+                        ? index == source.length - 1
+                            ? SizeConfig.blockSizeVertical * 92
+                            : SizeConfig.blockSizeVertical * 95
                         : SizeConfig.blockSizeVertical * 92,
                 child: IndicatorsOnVideo(
                   controller: vc,
@@ -361,5 +381,3 @@ class _ChewieVideoState extends State<ChewieVideo>
 //    throw UnimplementedError();
   }
 }
-
-

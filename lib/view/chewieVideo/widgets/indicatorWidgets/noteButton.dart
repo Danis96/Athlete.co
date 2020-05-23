@@ -14,7 +14,7 @@ Widget noteButton(BuildContext context, bool noteClicked, isFromPortrait,
     margin: EdgeInsets.only(
         top: MediaQuery.of(context).orientation == Orientation.landscape
             ? SizeConfig.blockSizeVertical * 6
-            : SizeConfig.blockSizeVertical * 8),
+            : SizeConfig.blockSizeVertical * 0),
     child: IconButton(
         color: Colors.white,
         iconSize: MediaQuery.of(context).orientation == Orientation.landscape
