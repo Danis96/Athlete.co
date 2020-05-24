@@ -15,6 +15,7 @@ import 'package:video_box/video_box.dart';
 import 'dart:async';
 import 'package:attt/utils/size_config.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:flutter_picker/flutter_picker.dart';
 
 class ChewieVideo extends StatefulWidget {
   final DocumentSnapshot userDocument, userTrainerDocument;
@@ -86,126 +87,105 @@ class _ChewieVideoState extends State<ChewieVideo>
   }
 
   /// minutes for timer and seconds
-  int _currentMinutes = 1, _currentSeconds = 1;
+  String _currentMinutes, _currentSeconds;
+  List<dynamic> time = [];
+  String timeToSplit;
+  var ms;
 
-  showTmerInputDialog(BuildContext context) {
-    Widget minuteChoose() {
-      return new NumberPicker.integer(
-          infiniteLoop: true,
-          initialValue: _currentMinutes,
-          minValue: 0,
-          maxValue: 60,
-          onChanged: (newValue) => setState(() => _currentMinutes = newValue));
-    }
-
-    Widget secChoose() {
-      return new NumberPicker.integer(
-          infiniteLoop: true,
-          initialValue: _currentSeconds,
-          minValue: 0,
-          maxValue: 59,
-          onChanged: (newValue) => setState(() => _currentSeconds = newValue));
-    }
-
-    Widget buttonDone() {
-      return Container(
-        child: RaisedButton(
-            color: Colors.green,
-            onPressed: () {
-              setState(() {
-                secondsForIndicators = _currentSeconds;
-                minutesForIndicators = _currentMinutes;
-                isTimeChoosed = true;
-              });
-              Navigator.of(context).pop();
-            },
-            child: Text('Done',
-                style: TextStyle(
-                    fontSize: MediaQuery.of(context).orientation ==
-                            Orientation.landscape
+  showPickerNumber(BuildContext context) {
+    new Picker(
+            textStyle: TextStyle(color: Colors.black),
+            adapter: NumberPickerAdapter(data: [
+              NumberPickerColumn(
+                  onFormatValue: (v) {
+                    return v < 10 ? "0$v" : "$v";
+                  },
+                  begin: 1,
+                  end: 59,
+                  suffix: Text(
+                    'min',
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).orientation ==
+                                Orientation.landscape
+                            ? SizeConfig.safeBlockHorizontal * 1.5
+                            : SizeConfig.safeBlockHorizontal * 3),
+                  )),
+              NumberPickerColumn(
+                  onFormatValue: (v) {
+                    return v < 10 ? "0$v" : "$v";
+                  },
+                  begin: 1,
+                  end: 60,
+                  suffix: Text(
+                    'sec',
+                    style: TextStyle(
+                        fontSize: MediaQuery.of(context).orientation ==
+                                Orientation.landscape
+                            ? SizeConfig.safeBlockHorizontal * 1.5
+                            : SizeConfig.safeBlockHorizontal * 3),
+                  )),
+            ]),
+            delimiter: [
+              PickerDelimiter(
+                  child: Container(
+                color: MyColors().white,
+                width: 30.0,
+                alignment: Alignment.center,
+                child: Icon(Icons.watch),
+              ))
+            ],
+            cancelText: 'Reset',
+            cancelTextStyle: TextStyle(
+                color: Colors.red,
+                fontSize:
+                    MediaQuery.of(context).orientation == Orientation.landscape
                         ? SizeConfig.safeBlockHorizontal * 3
-                        : SizeConfig.safeBlockHorizontal * 4))),
-      );
-    }
-
-    Widget buttonReset() {
-      return Container(
-        child: RaisedButton(
-            color: Colors.red,
-            onPressed: () {
-              setState(() {
-                resetFromChewie = true;
-              });
-              Navigator.of(context).pop();
-            },
-            child: Text(
-              'Reset',
+                        : SizeConfig.safeBlockHorizontal * 4),
+            confirmText: 'Done',
+            confirmTextStyle: TextStyle(
+                color: Colors.green,
+                fontSize:
+                    MediaQuery.of(context).orientation == Orientation.landscape
+                        ? SizeConfig.safeBlockHorizontal * 3
+                        : SizeConfig.safeBlockHorizontal * 4),
+            hideHeader: true,
+            title: new Text(
+              "Choose your time",
               style: TextStyle(
+                  color: MyColors().lightBlack,
                   fontSize: MediaQuery.of(context).orientation ==
                           Orientation.landscape
                       ? SizeConfig.safeBlockHorizontal * 3
-                      : SizeConfig.safeBlockHorizontal * 4),
-            )),
-      );
-    }
-
-    // set up the AlertDialog
-    AlertDialog alert = AlertDialog(
-      backgroundColor: Colors.white,
-      title: Text(
-        "Choose your time",
-        style: TextStyle(
-            color: MyColors().lightBlack,
-            fontSize:
-                MediaQuery.of(context).orientation == Orientation.landscape
-                    ? SizeConfig.safeBlockHorizontal * 3
-                    : SizeConfig.safeBlockHorizontal * 5),
-      ),
-      content: Container(
-        height: MediaQuery.of(context).orientation == Orientation.landscape
-            ? SizeConfig.blockSizeVertical * 75
-            : SizeConfig.blockSizeVertical * 35,
-        child: Column(
-          mainAxisAlignment:
-              MediaQuery.of(context).orientation == Orientation.landscape
-                  ? MainAxisAlignment.spaceBetween
-                  : MainAxisAlignment.center,
-          children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  'Minutes',
-                ),
-                Text('Seconds')
-              ],
+                      : SizeConfig.safeBlockHorizontal * 5),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                minuteChoose(),
-                secChoose(),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                buttonReset(),
-                buttonDone(),
-              ],
-            )
-          ],
-        ),
-      ),
-    );
-
-    // show the dialog
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
+            onSelect: (Picker picker, int index, List<int> selecteds) {
+              this.setState(() {
+                resetFromChewie = false;
+              });
+            },
+            onConfirm: (Picker picker, List<int> value) {
+              timeToSplit = picker.getSelectedValues().toString();
+              String min = timeToSplit[1] +
+                  (timeToSplit[2] == ',' ? '' : timeToSplit[2]);
+              setState(() => minutesForIndicators = int.parse(min));
+              print('Minutes: ' + minutesForIndicators.toString());
+              String sec = minutesForIndicators > 10
+                  ? timeToSplit[5] +
+                      (timeToSplit[6] == ']' ? '' : timeToSplit[6])
+                  : timeToSplit[4] +
+                      (timeToSplit[5] == ']' ? '' : timeToSplit[5]);
+              setState(() {
+                secondsForIndicators = int.parse(sec);
+                isTimeChoosed = true;
+                resetFromChewie = false;
+              });
+              print('Seconds: ' + secondsForIndicators.toString());
+            },
+            onCancel: () {
+              setState(() => resetFromChewie = true);
+            },
+            magnification: 1.5)
+        .showDialog(context);
   }
 
   /// [_onWillPop]
@@ -311,7 +291,6 @@ class _ChewieVideoState extends State<ChewieVideo>
     ]);
   }
 
-
   /// dispose whole widget and [vc] controller
   @override
   void dispose() {
@@ -366,7 +345,7 @@ class _ChewieVideoState extends State<ChewieVideo>
                   playPrevious: previousPlay,
                   repsDescription: exerciseRepsDescription,
                   onWill: _onWillPop,
-                  showTimerDialog: showTmerInputDialog,
+                  showTimerDialog: showPickerNumber,
                 ),
               ),
             ),

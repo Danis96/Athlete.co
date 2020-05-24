@@ -265,7 +265,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                           widget.index == (widget.listLenght - 1)
                               ? EmptyContainer()
                               : nextButton(
-                                  context, resetTimer, widget.playNext),
+                                  context, resetTimer, widget.playNext, widget.controller),
                         ],
                       ),
                     ),
@@ -363,19 +363,15 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       widget.controller.pause();
       checkIsOnTimeAndPauseTimer();
     } else {
-      widget.controller.play();
-      if (reseted) {
-        print('Timer has been reseted');
-        reseted = false;
-      } else {
         if (widget.isReps == 1) {
+          widget.controller.play();
           if (isTimeChoosed) {
             startTimer(d1);
           }
           if (isTimerPaused) {
+            widget.controller.play();
             startTimer(_pausedOn);
           }
-        }
       }
     }
   }
@@ -384,7 +380,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
     if (countDownTimer != null) {
       countDownTimer.cancel();
       _current = Duration(seconds: 0);
-      reseted = true;
+//        reseted = true;
     }
   }
 

@@ -2,8 +2,9 @@
 
 import 'package:attt/utils/size_config.dart';
 import 'package:flutter/material.dart';
+import 'package:video_box/video.controller.dart';
 
-Widget nextButton(BuildContext context, Function resetTimer, playNext) {
+Widget nextButton(BuildContext context, Function resetTimer, playNext, VideoController vc) {
    return Container(
      child: IconButton(
        icon: Icon(Icons.skip_next),
@@ -16,6 +17,7 @@ Widget nextButton(BuildContext context, Function resetTimer, playNext) {
        onPressed: () {
          playNext();
          resetTimer();
+
        },
      ),
    );
