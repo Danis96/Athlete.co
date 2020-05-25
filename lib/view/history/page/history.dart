@@ -153,6 +153,7 @@ class _HistoryState extends State<History> {
                                   finishedWorkouts[i].toString().split('_')[3]);
                             }
                           }
+                          workoutsList = workoutsList.reversed.toList();
                           return FutureBuilder(
                             future: getTainerName(
                                 finishedWeeksWithAthlete[index]

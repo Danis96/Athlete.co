@@ -119,6 +119,7 @@ Widget listOfWeeks(DocumentSnapshot userDocument,
           .getWeeks(userTrainerDocument.data['trainerID']),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
+          print(weekIDs.toString() + ' BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB');
           //int counter = 0;
           if (weekIDs.length == snapshot.data.length) {
             // updateUserWithFinisheAthlete(
@@ -134,6 +135,7 @@ Widget listOfWeeks(DocumentSnapshot userDocument,
               shrinkWrap: true,
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
+                print(snapshot.data[index].data['name'].toString() + ' BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB');
                 if (weekIDs.contains(snapshot.data[index]['weekID'])) {
                   print(snapshot.data[index]['weekID'] +
                       ' SEDMICA GOTOVAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
