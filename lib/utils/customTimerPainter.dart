@@ -16,8 +16,8 @@ class CustomTimerPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
       ..color = backgroundColor
-      ..strokeWidth = 2.0
-      ..strokeCap = StrokeCap.butt
+      ..strokeWidth = 3.0
+      ..strokeCap = StrokeCap.square
       ..style = PaintingStyle.stroke;
 
     canvas.drawCircle(size.center(Offset.zero), size.width / 2.0, paint);
