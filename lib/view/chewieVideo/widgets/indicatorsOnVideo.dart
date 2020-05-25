@@ -1,9 +1,12 @@
 import 'dart:async';
 import 'dart:ui';
+import 'package:attt/utils/customTimerPainter.dart';
 import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
+import 'package:attt/utils/snackbar.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/asManyReps.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/clearButton.dart';
+import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/colorProgress.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/fullscreenButton.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/nameWidget.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/nextbutton.dart';
@@ -57,8 +60,10 @@ class IndicatorsOnVideo extends StatefulWidget {
 class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
     with TickerProviderStateMixin, WidgetsBindingObserver {
   AnimationController _controller;
+  AnimationController controllerColor;
   Animation<Offset> _offsetAnimation;
   bool isOrientation = false;
+  int _counter = 0;
 
   @override
   void initState() {
@@ -76,6 +81,10 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       parent: _controller,
       curve: Curves.easeInOut,
     ));
+    controllerColor = AnimationController(
+      vsync: this,
+      duration: Duration(minutes: 0, seconds: 0),
+    );
 
     /// check if countDown is running ,
     /// if it is RESET IT
@@ -114,10 +123,10 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
         if (isTimerPaused) {
           startTimer(_pausedOn);
         }
-        if(!widget.controller.value.isPlaying) widget.controller.play();
+        if (!widget.controller.value.isPlaying) widget.controller.play();
         break;
 
-        /// when the app is in the foreground but it is not
+      /// when the app is in the foreground but it is not
       case AppLifecycleState.detached:
         print('Detached');
         break;
@@ -186,6 +195,11 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
     if (isTimeChoosed) {
       d1 = Duration(
           minutes: minutesForIndicators, seconds: secondsForIndicators);
+      controllerColor = AnimationController(
+        vsync: this,
+        duration: Duration(
+            minutes: minutesForIndicators, seconds: secondsForIndicators),
+      );
     }
     if (activatePause) {
       checkIsOnTimeAndPauseTimer();
@@ -205,8 +219,14 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
         position: _offsetAnimation,
         child: InkWell(
           onTap: () {
-            pauseAndPlayFunction();
-            isTips = false;
+            if(_counter == 0) {
+              pauseAndPlayFunction();
+              isTips = false;
+              _counter = 1;
+            }
+            Timer(Duration(seconds: 1), () {
+               _counter = 0;
+            });
           },
           child: Padding(
             padding: EdgeInsets.only(
@@ -264,8 +284,8 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                   context, resetTimer, widget.playPrevious),
                           widget.index == (widget.listLenght - 1)
                               ? EmptyContainer()
-                              : nextButton(
-                                  context, resetTimer, widget.playNext, widget.controller),
+                              : nextButton(context, resetTimer, widget.playNext,
+                                  widget.controller),
                         ],
                       ),
                     ),
@@ -285,6 +305,12 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                         ),
                         child: Stack(
                           children: <Widget>[
+//
+                            /// as many reps description
+                            widget.repsDescription == 'as many reps as possible'
+                                ? asManyReps(context)
+                                : EmptyContainer(),
+
                             /// reps or timer,
                             /// depend on the exercise type
                             widget.isReps == 0
@@ -298,12 +324,13 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                     isTimerPaused,
                                     _current,
                                     _pausedOn,
-                                    countDownTimer),
-
-                            /// as many reps description
-                            widget.repsDescription == 'as many reps as possible'
-                                ? asManyReps(context)
+                                    countDownTimer,
+                                    controllerColor,
+                                  ),
+                            widget.isReps == 1
+                                ? colorProgress(controllerColor)
                                 : EmptyContainer(),
+
 
                             /// name widget,
                             /// here you can click to go on info about specific exercise
@@ -364,15 +391,26 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       checkIsOnTimeAndPauseTimer();
     } else {
         if (widget.isReps == 1) {
-          widget.controller.play();
+          if(reseted) {
+            MySnackbar().showSnackbar('You must set Timer', context, 'Dismiss');
+          }
           if (isTimeChoosed) {
+            widget.controller.play();
             startTimer(d1);
+            controllerColor.reverse(
+                from:
+                    controllerColor.value == 0.0 ? 1.0 : controllerColor.value);
+          } else {
+            MySnackbar().showSnackbar('You must set Timer', context, 'Dismiss');
           }
           if (isTimerPaused) {
             widget.controller.play();
             startTimer(_pausedOn);
+            controllerColor.reverse(
+                from:
+                    controllerColor.value == 0.0 ? 1.0 : controllerColor.value);
           }
-      }
+        }
     }
   }
 
@@ -380,7 +418,9 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
     if (countDownTimer != null) {
       countDownTimer.cancel();
       _current = Duration(seconds: 0);
-//        reseted = true;
+      controllerColor.value = 0.0;
+      reseted = true;
+
     }
   }
 
@@ -391,6 +431,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       if (widget.isReps == 1) {
         _pausedOn = _current;
         countDownTimer.cancel();
+        controllerColor.stop();
         isTimerPaused = true;
       }
     }

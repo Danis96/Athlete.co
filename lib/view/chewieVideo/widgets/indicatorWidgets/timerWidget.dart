@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:video_box/video.controller.dart';
@@ -9,32 +12,40 @@ Widget timerWidget(
   format,
   VideoController controller,
   bool isTimerPaused,
-    Duration _current, _pausedOn,
-    CountdownTimer countDownTimer
+  Duration _current,
+  _pausedOn,
+  CountdownTimer countDownTimer,
+  AnimationController controllerColor,
 ) {
+  pressTimer() {
+    showTimerDialog(context);
+    controller.pause();
+    _pausedOn = _current;
+    countDownTimer.cancel();
+    isTimerPaused = true;
+    reseted = false;
+  }
+
   return Container(
     margin: EdgeInsets.only(
-        top:  MediaQuery.of(context).orientation ==
-            Orientation.landscape
-            ? SizeConfig.blockSizeVertical * 28 : SizeConfig.blockSizeVertical * 9,
-        left: MediaQuery.of(context).orientation == Orientation.landscape
-            ? SizeConfig.blockSizeHorizontal * 35 : SizeConfig.blockSizeHorizontal * 15,
+      top: MediaQuery.of(context).orientation == Orientation.landscape
+          ? SizeConfig.blockSizeVertical * 28
+          : SizeConfig.blockSizeVertical * 9,
+      left: MediaQuery.of(context).orientation == Orientation.landscape
+          ? SizeConfig.blockSizeHorizontal * 35
+          : SizeConfig.blockSizeHorizontal * 15,
     ),
     child: RaisedButton(
       color: Colors.white,
-      onPressed: () {
-        showTimerDialog(context);
-        controller.pause();
-        _pausedOn = _current;
-        countDownTimer.cancel();
-        isTimerPaused = true;
-      },
+      onPressed: () => pressTimer(),
       child: Text(
         format(_current),
         style: TextStyle(
-            fontSize: MediaQuery.of(context).orientation ==
-                Orientation.landscape
-                ? SizeConfig.safeBlockHorizontal * 5 :  SizeConfig.safeBlockHorizontal * 12, color: Colors.black),
+            fontSize:
+                MediaQuery.of(context).orientation == Orientation.landscape
+                    ? SizeConfig.safeBlockHorizontal * 5
+                    : SizeConfig.safeBlockHorizontal * 12,
+            color: Colors.black),
       ),
     ),
   );
