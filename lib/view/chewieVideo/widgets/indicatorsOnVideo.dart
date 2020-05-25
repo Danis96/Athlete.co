@@ -328,7 +328,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                     controllerColor,
                                   ),
                             widget.isReps == 1
-                                ? colorProgress(controllerColor)
+                                ? colorProgress(controllerColor, context)
                                 : EmptyContainer(),
 
 
