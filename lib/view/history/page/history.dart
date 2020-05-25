@@ -97,8 +97,8 @@ class _HistoryState extends State<History> {
               children: <Widget>[
                 Container(
                   alignment: Alignment.centerRight,
-                  margin: EdgeInsets.only(
-                      left: SizeConfig.blockSizeHorizontal * 8),
+                  margin:
+                      EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 8),
                   child: IconButton(
                     onPressed: () =>
                         Navigator.of(context).push(CardAnimationTween(
@@ -115,24 +115,23 @@ class _HistoryState extends State<History> {
                 ),
                 finishedWorkouts.isEmpty
                     ? Column(
-                      children: <Widget>[
-                        SizedBox(
-                          height: SizeConfig.blockSizeVertical * 35,
-                        ),
-                        Center(
-                          child: Text(
-                            "You do not have any history log yet. When you begin completing workouts, come back to check you log.",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontFamily: 'Roboto',
-                                fontStyle: FontStyle.italic,
-                                fontSize:
-                                    SizeConfig.blockSizeVertical * 2.5),
-                            textAlign: TextAlign.center,
+                        children: <Widget>[
+                          SizedBox(
+                            height: SizeConfig.blockSizeVertical * 35,
                           ),
-                        ),
-                      ],
-                    )
+                          Center(
+                            child: Text(
+                              "You do not have any history log yet. When you begin completing workouts, come back to check you log.",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Roboto',
+                                  fontStyle: FontStyle.italic,
+                                  fontSize: SizeConfig.blockSizeVertical * 2.5),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ],
+                      )
                     : ListView.builder(
                         shrinkWrap: true,
                         physics: ScrollPhysics(),
@@ -150,10 +149,11 @@ class _HistoryState extends State<History> {
                                       .toString()
                                       .split('_')[2] +
                                   ' ' +
-                                  finishedWorkouts[i].toString().split('_')[3]);
+                                  finishedWorkouts[i].toString().split('_')[3] + ' ' + finishedWorkouts[i].toString().split('_')[4]);
                             }
                           }
                           workoutsList = workoutsList.reversed.toList();
+                          print('HAHHHHHHHHHHHHHHHHHHHHAHAHA  ' + workoutsList.toString());
                           return FutureBuilder(
                             future: getTainerName(
                                 finishedWeeksWithAthlete[index]
@@ -280,21 +280,39 @@ class _HistoryState extends State<History> {
                                                           workoutTag = snapshot3
                                                               .data[0]
                                                               .data['tag'];
-                                                          workoutNotes =
-                                                              snapshot3.data[0]
-                                                                      .data[
-                                                                  'notes'];
-                                                          print('AAAAAAAAAAAAAAAAAA   ' +
-                                                              workoutNotes
-                                                                  .toString());
+                                                          workoutNotes = snapshot3
+                                                                  .data[0].data[
+                                                              'historyNotes'];
+                                                          
+
+                                                              for (var i = 0; i < workoutNotes.length; i++) {
+                                                                print('AAAAAAAAAAAAAAAAAA   ' +
+                                                              workoutNotes[i]
+                                                                  .toString()
+                                                                  .split(
+                                                                      '_!_?_')[2]);
+                                                              }
+                                                          bool isBreak = false;
+                                                          //for (var i = 0; i < finishedWorkouts.length; i++) {
+                                                            for (var j = 0; j < workoutNotes.length; j++) {
+                                                              if(workoutNotes[j].toString().split('_!_?_')[2] == (workoutsList[index2].toString()
+                                                                  .split(
+                                                                      ' ')[3] + ' ' + workoutsList[index2].toString().split(' ')[4] ) && !isBreak) {
+                                                                        userNotesHistory = workoutNotes[j].toString().split('_!_?_')[1];
+                                                                        print('MAAAAAAAAAAAAAAAAATCCCCCCCCCCHHHHHHHHHHHHH   ' + workoutNotes[j].toString().split('_!_?_')[1]);
+                                                                        isBreak = true;
+                                                                      }
+                                                            }
+                                                         // }
+                                                          
                                                         }
-                                                        userNotesHistory =
-                                                            WorkoutViewModel()
-                                                                .getUserNotes(
-                                                                    workoutNotes,
-                                                                    widget.userDocument
-                                                                            .data[
-                                                                        'userUID']);
+                                                        // userNotesHistory =
+                                                        //     WorkoutViewModel()
+                                                        //         .getUserNotes(
+                                                        //             workoutNotes,
+                                                        //             widget.userDocument
+                                                        //                     .data[
+                                                        //                 'userUID']);
                                                         return Container(
                                                           margin: EdgeInsets.only(
                                                               bottom: SizeConfig
