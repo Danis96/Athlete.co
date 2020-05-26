@@ -121,12 +121,12 @@ class _HistoryState extends State<History> {
                           ),
                           Center(
                             child: Text(
-                              "You do not have any history log yet. When you begin completing workouts, come back to check you log.",
+                              "You do not have any history log yet.",
                               style: TextStyle(
-                                  color: Colors.white,
+                                  color: Color.fromRGBO(255, 255, 255, 0.8),
                                   fontFamily: 'Roboto',
-                                  fontStyle: FontStyle.italic,
-                                  fontSize: SizeConfig.blockSizeVertical * 2.5),
+                                  fontSize: SizeConfig.blockSizeVertical * 2.0,
+                                  fontWeight: FontWeight.w400),
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -149,11 +149,14 @@ class _HistoryState extends State<History> {
                                       .toString()
                                       .split('_')[2] +
                                   ' ' +
-                                  finishedWorkouts[i].toString().split('_')[3] + ' ' + finishedWorkouts[i].toString().split('_')[4]);
+                                  finishedWorkouts[i].toString().split('_')[3] +
+                                  ' ' +
+                                  finishedWorkouts[i].toString().split('_')[4]);
                             }
                           }
                           workoutsList = workoutsList.reversed.toList();
-                          print('HAHHHHHHHHHHHHHHHHHHHHAHAHA  ' + workoutsList.toString());
+                          print('HAHHHHHHHHHHHHHHHHHHHHAHAHA  ' +
+                              workoutsList.toString());
                           return FutureBuilder(
                             future: getTainerName(
                                 finishedWeeksWithAthlete[index]
@@ -283,28 +286,53 @@ class _HistoryState extends State<History> {
                                                           workoutNotes = snapshot3
                                                                   .data[0].data[
                                                               'historyNotes'];
-                                                          
 
-                                                              for (var i = 0; i < workoutNotes.length; i++) {
-                                                                print('AAAAAAAAAAAAAAAAAA   ' +
-                                                              workoutNotes[i]
-                                                                  .toString()
-                                                                  .split(
-                                                                      '_!_?_')[2]);
-                                                              }
+                                                          for (var i = 0;
+                                                              i <
+                                                                  workoutNotes
+                                                                      .length;
+                                                              i++) {
+                                                            print('AAAAAAAAAAAAAAAAAA   ' +
+                                                                workoutNotes[i]
+                                                                    .toString()
+                                                                    .split(
+                                                                        '_!_?_')[2]);
+                                                          }
                                                           bool isBreak = false;
                                                           //for (var i = 0; i < finishedWorkouts.length; i++) {
-                                                            for (var j = 0; j < workoutNotes.length; j++) {
-                                                              if(workoutNotes[j].toString().split('_!_?_')[2] == (workoutsList[index2].toString()
-                                                                  .split(
-                                                                      ' ')[3] + ' ' + workoutsList[index2].toString().split(' ')[4] ) && !isBreak) {
-                                                                        userNotesHistory = workoutNotes[j].toString().split('_!_?_')[1];
-                                                                        print('MAAAAAAAAAAAAAAAAATCCCCCCCCCCHHHHHHHHHHHHH   ' + workoutNotes[j].toString().split('_!_?_')[1]);
-                                                                        isBreak = true;
-                                                                      }
+                                                          for (var j = 0;
+                                                              j <
+                                                                  workoutNotes
+                                                                      .length;
+                                                              j++) {
+                                                            if (workoutNotes[j]
+                                                                            .toString()
+                                                                            .split('_!_?_')[
+                                                                        2] ==
+                                                                    (workoutsList[index2].toString().split(' ')[
+                                                                            3] +
+                                                                        ' ' +
+                                                                        workoutsList[index2]
+                                                                            .toString()
+                                                                            .split(' ')[4]) &&
+                                                                !isBreak) {
+                                                              userNotesHistory =
+                                                                  workoutNotes[
+                                                                          j]
+                                                                      .toString()
+                                                                      .split(
+                                                                          '_!_?_')[1];
+                                                              print('MAAAAAAAAAAAAAAAAATCCCCCCCCCCHHHHHHHHHHHHH   ' +
+                                                                  workoutNotes[
+                                                                          j]
+                                                                      .toString()
+                                                                      .split(
+                                                                          '_!_?_')[1]);
+                                                              isBreak = true;
                                                             }
-                                                         // }
-                                                          
+                                                          }
+                                                          // }
+
                                                         }
                                                         // userNotesHistory =
                                                         //     WorkoutViewModel()
