@@ -122,6 +122,9 @@ Widget listOfWorkouts(
       workoutIDs.add(workoutsFinished[i].split('_')[2]);
     }
   }
+
+  print('FINISHED WORKOUTS:   ' + workoutIDs.length.toString());
+
   return FutureBuilder(
     future: TrainingPlanViewModel().getWorkouts(
         userTrainerDocument.data['trainerID'],

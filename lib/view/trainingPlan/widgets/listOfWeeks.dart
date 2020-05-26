@@ -23,14 +23,13 @@ Widget listOfWeeks(DocumentSnapshot userDocument,
   for (var i = 0; i < weeksFinished.length; i++) {
     if (weeksFinished[i].toString().split('_')[0] ==
         userTrainerDocument.data['trainerID']) {
-
       weekIDs.add(weeksFinished[i].toString().split('_')[1]);
     } else {
       weeksToKeep.add(weeksFinished[i]);
     }
   }
 
-  print('CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC               ' + weekIDs.toString());
+  print('WEEEEEEEEKS: ' + weekIDs.toString());
 
   // updateUserWithFinisheAthlete(
   //     DocumentSnapshot userDocument, String trainerID) async {
@@ -117,30 +116,44 @@ Widget listOfWeeks(DocumentSnapshot userDocument,
     );
   }
 
+  getNewDocument(String userUID) async {
+    List<dynamic> currentUserDocuments = [];
+    DocumentSnapshot currentUserDocument;
+    currentUserDocuments =
+        await SignInViewModel().getCurrentUserDocument(userUID);
+    currentUserDocument = currentUserDocuments[0];
+    Navigator.of(context).push(CardAnimationTween(
+        widget: TrainingPlan(
+      userTrainerDocument: userTrainerDocument,
+      userDocument: currentUserDocument,
+      userUID: userUID,
+    )));
+  }
+
   return FutureBuilder(
       future: TrainingPlanViewModel()
           .getWeeks(userTrainerDocument.data['trainerID']),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
-          print(weekIDs.toString() + ' BBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBB');
           //int counter = 0;
           ///NE VALJA OVO, TREBA OVO PRERADITI
           ///------------------------------------------------------------------------------------------------------------
-          // if (weekIDs.length == snapshot.data.length) {
-          //   // updateUserWithFinisheAthlete(
-          //   //     userDocument, userTrainerDocument.data['trainerID']);
-          //   SignInViewModel().updateUserProgress(userDocument, weeksToKeep);
-          //   Timer(Duration(milliseconds: 250), () {
-          //     showAlertDialog(
-          //         context, userDocument, userDocument.data['userUID']);
-          //   });
-          // }
+          if (weekIDs.length == snapshot.data.length) {
+            //   // updateUserWithFinisheAthlete(
+            //   //     userDocument, userTrainerDocument.data['trainerID']);
+            SignInViewModel().updateUserProgress(userDocument, weeksToKeep);
+
+            getNewDocument(userDocument.data['userUID']);
+            //   Timer(Duration(milliseconds: 250), () {
+            //     showAlertDialog(
+            //         context, userDocument, userDocument.data['userUID']);
+            //   });
+          }
           return ListView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
-                print(snapshot.data[index].data['name'].toString() + ' DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD');
                 if (weekIDs.contains(snapshot.data[index]['weekID'])) {
                   print(snapshot.data[index]['weekID'] +
                       ' SEDMICA GOTOVAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
