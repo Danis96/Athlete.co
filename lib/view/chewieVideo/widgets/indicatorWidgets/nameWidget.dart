@@ -40,17 +40,17 @@ Widget nameWidget(
       }
     },
     child: Container(
-      width: MediaQuery.of(context).orientation == Orientation.landscape
-          ? SizeConfig.blockSizeHorizontal * 35  : SizeConfig.blockSizeHorizontal * 55,
+      alignment: Alignment.center,
+      width:SizeConfig.blockSizeHorizontal * 90,
       margin: EdgeInsets.only(
           top: MediaQuery.of(context).orientation == Orientation.landscape
-              ? isReps == 0 ?  SizeConfig.blockSizeVertical * 19 : SizeConfig.blockSizeVertical * 25
-              : isReps == 0 ? SizeConfig.blockSizeVertical * 13 : SizeConfig.blockSizeVertical * 23,
+              ? isReps == 0 ?  SizeConfig.blockSizeVertical * 19 : SizeConfig.blockSizeVertical * 23.4
+              : isReps == 0 ? SizeConfig.blockSizeVertical * 21 : SizeConfig.blockSizeVertical * 23,
           left: MediaQuery.of(context).orientation == Orientation.landscape
               ? SizeConfig.blockSizeHorizontal * 0
               : SizeConfig.blockSizeHorizontal * 13,
           right: MediaQuery.of(context).orientation == Orientation.landscape
-              ?  isReps == 0 ? SizeConfig.blockSizeHorizontal * 20  : SizeConfig.blockSizeHorizontal * 5
+              ?  isReps == 0 ? SizeConfig.blockSizeHorizontal * 37  : SizeConfig.blockSizeHorizontal * 30
               : SizeConfig.blockSizeHorizontal * 0,
 
       ),

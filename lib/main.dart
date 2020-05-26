@@ -1,8 +1,10 @@
 import 'package:attt/utils/text.dart';
+import 'package:attt/view/chewieVideo/widgets/notifiers.dart';
 import 'package:attt/view/chewieVideo/widgets/stopwatch.dart';
 import 'package:attt/view/home/pages/splashScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 void main() {
   final timerService = TimerService();
@@ -25,7 +27,10 @@ class Athlete extends StatelessWidget  {
       title: MyText().mainTitle,
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light(),
-      home: CustomSplashScreen(),
+      home: ListenableProvider<Notifiers>(
+         create: (_) => Notifiers(false),
+        child: CustomSplashScreen(),
+      ),
     );
   }
 }

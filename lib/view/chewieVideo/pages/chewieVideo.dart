@@ -14,7 +14,6 @@ import 'package:flutter/services.dart';
 import 'package:video_box/video_box.dart';
 import 'dart:async';
 import 'package:attt/utils/size_config.dart';
-import 'package:numberpicker/numberpicker.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 
 class ChewieVideo extends StatefulWidget {

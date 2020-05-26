@@ -40,7 +40,7 @@ class SettingsPage extends StatelessWidget {
       ),
       body: WillPopScope(
         onWillPop: () => _onWillPop(context, userDocument, userUID),
-        child: Column(
+        child: ListView(
           children: <Widget>[
             Divider(
               thickness: 1,
