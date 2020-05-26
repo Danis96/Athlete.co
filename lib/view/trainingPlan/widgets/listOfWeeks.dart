@@ -1,8 +1,8 @@
 import 'dart:async';
-
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/customScreenAnimation.dart';
 import 'package:attt/utils/emptyContainer.dart';
+import 'package:attt/utils/globals.dart';
 import 'package:attt/view/chooseAthlete/pages/chooseAthlete.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:attt/view/trainingPlan/widgets/listOfWorkouts.dart';
@@ -17,9 +17,11 @@ Widget listOfWeeks(DocumentSnapshot userDocument,
     DocumentSnapshot userTrainerDocument, BuildContext context) {
   SizeConfig().init(context);
   List<dynamic> weeksFinished = [];
+  List<dynamic> finishedWeeks = [];
+  List<dynamic> weekIDs = [];
   List<dynamic> weeksToKeep = [];
   weeksFinished = userDocument.data['workouts_finished'];
-  List<dynamic> weekIDs = [];
+  print(weeksFinished.toString() + ' LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL   ' + weekIDs.toString());
   for (var i = 0; i < weeksFinished.length; i++) {
     if (weeksFinished[i].toString().split('_')[0] ==
         userTrainerDocument.data['trainerID']) {
@@ -28,7 +30,7 @@ Widget listOfWeeks(DocumentSnapshot userDocument,
       weeksToKeep.add(weeksFinished[i]);
     }
   }
-
+  weekIDs.sort();
   print('WEEEEEEEEKS: ' + weekIDs.toString());
 
   // updateUserWithFinisheAthlete(
@@ -138,31 +140,63 @@ Widget listOfWeeks(DocumentSnapshot userDocument,
           //int counter = 0;
           ///NE VALJA OVO, TREBA OVO PRERADITI
           ///------------------------------------------------------------------------------------------------------------
-          if (weekIDs.length == snapshot.data.length) {
-            //   // updateUserWithFinisheAthlete(
-            //   //     userDocument, userTrainerDocument.data['trainerID']);
-            SignInViewModel().updateUserProgress(userDocument, weeksToKeep);
+          //if (weekIDs.length == snapshot.data.length) {
+          //   // updateUserWithFinisheAthlete(
+          //   //     userDocument, userTrainerDocument.data['trainerID']);
+          //SignInViewModel().updateUserProgress(userDocument, weeksToKeep);
 
-            getNewDocument(userDocument.data['userUID']);
-            //   Timer(Duration(milliseconds: 250), () {
-            //     showAlertDialog(
-            //         context, userDocument, userDocument.data['userUID']);
-            //   });
-          }
+          //getNewDocument(userDocument.data['userUID']);
+          //   Timer(Duration(milliseconds: 250), () {
+          //     showAlertDialog(
+          //         context, userDocument, userDocument.data['userUID']);
+          //   });
+          //}
           return ListView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemCount: snapshot.data.length,
               itemBuilder: (BuildContext context, int index) {
-                if (weekIDs.contains(snapshot.data[index]['weekID'])) {
-                  print(snapshot.data[index]['weekID'] +
-                      ' SEDMICA GOTOVAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
-                  //   counter = counter + 1;
-                  //   return Container(
-                  //     height: 0,
-                  //     width: 0,
-                  //   );
+                print('NUMBER OF WORKOUTS: ' +
+                    snapshot.data[index]['numberOfWorkouts'].toString());
+                print('FINISHED WORKOUTS: ' + weekIDs.toString());
+                int counter = 0;
+                for (var i = 0; i < weekIDs.length; i++) {
+                  if (weekIDs[i] == snapshot.data[index]['weekID'].toString()) {
+                    counter++;
+                    print(counter);
+                    if (counter == snapshot.data[index]['numberOfWorkouts']) {
+                      finishedWeeks
+                          .add(snapshot.data[index]['weekID'].toString());
+                    }
+                  }
                 }
+
+                print(noteClicked);
+                if (finishedWeeks.length == snapshot.data.length && !noteClicked) {
+                  print('TRAINING PLAN FINISHED');
+                  //   updateUserWithFinisheAthlete(
+                  // userDocument, userTrainerDocument.data['trainerID']);
+                  SignInViewModel()
+                      .updateUserProgress(userDocument, weeksToKeep);
+
+                  //getNewDocument(userDocument.data['userUID']);
+                  Timer(Duration(milliseconds: 250), () {
+                    showAlertDialog(
+                        context, userDocument, userDocument.data['userUID']);
+                  });
+                }
+
+                print('FINISHED WEEKS FINAL: ' + finishedWeeks.toString());
+
+                // if (weekIDs.contains(snapshot.data[index]['weekID'])) {
+                //   print(snapshot.data[index]['weekID'] +
+                //       ' SEDMICA GOTOVAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA');
+                //   //   counter = counter + 1;
+                //   //   return Container(
+                //   //     height: 0,
+                //   //     width: 0,
+                //   //   );
+                // }
                 //else {
                 //   if (index == counter) {
                 //     String weekName = snapshot.data[index]['name'];
