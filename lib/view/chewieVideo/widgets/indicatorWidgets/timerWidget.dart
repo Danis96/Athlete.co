@@ -29,11 +29,11 @@ Widget timerWidget(
   return Container(
     margin: EdgeInsets.only(
       top: MediaQuery.of(context).orientation == Orientation.landscape
-          ? SizeConfig.blockSizeVertical * 28
-          : SizeConfig.blockSizeVertical * 9,
+          ? SizeConfig.blockSizeVertical * 0
+          : SizeConfig.blockSizeVertical * 19,
       left: MediaQuery.of(context).orientation == Orientation.landscape
-          ? SizeConfig.blockSizeHorizontal * 35
-          : SizeConfig.blockSizeHorizontal * 15,
+          ? SizeConfig.blockSizeHorizontal * 0
+          : SizeConfig.blockSizeHorizontal * 30,
     ),
     child: RaisedButton(
       color: Colors.white,

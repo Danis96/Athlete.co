@@ -41,20 +41,6 @@ class _ExerciseCardState extends State<ExerciseCard> {
   /// for saving state
   String state;
 
-  @override
-  void initState() {
-    super.initState();
-    // writeToData();
-    
-  }
-
-  // Future<File> writeToData() async {
-  //   setState(() {
-  //     state = widget.exerciseVideo;
-  //   });
-  //   print('Succesfully write to file system: ' + state);
-  //   return widget.storage.writeData(state);
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -99,8 +85,8 @@ class _ExerciseCardState extends State<ExerciseCard> {
                   children: <Widget>[
                     Text(
                       widget.exerciseIsReps == 0
-                          ? 'Sets ${widget.exerciseSets} |  Reps ${widget.exerciseReps} | Rest ${widget.exerciseRest} s '
-                          : 'Sets ${widget.exerciseSets} |  Rest ${widget.exerciseRest} s ',
+                          ? 'Sets ${widget.exerciseSets} |  Reps ${widget.exerciseReps} '
+                          : 'Sets ${widget.exerciseSets} ',
                       style: TextStyle(
                           color: MyColors().lightWhite,
                           fontSize: SizeConfig.blockSizeHorizontal * 3),

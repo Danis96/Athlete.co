@@ -66,3 +66,5 @@ bool activatePause = false;
 bool resetFromChewie = false;
 /// for reseting
 bool reseted = false;
+/// to show time
+bool showTime = false;

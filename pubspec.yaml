@@ -45,7 +45,7 @@ dependencies:
   flutter_downloader: ^1.4.4
   intl:
   purchases_flutter: ^1.0.4
-  numberpicker: ^1.2.0
+  provider: ^4.1.2
   flutter_picker:
     git: git://github.com/yangyxd/flutter_picker.git
 

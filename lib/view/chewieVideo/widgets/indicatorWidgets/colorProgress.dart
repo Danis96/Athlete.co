@@ -6,12 +6,12 @@ Widget colorProgress(AnimationController controllerColor, BuildContext context) 
   return Container(
     margin: EdgeInsets.only(
         top: MediaQuery.of(context).orientation == Orientation.portrait ?
-        SizeConfig.blockSizeVertical * 15.4 : SizeConfig.blockSizeVertical * 40.2,
+        SizeConfig.blockSizeVertical * 25.4 : SizeConfig.blockSizeVertical * 12.5,
         left: MediaQuery.of(context).orientation == Orientation.portrait ? SizeConfig.blockSizeHorizontal *
-            15 : SizeConfig.blockSizeHorizontal *
-            35
+            30 : SizeConfig.blockSizeHorizontal *
+            0
     ),
-    color: Colors.amber,
+    color: Colors.blueAccent,
     height: SizeConfig.blockSizeVertical * 1,
     width: MediaQuery.of(context).orientation == Orientation.portrait ? controllerColor.value *
         SizeConfig.blockSizeHorizontal *
