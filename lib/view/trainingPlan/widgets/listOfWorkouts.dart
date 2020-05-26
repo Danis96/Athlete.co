@@ -91,7 +91,7 @@ Widget weekDescription(String weekName, AsyncSnapshot snapshot, int index) {
           style: TextStyle(
               color: Color.fromRGBO(255, 255, 255, 0.8),
               fontFamily: 'Roboto',
-              fontSize: SizeConfig.blockSizeVertical * 2.2,
+              fontSize: SizeConfig.blockSizeVertical * 1.7,
               fontWeight: FontWeight.w400),
         ),
         Text(
@@ -99,7 +99,7 @@ Widget weekDescription(String weekName, AsyncSnapshot snapshot, int index) {
           style: TextStyle(
               color: Color.fromRGBO(255, 255, 255, 0.8),
               fontFamily: 'Roboto',
-              fontSize: SizeConfig.blockSizeVertical * 2.2,
+              fontSize: SizeConfig.blockSizeVertical * 1.7,
               fontWeight: FontWeight.w400),
         )
       ],

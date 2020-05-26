@@ -13,6 +13,7 @@ String messageForWhatsApp = 'Feel free to ask anything. :)';
 Widget settingsContainer(String headText, subText, isFrom,
     DocumentSnapshot userDocument, BuildContext context, String userUID) {
   return GestureDetector(
+    behavior: HitTestBehavior.translucent,
     onTap: () => checkAndDo(isFrom, userDocument, context,
         phoneNumberForWhatsApp, messageForWhatsApp, userUID),
     child: Container(
