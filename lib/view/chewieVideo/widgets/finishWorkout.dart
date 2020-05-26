@@ -230,8 +230,11 @@ class _FinishWorkoutState extends State<FinishWorkout> {
               widget.workoutID,
               currentTime,
             );
-            List<DocumentSnapshot> newUserDocument = await SignInViewModel()
+            List<dynamic> currentUserDocuments = [];
+            DocumentSnapshot currentUserDocument;
+            currentUserDocuments = await SignInViewModel()
                 .getCurrentUserDocument(widget.userDocument.data['userUID']);
+            currentUserDocument = currentUserDocuments[0];
 
             // List<dynamic> workoutsFinished =
             //     newUserDocument[0].data['workouts_finished'];
@@ -264,15 +267,13 @@ class _FinishWorkoutState extends State<FinishWorkout> {
             //       widget.workoutID);
             // }
 
-            newUserDocument = await SignInViewModel()
-                .getCurrentUserDocument(widget.userDocument.data['userUID']);
-
             FocusScope.of(context).requestFocus(new FocusNode());
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (_) => TrainingPlan(
-                    userDocument: newUserDocument[0],
+                    userDocument: currentUserDocument,
                     userTrainerDocument: widget.userTrainerDocument,
+                    userUID: currentUserDocument.data['userUID']
                   ),
                 ),
                 (Route<dynamic> route) => false);
