@@ -49,35 +49,43 @@ class _AddNoteState extends State<AddNote> {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   }
 
+  Widget _screenView;
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return Scaffold(
+    if (_screenView == null) {
+      _screenView = _createScreenView(context);
+    }
+    return _screenView;
+  }
+
+  Widget _createScreenView(BuildContext context) {
+    return new Scaffold(
       appBar: new AppBar(
         backgroundColor: MyColors().lightBlack,
-        leading: IconButton(
-          icon: Icon(
+        leading: new IconButton(
+          icon: new Icon(
             Icons.clear,
             size: SizeConfig.blockSizeHorizontal * 5.5,
           ),
           onPressed: () {
             FocusScope.of(context).requestFocus(new FocusNode());
             setState(() {
-              widget.timerPaused = false;
               noteClicked = true;
             });
             Navigator.of(context).pop();
-           checkForOrientationOnBack();
+            checkForOrientationOnBack();
           },
         ),
-        title: Text(
+        title: new Text(
           'ADD NOTE',
-          style: TextStyle(
+          style: new TextStyle(
             fontSize: SizeConfig.blockSizeHorizontal * 5,
           ),
         ),
       ),
-      body: WillPopScope(
+      body: new WillPopScope(
         onWillPop: () => _onWillPop(),
         child: new Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -95,12 +103,12 @@ class _AddNoteState extends State<AddNote> {
                   enableSuggestions: false,
                   maxLines: null,
                   autocorrect: false,
-                  style: TextStyle(
+                  style: new TextStyle(
                     color: Colors.white,
                     fontSize: SizeConfig.safeBlockHorizontal * 4.5,
                   ),
                   cursorColor: Colors.white60,
-                  decoration: InputDecoration(
+                  decoration: new InputDecoration(
                     border: InputBorder.none,
                     focusedBorder: InputBorder.none,
                     enabledBorder: InputBorder.none,
@@ -108,7 +116,7 @@ class _AddNoteState extends State<AddNote> {
                     disabledBorder: InputBorder.none,
                     contentPadding: EdgeInsets.symmetric(
                         vertical: SizeConfig.blockSizeVertical * 2.5),
-                    labelStyle: TextStyle(
+                    labelStyle: new TextStyle(
                       color: Colors.white60,
                       fontSize: SizeConfig.safeBlockHorizontal * 4.5,
                       fontWeight: FontWeight.w400,
@@ -118,7 +126,7 @@ class _AddNoteState extends State<AddNote> {
                     labelText: 'Add a note',
                     filled: true,
                     fillColor: MyColors().black,
-                    prefixIcon: Icon(
+                    prefixIcon: new Icon(
                       Icons.edit,
                       color: MyColors().white,
                     ),
@@ -126,9 +134,9 @@ class _AddNoteState extends State<AddNote> {
                 ),
               ),
             ),
-            Container(
+            new Container(
               width: MediaQuery.of(context).size.width,
-              child: RaisedButton(
+              child: new RaisedButton(
                 elevation: 0,
                 onPressed: () {
                   String note;
@@ -151,11 +159,11 @@ class _AddNoteState extends State<AddNote> {
                   Navigator.of(context).pop();
                   checkForOrientationOnBack();
                 },
-                child: Padding(
+                child: new Padding(
                   padding: EdgeInsets.all(22.0),
-                  child: Text(
+                  child: new Text(
                     'DONE',
-                    style: TextStyle(
+                    style: new TextStyle(
                         fontStyle: FontStyle.italic,
                         fontSize: SizeConfig.blockSizeHorizontal * 4,
                         fontWeight: FontWeight.w700),
@@ -173,7 +181,6 @@ class _AddNoteState extends State<AddNote> {
   Future<bool> _onWillPop() async {
     FocusScope.of(context).requestFocus(new FocusNode());
     setState(() {
-      widget.timerPaused = false;
       noteClicked = true;
     });
     Navigator.of(context).pop();
@@ -181,10 +188,9 @@ class _AddNoteState extends State<AddNote> {
   }
 }
 
-
 checkForOrientationOnBack() {
-   isFromPortrait ? SystemChrome.setPreferredOrientations(
-                      [DeviceOrientation.portraitUp]) : 
-                  SystemChrome.setPreferredOrientations(
-                      [DeviceOrientation.landscapeRight]);
+  isFromPortrait
+      ? SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+      : SystemChrome.setPreferredOrientations(
+          [DeviceOrientation.landscapeRight]);
 }
