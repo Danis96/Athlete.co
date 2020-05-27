@@ -317,7 +317,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                             widget.isReps == 0
                                 ? repsWidget(
                                     context, widget.isReps, widget.reps)
-                                : asManyReps(context),
+                                : asManyReps(context, widget.repsDescription),
 
                             /// reps or timer,
                             /// depend on the exercise type

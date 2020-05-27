@@ -13,21 +13,22 @@ class Workout extends StatefulWidget {
   final String trainerID;
   final String workoutName, workoutID, weekID, warmupDesc, weekName;
   final List<dynamic> listOfNotes;
-  final bool alreadyFinishedWorkout;
+  final bool alreadyFinishedWorkout, finishedWorkout;
 
-  Workout(
-      {Key key,
-      this.userDocument,
-      this.listOfNotes,
-      this.userTrainerDocument,
-      this.trainerID,
-      this.workoutName,
-      this.workoutID,
-      this.alreadyFinishedWorkout,
-      this.weekID,
-      this.warmupDesc,
-      this.weekName})
-      : super(key: key);
+  Workout({
+    Key key,
+    this.userDocument,
+    this.listOfNotes,
+    this.userTrainerDocument,
+    this.trainerID,
+    this.workoutName,
+    this.workoutID,
+    this.alreadyFinishedWorkout,
+    this.weekID,
+    this.warmupDesc,
+    this.weekName,
+    this.finishedWorkout,
+  }) : super(key: key);
 
   @override
   _WorkoutState createState() => _WorkoutState();
@@ -48,7 +49,6 @@ class _WorkoutState extends State<Workout> {
   List<dynamic> _series = [], _exercises = [], _exerciseTips = [];
   List<dynamic> serije = [];
 
-
   refreshFromInfo() {
     setState(() {});
     print('refreshed from info');
@@ -57,9 +57,9 @@ class _WorkoutState extends State<Workout> {
   @override
   void initState() {
     super.initState();
-    if(!widget.alreadyFinishedWorkout) {
-      userNotes = WorkoutViewModel()
-        .getUserNotes(widget.listOfNotes, widget.userDocument.data['userUID']);
+    if (!widget.alreadyFinishedWorkout) {
+      userNotes = WorkoutViewModel().getUserNotes(
+          widget.listOfNotes, widget.userDocument.data['userUID']);
     }
   }
 
@@ -70,7 +70,7 @@ class _WorkoutState extends State<Workout> {
     _weekName = widget.weekName;
     _workoutName = widget.workoutName;
     //getExerciseVideosAndImages(widget.userTrainerDocument.data['trainerID'],
-        //widget.weekID, widget.workoutID);
+    //widget.weekID, widget.workoutID);
     return Scaffold(
       appBar: AppBar(
         /// workout name
@@ -95,7 +95,8 @@ class _WorkoutState extends State<Workout> {
           context,
           widget.workoutID,
           widget.weekID,
-          serije),
+          serije,
+          widget.finishedWorkout),
       backgroundColor: MyColors().lightBlack,
       body: ListView(
         shrinkWrap: true,

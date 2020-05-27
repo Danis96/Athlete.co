@@ -12,12 +12,14 @@ int counter = 0;
 List<dynamic> expLista = [];
 
 Widget bottomButtonStart(
-    DocumentSnapshot userDocument,
-    DocumentSnapshot userTrainerDocument,
-    BuildContext context,
-    String workoutID,
-    String weekID,
-    List<dynamic> serije) {
+  DocumentSnapshot userDocument,
+  DocumentSnapshot userTrainerDocument,
+  BuildContext context,
+  String workoutID,
+  String weekID,
+  List<dynamic> serije,
+  bool finishedWorkout,
+) {
   SizeConfig().init(context);
   return BottomAppBar(
     color: MyColors().white,
@@ -36,7 +38,8 @@ Widget bottomButtonStart(
           int sets = vjezbe[0].data['sets'];
           for (var j = 0; j < sets; j++) {
             for (var z = 0; z < vjezbe.length; z++) {
-              namesWithSet.add((j + 1).toString() + '_' + vjezbe[z].data['name']);
+              namesWithSet
+                  .add((j + 1).toString() + '_' + vjezbe[z].data['name']);
               workoutExercisesWithSets.add(vjezbe[z]);
             }
           }
@@ -47,8 +50,8 @@ Widget bottomButtonStart(
         print(workoutExercisesWithSets.length);
         alertQuit = false;
         onlineVideos = [];
-         ChewieVideoViewModel().playVideo(
-             context, userDocument, userTrainerDocument, workoutID, weekID);
+        ChewieVideoViewModel().playVideo(
+            context, userDocument, userTrainerDocument, workoutID, weekID, finishedWorkout);
         onlineVideos = onlineWarmup + onlineExercises;
         //print(onlineVideos.length);
       },

@@ -18,10 +18,12 @@ class FinishWorkout extends StatefulWidget {
   final DocumentSnapshot userDocument, userTrainerDocument;
   final String workoutID, weekID;
   final Function close;
+  final bool finishedWorkout;
   FinishWorkout({
     Key key,
     this.weekID,
     this.close,
+    this.finishedWorkout,
     this.workoutID,
     this.userDocument,
     this.userTrainerDocument,
@@ -223,12 +225,15 @@ class _FinishWorkoutState extends State<FinishWorkout> {
               historyNotes,
             );
 
+            print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa   ' + widget.finishedWorkout.toString());
+
             updateUserWithFinishedWorkout(
               widget.userDocument,
               widget.userTrainerDocument.data['trainerID'],
               widget.weekID,
               widget.workoutID,
               currentTime,
+              widget.finishedWorkout,
             );
             List<dynamic> currentUserDocuments = [];
             DocumentSnapshot currentUserDocument;
@@ -271,10 +276,9 @@ class _FinishWorkoutState extends State<FinishWorkout> {
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (_) => TrainingPlan(
-                    userDocument: currentUserDocument,
-                    userTrainerDocument: widget.userTrainerDocument,
-                    userUID: currentUserDocument.data['userUID']
-                  ),
+                      userDocument: currentUserDocument,
+                      userTrainerDocument: widget.userTrainerDocument,
+                      userUID: currentUserDocument.data['userUID']),
                 ),
                 (Route<dynamic> route) => false);
             userNotes = '';
@@ -298,8 +302,13 @@ class _FinishWorkoutState extends State<FinishWorkout> {
     );
   }
 
-  updateUserWithFinishedWorkout(DocumentSnapshot userDocument, String trainerID,
-      String weekID, String workoutID, String currentTime) async {
+  updateUserWithFinishedWorkout(
+      DocumentSnapshot userDocument,
+      String trainerID,
+      String weekID,
+      String workoutID,
+      String currentTime,
+      bool finishedWorkout) async {
     List<String> note = [];
     String currentDay = DateFormat.d().format(DateTime.now());
     String currentMonth = DateFormat.MMM().format(DateTime.now()).toUpperCase();
@@ -315,10 +324,13 @@ class _FinishWorkoutState extends State<FinishWorkout> {
         '_' +
         currentTime);
     final db = Firestore.instance;
-    await db
-        .collection('Users')
-        .document(userDocument.documentID)
-        .updateData({"workouts_finished": FieldValue.arrayUnion(note)});
+
+    !finishedWorkout
+        ? await db
+            .collection('Users')
+            .document(userDocument.documentID)
+            .updateData({"workouts_finished": FieldValue.arrayUnion(note)})
+        : print('WORKOUT ALREADY FINISHED');
 
     await db
         .collection('Users')
