@@ -19,22 +19,21 @@ Widget workoutContainer(
     String workoutID,
     List<dynamic> workoutIDs) {
   return GestureDetector(
-    onTap: !workoutIDs.contains(workoutID)
-        ? () {
-            TrainingPlanViewModel().navigateToWorkout(
-                userDocument,
-                userTrainerDocument,
-                userTrainerDocument.data['trainerID'],
-                snapshot2.data[index2]['name'],
-                snapshot.data[index].data['weekID'],
-                snapshot2.data[index2].data['workoutID'],
-                snapshot2.data[index2].data['warmup'],
-                context,
-                weekName,
-                snapshot2.data[index2].data['notes'],
-                true);
-          }
-        : null,
+    onTap: () {
+      TrainingPlanViewModel().navigateToWorkout(
+          userDocument,
+          userTrainerDocument,
+          userTrainerDocument.data['trainerID'],
+          snapshot2.data[index2]['name'],
+          snapshot.data[index].data['weekID'],
+          snapshot2.data[index2].data['workoutID'],
+          snapshot2.data[index2].data['warmup'],
+          context,
+          weekName,
+          snapshot2.data[index2].data['notes'],
+          true,
+          workoutIDs.contains(workoutID));
+    },
     child: Container(
       margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 1.25),
       decoration: BoxDecoration(

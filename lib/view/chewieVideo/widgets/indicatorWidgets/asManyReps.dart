@@ -3,7 +3,7 @@
 import 'package:attt/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
-Widget asManyReps(BuildContext context) {
+Widget asManyReps(BuildContext context, String repsDescription) {
    return Container(
      margin: EdgeInsets.only(
          top: MediaQuery.of(context)
@@ -32,7 +32,8 @@ Widget asManyReps(BuildContext context) {
          ? SizeConfig.blockSizeHorizontal * 16
          : SizeConfig.blockSizeHorizontal * 35,
      child: Text(
-       'AS MANY REPS AS POSSIBLE',
+       repsDescription != null ? repsDescription.toUpperCase() : '',
+       //'AS MANY REPS AS POSSIBLE',
        style: TextStyle(
            color: Colors.white,
            fontWeight: FontWeight.w600,

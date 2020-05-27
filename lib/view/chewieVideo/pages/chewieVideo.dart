@@ -19,11 +19,13 @@ import 'package:flutter_picker/flutter_picker.dart';
 class ChewieVideo extends StatefulWidget {
   final DocumentSnapshot userDocument, userTrainerDocument;
   final String workoutID, weekID;
+  final bool finishedWorkout;
   ChewieVideo({
     this.userDocument,
     this.weekID,
     this.userTrainerDocument,
     this.workoutID,
+    this.finishedWorkout,
   });
   @override
   _ChewieVideoState createState() => _ChewieVideoState();
@@ -255,6 +257,7 @@ class _ChewieVideoState extends State<ChewieVideo>
           workoutID: widget.workoutID,
           userDocument: widget.userDocument,
           userTrainerDocument: widget.userTrainerDocument,
+          finishedWorkout: widget.finishedWorkout,
         ),
       ),
     );

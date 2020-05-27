@@ -4,13 +4,14 @@ import 'package:flutter/material.dart';
 
 class ChewieVideoViewModel {
   playVideo(BuildContext context, DocumentSnapshot userDocument,
-      DocumentSnapshot userTrainerDocument, String workoutID, String weekID) {
+      DocumentSnapshot userTrainerDocument, String workoutID, String weekID, bool finishedWorkout) {
     Navigator.of(context).push(MaterialPageRoute(
         builder: (_) => ChewieVideo(
               userDocument: userDocument,
               userTrainerDocument: userTrainerDocument,
               workoutID: workoutID,
-              weekID: weekID
+              weekID: weekID,
+              finishedWorkout: finishedWorkout,
             )));
   }
 
