@@ -172,7 +172,7 @@ Widget listOfWeeks(DocumentSnapshot userDocument,
                 }
 
                 print(noteClicked);
-                if (finishedWeeks.length == snapshot.data.length && !noteClicked) {
+                if (finishedWeeks.length == snapshot.data.length) {
                   print('TRAINING PLAN FINISHED');
                   //   updateUserWithFinisheAthlete(
                   // userDocument, userTrainerDocument.data['trainerID']);

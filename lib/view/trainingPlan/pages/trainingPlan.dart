@@ -38,6 +38,8 @@ class _TrainingPlanState extends State<TrainingPlan> {
     super.dispose();
   }
 
+  Widget _plan;
+
   @override
   Widget build(BuildContext context) {
     print(readyGoing.toString() +
@@ -50,6 +52,15 @@ class _TrainingPlanState extends State<TrainingPlan> {
     }
 
     SizeConfig().init(context);
+
+    if (_plan == null) {
+      _plan = _createPlan(context);
+    }
+
+    return _plan;
+  }
+
+  Widget _createPlan(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
       body: WillPopScope(
@@ -75,7 +86,12 @@ class _TrainingPlanState extends State<TrainingPlan> {
                 Container(
                     child: FlatButton.icon(
                   onPressed: () => showSocialMediaDialog(context),
-                  label: Text('Feel free to ask', style: TextStyle(color: MyColors().lightWhite, fontSize: SizeConfig.safeBlockHorizontal * 4),),
+                  label: Text(
+                    'Feel free to ask',
+                    style: TextStyle(
+                        color: MyColors().lightWhite,
+                        fontSize: SizeConfig.safeBlockHorizontal * 4),
+                  ),
                   icon: FaIcon(
                     FontAwesomeIcons.questionCircle,
                     color: Colors.white,
@@ -101,5 +117,3 @@ class _TrainingPlanState extends State<TrainingPlan> {
     exit(0);
   }
 }
-
-
