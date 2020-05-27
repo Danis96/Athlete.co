@@ -54,6 +54,7 @@ class ListOfWorkouts extends StatelessWidget {
             right: SizeConfig.blockSizeHorizontal * 4.5),
         child: SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               weekDescription(weekName, snapshot, index),
               SizedBox(
