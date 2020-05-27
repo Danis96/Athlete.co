@@ -45,7 +45,7 @@ Widget workoutList(
                   seriesID = _series[index].seriesID;
                   _seriesName = _series[index].name;
 
-                  if (_seriesName == 'Warm Up') {
+                  //if (_seriesName == 'Warm Up') {
                     return WarmupContainer(
                       trainerName: _trainerName,
                       weekName: _weekName,
@@ -55,6 +55,7 @@ Widget workoutList(
                       trainerID: trainerID,
                       weekID: weekID,
                       workoutID: workoutID,
+                      seriesID: seriesID,
                       image: snapshot.data[index].data['image'],
                       isReps: snapshot.data[index].data['isReps'],
                       name: snapshot.data[index].data['name'],
@@ -64,29 +65,29 @@ Widget workoutList(
                       tips: snapshot.data[index].data['tips'],
                       video: snapshot.data[index].data['video'],
                     );
-                  } else {
-                    return SeriesCard(
-                      trainerName: _trainerName,
-                      weekName: _weekName,
-                      workoutName: _workoutName,
-                      seriesName: _seriesName,
-                      context: context,
-                      trainerID: trainerID,
-                      exercises: _exercises,
-                      exerciseName: _exerciseName,
-                      exerciseTips: _exerciseTips,
-                      exerciseVideo: _exerciseVideo,
-                      exerciseImage: _exerciseImage,
-                      exerciseIsReps: _exerciseIsReps,
-                      exerciseReps: _exerciseReps,
-                      exerciseRest: _exerciseRest,
-                      exerciseSets: _exerciseSets,
-                      weekID: weekID,
-                      workoutID: workoutID,
-                      seriesID: seriesID,
-                      exerciseID: _exerciseID,
-                    );
-                  }
+                  //} //else {
+                  //   return SeriesCard(
+                  //     trainerName: _trainerName,
+                  //     weekName: _weekName,
+                  //     workoutName: _workoutName,
+                  //     seriesName: _seriesName,
+                  //     context: context,
+                  //     trainerID: trainerID,
+                  //     exercises: _exercises,
+                  //     exerciseName: _exerciseName,
+                  //     exerciseTips: _exerciseTips,
+                  //     exerciseVideo: _exerciseVideo,
+                  //     exerciseImage: _exerciseImage,
+                  //     exerciseIsReps: _exerciseIsReps,
+                  //     exerciseReps: _exerciseReps,
+                  //     exerciseRest: _exerciseRest,
+                  //     exerciseSets: _exerciseSets,
+                  //     weekID: weekID,
+                  //     workoutID: workoutID,
+                  //     seriesID: seriesID,
+                  //     exerciseID: _exerciseID,
+                  //   );
+                  // }
                 });
           } else {
             return Center(

@@ -19,7 +19,7 @@ class WarmupContainer extends StatefulWidget {
   String warmupDesc;
   String trainerID;
   String weekID;
-  String workoutID;
+  String workoutID, seriesID;
   String image;
   int isReps;
   String name;
@@ -40,6 +40,7 @@ class WarmupContainer extends StatefulWidget {
       this.image,
       this.isReps,
       this.name,
+      this.seriesID,
       this.refreshFromInfo,
       this.reps,
       this.rest,
@@ -63,8 +64,8 @@ class _WarmupContainerState extends State<WarmupContainer> {
   void initState() {
     super.initState();
     getWarmupDescription();
-    _future = WorkoutViewModel()
-        .getWarmupDocumentID(widget.trainerID, widget.weekID, widget.workoutID);
+    _future = WorkoutViewModel().getExercises(
+        widget.trainerID, widget.weekID, widget.workoutID, widget.seriesID);
   }
 
   @override
@@ -82,12 +83,6 @@ class _WarmupContainerState extends State<WarmupContainer> {
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
-                      // print(widget.trainerName +
-                      //     widget.weekName +
-                      //     widget.workoutName +
-                      //     widget.seriesName +
-                      //     snapshot.data[index].data['name'] +
-                      //     '.mp4');
                       onlineWarmup.add(snapshot.data[index].data['video']);
                       exerciseSnapshots.add(snapshot.data[index]);
                       return EmptyContainer();
@@ -102,7 +97,7 @@ class _WarmupContainerState extends State<WarmupContainer> {
           color: MyColors().black,
           child: custom.ExpansionTile(
             title: Text(
-              MyText().warmUp,
+              widget.seriesName,
               style: TextStyle(
                   color: MyColors().white,
                   fontSize: SizeConfig.blockSizeHorizontal * 5),
@@ -113,8 +108,8 @@ class _WarmupContainerState extends State<WarmupContainer> {
             initiallyExpanded: false,
             children: <Widget>[
               FutureBuilder(
-                  future: WorkoutViewModel().getWarmupDocumentID(
-                      widget.trainerID, widget.weekID, widget.workoutID),
+                  future: WorkoutViewModel().getExercises(widget.trainerID,
+                      widget.weekID, widget.workoutID, widget.seriesID),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.hasData) {
                       return ListView.builder(
@@ -152,8 +147,8 @@ class _WarmupContainerState extends State<WarmupContainer> {
   }
 
   getWarmupDescription() async {
-    warmupDoc = await WorkoutViewModel()
-        .getWarmupDocumentID(widget.trainerID, widget.weekID, widget.workoutID);
+    warmupDoc = await WorkoutViewModel().getExercises(
+        widget.trainerID, widget.weekID, widget.workoutID, widget.seriesID);
     for (var i = 0; i < warmupDoc.length; i++) {
       if (warmupDescription == '') {
         setState(() {
