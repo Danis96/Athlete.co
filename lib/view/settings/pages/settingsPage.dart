@@ -47,7 +47,7 @@ class SettingsPage extends StatelessWidget {
               height: 1,
               color: Colors.white24,
             ),
-            settingsContainer('Athlete', 'Name of athelte', _isAthlete,
+            settingsContainer('Change your athlete', 'Name of athelte', _isAthlete,
                 userDocument, context, userUID),
             Divider(
               thickness: 1,
