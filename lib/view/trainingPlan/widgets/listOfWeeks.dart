@@ -1,17 +1,17 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/customScreenAnimation.dart';
-import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/view/chooseAthlete/pages/chooseAthlete.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
-import 'package:attt/view/trainingPlan/widgets/listOfWorkouts.dart';
 import 'package:attt/view/trainingPlan/widgets/weekContainer.dart';
 import 'package:attt/view_model/signInViewModel.dart';
 import 'package:attt/view_model/trainingPlanViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:attt/utils/size_config.dart';
+import 'package:connectivity/connectivity.dart';
 
 Widget listOfWeeks(DocumentSnapshot userDocument,
     DocumentSnapshot userTrainerDocument, BuildContext context) {
@@ -132,11 +132,18 @@ Widget listOfWeeks(DocumentSnapshot userDocument,
     )));
   }
 
+  final Source source = hasActiveConnection ? Source.serverAndCache : Source.cache;
+
   return FutureBuilder(
       future: TrainingPlanViewModel()
-          .getWeeks(userTrainerDocument.data['trainerID']),
+          .getWeeks(userTrainerDocument.data['trainerID'], source),
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.hasData) {
+          for (int i = 0; i < snapshot.data.length; i++) {
+            DocumentSnapshot doc = snapshot.data.elementAt(i);
+            // Check manually if the data you're referring to is coming from the cache.
+            print(doc.metadata.isFromCache ? "Cached" : "Not Cached");
+          }
           //int counter = 0;
           ///NE VALJA OVO, TREBA OVO PRERADITI
           ///------------------------------------------------------------------------------------------------------------

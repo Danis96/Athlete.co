@@ -68,3 +68,5 @@ bool resetFromChewie = false;
 bool reseted = false;
 /// to show time
 bool showTime = false;
+/// for getting data
+bool hasActiveConnection = false;

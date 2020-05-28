@@ -4,6 +4,7 @@ import 'package:attt/utils/customScreenAnimation.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/workout/widgets/info.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class ExerciseCard extends StatefulWidget {
@@ -18,6 +19,7 @@ class ExerciseCard extends StatefulWidget {
   final Storage storage;
   final String exerciseID;
   final Function refreshParent;
+  final Source source;
 
   ExerciseCard({
     this.exerciseImage,
@@ -31,6 +33,7 @@ class ExerciseCard extends StatefulWidget {
     @required this.storage,
     this.exerciseID,
     this.refreshParent,
+    this.source,
   });
 
   @override

@@ -3,6 +3,7 @@ import 'package:attt/utils/colors.dart';
 import 'package:attt/view/workout/widgets/seriesCard.dart';
 import 'package:attt/view/workout/widgets/warmupContainer.dart';
 import 'package:attt/view_model/workoutViewModel.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 String seriesID;
@@ -28,11 +29,15 @@ Widget workoutList(
   String warmupDesc,
   String _exerciseID,
   Function refreshFromInfo,
+    Source source,
 ) {
+
+
+
   return Container(
     color: MyColors().black,
     child: FutureBuilder(
-        future: WorkoutViewModel().getSeries(trainerID, weekID, workoutID),
+        future: WorkoutViewModel().getSeries(trainerID, weekID, workoutID, source),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             _series =
@@ -64,6 +69,7 @@ Widget workoutList(
                       sets: snapshot.data[index].data['sets'],
                       tips: snapshot.data[index].data['tips'],
                       video: snapshot.data[index].data['video'],
+                      source: source,
                     );
                   //} //else {
                   //   return SeriesCard(

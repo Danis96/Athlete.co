@@ -5,7 +5,7 @@ import 'package:flutter/widgets.dart';
 
 class WorkoutViewModel implements WorkoutInterface {
   @override
-  Future getExercises(String trainerID, String weekID, String workoutID, String seriesID) async {
+  Future getExercises(String trainerID, String weekID, String workoutID, String seriesID, Source source) async {
       var firestore = Firestore.instance;
     QuerySnapshot qn = await firestore
         .collection('Trainers')
@@ -22,12 +22,12 @@ class WorkoutViewModel implements WorkoutInterface {
         .document(seriesID)
         .collection('exercises')
         .orderBy('order')
-        .getDocuments();
+        .getDocuments(source: source);
       return qn.documents;
   }
 
   @override
-  Future getSeries(String trainerID,  String weekID, String workoutID) async {
+  Future getSeries(String trainerID,  String weekID, String workoutID, Source source) async {
         var firestore = Firestore.instance;
     QuerySnapshot qn = await firestore
         .collection('Trainers')
@@ -41,7 +41,7 @@ class WorkoutViewModel implements WorkoutInterface {
         .document(workoutID)
         .collection('series')
         .orderBy('order')
-        .getDocuments();
+        .getDocuments(source: source);
       return qn.documents;
   }
 

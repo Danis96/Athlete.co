@@ -11,7 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class TrainingPlanViewModel implements TrainingPlanInterface {
   @override
-  Future getWeeks(String trainerID) async {
+  Future getWeeks(String trainerID, Source source) async {
     var firestore = Firestore.instance;
     QuerySnapshot qn = await firestore
         .collection('Trainers')
@@ -20,7 +20,7 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
         .document(trainerID)
         .collection('weeks')
         .orderBy('name')
-        .getDocuments();
+        .getDocuments(source: source);
     return qn.documents;
   }
 

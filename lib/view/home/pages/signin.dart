@@ -30,117 +30,33 @@ class _SigninState extends State<Signin> {
   bool downloading = false;
   var progressString = '';
 
+  checkForConnectivity() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        print('connected');
+        hasActiveConnection = true;
+      }
+    } on SocketException catch (_) {
+      print('not connected');
+      hasActiveConnection = false;
+    }
+  }
+
   Future getTrainers() async {
     var firestore = Firestore.instance;
-    QuerySnapshot qn = await firestore.collection('Trainers').getDocuments();
+    QuerySnapshot qn = await firestore.collection('Trainers').getDocuments(source: hasActiveConnection ? Source.serverAndCache : Source.cache);
     return qn.documents;
   }
 
-  Future getWeeks(String trainerID) async {
-    var firestore = Firestore.instance;
-    QuerySnapshot qn = await firestore
-        .collection('Trainers')
-
-        /// treba i trainerID
-        .document(trainerID)
-        .collection('weeks')
-        .orderBy('name')
-        .getDocuments();
-    return qn.documents;
-  }
-
-  Future getWorkouts(String trainerID, String weekID) async {
-    var firestore = Firestore.instance;
-    QuerySnapshot qn = await firestore
-        .collection('Trainers')
-
-        /// treba mi trainerID
-        .document(trainerID)
-        .collection('weeks')
-
-        /// treba mi weekID
-        .document(weekID)
-        .collection('workouts')
-        .orderBy('order')
-        .getDocuments();
-    return qn.documents;
-  }
-
-  Future getSeries(String trainerID, String weekID, String workoutID) async {
-    var firestore = Firestore.instance;
-    QuerySnapshot qn = await firestore
-        .collection('Trainers')
-
-        /// treba mi trainerID
-        .document(trainerID)
-        .collection('weeks')
-
-        /// treba mi weekID
-        .document(weekID)
-        .collection('workouts')
-
-        /// treba mi workoutID
-        .document(workoutID)
-        .collection('series')
-        .orderBy('order')
-        .getDocuments();
-    return qn.documents;
-  }
-
-  Future getExercises(String trainerID, String weekID, String workoutID,
-      String seriesID) async {
-    var firestore = Firestore.instance;
-    QuerySnapshot qn = await firestore
-        .collection('Trainers')
-
-        /// treba mi trainerIDtra
-        .document(trainerID)
-        .collection('weeks')
-
-        /// treba mi weekID
-        .document(weekID)
-        .collection('workouts')
-
-        /// treba mi workoutID
-        .document(workoutID)
-        .collection('series')
-
-        /// treba mi seriesID
-        .document(seriesID)
-        .collection('exercises')
-        .orderBy('order')
-        .getDocuments();
-    return qn.documents;
-  }
 
   @override
   void initState() {
     super.initState();
     SignInViewModel().autoLogIn(context);
+    checkForConnectivity();
   }
 
-  Future<void> downloadFile(
-      String urlPath, String exerciseName, String folderName) async {
-    final Directory _appDocDir = await getApplicationDocumentsDirectory();
-
-    /// app documents directory + folder name
-    final Directory _appDocDirFolder =
-        Directory('${_appDocDir.path}/$folderName/');
-
-    final File file = File(_appDocDirFolder.path);
-//    await file.writeAsStringSync(contents)
-
-    Dio dio = Dio();
-
-    try {
-      await dio.download(urlPath, _appDocDirFolder.path + '$exerciseName',
-          onReceiveProgress: (rec, total) {
-        print('REC: $rec ,   TOTAL: $total');
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -166,121 +82,9 @@ class _SigninState extends State<Signin> {
                               String trainerName =
                                   snapshot.data[index].data['trainer_name'];
                               print('Trainer ' + trainerName);
-                              //  WEEKS
-                              return FutureBuilder(
-                                  future: getWeeks(trainerID),
-                                  builder: (BuildContext context,
-                                      AsyncSnapshot snapshot) {
-                                    if (snapshot.hasData) {
-                                      return ListView.builder(
-                                          shrinkWrap: true,
-                                          itemCount: snapshot.data.length,
-                                          itemBuilder: (BuildContext context,
-                                              int index) {
-                                            String weekID = snapshot
-                                                .data[index].data['weekID'];
-                                            String weekName = snapshot
-                                                .data[index].data['name'];
-                                            print('Weeks ' + weekName);
 
-                                            /// WORKOUTS
-                                            return FutureBuilder(
-                                                future: getWorkouts(
-                                                    trainerID, weekID),
-                                                builder: (BuildContext context,
-                                                    AsyncSnapshot snapshot) {
-                                                  if (snapshot.hasData) {
-                                                    return ListView.builder(
-                                                        shrinkWrap: true,
-                                                        itemCount: snapshot
-                                                            .data.length,
-                                                        itemBuilder:
-                                                            (BuildContext
-                                                                    context,
-                                                                int index) {
-                                                          String workoutID =
-                                                              snapshot
-                                                                      .data[index]
-                                                                      .data[
-                                                                  'workoutID'];
-                                                          String workoutName =
-                                                              snapshot
-                                                                  .data[index]
-                                                                  .data['name'];
-                                                          print('Workouts ' +
-                                                              workoutName);
+                              return EmptyContainer();
 
-                                                          /// SERIES
-                                                          return FutureBuilder(
-                                                              future: getSeries(
-                                                                  trainerID,
-                                                                  weekID,
-                                                                  workoutID),
-                                                              builder: (BuildContext
-                                                                      context,
-                                                                  AsyncSnapshot
-                                                                      snapshot) {
-                                                                if (snapshot
-                                                                    .hasData) {
-                                                                  return ListView
-                                                                      .builder(
-                                                                          shrinkWrap:
-                                                                              true,
-                                                                          itemCount: snapshot
-                                                                              .data
-                                                                              .length,
-                                                                          itemBuilder:
-                                                                              (BuildContext context, int index) {
-                                                                            String
-                                                                                seriesID =
-                                                                                snapshot.data[index].data['seriesID'];
-                                                                            String
-                                                                                seriesName =
-                                                                                snapshot.data[index].data['name'];
-                                                                            print('Series ' +
-                                                                                seriesName);
-
-                                                                            /// EXERCISES
-
-                                                                            return FutureBuilder(
-                                                                                future: getExercises(trainerID, weekID, workoutID, seriesID),
-                                                                                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                                                                                  if (snapshot.hasData) {
-                                                                                    allVideos = [];
-                                                                                    return ListView.builder(
-                                                                                        shrinkWrap: true,
-                                                                                        itemCount: snapshot.data.length,
-                                                                                        itemBuilder: (BuildContext context, int index) {
-                                                                                          String exerciseID = snapshot.data[index].data['exerciseID'];
-                                                                                          String exerciseName = snapshot.data[index].data['name'];
-                                                                                          String exercisevideo = snapshot.data[index].data['video'];
-                                                                                          String exerciseImg = snapshot.data[index].data['image'];
-
-                                                                                          imageFileFolderName = trainerID.toString() + '/' + weekID.toString() + '/' + workoutID.toString() + '/' + seriesID.toString() + '/' + exerciseID.toString() + '/' + exerciseName.toString() + 'IMG'.toString();
-                                                                                          String videoFileFolderName = trainerID.toString() + '/' + weekID.toString() + '/' + workoutID.toString() + '/' + seriesID.toString() + '/' + exerciseID.toString() + '/' + exerciseName.toString();
-
-//                                                                                          downloadFile(exerciseImg, exerciseName, imageFileFolderName)
-//                                                                                              .whenComplete(() => downloadFile(exercisevideo, exerciseName, videoFileFolderName));
-//
-
-                                                                                          /// EXERCISES
-                                                                                          return EmptyContainer();
-                                                                                        });
-                                                                                  }
-                                                                                  return EmptyContainer();
-                                                                                });
-                                                                          });
-                                                                }
-                                                                return EmptyContainer();
-                                                              });
-                                                        });
-                                                  }
-                                                  return EmptyContainer();
-                                                });
-                                          });
-                                    }
-                                    return EmptyContainer();
-                                  });
                             });
                       }
                       return EmptyContainer();

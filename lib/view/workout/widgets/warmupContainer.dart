@@ -29,6 +29,7 @@ class WarmupContainer extends StatefulWidget {
   List<String> tips;
   String video;
   Function refreshFromInfo;
+  Source source;
   WarmupContainer(
       {Key key,
       this.trainerID,
@@ -48,7 +49,9 @@ class WarmupContainer extends StatefulWidget {
       this.tips,
       this.trainerName,
       this.video,
-      this.weekID})
+      this.weekID,
+      this.source
+      })
       : super(key: key);
 
   @override
@@ -65,7 +68,7 @@ class _WarmupContainerState extends State<WarmupContainer> {
     super.initState();
     getWarmupDescription();
     _future = WorkoutViewModel().getExercises(
-        widget.trainerID, widget.weekID, widget.workoutID, widget.seriesID);
+        widget.trainerID, widget.weekID, widget.workoutID, widget.seriesID,widget.source);
   }
 
   @override
@@ -109,7 +112,7 @@ class _WarmupContainerState extends State<WarmupContainer> {
             children: <Widget>[
               FutureBuilder(
                   future: WorkoutViewModel().getExercises(widget.trainerID,
-                      widget.weekID, widget.workoutID, widget.seriesID),
+                      widget.weekID, widget.workoutID, widget.seriesID, widget.source),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.hasData) {
                       return ListView.builder(
@@ -131,6 +134,7 @@ class _WarmupContainerState extends State<WarmupContainer> {
                                   snapshot.data[index].data['exerciseID'],
                               storage: Storage(),
                               refreshParent: widget.refreshFromInfo,
+                              source: widget.source,
                             );
                           });
                     } else {
@@ -148,7 +152,7 @@ class _WarmupContainerState extends State<WarmupContainer> {
 
   getWarmupDescription() async {
     warmupDoc = await WorkoutViewModel().getExercises(
-        widget.trainerID, widget.weekID, widget.workoutID, widget.seriesID);
+        widget.trainerID, widget.weekID, widget.workoutID, widget.seriesID, widget.source);
     for (var i = 0; i < warmupDoc.length; i++) {
       if (warmupDescription == '') {
         setState(() {
