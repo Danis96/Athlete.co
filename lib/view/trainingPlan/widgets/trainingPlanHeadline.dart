@@ -30,20 +30,20 @@ Widget trainingPlanHeadline(
         ),
       ),
       SizedBox(
-        width: SizeConfig.blockSizeHorizontal * 4.5,
+        width:  MediaQuery.of(context).orientation == Orientation.portrait ? SizeConfig.blockSizeHorizontal * 4.5 : SizeConfig.blockSizeHorizontal * 3.5,
       ),
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Container(
-            width: SizeConfig.blockSizeHorizontal * 40,
+            width: MediaQuery.of(context).orientation == Orientation.portrait ?  SizeConfig.blockSizeHorizontal * 40 : SizeConfig.blockSizeHorizontal * 20,
             child: Text(
               'Hi $justName',//,',
               //'Week $currentWeek of $totalWeeks',
               style: TextStyle(
                   color: Colors.white,
                   fontFamily: 'Roboto',
-                  fontSize: SizeConfig.blockSizeVertical * 3.2,
+                  fontSize: MediaQuery.of(context).orientation == Orientation.portrait ? SizeConfig.blockSizeVertical * 3.2 :  SizeConfig.blockSizeVertical *6,
                   fontWeight: FontWeight.w500),
               textAlign: TextAlign.left,
             ),

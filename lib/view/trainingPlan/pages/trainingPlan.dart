@@ -31,6 +31,7 @@ class _TrainingPlanState extends State<TrainingPlan> {
   @override
   void initState() {
     super.initState();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   }
 
   @override
@@ -42,9 +43,7 @@ class _TrainingPlanState extends State<TrainingPlan> {
 
   @override
   Widget build(BuildContext context) {
-    print(readyGoing.toString() +
-        ' ready iz bilda || rest iz builda ' +
-        restGoing.toString());
+
     print(alertQuit.toString() + ' == ALERTQUIT');
 
     if (alertQuit) {
@@ -67,9 +66,9 @@ class _TrainingPlanState extends State<TrainingPlan> {
         onWillPop: () => _onWillPop(),
         child: Padding(
           padding: EdgeInsets.only(
-              top: SizeConfig.blockSizeVertical * 8,
-              left: SizeConfig.blockSizeHorizontal * 4.5,
-              right: SizeConfig.blockSizeHorizontal * 4.5),
+              top: MediaQuery.of(context).orientation == Orientation.portrait ? SizeConfig.blockSizeVertical * 8 : SizeConfig.blockSizeVertical * 10,
+              left: MediaQuery.of(context).orientation == Orientation.portrait ? SizeConfig.blockSizeHorizontal * 4.5 : SizeConfig.blockSizeHorizontal * 2 ,
+              right: MediaQuery.of(context).orientation == Orientation.portrait ? SizeConfig.blockSizeHorizontal * 4.5 : SizeConfig.blockSizeHorizontal * 2 ),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,7 +78,7 @@ class _TrainingPlanState extends State<TrainingPlan> {
                 SizedBox(
                   height: SizeConfig.blockSizeVertical * 2.5,
                 ),
-                trainingPlanGuides(widget.userTrainerDocument),
+                trainingPlanGuides(widget.userTrainerDocument, context),
                 SizedBox(
                   height: SizeConfig.blockSizeVertical * 2.5,
                 ),
@@ -90,12 +89,12 @@ class _TrainingPlanState extends State<TrainingPlan> {
                     'Feel free to ask',
                     style: TextStyle(
                         color: MyColors().lightWhite,
-                        fontSize: SizeConfig.safeBlockHorizontal * 4),
+                        fontSize: MediaQuery.of(context).orientation == Orientation.portrait ? SizeConfig.safeBlockHorizontal * 4: SizeConfig.safeBlockHorizontal * 2),
                   ),
                   icon: FaIcon(
                     FontAwesomeIcons.questionCircle,
                     color: Colors.white,
-                    size: SizeConfig.blockSizeHorizontal * 9,
+                    size: MediaQuery.of(context).orientation == Orientation.portrait ? SizeConfig.blockSizeHorizontal * 7 : SizeConfig.blockSizeHorizontal * 4 ,
                   ),
                 )),
                 listOfWeeks(

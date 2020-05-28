@@ -3,7 +3,7 @@ import 'package:attt/utils/text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-Widget trainingPlanGuides(DocumentSnapshot userTrainerDocument) {
+Widget trainingPlanGuides(DocumentSnapshot userTrainerDocument, BuildContext context) {
   String trainingPlan = userTrainerDocument.data['training_plan_name'];
   String trainingDuration = userTrainerDocument.data['training_plan_duration'];
   String athlete = userTrainerDocument.data['trainer_name'];
@@ -18,7 +18,7 @@ Widget trainingPlanGuides(DocumentSnapshot userTrainerDocument) {
       style: TextStyle(
           color: Color.fromRGBO(255, 255, 255, 0.8),
           fontFamily: 'Roboto',
-          fontSize: SizeConfig.blockSizeVertical * 1.7,
+          fontSize:  MediaQuery.of(context).orientation == Orientation.portrait ? SizeConfig.blockSizeVertical * 1.7 : SizeConfig.safeBlockHorizontal * 1.8,
           fontWeight: FontWeight.w400),
     ),
   );
