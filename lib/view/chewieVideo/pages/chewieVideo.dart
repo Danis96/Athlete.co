@@ -56,6 +56,22 @@ class _ChewieVideoState extends State<ChewieVideo>
     'assets/video/C.mp4',
     'assets/video/C.mp4',
     'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+    'assets/video/C.mp4',
+
   ];
   VideoController vc;
   VideoPlayerController controller;
@@ -93,8 +109,30 @@ class _ChewieVideoState extends State<ChewieVideo>
   String timeToSplit;
   var ms;
 
+  onConfirm(Picker picker) {
+    timeToSplit = picker.getSelectedValues().toString();
+    String min = timeToSplit[1] +
+        (timeToSplit[2] == ',' ? '' : timeToSplit[2]);
+    setState(() => minutesForIndicators = int.parse(min));
+    print('Minutes: ' + minutesForIndicators.toString());
+    String sec = minutesForIndicators > 10
+        ? timeToSplit[5] +
+        (timeToSplit[6] == ']' ? '' : timeToSplit[6])
+        : timeToSplit[4] +
+        (timeToSplit[5] == ']' ? '' : timeToSplit[5]);
+    setState(() {
+      secondsForIndicators = int.parse(sec);
+      isTimeChoosed = true;
+      resetFromChewie = false;
+    });
+  }
+
   showPickerNumber(BuildContext context) {
     new Picker(
+      height:MediaQuery.of(context).orientation ==
+          Orientation.landscape
+          ? SizeConfig.blockSizeVertical * 35
+          : SizeConfig.blockSizeVertical * 15 ,
             textStyle: TextStyle(color: Colors.black),
             adapter: NumberPickerAdapter(data: [
               NumberPickerColumn(
@@ -165,29 +203,17 @@ class _ChewieVideoState extends State<ChewieVideo>
               });
             },
             onConfirm: (Picker picker, List<int> value) {
-              timeToSplit = picker.getSelectedValues().toString();
-              String min = timeToSplit[1] +
-                  (timeToSplit[2] == ',' ? '' : timeToSplit[2]);
-              setState(() => minutesForIndicators = int.parse(min));
-              print('Minutes: ' + minutesForIndicators.toString());
-              String sec = minutesForIndicators > 10
-                  ? timeToSplit[5] +
-                      (timeToSplit[6] == ']' ? '' : timeToSplit[6])
-                  : timeToSplit[4] +
-                      (timeToSplit[5] == ']' ? '' : timeToSplit[5]);
-              setState(() {
-                secondsForIndicators = int.parse(sec);
-                isTimeChoosed = true;
-                resetFromChewie = false;
-              });
+              onConfirm(picker);
               print('Seconds: ' + secondsForIndicators.toString());
             },
             onCancel: () {
               setState(() => resetFromChewie = true);
             },
-            magnification: 1.5)
+            magnification: 1.2)
         .showDialog(context);
   }
+
+
 
   /// [_onWillPop]
   ///

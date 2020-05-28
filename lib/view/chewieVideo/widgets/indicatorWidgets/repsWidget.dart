@@ -1,9 +1,20 @@
 
 import 'package:attt/utils/size_config.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 Widget repsWidget(BuildContext context, int isReps, int reps ) {
  return  Container(
+
+   height: MediaQuery.of(context)
+       .orientation ==
+       Orientation.landscape
+       ? SizeConfig.blockSizeVertical * 12 : SizeConfig.blockSizeVertical * 6,
+   alignment: MediaQuery.of(context)
+       .orientation ==
+       Orientation.landscape
+       ? Alignment.centerLeft  :  Alignment.center,
+   width: SizeConfig.blockSizeHorizontal * 90,
     margin: EdgeInsets.only(
         top: MediaQuery.of(context)
             .orientation ==
@@ -11,21 +22,14 @@ Widget repsWidget(BuildContext context, int isReps, int reps ) {
             ? SizeConfig.blockSizeVertical * 17
             : isReps == 0
             ? SizeConfig.blockSizeVertical *
-           27
+           28
             : SizeConfig.blockSizeVertical *
             2,
-        right: MediaQuery.of(context)
-            .orientation ==
-            Orientation.landscape
-            ? SizeConfig.blockSizeHorizontal *
-            8
-            : SizeConfig.blockSizeHorizontal *
-            0,
         left: MediaQuery.of(context)
             .orientation ==
             Orientation.landscape
-            ? SizeConfig.blockSizeHorizontal * 0
-            : SizeConfig.blockSizeHorizontal * 40),
+            ? SizeConfig.blockSizeHorizontal * 1.2
+            : SizeConfig.blockSizeHorizontal * 0),
     child: Text('x' + reps.toString(),
         style: TextStyle(
             color: Colors.white,

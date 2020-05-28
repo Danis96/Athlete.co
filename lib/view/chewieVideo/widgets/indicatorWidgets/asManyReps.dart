@@ -5,13 +5,17 @@ import 'package:flutter/material.dart';
 
 Widget asManyReps(BuildContext context, String repsDescription) {
    return Container(
+//     decoration: BoxDecoration(
+//         border: Border.all(color: Colors.redAccent)
+//     ),
+     alignment: Alignment.center,
      margin: EdgeInsets.only(
          top: MediaQuery.of(context)
              .orientation ==
              Orientation.landscape
-             ? SizeConfig.blockSizeVertical * 20
+             ? SizeConfig.blockSizeVertical * 19
              : SizeConfig.blockSizeVertical *
-             28,
+           27.5,
          right: MediaQuery.of(context)
              .orientation ==
              Orientation.landscape
@@ -25,12 +29,16 @@ Widget asManyReps(BuildContext context, String repsDescription) {
              ? SizeConfig.blockSizeHorizontal *
              0
              : SizeConfig.blockSizeHorizontal *
-             32),
+             27),
      width: MediaQuery.of(context)
          .orientation ==
          Orientation.landscape
          ? SizeConfig.blockSizeHorizontal * 16
          : SizeConfig.blockSizeHorizontal * 35,
+     height: MediaQuery.of(context)
+         .orientation ==
+         Orientation.landscape
+         ? SizeConfig.blockSizeVertical * 10 : SizeConfig.blockSizeVertical * 8,
      child: Text(
        repsDescription != null ? repsDescription.toUpperCase() : '',
        //'AS MANY REPS AS POSSIBLE',

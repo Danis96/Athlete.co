@@ -27,13 +27,17 @@ Widget timerWidget(
   }
 
   return Container(
+    height: MediaQuery.of(context).orientation == Orientation.portrait
+        ? SizeConfig.blockSizeVertical * 5.5 : SizeConfig.blockSizeVertical * 10,
+    width: MediaQuery.of(context).orientation == Orientation.portrait
+        ? SizeConfig.blockSizeHorizontal * 35 :  SizeConfig.blockSizeHorizontal * 17 ,
     margin: EdgeInsets.only(
       top: MediaQuery.of(context).orientation == Orientation.landscape
-          ? SizeConfig.blockSizeVertical * 0
-          : SizeConfig.blockSizeVertical * 19,
+          ? SizeConfig.blockSizeVertical * 22
+          : SizeConfig.blockSizeVertical * 18,
       left: MediaQuery.of(context).orientation == Orientation.landscape
-          ? SizeConfig.blockSizeHorizontal * 0
-          : SizeConfig.blockSizeHorizontal * 30,
+          ? SizeConfig.blockSizeHorizontal * 68
+          : SizeConfig.blockSizeHorizontal * 27,
     ),
     child: RaisedButton(
       color: Colors.white,
@@ -42,9 +46,8 @@ Widget timerWidget(
         format(_current),
         style: TextStyle(
             fontSize:
-                MediaQuery.of(context).orientation == Orientation.landscape
-                    ? SizeConfig.safeBlockHorizontal * 5
-                    : SizeConfig.safeBlockHorizontal * 12,
+            MediaQuery.of(context).orientation == Orientation.portrait
+                ? SizeConfig.safeBlockHorizontal * 7 : SizeConfig.safeBlockHorizontal * 4,
             color: Colors.black),
       ),
     ),
