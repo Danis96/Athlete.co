@@ -5,21 +5,19 @@ Widget setsWidget(
   BuildContext context,
   String currentSet,
   int sets,
+    isReps
 ) {
   return Container(
-    padding: MediaQuery.of(context).orientation == Orientation.landscape
-        ? EdgeInsets.all(0)
-        : EdgeInsets.all(4.0),
     margin: EdgeInsets.only(
-        top: MediaQuery.of(context).orientation == Orientation.landscape
-            ? SizeConfig.blockSizeVertical * 1
+      top: MediaQuery.of(context).orientation == Orientation.landscape
+          ? isReps == 0 ? SizeConfig.blockSizeVertical * 0 : SizeConfig.blockSizeVertical * 0
+          : SizeConfig.blockSizeVertical * 0 ,
+        bottom: MediaQuery.of(context).orientation == Orientation.landscape
+            ? isReps == 0 ? SizeConfig.blockSizeVertical * 69 : SizeConfig.blockSizeVertical * 69
             : SizeConfig.blockSizeVertical * 0,
-        right: MediaQuery.of(context).orientation == Orientation.landscape
-            ? SizeConfig.blockSizeHorizontal * 4
-            : SizeConfig.blockSizeHorizontal * 0,
         left: MediaQuery.of(context).orientation == Orientation.landscape
-            ? SizeConfig.blockSizeHorizontal * 0
-            : SizeConfig.blockSizeHorizontal * 0),
+            ? SizeConfig.blockSizeHorizontal * 65.5
+            : SizeConfig.blockSizeHorizontal * 0,),
     child: Text(
       currentSet + '/' + sets.toString() + ' Sets',
       style: TextStyle(

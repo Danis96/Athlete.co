@@ -200,7 +200,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
         duration: Duration(
             minutes: minutesForIndicators, seconds: secondsForIndicators),
       );
-      Timer(Duration(milliseconds: 100),() {
+      Timer(Duration(milliseconds: 100), () {
         widget.controller.play();
         startTimer(d1);
         controllerColor.reverse(
@@ -238,9 +238,16 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
           },
           child: Padding(
             padding: EdgeInsets.only(
-                top: SizeConfig.blockSizeVertical * 1,
-                left: SizeConfig.blockSizeHorizontal * 3,
-                right: SizeConfig.blockSizeVertical * 3),
+                top: SizeConfig.blockSizeVertical * 3,
+                bottom: SizeConfig.blockSizeVertical * 1,
+                left:
+                    MediaQuery.of(context).orientation == Orientation.landscape
+                        ? SizeConfig.blockSizeHorizontal * 3
+                        : SizeConfig.blockSizeHorizontal * 0,
+                right:
+                    MediaQuery.of(context).orientation == Orientation.landscape
+                        ? SizeConfig.blockSizeHorizontal * 3
+                        : SizeConfig.blockSizeHorizontal * 0),
             child: Container(
               margin: EdgeInsets.only(
                   top: MediaQuery.of(context).orientation ==
@@ -250,29 +257,36 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
               child: Center(
                 child: Stack(
                   children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        /// icon note
-                        noteButton(
-                            context,
-                            noteClicked,
-                            isFromPortrait,
-                            widget.controller,
-                            checkIsOnTimeAndPauseTimer,
-                            widget.userDocument,
-                            widget.userTrainerDocument,
-                            widget.index,
-                            widget.listLenght,
-                            widget.isReps,
-                            widget.sets,
-                            widget.reps,
-                            widget.name,
-                            widget.workoutID,
-                            widget.weekID),
-                        clearIcon(
-                            context, checkIsOnTimeAndPauseTimer, widget.onWill),
-                      ],
+                    Container(
+                      margin: EdgeInsets.only(
+                          top: MediaQuery.of(context).orientation ==
+                                  Orientation.landscape
+                              ? SizeConfig.blockSizeVertical * 2
+                              : SizeConfig.blockSizeVertical * 2),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          /// icon note
+                          noteButton(
+                              context,
+                              noteClicked,
+                              isFromPortrait,
+                              widget.controller,
+                              checkIsOnTimeAndPauseTimer,
+                              widget.userDocument,
+                              widget.userTrainerDocument,
+                              widget.index,
+                              widget.listLenght,
+                              widget.isReps,
+                              widget.sets,
+                              widget.reps,
+                              widget.name,
+                              widget.workoutID,
+                              widget.weekID),
+                          clearIcon(context, checkIsOnTimeAndPauseTimer,
+                              widget.onWill),
+                        ],
+                      ),
                     ),
                     Container(
                       margin: EdgeInsets.only(
@@ -281,7 +295,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                               ? widget.index == (widget.listLenght - 1)
                                   ? SizeConfig.blockSizeVertical * 30
                                   : SizeConfig.blockSizeVertical * 43
-                              : SizeConfig.blockSizeVertical * 43),
+                              : SizeConfig.blockSizeVertical * 66),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -297,51 +311,46 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                         ],
                       ),
                     ),
-                    Center(
-                      child: Container(
-                        margin: EdgeInsets.only(
-                          top: MediaQuery.of(context).orientation ==
-                                  Orientation.landscape
-                              ? widget.index == (widget.listLenght - 1)
-                                  ? SizeConfig.blockSizeVertical * 30
-                                  : SizeConfig.blockSizeVertical * 46
-                              : SizeConfig.blockSizeVertical * 43,
-                          right: MediaQuery.of(context).orientation ==
-                                  Orientation.landscape
-                              ? SizeConfig.blockSizeHorizontal * 40
-                              : SizeConfig.blockSizeHorizontal * 0,
-                        ),
-                        child: Stack(
-                          children: <Widget>[
+                    Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.only(
+                        top: MediaQuery.of(context).orientation ==
+                                Orientation.landscape
+                            ? widget.index == (widget.listLenght - 1)
+                                ? SizeConfig.blockSizeVertical * 30
+                                : SizeConfig.blockSizeVertical * 46
+                            : SizeConfig.blockSizeVertical * 43,
+                      ),
+                      child: Stack(
+                        children: <Widget>[
 //
-                            widget.isReps == 0
-                                ? repsWidget(
-                                    context, widget.isReps, widget.reps)
-                                : asManyReps(context, widget.repsDescription),
+                          widget.isReps == 0
+                              ? repsWidget(context, widget.isReps, widget.reps)
+                              : asManyReps(context, widget.repsDescription),
 
-                            /// reps or timer,
-                            /// depend on the exercise type
-                            showTime
-                                ? timerWidget(
-                                    context,
-                                    widget.showTimerDialog,
-                                    format,
-                                    widget.controller,
-                                    isTimerPaused,
-                                    _current,
-                                    _pausedOn,
-                                    countDownTimer,
-                                    controllerColor,
-                                  )
-                                : stopIcon(pressTimer, context, widget.isReps),
+                          /// reps or timer,
+                          /// depend on the exercise type
+                          showTime
+                              ? timerWidget(
+                                  context,
+                                  widget.showTimerDialog,
+                                  format,
+                                  widget.controller,
+                                  isTimerPaused,
+                                  _current,
+                                  _pausedOn,
+                                  countDownTimer,
+                                  controllerColor,
+                                )
+                              : stopIcon(pressTimer, context, widget.isReps),
 
-                            showTime
-                                ? colorProgress(controllerColor, context)
-                                : EmptyContainer(),
+                          showTime
+                              ? colorProgress(controllerColor, context)
+                              : EmptyContainer(),
 
-                            /// name widget,
-                            /// here you can click to go on info about specific exercise
-                            nameWidget(
+                          /// name widget,
+                          /// here you can click to go on info about specific exercise
+                          nameWidget(
                               infoClicked,
                               goBackToChewie,
                               isFromPortrait,
@@ -352,26 +361,33 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                               exVideo,
                               exTips,
                               widget.isReps,
-                            ),
-                          ],
-                        ),
+                              widget.index,
+                              widget.listLenght),
+                        ],
                       ),
                     ),
                     Container(
+                      padding: EdgeInsets.only(
+                          left: SizeConfig.blockSizeHorizontal * 4,
+                          right: SizeConfig.blockSizeHorizontal * 1),
                       margin: EdgeInsets.only(
                         top: MediaQuery.of(context).orientation ==
                                 Orientation.landscape
                             ? widget.index == (widget.listLenght - 1)
-                                ? SizeConfig.blockSizeVertical * 68
-                                : SizeConfig.blockSizeVertical * 80
+                                ? SizeConfig.blockSizeVertical * 5
+                                : SizeConfig.blockSizeVertical * 5
                             : widget.index == (widget.listLenght - 1)
-                                ? SizeConfig.blockSizeVertical * 82
-                                : SizeConfig.blockSizeVertical * 87,
+                                ? SizeConfig.blockSizeVertical * 79
+                                : SizeConfig.blockSizeVertical * 82,
                       ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MediaQuery.of(context).orientation ==
+                                Orientation.landscape
+                            ? MainAxisAlignment.center
+                            : MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          setsWidget(context, widget.currentSet, widget.sets),
+                          setsWidget(context, widget.currentSet, widget.sets,
+                              widget.isReps),
 
                           /// fullScreen button on indicators
                           /// it takes:

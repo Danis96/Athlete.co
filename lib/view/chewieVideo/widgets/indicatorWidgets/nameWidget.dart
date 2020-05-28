@@ -4,17 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:video_box/video.controller.dart';
 
 Widget nameWidget(
-  bool infoClicked,
-  goBackToChewie,
-  isFromPortrait,
-  BuildContext context,
-  VideoController controller,
-  Function checkIsOnTimeAndPauseTimer,
-  String name,
-  exVideo,
-  List<dynamic> exTips,
-    int isReps
-) {
+    bool infoClicked,
+    goBackToChewie,
+    isFromPortrait,
+    BuildContext context,
+    VideoController controller,
+    Function checkIsOnTimeAndPauseTimer,
+    String name,
+    exVideo,
+    List<dynamic> exTips,
+    int isReps,
+    index,
+    listLenght) {
   SizeConfig().init(context);
   return GestureDetector(
     onTap: () {
@@ -40,19 +41,29 @@ Widget nameWidget(
       }
     },
     child: Container(
-      alignment: Alignment.center,
-      width:SizeConfig.blockSizeHorizontal * 90,
+      alignment: MediaQuery.of(context).orientation == Orientation.landscape
+          ? Alignment.centerLeft :  Alignment.center,
+      width: SizeConfig.blockSizeHorizontal * 90,
       margin: EdgeInsets.only(
-          top: MediaQuery.of(context).orientation == Orientation.landscape
-              ? isReps == 0 ?  SizeConfig.blockSizeVertical * 19 : SizeConfig.blockSizeVertical * 23.4
-              : isReps == 0 ? SizeConfig.blockSizeVertical * 21 : SizeConfig.blockSizeVertical * 23,
-          left: MediaQuery.of(context).orientation == Orientation.landscape
-              ? SizeConfig.blockSizeHorizontal * 0
-              : SizeConfig.blockSizeHorizontal * 13,
-          right: MediaQuery.of(context).orientation == Orientation.landscape
-              ?  isReps == 0 ? SizeConfig.blockSizeHorizontal * 37  : SizeConfig.blockSizeHorizontal * 30
-              : SizeConfig.blockSizeHorizontal * 0,
-
+        top: MediaQuery.of(context).orientation == Orientation.landscape
+            ? isReps == 0
+                ? SizeConfig.blockSizeVertical * 28
+                : SizeConfig.blockSizeVertical * 28
+            : isReps == 0
+                ? index == (listLenght - 1)
+                    ? SizeConfig.blockSizeVertical * 9.8
+                    : SizeConfig.blockSizeVertical * 7
+                : index == (listLenght - 1)
+                    ? SizeConfig.blockSizeVertical * 7
+                    : SizeConfig.blockSizeVertical * 7,
+        left: MediaQuery.of(context).orientation == Orientation.landscape
+            ? SizeConfig.blockSizeHorizontal * 1
+            : SizeConfig.blockSizeHorizontal * 1,
+        right: MediaQuery.of(context).orientation == Orientation.landscape
+            ? isReps == 0
+                ? SizeConfig.blockSizeHorizontal * 37
+                : SizeConfig.blockSizeHorizontal * 30
+            : SizeConfig.blockSizeHorizontal * 0,
       ),
       child: RichText(
         overflow: TextOverflow.ellipsis,
@@ -60,7 +71,8 @@ Widget nameWidget(
           TextSpan(
             text: name + ' ',
             style: TextStyle(
-                color: Colors.white,
+                color: MediaQuery.of(context).orientation == Orientation.landscape
+                    ? Colors.white.withOpacity(0.6) : Colors.white,
                 fontSize:
                     MediaQuery.of(context).orientation == Orientation.landscape
                         ? SizeConfig.safeBlockHorizontal * 3
