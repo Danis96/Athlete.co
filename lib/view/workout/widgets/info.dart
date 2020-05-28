@@ -3,6 +3,7 @@ import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:overlay_container/overlay_container.dart';
 import 'package:video_box/video_box.dart';
 
 class InfoExercise extends StatefulWidget {
@@ -59,23 +60,65 @@ class _InfoExerciseState extends State<InfoExercise> {
               height: SizeConfig.blockSizeVertical * 30,
               width: SizeConfig.blockSizeHorizontal * 100,
               margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 2),
-              child: Center(
-//                decoration: BoxDecoration(
-//                    border: Border.all(
-//                        color: Colors.redAccent
-//                    )
-//                ),
-                child: VideoBox(children: <Widget>[
-                  GestureDetector(
-                    onTap: () async => await playAndPause(),
-                    child: Container(
-                      child: Text(''),
-                      height: SizeConfig.blockSizeVertical * 1,
-                      width: SizeConfig.blockSizeHorizontal * 100,
+              child: vc.isFullScreen
+                  ? Material(
+                      type: MaterialType.transparency,
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color: Colors.red,
+                            border: Border.all(width: 1, color: Colors.red)),
+                        height: SizeConfig.blockSizeVertical * 95,
+                        width: SizeConfig.blockSizeHorizontal * 100,
+                      ),
+                    )
+                  // ? OverlayContainer(
+                  //     show: true,
+                  //     // Let's position this overlay to the right of the button.
+                  //     position: OverlayContainerPosition(
+                  //       // Left position.
+                  //       0,
+                  //       SizeConfig.blockSizeVertical * 16,
+                  //     ),
+                  //     child: Container(
+                  //       decoration: BoxDecoration(
+                  //         color: Colors.transparent,
+                  //         border: Border.all(width: 1, color: Colors.red)
+                  //       ),
+                  //       height: SizeConfig.blockSizeVertical * 95,
+                  //       width: SizeConfig.blockSizeHorizontal * 100,
+                  //     ),
+                  //   )
+                  : Stack(
+                      children: <Widget>[
+                        Center(
+                          child: VideoBox(
+                              //   children: <Widget>[
+                              //   GestureDetector(
+                              //     onTap: () async => await playAndPause(),
+                              //     child: Container(
+                              //       height: SizeConfig.blockSizeVertical * 90,
+                              //       child: Text('s'),
+                              //       width: SizeConfig.blockSizeHorizontal * 100,
+                              //     ),
+                              //   ),
+                              // ],
+                              controller: vc),
+                        ),
+                        Positioned(
+                          child: InkWell(
+                            onTap: () async {
+                              await playAndPause();
+                              print('OLEEEEEEEEEEEEEEEEEEEEEEEEEEE  ' +
+                                  vc.isFullScreen.toString());
+                            },
+                            child: Container(
+                              height: SizeConfig.blockSizeVertical * 22,
+                              width: SizeConfig.blockSizeHorizontal * 100,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ], controller: vc),
-              ),
             ),
             Container(
               color: Colors.black,
