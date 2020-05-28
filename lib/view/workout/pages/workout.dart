@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
@@ -57,6 +59,7 @@ class _WorkoutState extends State<Workout> {
   @override
   void initState() {
     super.initState();
+    checkForConnectivity();
     if (!widget.alreadyFinishedWorkout) {
       userNotes = WorkoutViewModel().getUserNotes(
           widget.listOfNotes, widget.userDocument.data['userUID']);
@@ -96,7 +99,8 @@ class _WorkoutState extends State<Workout> {
           widget.workoutID,
           widget.weekID,
           serije,
-          widget.finishedWorkout),
+          widget.finishedWorkout,
+      source),
       backgroundColor: MyColors().lightBlack,
       body: ListView(
         shrinkWrap: true,
@@ -125,18 +129,23 @@ class _WorkoutState extends State<Workout> {
             widget.warmupDesc,
             _exerciseID,
             refreshFromInfo,
+            source,
           ),
         ],
       ),
     );
   }
 
+  final Source source = hasActiveConnection ? Source.serverAndCache : Source.cache;
+
   getSeries() {
     return FutureBuilder(
         future: WorkoutViewModel().getSeries(
             widget.userTrainerDocument.data['trainerID'],
             widget.weekID,
-            widget.workoutID),
+            widget.workoutID,
+            source,
+        ),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
@@ -155,3 +164,16 @@ class _WorkoutState extends State<Workout> {
         });
   }
 }
+checkForConnectivity() async {
+  try {
+    final result = await InternetAddress.lookup('google.com');
+    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+      print('connected');
+      hasActiveConnection = true;
+    }
+  } on SocketException catch (_) {
+    print('not connected');
+    hasActiveConnection = false;
+  }
+}
+

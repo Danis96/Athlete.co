@@ -6,7 +6,6 @@ import 'package:attt/view/trainingPlan/widgets/socialMediaDialog.dart';
 import 'package:attt/view/trainingPlan/widgets/trainingCustomBottomNavigationBar.dart';
 import 'package:attt/view/trainingPlan/widgets/trainingPlanGuides.dart';
 import 'package:attt/view/trainingPlan/widgets/trainingPlanHeadline.dart';
-import 'package:attt/view_model/trainingPlanViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -32,6 +31,7 @@ class _TrainingPlanState extends State<TrainingPlan> {
   void initState() {
     super.initState();
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    checkForConnectivity();
   }
 
   @override
@@ -43,7 +43,6 @@ class _TrainingPlanState extends State<TrainingPlan> {
 
   @override
   Widget build(BuildContext context) {
-
     print(alertQuit.toString() + ' == ALERTQUIT');
 
     if (alertQuit) {
@@ -66,9 +65,15 @@ class _TrainingPlanState extends State<TrainingPlan> {
         onWillPop: () => _onWillPop(),
         child: Padding(
           padding: EdgeInsets.only(
-              top: MediaQuery.of(context).orientation == Orientation.portrait ? SizeConfig.blockSizeVertical * 8 : SizeConfig.blockSizeVertical * 10,
-              left: MediaQuery.of(context).orientation == Orientation.portrait ? SizeConfig.blockSizeHorizontal * 4.5 : SizeConfig.blockSizeHorizontal * 2 ,
-              right: MediaQuery.of(context).orientation == Orientation.portrait ? SizeConfig.blockSizeHorizontal * 4.5 : SizeConfig.blockSizeHorizontal * 2 ),
+              top: MediaQuery.of(context).orientation == Orientation.portrait
+                  ? SizeConfig.blockSizeVertical * 8
+                  : SizeConfig.blockSizeVertical * 10,
+              left: MediaQuery.of(context).orientation == Orientation.portrait
+                  ? SizeConfig.blockSizeHorizontal * 4.5
+                  : SizeConfig.blockSizeHorizontal * 2,
+              right: MediaQuery.of(context).orientation == Orientation.portrait
+                  ? SizeConfig.blockSizeHorizontal * 4.5
+                  : SizeConfig.blockSizeHorizontal * 2),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -89,12 +94,18 @@ class _TrainingPlanState extends State<TrainingPlan> {
                     'Feel free to ask',
                     style: TextStyle(
                         color: MyColors().lightWhite,
-                        fontSize: MediaQuery.of(context).orientation == Orientation.portrait ? SizeConfig.safeBlockHorizontal * 4: SizeConfig.safeBlockHorizontal * 2),
+                        fontSize: MediaQuery.of(context).orientation ==
+                                Orientation.portrait
+                            ? SizeConfig.safeBlockHorizontal * 4
+                            : SizeConfig.safeBlockHorizontal * 2),
                   ),
                   icon: FaIcon(
                     FontAwesomeIcons.questionCircle,
                     color: Colors.white,
-                    size: MediaQuery.of(context).orientation == Orientation.portrait ? SizeConfig.blockSizeHorizontal * 7 : SizeConfig.blockSizeHorizontal * 4 ,
+                    size: MediaQuery.of(context).orientation ==
+                            Orientation.portrait
+                        ? SizeConfig.blockSizeHorizontal * 7
+                        : SizeConfig.blockSizeHorizontal * 4,
                   ),
                 )),
                 listOfWeeks(
@@ -114,5 +125,18 @@ class _TrainingPlanState extends State<TrainingPlan> {
 
   _onWillPop() async {
     exit(0);
+  }
+
+  checkForConnectivity() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        print('connected');
+        hasActiveConnection = true;
+      }
+    } on SocketException catch (_) {
+      print('not connected');
+      hasActiveConnection = false;
+    }
   }
 }

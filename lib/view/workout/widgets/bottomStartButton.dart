@@ -19,6 +19,7 @@ Widget bottomButtonStart(
   String weekID,
   List<dynamic> serije,
   bool finishedWorkout,
+    Source source,
 ) {
   SizeConfig().init(context);
   return BottomAppBar(
@@ -34,7 +35,9 @@ Widget bottomButtonStart(
               userTrainerDocument.data['trainerID'],
               weekID,
               workoutID,
-              serije[i]);
+              serije[i],
+              source
+          );
           int sets = vjezbe[0].data['sets'];
           for (var j = 0; j < sets; j++) {
             for (var z = 0; z < vjezbe.length; z++) {
