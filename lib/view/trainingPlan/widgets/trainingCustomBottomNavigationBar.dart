@@ -9,7 +9,7 @@ Widget trainingCustomBottomNavigationBar(DocumentSnapshot userDocument,
     DocumentSnapshot userTrainerDocument, BuildContext context) {
   SizeConfig().init(context);
   return Container(
-    height: SizeConfig.blockSizeVertical * 8.75,
+    height:  MediaQuery.of(context).orientation == Orientation.portrait ? SizeConfig.blockSizeVertical * 8.75 : SizeConfig.blockSizeVertical * 22,
     decoration: BoxDecoration(
       color: MyColors().lightBlack,
       boxShadow: [

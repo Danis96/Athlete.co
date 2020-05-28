@@ -294,7 +294,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                   Orientation.landscape
                               ? widget.index == (widget.listLenght - 1)
                                   ? SizeConfig.blockSizeVertical * 30
-                                  : SizeConfig.blockSizeVertical * 43
+                                  : SizeConfig.blockSizeVertical * 41
                               : SizeConfig.blockSizeVertical * 66),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -476,7 +476,11 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
               ? SystemChrome.setPreferredOrientations(
                   [DeviceOrientation.portraitUp])
               : SystemChrome.setPreferredOrientations(
-                  [DeviceOrientation.landscapeRight]),
+                  [
+                    DeviceOrientation.landscapeRight,
+                    DeviceOrientation.landscapeLeft,
+                  ]
+                ),
         });
   }
 }

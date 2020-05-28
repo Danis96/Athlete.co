@@ -10,11 +10,13 @@ Widget secondTab(BuildContext context, DocumentSnapshot userTrainerDocument,
   return GestureDetector(
     behavior: HitTestBehavior.translucent,
     onTap: () {
-      TrainingPlanViewModel()
-          .secondTabPressed(context, userTrainerDocument, userDocument, userUIDPref);
+      TrainingPlanViewModel().secondTabPressed(
+          context, userTrainerDocument, userDocument, userUIDPref);
     },
     child: Container(
-      width: SizeConfig.blockSizeHorizontal * 50,
+      width: MediaQuery.of(context).orientation == Orientation.portrait
+          ? SizeConfig.blockSizeHorizontal * 50
+          : SizeConfig.blockSizeHorizontal * 23,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -24,7 +26,9 @@ Widget secondTab(BuildContext context, DocumentSnapshot userTrainerDocument,
             child: Icon(
               Icons.show_chart,
               color: Colors.white60,
-              size: SizeConfig.blockSizeHorizontal * 6,
+              size: MediaQuery.of(context).orientation == Orientation.portrait
+                  ? SizeConfig.safeBlockHorizontal * 4.5
+                  : SizeConfig.safeBlockHorizontal * 2,
             ),
           ),
         ],

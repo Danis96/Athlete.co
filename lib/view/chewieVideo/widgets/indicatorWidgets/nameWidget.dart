@@ -86,7 +86,7 @@ Widget nameWidget(
                 Icons.info,
                 size:
                     MediaQuery.of(context).orientation == Orientation.landscape
-                        ? SizeConfig.blockSizeHorizontal * 2
+                        ? SizeConfig.blockSizeHorizontal * 2.3
                         : SizeConfig.blockSizeHorizontal * 3,
                 color: Colors.white,
               ))
