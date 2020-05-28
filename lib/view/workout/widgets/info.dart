@@ -60,12 +60,17 @@ class _InfoExerciseState extends State<InfoExercise> {
               width: SizeConfig.blockSizeHorizontal * 100,
               margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 2),
               child: Center(
+//                decoration: BoxDecoration(
+//                    border: Border.all(
+//                        color: Colors.redAccent
+//                    )
+//                ),
                 child: VideoBox(children: <Widget>[
                   GestureDetector(
                     onTap: () async => await playAndPause(),
                     child: Container(
-                      height: SizeConfig.blockSizeVertical * 90,
-                      child: Text('s'),
+                      child: Text(''),
+                      height: SizeConfig.blockSizeVertical * 1,
                       width: SizeConfig.blockSizeHorizontal * 100,
                     ),
                   ),

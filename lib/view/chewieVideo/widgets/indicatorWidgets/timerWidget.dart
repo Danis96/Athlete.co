@@ -40,7 +40,7 @@ Widget timerWidget(
           : SizeConfig.blockSizeHorizontal * 27,
     ),
     child: RaisedButton(
-      color: Colors.white,
+        color: Colors.white.withOpacity(0.8),
       onPressed: () => pressTimer(),
       child: Text(
         format(_current),

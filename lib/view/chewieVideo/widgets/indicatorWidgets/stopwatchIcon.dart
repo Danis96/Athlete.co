@@ -22,6 +22,7 @@ Widget stopIcon(Function pressTimer, BuildContext context, int isReps) {
             : SizeConfig.blockSizeHorizontal * 68,
       ),
       child: RaisedButton(
+        color: Colors.white.withOpacity(0.8),
         onPressed: () => pressTimer(),
         child: Text(
           'Stopwatch'.toUpperCase(),
