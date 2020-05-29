@@ -34,40 +34,44 @@ class ChewieVideo extends StatefulWidget {
 class _ChewieVideoState extends State<ChewieVideo>
     with WidgetsBindingObserver
     implements ChewieVideoInterface {
-  List<String> source = [
-    'assets/video/F.mp4',
-    'assets/video/C.mp4',
-    'assets/video/F.mp4',
-    'assets/video/F.mp4',
-    'assets/video/C.mp4',
-    'assets/video/F.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
-    'assets/video/C.mp4',
+
+  List<dynamic> source = [
+    // 'assets/video/F.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/F.mp4',
+    // 'assets/video/F.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/F.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
+    // 'assets/video/C.mp4',
   ];
   VideoController vc;
   VideoPlayerController controller;
@@ -295,7 +299,7 @@ class _ChewieVideoState extends State<ChewieVideo>
   @override
   void initState() {
     super.initState();
-    // source = onlineVideos;
+    source = onlineVideos;
     WidgetsBinding.instance.addObserver(this);
 
     /// initializing VideoController and giving him source (videos)
@@ -307,7 +311,7 @@ class _ChewieVideoState extends State<ChewieVideo>
         cover: Container(
           child: Image.asset('assets/images/ar.jpg'),
         ),
-        source: VideoPlayerController.asset(source[index]))
+        source: VideoPlayerController.network(source[index]))
       ..initialize();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
