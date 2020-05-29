@@ -89,7 +89,7 @@ class _ChewieVideoState extends State<ChewieVideo>
     // +
     nv = nv % source.length;
     vc.autoplay = false;
-    controller = VideoPlayerController.asset(source[nv]);
+    controller = VideoPlayerController.network(source[nv]);
     vc.setSource(controller);
     vc.looping = true;
     vc.bufferColor = Colors.transparent;
