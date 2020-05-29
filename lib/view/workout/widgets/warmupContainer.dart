@@ -151,7 +151,7 @@ class _WarmupContainerState extends State<WarmupContainer> {
         ),
         Container(
           color: MyColors().lightBlack,
-          height: SizeConfig.blockSizeVertical * 5,
+          height: SizeConfig.blockSizeVertical * 1.25,
         ),
       ],
     );
