@@ -3,12 +3,10 @@ import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
-import 'package:attt/utils/text.dart';
 import 'package:attt/view/workout/widgets/exerciseCard.dart';
 import 'package:attt/view_model/workoutViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:attt/utils/customExpansion.dart' as custom;
-import 'package:flutter/scheduler.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class WarmupContainer extends StatefulWidget {

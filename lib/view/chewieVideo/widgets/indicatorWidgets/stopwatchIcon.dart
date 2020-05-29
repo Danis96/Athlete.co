@@ -2,7 +2,6 @@ import 'package:attt/utils/size_config.dart';
 import 'package:awesome_button/awesome_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 Widget stopIcon(Function pressTimer, BuildContext context, int isReps) {
   return Container(

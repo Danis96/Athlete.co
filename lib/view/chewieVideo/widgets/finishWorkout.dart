@@ -6,12 +6,10 @@ import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/trainingPlan/widgets/socialMediaDialog.dart';
 import 'package:attt/view_model/chewieVideoViewModel.dart';
 import 'package:attt/view_model/signInViewModel.dart';
-import 'package:attt/view_model/trainingPlanViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
-import 'package:video_box/video.controller.dart';
 import 'package:intl/intl.dart';
 
 class FinishWorkout extends StatefulWidget {
@@ -89,22 +87,26 @@ class _FinishWorkoutState extends State<FinishWorkout> {
                         child: Text(
                           displayTime,
                           style: TextStyle(
-                              color: Colors.white,
-                              fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold,
-                              fontSize: SizeConfig.blockSizeHorizontal * 20),
+                            color: Colors.white,
+                            fontStyle: FontStyle.italic,
+                            fontWeight: FontWeight.bold,
+                            fontSize: SizeConfig.blockSizeHorizontal * 20,
+                          ),
                           textAlign: TextAlign.center,
                         ),
                       ),
                       SizedBox(
                         height: SizeConfig.blockSizeVertical * 1,
                       ),
-                      Text('Workout Time',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.bold,
-                              fontSize: SizeConfig.blockSizeHorizontal * 7)),
+                      Text(
+                        'Workout Time',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold,
+                          fontSize: SizeConfig.blockSizeHorizontal * 7,
+                        ),
+                      ),
                       SizedBox(
                         height: SizeConfig.blockSizeVertical * 4,
                       ),
@@ -134,7 +136,8 @@ class _FinishWorkoutState extends State<FinishWorkout> {
                     errorBorder: InputBorder.none,
                     disabledBorder: InputBorder.none,
                     contentPadding: EdgeInsets.symmetric(
-                        vertical: SizeConfig.blockSizeVertical * 2.5),
+                      vertical: SizeConfig.blockSizeVertical * 2.5,
+                    ),
                     labelStyle: TextStyle(
                       color: Colors.white60,
                       fontSize: SizeConfig.safeBlockHorizontal * 4.5,
@@ -176,7 +179,8 @@ class _FinishWorkoutState extends State<FinishWorkout> {
                     errorBorder: InputBorder.none,
                     disabledBorder: InputBorder.none,
                     contentPadding: EdgeInsets.symmetric(
-                        vertical: SizeConfig.blockSizeVertical * 3),
+                      vertical: SizeConfig.blockSizeVertical * 3,
+                    ),
                     filled: true,
                     fillColor: MyColors().black,
                     prefixIcon: Icon(
@@ -204,14 +208,14 @@ class _FinishWorkoutState extends State<FinishWorkout> {
               notes.add(note);
               userNotes = note.split('_!_?_')[1];
               ChewieVideoViewModel().updateWorkoutWithNote(
-                  widget.userTrainerDocument.data['trainerID'],
-                  widget.weekID,
-                  widget.workoutID,
-                  notes);
+                widget.userTrainerDocument.data['trainerID'],
+                widget.weekID,
+                widget.workoutID,
+                notes,
+              );
             } else {
               newNote = userNotes;
             }
-
             note = widget.userDocument.data['userUID'] +
                 '_!_?_' +
                 newNote +
@@ -224,9 +228,9 @@ class _FinishWorkoutState extends State<FinishWorkout> {
               widget.workoutID,
               historyNotes,
             );
-
-            print('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa   ' + widget.finishedWorkout.toString());
-
+            print(
+                'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa   ' +
+                    widget.finishedWorkout.toString());
             updateUserWithFinishedWorkout(
               widget.userDocument,
               widget.userTrainerDocument.data['trainerID'],
@@ -240,60 +244,33 @@ class _FinishWorkoutState extends State<FinishWorkout> {
             currentUserDocuments = await SignInViewModel()
                 .getCurrentUserDocument(widget.userDocument.data['userUID']);
             currentUserDocument = currentUserDocuments[0];
-
-            // List<dynamic> workoutsFinished =
-            //     newUserDocument[0].data['workouts_finished'];
-            // print(workoutsFinished);
-
-            // List<dynamic> weekIDs = [];
-            // int counter = 1;
-            // for (var i = 0; i < workoutsFinished.length; i++) {
-            //   if (!weekIDs.contains(workoutsFinished[i].split('_')[1])) {
-            //     weekIDs.add(workoutsFinished[i].split('_')[1]);
-            //   } else {
-            //     if (workoutsFinished[i].split('_')[1] == widget.weekID) {
-            //       counter++;
-            //     }
-            //   }
-            // }
-
-            // print(weekIDs);
-            // List<dynamic> weekWorkouts = await TrainingPlanViewModel()
-            //     .getWorkouts(widget.userTrainerDocument.data['trainerID'],
-            //         widget.weekID);
-            // print(weekWorkouts.length);
-            // print(counter);
-
-            // if (counter == weekWorkouts.length) {
-            //   updateUserWithFinishedWeek(
-            //       widget.userDocument,
-            //       widget.userTrainerDocument.data['trainerID'],
-            //       widget.weekID,
-            //       widget.workoutID);
-            // }
-
             FocusScope.of(context).requestFocus(new FocusNode());
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (_) => TrainingPlan(
-                      userDocument: currentUserDocument,
-                      userTrainerDocument: widget.userTrainerDocument,
-                      userUID: currentUserDocument.data['userUID']),
+                    userDocument: currentUserDocument,
+                    userTrainerDocument: widget.userTrainerDocument,
+                    userUID: currentUserDocument.data['userUID'],
+                  ),
                 ),
                 (Route<dynamic> route) => false);
             userNotes = '';
-            await Future.delayed(Duration(seconds: 1), () {
-              FullTrainingStopwatch().resetStopwtach();
-            });
+            await Future.delayed(
+              Duration(seconds: 1),
+              () {
+                FullTrainingStopwatch().resetStopwtach();
+              },
+            );
           },
           child: Padding(
             padding: EdgeInsets.all(22.0),
             child: Text(
               'FINISH',
               style: TextStyle(
-                  fontStyle: FontStyle.italic,
-                  fontSize: SizeConfig.blockSizeHorizontal * 4,
-                  fontWeight: FontWeight.w700),
+                fontStyle: FontStyle.italic,
+                fontSize: SizeConfig.blockSizeHorizontal * 4,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
           color: Colors.white,
@@ -303,12 +280,13 @@ class _FinishWorkoutState extends State<FinishWorkout> {
   }
 
   updateUserWithFinishedWorkout(
-      DocumentSnapshot userDocument,
-      String trainerID,
-      String weekID,
-      String workoutID,
-      String currentTime,
-      bool finishedWorkout) async {
+    DocumentSnapshot userDocument,
+    String trainerID,
+    String weekID,
+    String workoutID,
+    String currentTime,
+    bool finishedWorkout,
+  ) async {
     List<String> note = [];
     String currentDay = DateFormat.d().format(DateTime.now());
     String currentMonth = DateFormat.MMM().format(DateTime.now()).toUpperCase();
@@ -338,22 +316,6 @@ class _FinishWorkoutState extends State<FinishWorkout> {
         .updateData({"workouts_finished_history": FieldValue.arrayUnion(note)});
   }
 
-  // updateUserWithFinishedWeek(DocumentSnapshot userDocument, String trainerID,
-  //     String weekID, String workoutID) async {
-  //   List<String> note = [];
-  //   note.add(weekID);
-  //   final db = Firestore.instance;
-  //   await db
-  //       .collection('Users')
-  //       .document(userDocument.documentID)
-  //       .updateData({"weeks_finished": FieldValue.arrayUnion(note)});
-
-  //   await db
-  //       .collection('Users')
-  //       .document(userDocument.documentID)
-  //       .updateData({"weeks_finished_history": FieldValue.arrayUnion(note)});
-  // }
-
   Future<bool> _onWillPop() async {
     return showDialog(
           context: context,
@@ -364,11 +326,8 @@ class _FinishWorkoutState extends State<FinishWorkout> {
               content: 'If you go back all your progress will be lost',
               userDocument: widget.userDocument,
               userTrainerDocument: widget.userTrainerDocument,
-              //vc: vc,
               close: widget.close,
-              ctrl: true
-              //isReps: exerciseIsReps,
-              ),
+              ctrl: true),
         ) ??
         true;
   }
