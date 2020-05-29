@@ -34,6 +34,7 @@ class ChewieVideo extends StatefulWidget {
 class _ChewieVideoState extends State<ChewieVideo>
     with WidgetsBindingObserver
     implements ChewieVideoInterface {
+
   List<dynamic> source = [
     // 'assets/video/F.mp4',
     // 'assets/video/C.mp4',
@@ -71,7 +72,6 @@ class _ChewieVideoState extends State<ChewieVideo>
     // 'assets/video/C.mp4',
     // 'assets/video/C.mp4',
     // 'assets/video/C.mp4',
-
   ];
   VideoController vc;
   VideoPlayerController controller;
@@ -92,7 +92,7 @@ class _ChewieVideoState extends State<ChewieVideo>
     controller = VideoPlayerController.asset(source[nv]);
     vc.setSource(controller);
     vc.looping = true;
-    vc.bufferColor = Colors.black;
+    vc.bufferColor = Colors.transparent;
     vc.cover = Container(
       child: Image.asset('assets/images/ar.jpg'),
     );
@@ -304,6 +304,7 @@ class _ChewieVideoState extends State<ChewieVideo>
 
     /// initializing VideoController and giving him source (videos)
     vc = VideoController(
+      circularProgressIndicatorColor: Colors.transparent,
         controllerWidgets: true,
         looping: true,
         autoplay: false,
