@@ -1,5 +1,4 @@
 import 'package:attt/interface/workoutInerface.dart';
-import 'package:attt/utils/globals.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 

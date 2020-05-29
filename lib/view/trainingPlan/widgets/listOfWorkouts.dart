@@ -1,5 +1,4 @@
 import 'package:attt/utils/colors.dart';
-import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/trainingPlan/widgets/workoutContainer.dart';
 import 'package:attt/view_model/trainingPlanViewModel.dart';

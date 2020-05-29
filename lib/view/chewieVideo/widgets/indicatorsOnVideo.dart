@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:ui';
-import 'package:attt/utils/customTimerPainter.dart';
 import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
-import 'package:attt/utils/snackbar.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/asManyReps.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/clearButton.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/colorProgress.dart';

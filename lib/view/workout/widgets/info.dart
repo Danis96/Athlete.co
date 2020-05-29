@@ -3,7 +3,6 @@ import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:overlay_container/overlay_container.dart';
 import 'package:video_box/video_box.dart';
 
 class InfoExercise extends StatefulWidget {
@@ -35,7 +34,6 @@ class _InfoExerciseState extends State<InfoExercise> {
         autoplay: false,
         source: VideoPlayerController.network(widget.exerciseVideoForInfo))
       ..initialize();
-
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   }
 
@@ -60,65 +58,28 @@ class _InfoExerciseState extends State<InfoExercise> {
               height: SizeConfig.blockSizeVertical * 30,
               width: SizeConfig.blockSizeHorizontal * 100,
               margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 2),
-              child: vc.isFullScreen
-                  ? Material(
-                      type: MaterialType.transparency,
+              child: Stack(
+                children: <Widget>[
+                  Center(
+                    child: VideoBox(controller: vc),
+                  ),
+                  Positioned(
+                    child: InkWell(
+                      onTap: () async {
+                        await playAndPause();
+                        print(
+                          'OLEEEEEEEEEEEEEEEEEEEEEEEEEEE  ' +
+                              vc.isFullScreen.toString(),
+                        );
+                      },
                       child: Container(
-                        decoration: BoxDecoration(
-                            color: Colors.red,
-                            border: Border.all(width: 1, color: Colors.red)),
-                        height: SizeConfig.blockSizeVertical * 95,
+                        height: SizeConfig.blockSizeVertical * 22,
                         width: SizeConfig.blockSizeHorizontal * 100,
                       ),
-                    )
-                  // ? OverlayContainer(
-                  //     show: true,
-                  //     // Let's position this overlay to the right of the button.
-                  //     position: OverlayContainerPosition(
-                  //       // Left position.
-                  //       0,
-                  //       SizeConfig.blockSizeVertical * 16,
-                  //     ),
-                  //     child: Container(
-                  //       decoration: BoxDecoration(
-                  //         color: Colors.transparent,
-                  //         border: Border.all(width: 1, color: Colors.red)
-                  //       ),
-                  //       height: SizeConfig.blockSizeVertical * 95,
-                  //       width: SizeConfig.blockSizeHorizontal * 100,
-                  //     ),
-                  //   )
-                  : Stack(
-                      children: <Widget>[
-                        Center(
-                          child: VideoBox(
-                              //   children: <Widget>[
-                              //   GestureDetector(
-                              //     onTap: () async => await playAndPause(),
-                              //     child: Container(
-                              //       height: SizeConfig.blockSizeVertical * 90,
-                              //       child: Text('s'),
-                              //       width: SizeConfig.blockSizeHorizontal * 100,
-                              //     ),
-                              //   ),
-                              // ],
-                              controller: vc),
-                        ),
-                        Positioned(
-                          child: InkWell(
-                            onTap: () async {
-                              await playAndPause();
-                              print('OLEEEEEEEEEEEEEEEEEEEEEEEEEEE  ' +
-                                  vc.isFullScreen.toString());
-                            },
-                            child: Container(
-                              height: SizeConfig.blockSizeVertical * 22,
-                              width: SizeConfig.blockSizeHorizontal * 100,
-                            ),
-                          ),
-                        ),
-                      ],
                     ),
+                  ),
+                ],
+              ),
             ),
             Container(
               color: Colors.black,
@@ -129,92 +90,86 @@ class _InfoExerciseState extends State<InfoExercise> {
                   Container(
                     width: SizeConfig.blockSizeHorizontal * 100,
                     child: Container(
-                        height: SizeConfig.blockSizeVertical * 50,
-                        color: MyColors().black,
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.all(5),
-                              child: Row(
-                                children: <Widget>[
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                        left:
-                                            SizeConfig.blockSizeHorizontal * 2),
-                                    child: IconButton(
-                                      color: MyColors().white,
-                                      iconSize:
-                                          SizeConfig.blockSizeHorizontal * 6,
-                                      icon: Icon(Icons.clear),
-                                      onPressed: () => onDone(),
-                                    ),
+                      height: SizeConfig.blockSizeVertical * 50,
+                      color: MyColors().black,
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            padding: EdgeInsets.all(5),
+                            child: Row(
+                              children: <Widget>[
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      left: SizeConfig.blockSizeHorizontal * 2),
+                                  child: IconButton(
+                                    color: MyColors().white,
+                                    iconSize:
+                                        SizeConfig.blockSizeHorizontal * 6,
+                                    icon: Icon(Icons.clear),
+                                    onPressed: () => onDone(),
                                   ),
-                                  Container(
-                                    margin: EdgeInsets.only(
-                                        left:
-                                            SizeConfig.blockSizeHorizontal * 2),
-                                    child: Text(
-                                      widget.exerciseNameForInfo,
-                                      style: TextStyle(
-                                          color: MyColors().white,
-                                          fontSize:
-                                              SizeConfig.safeBlockHorizontal *
-                                                  5,
-                                          fontWeight: FontWeight.bold,
-                                          fontStyle: FontStyle.italic),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Container(
-                              height: SizeConfig.blockSizeVertical * 22,
-                              padding: EdgeInsets.only(
-                                  top: SizeConfig.blockSizeVertical * 2.5),
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: widget.exerciseTips.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Container(
-                                    padding: EdgeInsets.all(5),
-                                    margin: EdgeInsets.only(
-                                        bottom:
-                                            SizeConfig.blockSizeVertical * 1,
-                                        left:
-                                            SizeConfig.blockSizeHorizontal * 5),
-                                    child: Text(
-                                      widget.exerciseTips[index].toString(),
-                                      style: TextStyle(
-                                          color: MyColors().white,
-                                          fontSize:
-                                              SizeConfig.safeBlockHorizontal *
-                                                  3.5),
-                                    ),
-                                  );
-                                },
-                              ),
-                            ),
-
-                            /// done
-                            Container(
-                              alignment: Alignment.bottomRight,
-                              margin: EdgeInsets.only(
-                                top: SizeConfig.blockSizeVertical * 6,
-                              ),
-                              child: FlatButton(
-                                  color: MyColors().black,
-                                  onPressed: () => onDone(),
+                                ),
+                                Container(
+                                  margin: EdgeInsets.only(
+                                      left: SizeConfig.blockSizeHorizontal * 2),
                                   child: Text(
-                                    'DONE',
+                                    widget.exerciseNameForInfo,
                                     style: TextStyle(
-                                      fontSize:
-                                          SizeConfig.safeBlockHorizontal * 4,
-                                      color: MyColors().white,
-                                    ),
-                                  )),
+                                        color: MyColors().white,
+                                        fontSize:
+                                            SizeConfig.safeBlockHorizontal * 5,
+                                        fontWeight: FontWeight.bold,
+                                        fontStyle: FontStyle.italic),
+                                  ),
+                                )
+                              ],
                             ),
-                          ],
-                        )),
+                          ),
+                          Container(
+                            height: SizeConfig.blockSizeVertical * 22,
+                            padding: EdgeInsets.only(
+                                top: SizeConfig.blockSizeVertical * 2.5),
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              itemCount: widget.exerciseTips.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Container(
+                                  padding: EdgeInsets.all(5),
+                                  margin: EdgeInsets.only(
+                                      bottom: SizeConfig.blockSizeVertical * 1,
+                                      left: SizeConfig.blockSizeHorizontal * 5),
+                                  child: Text(
+                                    widget.exerciseTips[index].toString(),
+                                    style: TextStyle(
+                                        color: MyColors().white,
+                                        fontSize:
+                                            SizeConfig.safeBlockHorizontal *
+                                                3.5),
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                          Container(
+                            alignment: Alignment.bottomRight,
+                            margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 6,
+                            ),
+                            child: FlatButton(
+                              color: MyColors().black,
+                              onPressed: () => onDone(),
+                              child: Text(
+                                'DONE',
+                                style: TextStyle(
+                                  fontSize: SizeConfig.safeBlockHorizontal * 4,
+                                  color: MyColors().white,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -229,19 +184,23 @@ class _InfoExerciseState extends State<InfoExercise> {
   /// if true  then set our portrait to landscapeRight
   /// same goes for tips
   onDone() {
-    setState(() {
-      goBackToChewie
-          ? isFromPortrait
-              ? SystemChrome.setPreferredOrientations(
-                  [DeviceOrientation.portraitUp])
-              : SystemChrome.setPreferredOrientations(
-                  [DeviceOrientation.landscapeRight])
-          : print('NIJE SA VIDEA');
-    });
+    setState(
+      () {
+        goBackToChewie
+            ? isFromPortrait
+                ? SystemChrome.setPreferredOrientations(
+                    [DeviceOrientation.portraitUp])
+                : SystemChrome.setPreferredOrientations(
+                    [DeviceOrientation.landscapeRight])
+            : print('NIJE SA VIDEA');
+      },
+    );
     goBackToChewie ? isTips = true : isTips = false;
-    setState(() {
-      infoClicked = true;
-    });
+    setState(
+      () {
+        infoClicked = true;
+      },
+    );
     Navigator.of(context).pop();
     goBackToChewie = false;
   }
@@ -258,9 +217,11 @@ class _InfoExerciseState extends State<InfoExercise> {
           : SystemChrome.setPreferredOrientations(
               [DeviceOrientation.landscapeRight]);
     }
-    setState(() {
-      infoClicked = true;
-    });
+    setState(
+      () {
+        infoClicked = true;
+      },
+    );
     Navigator.of(context).pop();
   }
 }

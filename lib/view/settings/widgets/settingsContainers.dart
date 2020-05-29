@@ -1,11 +1,9 @@
 import 'package:attt/utils/globals.dart';
 import 'package:attt/view/trainingPlan/widgets/socialMediaDialog.dart';
 import 'package:attt/view_model/settingsViewModel.dart';
-import 'package:attt/view_model/trainingPlanViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:attt/utils/size_config.dart';
-import 'package:attt/utils/colors.dart';
 
 String phoneNumberForWhatsApp = '+38762748065';
 String messageForWhatsApp = 'Feel free to ask anything. :)';

@@ -1,5 +1,4 @@
 import 'package:attt/models/trainerModel.dart';
-import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';

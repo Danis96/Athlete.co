@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:attt/utils/dialog.dart';
 import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
@@ -8,10 +6,7 @@ import 'package:attt/view/home/widgets/buttonList.dart';
 import 'package:attt/view/home/widgets/logo.dart';
 import 'package:attt/view_model/signInViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:attt/utils/appUtil.dart';
-import 'package:path_provider/path_provider.dart';
 
 final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 

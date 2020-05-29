@@ -45,9 +45,7 @@ class _WorkoutState extends State<Workout> {
       _trainerName,
       _weekName,
       _workoutName;
-
   int _exerciseIsReps, _exerciseReps, _exerciseRest, _exerciseSets;
-
   List<dynamic> _series = [], _exercises = [], _exerciseTips = [];
   List<dynamic> serije = [];
 
@@ -72,11 +70,8 @@ class _WorkoutState extends State<Workout> {
     _trainerName = widget.userTrainerDocument.data['trainer_name'];
     _weekName = widget.weekName;
     _workoutName = widget.workoutName;
-    //getExerciseVideosAndImages(widget.userTrainerDocument.data['trainerID'],
-    //widget.weekID, widget.workoutID);
     return Scaffold(
       appBar: AppBar(
-        /// workout name
         title: Text(
           widget.workoutName.toUpperCase(),
           style: TextStyle(fontSize: SizeConfig.blockSizeHorizontal * 5),
@@ -93,21 +88,20 @@ class _WorkoutState extends State<Workout> {
         ),
       ),
       bottomNavigationBar: bottomButtonStart(
-          widget.userDocument,
-          widget.userTrainerDocument,
-          context,
-          widget.workoutID,
-          widget.weekID,
-          serije,
-          widget.finishedWorkout,
-      source),
+        widget.userDocument,
+        widget.userTrainerDocument,
+        context,
+        widget.workoutID,
+        widget.weekID,
+        serije,
+        widget.finishedWorkout,
+        source,
+      ),
       backgroundColor: MyColors().lightBlack,
       body: ListView(
         shrinkWrap: true,
         children: <Widget>[
           getSeries(),
-
-          /// workoutList
           workoutList(
             widget.trainerID,
             _trainerName,
@@ -136,34 +130,37 @@ class _WorkoutState extends State<Workout> {
     );
   }
 
-  final Source source = hasActiveConnection ? Source.serverAndCache : Source.cache;
+  final Source source =
+      hasActiveConnection ? Source.serverAndCache : Source.cache;
 
   getSeries() {
     return FutureBuilder(
-        future: WorkoutViewModel().getSeries(
-            widget.userTrainerDocument.data['trainerID'],
-            widget.weekID,
-            widget.workoutID,
-            source,
-        ),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.hasData) {
-            return ListView.builder(
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                itemCount: snapshot.data.length,
-                itemBuilder: (BuildContext context, int index) {
-                  serije.add(snapshot.data[index].data['seriesID']);
-                  return EmptyContainer();
-                });
-          } else {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-        });
+      future: WorkoutViewModel().getSeries(
+        widget.userTrainerDocument.data['trainerID'],
+        widget.weekID,
+        widget.workoutID,
+        source,
+      ),
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.hasData) {
+          return ListView.builder(
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemCount: snapshot.data.length,
+              itemBuilder: (BuildContext context, int index) {
+                serije.add(snapshot.data[index].data['seriesID']);
+                return EmptyContainer();
+              });
+        } else {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+      },
+    );
   }
 }
+
 checkForConnectivity() async {
   try {
     final result = await InternetAddress.lookup('google.com');
@@ -176,4 +173,3 @@ checkForConnectivity() async {
     hasActiveConnection = false;
   }
 }
-
