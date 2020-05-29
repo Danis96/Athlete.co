@@ -432,7 +432,9 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
     widget.showTimerDialog(context);
     widget.controller.pause();
     _pausedOn = _current;
-    countDownTimer.cancel();
+    if(countDownTimer != null) {
+      countDownTimer.cancel();
+    }
     isTimerPaused = true;
   }
 

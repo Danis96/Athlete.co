@@ -19,8 +19,6 @@ void main() {
 }
 
 class Athlete extends StatelessWidget  {
-
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
