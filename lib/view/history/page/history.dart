@@ -1,14 +1,13 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/customScreenAnimation.dart';
 import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
-import 'package:attt/view/chooseAthlete/pages/chooseAthlete.dart';
 import 'package:attt/view/history/widgets/historyCustomBottomNavigationBar.dart';
 import 'package:attt/view/settings/pages/settingsPage.dart';
-import 'package:attt/view_model/workoutViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -25,6 +24,29 @@ class History extends StatefulWidget {
 }
 
 class _HistoryState extends State<History> {
+
+  checkForConnectivity() async {
+    try {
+      final result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        print('connected');
+        hasActiveConnection = true;
+      }
+    } on SocketException catch (_) {
+      print('not connected');
+      hasActiveConnection = false;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    checkForConnectivity();
+    /// onda gdje je future kreirati source na osnovu varijable
+    /// ubaciti source u future fju
+  }
+
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -49,7 +71,7 @@ class _HistoryState extends State<History> {
       QuerySnapshot qn = await firestore
           .collection('Trainers')
           .where('trainerID', isEqualTo: trainerID)
-          .getDocuments();
+          .getDocuments(source: hasActiveConnection ? Source.serverAndCache : Source.cache);
       return qn.documents;
     }
 
@@ -62,7 +84,7 @@ class _HistoryState extends State<History> {
           .document(trainerID)
           .collection('weeks')
           .where('weekID', isEqualTo: weekID)
-          .getDocuments();
+          .getDocuments(source: hasActiveConnection ? Source.serverAndCache : Source.cache);
       return qn.documents;
     }
 
@@ -80,7 +102,7 @@ class _HistoryState extends State<History> {
           .document(weekID)
           .collection('workouts')
           .where('workoutID', isEqualTo: workoutID)
-          .getDocuments();
+          .getDocuments(source: hasActiveConnection ? Source.serverAndCache : Source.cache);
       return qn.documents;
     }
 
@@ -601,7 +623,9 @@ class _HistoryState extends State<History> {
                                         ),
                                       );
                                     } else {
-                                      return EmptyContainer();
+                                      return Center(
+                                        child: CircularProgressIndicator(),
+                                      );
                                     }
                                   },
                                 );
