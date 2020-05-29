@@ -50,8 +50,7 @@ class WarmupContainer extends StatefulWidget {
       this.trainerName,
       this.video,
       this.weekID,
-      this.source
-      })
+      this.source})
       : super(key: key);
 
   @override
@@ -67,8 +66,8 @@ class _WarmupContainerState extends State<WarmupContainer> {
   void initState() {
     super.initState();
     getWarmupDescription();
-    _future = WorkoutViewModel().getExercises(
-        widget.trainerID, widget.weekID, widget.workoutID, widget.seriesID,widget.source);
+    _future = WorkoutViewModel().getExercises(widget.trainerID, widget.weekID,
+        widget.workoutID, widget.seriesID, widget.source);
   }
 
   @override
@@ -111,8 +110,12 @@ class _WarmupContainerState extends State<WarmupContainer> {
             initiallyExpanded: false,
             children: <Widget>[
               FutureBuilder(
-                  future: WorkoutViewModel().getExercises(widget.trainerID,
-                      widget.weekID, widget.workoutID, widget.seriesID, widget.source),
+                  future: WorkoutViewModel().getExercises(
+                      widget.trainerID,
+                      widget.weekID,
+                      widget.workoutID,
+                      widget.seriesID,
+                      widget.source),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.hasData) {
                       return ListView.builder(
@@ -146,13 +149,17 @@ class _WarmupContainerState extends State<WarmupContainer> {
             ],
           ),
         ),
+        Container(
+          color: MyColors().lightBlack,
+          height: SizeConfig.blockSizeVertical * 5,
+        ),
       ],
     );
   }
 
   getWarmupDescription() async {
-    warmupDoc = await WorkoutViewModel().getExercises(
-        widget.trainerID, widget.weekID, widget.workoutID, widget.seriesID, widget.source);
+    warmupDoc = await WorkoutViewModel().getExercises(widget.trainerID,
+        widget.weekID, widget.workoutID, widget.seriesID, widget.source);
     for (var i = 0; i < warmupDoc.length; i++) {
       if (warmupDescription == '') {
         setState(() {
