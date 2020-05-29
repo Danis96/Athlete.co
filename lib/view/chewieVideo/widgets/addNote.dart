@@ -67,7 +67,9 @@ class _AddNoteState extends State<AddNote> {
         leading: new IconButton(
           icon: new Icon(
             Icons.clear,
-            size: SizeConfig.blockSizeHorizontal * 5.5,
+            size: MediaQuery.of(context).orientation == Orientation.portrait
+                ? SizeConfig.blockSizeHorizontal * 5.5
+                : SizeConfig.blockSizeHorizontal * 3,
           ),
           onPressed: () {
             FocusScope.of(context).requestFocus(new FocusNode());
@@ -81,7 +83,9 @@ class _AddNoteState extends State<AddNote> {
         title: new Text(
           'ADD NOTE',
           style: new TextStyle(
-            fontSize: SizeConfig.blockSizeHorizontal * 5,
+            fontSize: MediaQuery.of(context).orientation == Orientation.portrait
+                ? SizeConfig.blockSizeHorizontal * 5
+                : SizeConfig.blockSizeHorizontal * 2.5,
           ),
         ),
       ),
@@ -105,7 +109,10 @@ class _AddNoteState extends State<AddNote> {
                   autocorrect: false,
                   style: new TextStyle(
                     color: Colors.white,
-                    fontSize: SizeConfig.safeBlockHorizontal * 4.5,
+                    fontSize:MediaQuery.of(context).orientation ==
+                        Orientation.portrait
+                        ? SizeConfig.safeBlockHorizontal * 4.5
+                        : SizeConfig.safeBlockHorizontal * 2.5,
                   ),
                   cursorColor: Colors.white60,
                   decoration: new InputDecoration(
@@ -118,7 +125,10 @@ class _AddNoteState extends State<AddNote> {
                         vertical: SizeConfig.blockSizeVertical * 2.5),
                     labelStyle: new TextStyle(
                       color: Colors.white60,
-                      fontSize: SizeConfig.safeBlockHorizontal * 4.5,
+                      fontSize: MediaQuery.of(context).orientation ==
+                              Orientation.portrait
+                          ? SizeConfig.safeBlockHorizontal * 4.5
+                          : SizeConfig.safeBlockHorizontal * 2.5,
                       fontWeight: FontWeight.w400,
                       fontFamily: 'Roboto',
                       fontStyle: FontStyle.italic,
@@ -160,12 +170,15 @@ class _AddNoteState extends State<AddNote> {
                   checkForOrientationOnBack();
                 },
                 child: new Padding(
-                  padding: EdgeInsets.all(22.0),
+                  padding:  EdgeInsets.all(22.0),
                   child: new Text(
                     'DONE',
                     style: new TextStyle(
                         fontStyle: FontStyle.italic,
-                        fontSize: SizeConfig.blockSizeHorizontal * 4,
+                        fontSize: MediaQuery.of(context).orientation ==
+                            Orientation.portrait
+                            ? SizeConfig.safeBlockHorizontal * 4
+                            : SizeConfig.safeBlockHorizontal * 2.5,
                         fontWeight: FontWeight.w700),
                   ),
                 ),
