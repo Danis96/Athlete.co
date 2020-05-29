@@ -19,7 +19,7 @@ Widget bottomButtonStart(
   String weekID,
   List<dynamic> serije,
   bool finishedWorkout,
-    Source source,
+  Source source,
 ) {
   SizeConfig().init(context);
   return BottomAppBar(
@@ -30,13 +30,14 @@ Widget bottomButtonStart(
         FullTrainingStopwatch().startStopwtach();
         workoutExercisesWithSets = [];
         namesWithSet = [];
+        onlineVideos = [];
         for (var i = 0; i < serije.length; i++) {
           List<dynamic> vjezbe = await WorkoutViewModel().getExercises(
-              userTrainerDocument.data['trainerID'],
-              weekID,
-              workoutID,
-              serije[i],
-              source
+            userTrainerDocument.data['trainerID'],
+            weekID,
+            workoutID,
+            serije[i],
+            source,
           );
           int sets = vjezbe[0].data['sets'];
           for (var j = 0; j < sets; j++) {
@@ -48,15 +49,11 @@ Widget bottomButtonStart(
           }
         }
         for (var i = 0; i < workoutExercisesWithSets.length; i++) {
-          print(workoutExercisesWithSets[i].data['duration']);
+          onlineVideos.add(workoutExercisesWithSets[i].data['video']);
         }
-        print(workoutExercisesWithSets.length);
         alertQuit = false;
-        onlineVideos = [];
-        ChewieVideoViewModel().playVideo(
-            context, userDocument, userTrainerDocument, workoutID, weekID, finishedWorkout);
-        onlineVideos = onlineWarmup + onlineExercises;
-        //print(onlineVideos.length);
+        ChewieVideoViewModel().playVideo(context, userDocument,
+            userTrainerDocument, workoutID, weekID, finishedWorkout);
       },
       child: Padding(
         padding: EdgeInsets.all(22.0),
