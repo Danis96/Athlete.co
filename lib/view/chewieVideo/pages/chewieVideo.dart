@@ -75,6 +75,7 @@ class _ChewieVideoState extends State<ChewieVideo>
   ];
   VideoController vc;
   VideoPlayerController controller;
+  List<dynamic> exerciseTips = [];
   int exerciseDuration,
       exerciseIsReps,
       exerciseReps,
@@ -249,6 +250,7 @@ class _ChewieVideoState extends State<ChewieVideo>
     exerciseReps = workoutExercisesWithSets[index].data['reps'];
     exerciseSets = workoutExercisesWithSets[index].data['sets'];
     exerciseRest = workoutExercisesWithSets[index].data['rest'];
+    exerciseTips = workoutExercisesWithSets[index].data['tips'];
     exerciseName = exerciseNameAndSet.split('_')[1];
     exerciseSet = exerciseNameAndSet.split('_')[0];
     exerciseRepsDescription =
@@ -375,6 +377,8 @@ class _ChewieVideoState extends State<ChewieVideo>
                   repsDescription: exerciseRepsDescription,
                   onWill: _onWillPop,
                   showTimerDialog: showPickerNumber,
+                  tips: exerciseTips,
+                  video: source[index],
                 ),
               ),
             ),

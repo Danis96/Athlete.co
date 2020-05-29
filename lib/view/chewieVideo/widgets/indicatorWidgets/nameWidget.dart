@@ -11,7 +11,7 @@ Widget nameWidget(
     VideoController controller,
     Function checkIsOnTimeAndPauseTimer,
     String name,
-    exVideo,
+    String video,
     List<dynamic> exTips,
     int isReps,
     index,
@@ -33,7 +33,7 @@ Widget nameWidget(
             vc: controller,
             exerciseNameForInfo: name,
             exerciseTips: exTips,
-            exerciseVideoForInfo: exVideo,
+            exerciseVideoForInfo: video,
           ),
         ));
       } else {

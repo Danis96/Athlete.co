@@ -30,12 +30,15 @@ class IndicatorsOnVideo extends StatefulWidget {
   final int index, listLenght;
   final Function showAddNote, playNext, playPrevious, onWill, showTimerDialog;
   final int isReps, sets, reps;
-  final String name, workoutID, weekID, currentSet, repsDescription;
+  final String name, workoutID, weekID, currentSet, repsDescription, video;
   final bool ctrl;
+  final List<dynamic> tips;
 
   IndicatorsOnVideo(
       {this.controller,
+      this.tips,
       this.currentSet,
+      this.video,
       this.repsDescription,
       this.showAddNote,
       this.workoutID,
@@ -358,8 +361,8 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                               widget.controller,
                               checkIsOnTimeAndPauseTimer,
                               widget.name,
-                              exVideo,
-                              exTips,
+                              widget.video,
+                              widget.tips,
                               widget.isReps,
                               widget.index,
                               widget.listLenght),
