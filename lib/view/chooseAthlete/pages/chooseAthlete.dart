@@ -35,7 +35,6 @@ class _ChooseAthleteState extends State<ChooseAthlete> {
   @override
   void dispose() {
     super.dispose();
-    print('Dispose athlete.');
     isFromSettings = false;
   }
 

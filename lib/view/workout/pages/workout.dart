@@ -52,7 +52,6 @@ class _WorkoutState extends State<Workout> {
 
   refreshFromInfo() {
     setState(() {});
-    print('refreshed from info');
   }
 
   @override

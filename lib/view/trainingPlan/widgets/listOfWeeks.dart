@@ -19,9 +19,6 @@ Widget listOfWeeks(DocumentSnapshot userDocument,
   List<dynamic> weekIDs = [];
   List<dynamic> weeksToKeep = [];
   weeksFinished = userDocument.data['workouts_finished'];
-  print(weeksFinished.toString() +
-      ' LLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLLL   ' +
-      weekIDs.toString());
   for (var i = 0; i < weeksFinished.length; i++) {
     if (weeksFinished[i].toString().split('_')[0] ==
         userTrainerDocument.data['trainerID']) {
@@ -31,7 +28,6 @@ Widget listOfWeeks(DocumentSnapshot userDocument,
     }
   }
   weekIDs.sort();
-  print('WEEEEEEEEKS: ' + weekIDs.toString());
 
   showAlertDialog(
       BuildContext context, DocumentSnapshot userDocument, String userUID) {
@@ -122,22 +118,16 @@ Widget listOfWeeks(DocumentSnapshot userDocument,
           shrinkWrap: true,
           itemCount: snapshot.data.length,
           itemBuilder: (BuildContext context, int index) {
-            print('NUMBER OF WORKOUTS: ' +
-                snapshot.data[index]['numberOfWorkouts'].toString());
-            print('FINISHED WORKOUTS: ' + weekIDs.toString());
             int counter = 0;
             for (var i = 0; i < weekIDs.length; i++) {
               if (weekIDs[i] == snapshot.data[index]['weekID'].toString()) {
                 counter++;
-                print(counter);
                 if (counter == snapshot.data[index]['numberOfWorkouts']) {
                   finishedWeeks.add(snapshot.data[index]['weekID'].toString());
                 }
               }
             }
-            print(noteClicked);
             if (finishedWeeks.length == snapshot.data.length) {
-              print('TRAINING PLAN FINISHED');
               SignInViewModel().updateUserProgress(userDocument, weeksToKeep);
               Timer(
                 Duration(milliseconds: 250),
@@ -147,7 +137,6 @@ Widget listOfWeeks(DocumentSnapshot userDocument,
                 },
               );
             }
-            print('FINISHED WEEKS FINAL: ' + finishedWeeks.toString());
             return weekContainer(
                 snapshot, index, userTrainerDocument, context, userDocument);
           },
