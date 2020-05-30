@@ -44,18 +44,13 @@ class _TrainingPlanState extends State<TrainingPlan> {
 
   @override
   Widget build(BuildContext context) {
-    print(alertQuit.toString() + ' == ALERTQUIT');
-
     if (alertQuit) {
       SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     }
-
     SizeConfig().init(context);
-
     if (_plan == null) {
       _plan = _createPlan(context);
     }
-
     return _plan;
   }
 

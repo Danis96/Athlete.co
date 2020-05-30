@@ -228,9 +228,6 @@ class _FinishWorkoutState extends State<FinishWorkout> {
               widget.workoutID,
               historyNotes,
             );
-            print(
-                'AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAaa   ' +
-                    widget.finishedWorkout.toString());
             updateUserWithFinishedWorkout(
               widget.userDocument,
               widget.userTrainerDocument.data['trainerID'],

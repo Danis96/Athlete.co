@@ -67,10 +67,6 @@ class _InfoExerciseState extends State<InfoExercise> {
                     child: InkWell(
                       onTap: () async {
                         await playAndPause();
-                        print(
-                          'OLEEEEEEEEEEEEEEEEEEEEEEEEEEE  ' +
-                              vc.isFullScreen.toString(),
-                        );
                       },
                       child: Container(
                         height: SizeConfig.blockSizeVertical * 22,
