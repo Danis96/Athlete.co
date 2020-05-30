@@ -1,3 +1,4 @@
+import 'package:attt/utils/checkForInternet.dart';
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
@@ -28,6 +29,7 @@ class _ChooseAthleteState extends State<ChooseAthlete> {
   @override
   void initState() {
     super.initState();
+    InternetConnectivity().checkForConnectivity();
   }
 
   @override
