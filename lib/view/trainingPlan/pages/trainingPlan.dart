@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:attt/utils/checkForInternet.dart';
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/trainingPlan/widgets/listOfWeeks.dart';
@@ -31,7 +32,7 @@ class _TrainingPlanState extends State<TrainingPlan> {
   void initState() {
     super.initState();
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    checkForConnectivity();
+    InternetConnectivity().checkForConnectivity();
   }
 
   @override
@@ -125,18 +126,5 @@ class _TrainingPlanState extends State<TrainingPlan> {
 
   _onWillPop() async {
     exit(0);
-  }
-
-  checkForConnectivity() async {
-    try {
-      final result = await InternetAddress.lookup('google.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        print('connected');
-        hasActiveConnection = true;
-      }
-    } on SocketException catch (_) {
-      print('not connected');
-      hasActiveConnection = false;
-    }
   }
 }

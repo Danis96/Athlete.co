@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:attt/utils/checkForInternet.dart';
 import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
@@ -25,19 +26,6 @@ class _SigninState extends State<Signin> {
   bool downloading = false;
   var progressString = '';
 
-  checkForConnectivity() async {
-    try {
-      final result = await InternetAddress.lookup('google.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        print('connected');
-        hasActiveConnection = true;
-      }
-    } on SocketException catch (_) {
-      print('not connected');
-      hasActiveConnection = false;
-    }
-  }
-
   Future getTrainers() async {
     var firestore = Firestore.instance;
     QuerySnapshot qn = await firestore.collection('Trainers').getDocuments(source: hasActiveConnection ? Source.serverAndCache : Source.cache);
@@ -49,7 +37,7 @@ class _SigninState extends State<Signin> {
   void initState() {
     super.initState();
     SignInViewModel().autoLogIn(context);
-    checkForConnectivity();
+    InternetConnectivity().checkForConnectivity();
   }
 
 
