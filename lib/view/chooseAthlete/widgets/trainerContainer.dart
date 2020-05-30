@@ -1,5 +1,6 @@
 import 'package:attt/utils/customScreenAnimation.dart';
 import 'package:attt/utils/globals.dart';
+import 'package:attt/utils/internetDialog.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:attt/view_model/signInViewModel.dart';
@@ -31,9 +32,12 @@ Widget trainerContainer(
   String _trainingPlanDuration = tPD;
 
   totalWeeks = int.parse(_trainingPlanDuration);
+//  if internet is not connected show dialog if it is connected choose athelte
 
   return GestureDetector(
-    onTap: () => onClickContainer(context, userDocument, userUID, _trainerName),
+    onTap: () => hasActiveConnection
+        ? onClickContainer(context, userDocument, userUID, _trainerName)
+        : IDialog().internetDialog(context),
     child: Container(
       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 1),
       child: Stack(
@@ -90,3 +94,5 @@ onClickContainer(BuildContext context, DocumentSnapshot userDocument,
     ),
   );
 }
+
+
