@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:attt/utils/checkForInternet.dart';
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
@@ -57,7 +58,7 @@ class _WorkoutState extends State<Workout> {
   @override
   void initState() {
     super.initState();
-    checkForConnectivity();
+    InternetConnectivity().checkForConnectivity();
     if (!widget.alreadyFinishedWorkout) {
       userNotes = WorkoutViewModel().getUserNotes(
           widget.listOfNotes, widget.userDocument.data['userUID']);
@@ -158,18 +159,5 @@ class _WorkoutState extends State<Workout> {
         }
       },
     );
-  }
-}
-
-checkForConnectivity() async {
-  try {
-    final result = await InternetAddress.lookup('google.com');
-    if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-      print('connected');
-      hasActiveConnection = true;
-    }
-  } on SocketException catch (_) {
-    print('not connected');
-    hasActiveConnection = false;
   }
 }
