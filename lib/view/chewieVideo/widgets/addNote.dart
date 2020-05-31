@@ -8,7 +8,6 @@ import 'package:flutter/services.dart';
 import 'package:video_box/video.controller.dart';
 
 class AddNote extends StatefulWidget {
-  bool timerPaused;
   final VideoController controller;
   final DocumentSnapshot userDocument, userTrainerDocument;
   final int index, listLenght;
@@ -19,7 +18,6 @@ class AddNote extends StatefulWidget {
   final String workoutID, weekID;
   AddNote(
       {Key key,
-      this.timerPaused,
       this.weekID,
       this.workoutID,
       this.controller,
@@ -77,7 +75,7 @@ class _AddNoteState extends State<AddNote> {
               noteClicked = true;
             });
             Navigator.of(context).pop();
-            checkForOrientationOnBack();
+            ChewieVideoViewModel().checkForOrientationOnBack();
           },
         ),
         title: new Text(
@@ -109,8 +107,8 @@ class _AddNoteState extends State<AddNote> {
                   autocorrect: false,
                   style: new TextStyle(
                     color: Colors.white,
-                    fontSize:MediaQuery.of(context).orientation ==
-                        Orientation.portrait
+                    fontSize: MediaQuery.of(context).orientation ==
+                            Orientation.portrait
                         ? SizeConfig.safeBlockHorizontal * 4.5
                         : SizeConfig.safeBlockHorizontal * 2.5,
                   ),
@@ -149,34 +147,26 @@ class _AddNoteState extends State<AddNote> {
               child: new RaisedButton(
                 elevation: 0,
                 onPressed: () {
-                  String note;
-                  if (newNote != null) {
-                    note =
-                        widget.userDocument.data['userUID'] + '_!_?_' + newNote;
-                    notes.add(note);
-                    userNotes = note.split('_!_?_')[1];
-                    ChewieVideoViewModel().updateWorkoutWithNote(
-                        widget.userTrainerDocument.data['trainerID'],
-                        widget.weekID,
-                        widget.workoutID,
-                        notes);
-                  }
-                  FocusScope.of(context).requestFocus(new FocusNode());
+                  ChewieVideoViewModel().donePressed(
+                      newNote,
+                      notes,
+                      widget.userDocument.data['userUID'],
+                      widget.userTrainerDocument.data['trainerID'],
+                      widget.weekID,
+                      widget.workoutID,
+                      context);
                   setState(() {
-                    widget.timerPaused = false;
                     noteClicked = true;
                   });
-                  Navigator.of(context).pop();
-                  checkForOrientationOnBack();
                 },
                 child: new Padding(
-                  padding:  EdgeInsets.all(22.0),
+                  padding: EdgeInsets.all(22.0),
                   child: new Text(
                     'DONE',
                     style: new TextStyle(
                         fontStyle: FontStyle.italic,
                         fontSize: MediaQuery.of(context).orientation ==
-                            Orientation.portrait
+                                Orientation.portrait
                             ? SizeConfig.safeBlockHorizontal * 4
                             : SizeConfig.safeBlockHorizontal * 2.5,
                         fontWeight: FontWeight.w700),
@@ -197,13 +187,6 @@ class _AddNoteState extends State<AddNote> {
       noteClicked = true;
     });
     Navigator.of(context).pop();
-    checkForOrientationOnBack();
+    ChewieVideoViewModel().checkForOrientationOnBack();
   }
-}
-
-checkForOrientationOnBack() {
-  isFromPortrait
-      ? SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      : SystemChrome.setPreferredOrientations(
-          [DeviceOrientation.landscapeRight]);
 }
