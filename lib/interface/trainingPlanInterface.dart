@@ -12,4 +12,5 @@ abstract class TrainingPlanInterface {
   firstTabPressed(BuildContext context, DocumentSnapshot userTrainerDocument,
       DocumentSnapshot userDocument);
   showAlertDialog(BuildContext context);
+  List<dynamic> getWorkoutIDs(List<dynamic> workoutsFinished, String trainerID);
 }
