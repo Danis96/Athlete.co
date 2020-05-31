@@ -70,3 +70,5 @@ bool reseted = false;
 bool showTime = false;
 /// for getting data
 bool hasActiveConnection = false;
+
+List<dynamic> finishedWeeks = [];
