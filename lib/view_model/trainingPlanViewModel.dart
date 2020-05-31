@@ -15,8 +15,6 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
     var firestore = Firestore.instance;
     QuerySnapshot qn = await firestore
         .collection('Trainers')
-
-        /// treba i trainerID
         .document(trainerID)
         .collection('weeks')
         .orderBy('name')
@@ -29,12 +27,8 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
     var firestore = Firestore.instance;
     QuerySnapshot qn = await firestore
         .collection('Trainers')
-
-        /// treba mi trainerID
         .document(trainerID)
         .collection('weeks')
-
-        /// treba mi weekID
         .document(weekID)
         .collection('workouts')
         .orderBy('order')
@@ -179,5 +173,17 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
             userTrainerDocument: userTrainerDocument,
           ),
         ));
+  }
+
+  @override
+  List<dynamic> getWorkoutIDs(List<dynamic> workoutsFinished, String trainerID) {
+    List<dynamic> workoutIDs = [];
+    for (var i = 0; i < workoutsFinished.length; i++) {
+      if (workoutsFinished[i].toString().split('_')[0] ==
+          trainerID) {
+        workoutIDs.add(workoutsFinished[i].split('_')[2]);
+      }
+    }
+    return workoutIDs;
   }
 }
