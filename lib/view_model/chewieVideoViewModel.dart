@@ -1,8 +1,12 @@
+import 'package:attt/utils/fullTrainingStopwatch/fullTrainingStopwatch.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/view/chewieVideo/pages/chewieVideo.dart';
+import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
+import 'package:attt/view_model/signInViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 
 class ChewieVideoViewModel {
   playVideo(
@@ -66,5 +70,111 @@ class ChewieVideoViewModel {
     FocusScope.of(context).requestFocus(new FocusNode());
     Navigator.of(context).pop();
     ChewieVideoViewModel().checkForOrientationOnBack();
+  }
+
+  updateUserWithFinishedWorkout(
+    DocumentSnapshot userDocument,
+    String trainerID,
+    String weekID,
+    String workoutID,
+    String currentTime,
+    bool finishedWorkout,
+  ) async {
+    List<String> note = [];
+    String currentDay = DateFormat.d().format(DateTime.now());
+    String currentMonth = DateFormat.MMM().format(DateTime.now()).toUpperCase();
+    note.add(trainerID +
+        '_' +
+        weekID +
+        '_' +
+        workoutID +
+        '_' +
+        currentDay +
+        ' ' +
+        currentMonth +
+        '_' +
+        currentTime);
+    final db = Firestore.instance;
+
+    !finishedWorkout
+        ? await db
+            .collection('Users')
+            .document(userDocument.documentID)
+            .updateData({"workouts_finished": FieldValue.arrayUnion(note)})
+        : print('WORKOUT ALREADY FINISHED');
+
+    await db
+        .collection('Users')
+        .document(userDocument.documentID)
+        .updateData({"workouts_finished_history": FieldValue.arrayUnion(note)});
+  }
+
+  finishPressed(
+      BuildContext context,
+      String newNote,
+      DocumentSnapshot userDocument,
+      DocumentSnapshot userTrainerDocument,
+      String weekID,
+      String workoutID,
+      List<dynamic> notes,
+      bool finishedWorkout) async {
+    String currentTime = DateTime.now().toString();
+    String note;
+    List<dynamic> historyNotes = [];
+    if (newNote != null) {
+      note = userDocument.data['userUID'] + '_!_?_' + newNote;
+      notes.add(note);
+      userNotes = note.split('_!_?_')[1];
+      ChewieVideoViewModel().updateWorkoutWithNote(
+        userTrainerDocument.data['trainerID'],
+        weekID,
+        workoutID,
+        notes,
+      );
+    } else {
+      newNote = userNotes;
+    }
+    note = userDocument.data['userUID'] +
+        '_!_?_' +
+        newNote +
+        '_!_?_' +
+        currentTime;
+    historyNotes.add(note);
+    ChewieVideoViewModel().updateWorkoutHistoryNote(
+      userTrainerDocument.data['trainerID'],
+      weekID,
+      workoutID,
+      historyNotes,
+    );
+    ChewieVideoViewModel().updateUserWithFinishedWorkout(
+      userDocument,
+      userTrainerDocument.data['trainerID'],
+      weekID,
+      workoutID,
+      currentTime,
+      finishedWorkout,
+    );
+    List<dynamic> currentUserDocuments = [];
+    DocumentSnapshot currentUserDocument;
+    currentUserDocuments = await SignInViewModel()
+        .getCurrentUserDocument(userDocument.data['userUID']);
+    currentUserDocument = currentUserDocuments[0];
+    FocusScope.of(context).requestFocus(new FocusNode());
+    Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (_) => TrainingPlan(
+            userDocument: currentUserDocument,
+            userTrainerDocument: userTrainerDocument,
+            userUID: currentUserDocument.data['userUID'],
+          ),
+        ),
+        (Route<dynamic> route) => false);
+    userNotes = '';
+    await Future.delayed(
+      Duration(seconds: 1),
+      () {
+        FullTrainingStopwatch().resetStopwtach();
+      },
+    );
   }
 }
