@@ -21,7 +21,7 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
         .collection('Trainers')
         .document(trainerID)
         .collection('weeks')
-        .orderBy('name')
+        .orderBy('order')
         .getDocuments(source: source);
     return qn.documents;
   }
