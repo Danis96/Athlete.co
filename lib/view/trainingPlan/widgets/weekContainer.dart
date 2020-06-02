@@ -41,8 +41,6 @@ Widget weekContainer(
             vertical: SizeConfig.blockSizeVertical * 0.5,
             horizontal: SizeConfig.blockSizeHorizontal * 4),
         title: Text(
-          (index + 1).toString() +
-              '. ' +
               userTrainerDocument.data['trainer_name'] +
               ' ' +
               snapshot.data[index]['name']

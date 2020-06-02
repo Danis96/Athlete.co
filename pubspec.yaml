@@ -34,7 +34,7 @@ dependencies:
   line_awesome_icons: ^1.0.4+2
   video_player: ^0.10.1
   chewie: ^0.9.7
-  audioplayers:
+  audioplayers: ^0.15.1
   after_init: ^0.1.2
   dio: any
   path_provider: ^1.6.7
@@ -91,10 +91,10 @@ flutter:
     - assets/images/google-login.png
     - assets/images/ar.jpg
     - assets/images/athlete-logo.png
-    - assets/audio/zvuk.mp3
     - assets/video/C.mp4
     - assets/video/F.mp4
     - assets/video/warmDown.mp4
+    - assets/audio/bel.mp3
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
