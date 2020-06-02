@@ -35,44 +35,7 @@ class _ChewieVideoState extends State<ChewieVideo>
     with WidgetsBindingObserver
     implements ChewieVideoInterface {
 
-  List<dynamic> source = [
-    // 'assets/video/F.mp4',
-    // 'assets/video/C.mp4',
-    // 'assets/video/F.mp4',
-    // 'assets/video/F.mp4',
-    // 'assets/video/C.mp4',
-    // 'assets/video/F.mp4',
-    // 'assets/video/C.mp4',
-    // 'assets/video/C.mp4',
-    // 'assets/video/C.mp4',
-    // 'assets/video/C.mp4',
-    // 'assets/video/C.mp4',
-    // 'assets/video/C.mp4',
-    // 'assets/video/C.mp4',
-    // 'assets/video/C.mp4',
-    // 'assets/video/C.mp4',
-    // 'assets/video/C.mp4',
-    // 'assets/video/C.mp4',
-    // 'assets/video/C.mp4',
-    // 'assets/video/C.mp4',
-    // 'assets/video/C.mp4',
-    // 'assets/video/C.mp4',
-    // 'assets/video/C.mp4',
-    // 'assets/video/C.mp4',
-    // 'assets/video/C.mp4',
-    // 'assets/video/C.mp4',
-    // 'assets/video/C.mp4',
-    // 'assets/video/C.mp4',
-    // 'assets/video/C.mp4',
-    // 'assets/video/C.mp4',
-    // 'assets/video/C.mp4',
-    // 'assets/video/C.mp4',
-    // 'assets/video/C.mp4',
-    // 'assets/video/C.mp4',
-    // 'assets/video/C.mp4',
-    // 'assets/video/C.mp4',
-    // 'assets/video/C.mp4',
-  ];
+  List<dynamic> source = [];
   VideoController vc;
   VideoPlayerController controller;
   List<dynamic> exerciseTips = [];
@@ -100,7 +63,6 @@ class _ChewieVideoState extends State<ChewieVideo>
     vc.controllerWidgets = true;
 
     vc.initialize();
-    // }
     _index = nv;
   }
 
@@ -125,6 +87,7 @@ class _ChewieVideoState extends State<ChewieVideo>
       secondsForIndicators = int.parse(sec);
       isTimeChoosed = true;
       resetFromChewie = false;
+      reseted = false;
     });
   }
 
@@ -140,7 +103,7 @@ class _ChewieVideoState extends State<ChewieVideo>
                   onFormatValue: (v) {
                     return v < 10 ? "0$v" : "$v";
                   },
-                  begin: 1,
+                  begin: 0,
                   end: 59,
                   suffix: Text(
                     'min',

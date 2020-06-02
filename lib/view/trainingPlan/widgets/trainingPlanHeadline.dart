@@ -1,4 +1,5 @@
 import 'package:attt/utils/size_config.dart';
+import 'package:attt/view/history/widgets/settingIcon.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:attt/view/trainingPlan/widgets/userImage.dart';
@@ -24,6 +25,9 @@ Widget trainingPlanHeadline(
             : SizeConfig.blockSizeHorizontal * 3.5,
       ),
       userName(justName, context),
+      Container(
+        child: settingsIcon(userDocument, userUID, context),
+      )
     ],
   );
 }

@@ -1,3 +1,4 @@
+import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/workout/widgets/info.dart';
 import 'package:flutter/material.dart';
@@ -80,7 +81,9 @@ Widget nameWidget(
                 fontWeight: FontWeight.bold,
                 fontStyle: FontStyle.italic),
           ),
-          WidgetSpan(
+         MediaQuery.of(context).orientation == Orientation.portrait ?  WidgetSpan(
+             alignment: PlaceholderAlignment.bottom,
+             child: EmptyContainer()) : WidgetSpan(
               alignment: PlaceholderAlignment.bottom,
               child: Icon(
                 Icons.info,

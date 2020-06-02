@@ -8,7 +8,7 @@
     <uses-permission android:name="com.android.vending.BILLING" />
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="flutter.Athlete.co"
+        android:label="Athlete.co"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"

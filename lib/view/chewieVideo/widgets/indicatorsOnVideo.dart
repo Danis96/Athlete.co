@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui';
 import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
+import 'package:attt/utils/sound.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/asManyReps.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/clearButton.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/colorProgress.dart';
@@ -175,12 +176,15 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       });
     });
 
+
     /// when timer is done activate this
     sub.onDone(() {
       print("Done");
       countDownTimer.cancel();
       sub.cancel();
+     SoundPlayer().playSound();
     });
+
     isTimeChoosed = false;
     isTimerPaused = false;
   }
@@ -206,7 +210,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
         startTimer(d1);
         controllerColor.reverse(
             from: controllerColor.value == 0.0 ? 1.0 : controllerColor.value);
-
         showTime = true;
       });
     }
@@ -364,6 +367,13 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                               widget.isReps,
                               widget.index,
                               widget.listLenght),
+                         MediaQuery.of(context).orientation == Orientation.portrait ?  Container(
+                            margin: EdgeInsets.only(
+                              top: MediaQuery.of(context).orientation == Orientation.portrait ?  SizeConfig.blockSizeVertical * 27 : SizeConfig.blockSizeVertical * 26,
+                              left: MediaQuery.of(context).orientation == Orientation.portrait ?  SizeConfig.blockSizeHorizontal * 38 : SizeConfig.blockSizeHorizontal * 26
+                            ),
+                            child: IconButton(icon: Icon(Icons.info), onPressed: () {}, color: Colors.white,iconSize: SizeConfig.blockSizeHorizontal * 6,),
+                          ) : EmptyContainer()
                         ],
                       ),
                     ),
@@ -446,8 +456,8 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
         _current = Duration();
         _pausedOn = Duration();
         controllerColor.value = 0.0;
+
       });
-      reseted = true;
       showTime = false;
     }
   }

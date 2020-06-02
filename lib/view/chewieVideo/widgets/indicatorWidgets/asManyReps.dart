@@ -5,9 +5,6 @@ import 'package:flutter/material.dart';
 
 Widget asManyReps(BuildContext context, String repsDescription) {
    return Container(
-//     decoration: BoxDecoration(
-//         border: Border.all(color: Colors.redAccent)
-//     ),
      alignment: Alignment.center,
      margin: EdgeInsets.only(
          top: MediaQuery.of(context)
@@ -15,7 +12,7 @@ Widget asManyReps(BuildContext context, String repsDescription) {
              Orientation.landscape
              ? SizeConfig.blockSizeVertical * 19
              : SizeConfig.blockSizeVertical *
-           27.5,
+           30.5,
          right: MediaQuery.of(context)
              .orientation ==
              Orientation.landscape
