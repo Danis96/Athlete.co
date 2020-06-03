@@ -182,7 +182,12 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       print("Done");
       countDownTimer.cancel();
       sub.cancel();
-     SoundPlayer().playSound();
+      if(_current.inSeconds != 0) {
+        print('Nece biti zvuka');
+      } else {
+        SoundPlayer().playSound();
+      }
+
     });
 
     isTimeChoosed = false;
