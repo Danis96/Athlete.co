@@ -367,6 +367,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                               widget.isReps,
                               widget.index,
                               widget.listLenght),
+
                          MediaQuery.of(context).orientation == Orientation.portrait ?  Container(
                             margin: EdgeInsets.only(
                               top: MediaQuery.of(context).orientation == Orientation.portrait ?  SizeConfig.blockSizeVertical * 27 : SizeConfig.blockSizeVertical * 26,

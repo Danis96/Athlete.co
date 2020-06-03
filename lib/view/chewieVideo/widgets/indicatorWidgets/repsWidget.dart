@@ -22,7 +22,7 @@ Widget repsWidget(BuildContext context, int isReps, int reps ) {
             ? SizeConfig.blockSizeVertical * 17
             : isReps == 0
             ? SizeConfig.blockSizeVertical *
-           28
+           31
             : SizeConfig.blockSizeVertical *
             2,
         left: MediaQuery.of(context)
