@@ -123,7 +123,7 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
   }
 
   launchEmail() async {
-    String email = 'jusuf97elfarahati@gmail.com';
+    String email = 'backup@athlete.co';
     if (await canLaunch("mailto:$email")) {
       await launch("mailto:$email");
     } else {

@@ -44,7 +44,7 @@ Widget nameWidget(
     child: Container(
       alignment: MediaQuery.of(context).orientation == Orientation.landscape
           ? Alignment.centerLeft :  Alignment.center,
-      width: SizeConfig.blockSizeHorizontal * 90,
+      width: SizeConfig.blockSizeHorizontal * 68,
       margin: EdgeInsets.only(
         top: MediaQuery.of(context).orientation == Orientation.landscape
             ? isReps == 0
