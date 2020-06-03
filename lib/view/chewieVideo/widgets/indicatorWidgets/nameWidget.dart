@@ -1,6 +1,7 @@
 import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/workout/widgets/info.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:video_box/video.controller.dart';
 
@@ -44,7 +45,7 @@ Widget nameWidget(
     child: Container(
       alignment: MediaQuery.of(context).orientation == Orientation.landscape
           ? Alignment.centerLeft :  Alignment.center,
-      width: SizeConfig.blockSizeHorizontal * 68,
+      width: SizeConfig.blockSizeHorizontal * 90,
       margin: EdgeInsets.only(
         top: MediaQuery.of(context).orientation == Orientation.landscape
             ? isReps == 0
@@ -66,34 +67,39 @@ Widget nameWidget(
                 : SizeConfig.blockSizeHorizontal * 30
             : SizeConfig.blockSizeHorizontal * 0,
       ),
-      child: RichText(
-        overflow: TextOverflow.ellipsis,
-        text: TextSpan(children: [
-          TextSpan(
-            text: name + ' ',
-            style: TextStyle(
-                color: MediaQuery.of(context).orientation == Orientation.landscape
-                    ? Colors.white.withOpacity(0.6) : Colors.white,
-                fontSize:
-                    MediaQuery.of(context).orientation == Orientation.landscape
-                        ? SizeConfig.safeBlockHorizontal * 3
-                        : SizeConfig.safeBlockHorizontal * 6,
-                fontWeight: FontWeight.bold,
-                fontStyle: FontStyle.italic),
-          ),
-         MediaQuery.of(context).orientation == Orientation.portrait ?  WidgetSpan(
-             alignment: PlaceholderAlignment.bottom,
-             child: EmptyContainer()) : WidgetSpan(
-              alignment: PlaceholderAlignment.bottom,
-              child: Icon(
-                Icons.info,
-                size:
-                    MediaQuery.of(context).orientation == Orientation.landscape
-                        ? SizeConfig.blockSizeHorizontal * 2.3
-                        : SizeConfig.blockSizeHorizontal * 3,
-                color: Colors.white,
-              ))
-        ]),
+      child: Container(
+        alignment: Alignment.center,
+//        margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 10),
+        width: SizeConfig.blockSizeHorizontal * 60,
+        child: RichText(
+          overflow: TextOverflow.ellipsis,
+          text: TextSpan(children: [
+            TextSpan(
+              text: name + ' ',
+              style: TextStyle(
+                  color: MediaQuery.of(context).orientation == Orientation.landscape
+                      ? Colors.white.withOpacity(0.6) : Colors.white,
+                  fontSize:
+                      MediaQuery.of(context).orientation == Orientation.landscape
+                          ? SizeConfig.safeBlockHorizontal * 3
+                          : SizeConfig.safeBlockHorizontal * 6,
+                  fontWeight: FontWeight.bold,
+                  fontStyle: FontStyle.italic),
+            ),
+           MediaQuery.of(context).orientation == Orientation.portrait ?  WidgetSpan(
+               alignment: PlaceholderAlignment.bottom,
+               child: EmptyContainer()) : WidgetSpan(
+                alignment: PlaceholderAlignment.bottom,
+                child: Icon(
+                  Icons.info,
+                  size:
+                      MediaQuery.of(context).orientation == Orientation.landscape
+                          ? SizeConfig.blockSizeHorizontal * 2.3
+                          : SizeConfig.blockSizeHorizontal * 3,
+                  color: Colors.white,
+                ))
+          ]),
+        ),
       ),
     ),
   );
