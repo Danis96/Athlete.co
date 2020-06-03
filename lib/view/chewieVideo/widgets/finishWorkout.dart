@@ -43,49 +43,54 @@ class _FinishWorkoutState extends State<FinishWorkout> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return Scaffold(
-      backgroundColor: MyColors().lightBlack,
-      resizeToAvoidBottomPadding: false,
-      appBar: new AppBar(
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).requestFocus(new FocusNode());
+      },
+      child: Scaffold(
         backgroundColor: MyColors().lightBlack,
-        leading: IconAppBar(
-          onWillPop: _onWillPop,
+        resizeToAvoidBottomPadding: false,
+        appBar: new AppBar(
+          backgroundColor: MyColors().lightBlack,
+          leading: IconAppBar(
+            onWillPop: _onWillPop,
+          ),
+          title: titleAppBar(),
         ),
-        title: titleAppBar(),
-      ),
-      body: WillPopScope(
-        onWillPop: () => _onWillPop(),
-        child: GestureDetector(
-          onTap: () {
-            FocusScope.of(context).requestFocus(new FocusNode());
-          },
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            child: Column(
-              children: <Widget>[
-                timerWidgets(context, displayTime),
-                NoteTextField(
-                  updateNewNote: updateNewNote,
-                ),
-                SizedBox(
-                  height: SizeConfig.blockSizeVertical * 4,
-                ),
-                anyQuestionContainer(context),
-              ],
+        body: WillPopScope(
+          onWillPop: () => _onWillPop(),
+          child: GestureDetector(
+            onTap: () {
+              FocusScope.of(context).requestFocus(new FocusNode());
+            },
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                children: <Widget>[
+                  timerWidgets(context, displayTime),
+                  NoteTextField(
+                    updateNewNote: updateNewNote,
+                  ),
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical * 4,
+                  ),
+                  anyQuestionContainer(context),
+                ],
+              ),
             ),
           ),
         ),
+        bottomNavigationBar: finishWorkoutButton(
+            context,
+            notes,
+            newNote,
+            widget.userDocument,
+            widget.userTrainerDocument,
+            widget.weekID,
+            widget.workoutID,
+            widget.finishedWorkout),
       ),
-      bottomNavigationBar: finishWorkoutButton(
-          context,
-          notes,
-          newNote,
-          widget.userDocument,
-          widget.userTrainerDocument,
-          widget.weekID,
-          widget.workoutID,
-          widget.finishedWorkout),
     );
   }
 
