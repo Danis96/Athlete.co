@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:attt/utils/size_config.dart';
 
-String phoneNumberForWhatsApp = '+38762748065';
+String phoneNumberForWhatsApp = '+447725514766';
 String messageForWhatsApp = 'Feel free to ask anything. :)';
 
 Widget settingsContainer(String headText, subText, isFrom,

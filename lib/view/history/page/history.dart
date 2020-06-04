@@ -49,8 +49,13 @@ class _HistoryState extends State<History> {
           ),
           child: Column(
             children: <Widget>[
-              settingsIcon(currentUserDocument, widget.userUID, context),
-              finishedWorkouts.isEmpty && gettingDone
+              Container(
+                  margin: EdgeInsets.only(
+                      top: SizeConfig.blockSizeVertical * 5.4,
+                      right: SizeConfig.blockSizeHorizontal * 4.8),
+                  child: settingsIcon(
+                      widget.userDocument, widget.userUID, context)),
+              finishedWorkouts.isEmpty
                   ? historyEmptyState()
                   : historyList(finishedWeeksWithAthlete, finishedWorkouts),
             ],

@@ -328,7 +328,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                             ? widget.index == (widget.listLenght - 1)
                                 ? SizeConfig.blockSizeVertical * 30
                                 : SizeConfig.blockSizeVertical * 46
-                            : SizeConfig.blockSizeVertical * 43,
+                            : SizeConfig.blockSizeVertical * 44,
                       ),
                       child: Stack(
                         children: <Widget>[
@@ -375,7 +375,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
 
                          MediaQuery.of(context).orientation == Orientation.portrait ?  Container(
                             margin: EdgeInsets.only(
-                              top: MediaQuery.of(context).orientation == Orientation.portrait ?  SizeConfig.blockSizeVertical * 27 : SizeConfig.blockSizeVertical * 26,
+                              top: MediaQuery.of(context).orientation == Orientation.portrait ?  SizeConfig.blockSizeVertical * 26.5 : SizeConfig.blockSizeVertical * 26,
                               left: MediaQuery.of(context).orientation == Orientation.portrait ?  SizeConfig.blockSizeHorizontal * 38 : SizeConfig.blockSizeHorizontal * 26
                             ),
                             child: IconButton(icon: Icon(Icons.info), onPressed: () {}, color: Colors.white,iconSize: SizeConfig.blockSizeHorizontal * 6,),
