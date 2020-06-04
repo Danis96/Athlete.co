@@ -5,6 +5,7 @@ import 'package:attt/view/history/widgets/settingIcon.dart';
 import 'package:attt/view/history/widgets/historyEmptyState.dart';
 import 'package:attt/view/history/widgets/historyList.dart';
 import 'package:attt/view/history/widgets/historyCustomBottomNavigationBar.dart';
+import 'package:attt/view_model/signInViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:attt/view_model/historyViewModel.dart';
@@ -22,20 +23,21 @@ class History extends StatefulWidget {
 }
 
 class _HistoryState extends State<History> {
+  List<dynamic> finishedWeeksWithAthlete = [];
+  List<dynamic> finishedWorkouts = [];
+  bool gettingDone = false;
+  DocumentSnapshot currentUserDocument;
+
   @override
   void initState() {
     super.initState();
     InternetConnectivity().checkForConnectivity();
+    newMethod();
   }
 
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    List<dynamic> finishedWorkouts =
-        widget.userDocument.data['workouts_finished_history'];
-    List<dynamic> finishedWeeksWithAthlete = [];
-    finishedWeeksWithAthlete =
-        HistoryViewModel().getfinishedWeeksWithAthlete(finishedWorkouts);
     return Scaffold(
       backgroundColor: MyColors().lightBlack,
       body: SingleChildScrollView(
@@ -63,5 +65,18 @@ class _HistoryState extends State<History> {
       bottomNavigationBar: historyCustomBottomNavigationBar(
           context, widget.userDocument, widget.userTrainerDocument),
     );
+  }
+
+  newMethod() async {
+    List<dynamic> currentUserDocuments = [];
+    currentUserDocuments = await SignInViewModel()
+        .getCurrentUserDocument(widget.userDocument.data['userUID']);
+    setState(() {
+      currentUserDocument = currentUserDocuments[0];
+      finishedWorkouts = currentUserDocument.data['workouts_finished_history'];
+      finishedWeeksWithAthlete =
+          HistoryViewModel().getfinishedWeeksWithAthlete(finishedWorkouts);
+      gettingDone = true;
+    });
   }
 }

@@ -159,12 +159,17 @@ class ChewieVideoViewModel {
     currentUserDocuments = await SignInViewModel()
         .getCurrentUserDocument(userDocument.data['userUID']);
     currentUserDocument = currentUserDocuments[0];
+    List<dynamic> currentUserTrainerDocuments = [];
+    DocumentSnapshot currentUserTrainerDocument;
+    currentUserTrainerDocuments = await SignInViewModel()
+        .getCurrentUserTrainer(currentUserDocument.data['trainer']);
+    currentUserTrainerDocument = currentUserTrainerDocuments[0];
     FocusScope.of(context).requestFocus(new FocusNode());
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
           builder: (_) => TrainingPlan(
             userDocument: currentUserDocument,
-            userTrainerDocument: userTrainerDocument,
+            userTrainerDocument: currentUserTrainerDocument,
             userUID: currentUserDocument.data['userUID'],
           ),
         ),
