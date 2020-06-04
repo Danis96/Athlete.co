@@ -72,9 +72,6 @@ class _FinishWorkoutState extends State<FinishWorkout> {
                   NoteTextField(
                     updateNewNote: updateNewNote,
                   ),
-                  SizedBox(
-                    height: SizeConfig.blockSizeVertical * 4,
-                  ),
                   anyQuestionContainer(context),
                 ],
               ),
