@@ -52,7 +52,7 @@ class _HistoryState extends State<History> {
               Container(
                   margin: EdgeInsets.only(
                       top: SizeConfig.blockSizeVertical * 5.4,
-                      right: SizeConfig.blockSizeHorizontal * 4.8),
+                      right: SizeConfig.blockSizeHorizontal * 0.5),
                   child: settingsIcon(
                       widget.userDocument, widget.userUID, context)),
               finishedWorkouts.isEmpty

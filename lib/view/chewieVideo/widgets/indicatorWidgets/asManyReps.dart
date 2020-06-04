@@ -46,10 +46,10 @@ Widget asManyReps(BuildContext context, String repsDescription) {
            fontSize: MediaQuery.of(context)
                .orientation ==
                Orientation.landscape
-               ? SizeConfig.safeBlockVertical *
+               ? SizeConfig.safeBlockVertical*
                4
-               : SizeConfig.safeBlockVertical *
-               2),
+               : SizeConfig.safeBlockHorizontal *
+               4),
        textAlign: TextAlign.center,
      ),
    );

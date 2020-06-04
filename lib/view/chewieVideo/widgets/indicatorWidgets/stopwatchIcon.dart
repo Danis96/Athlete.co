@@ -27,7 +27,7 @@ Widget stopIcon(Function pressTimer, BuildContext context, int isReps) {
         splashColor: Color.fromRGBO(255, 255, 255, .4),
         borderRadius: BorderRadius.circular(25.0),
         height: 75.0,
-        width: 200.0,
+        width: SizeConfig.blockSizeHorizontal * 30,
         onTap: () => pressTimer(),
         color: Colors.white.withOpacity(0.8),
         child:Text(
