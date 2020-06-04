@@ -8,6 +8,7 @@ import 'package:attt/utils/globals.dart';
 import 'package:attt/view/chewieVideo/widgets/finishButton.dart';
 import 'package:attt/view/chewieVideo/widgets/finishWorkout.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorsOnVideo.dart';
+import 'package:attt/view/chewieVideo/widgets/seriesInfoScreen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -34,7 +35,6 @@ class ChewieVideo extends StatefulWidget {
 class _ChewieVideoState extends State<ChewieVideo>
     with WidgetsBindingObserver
     implements ChewieVideoInterface {
-
   List<dynamic> source = [];
   VideoController vc;
   VideoPlayerController controller;
@@ -46,6 +46,7 @@ class _ChewieVideoState extends State<ChewieVideo>
       exerciseRest;
   String exerciseName, exerciseRepsDescription;
   String exerciseSet;
+  String seriesID;
   int _index = 0;
   int get index => _index;
   set index(int nv) {
@@ -74,15 +75,12 @@ class _ChewieVideoState extends State<ChewieVideo>
 
   onConfirm(Picker picker) {
     timeToSplit = picker.getSelectedValues().toString();
-    String min = timeToSplit[1] +
-        (timeToSplit[2] == ',' ? '' : timeToSplit[2]);
+    String min = timeToSplit[1] + (timeToSplit[2] == ',' ? '' : timeToSplit[2]);
     setState(() => minutesForIndicators = int.parse(min));
     print('Minutes: ' + minutesForIndicators.toString());
     String sec = minutesForIndicators > 10
-        ? timeToSplit[5] +
-        (timeToSplit[6] == ']' ? '' : timeToSplit[6])
-        : timeToSplit[4] +
-        (timeToSplit[5] == ']' ? '' : timeToSplit[5]);
+        ? timeToSplit[5] + (timeToSplit[6] == ']' ? '' : timeToSplit[6])
+        : timeToSplit[4] + (timeToSplit[5] == ']' ? '' : timeToSplit[5]);
     setState(() {
       secondsForIndicators = int.parse(sec);
       isTimeChoosed = true;
@@ -93,10 +91,9 @@ class _ChewieVideoState extends State<ChewieVideo>
 
   showPickerNumber(BuildContext context) {
     new Picker(
-      height:MediaQuery.of(context).orientation ==
-          Orientation.landscape
-          ? SizeConfig.blockSizeVertical * 35
-          : SizeConfig.blockSizeVertical * 15 ,
+            height: MediaQuery.of(context).orientation == Orientation.landscape
+                ? SizeConfig.blockSizeVertical * 35
+                : SizeConfig.blockSizeVertical * 15,
             textStyle: TextStyle(color: Colors.black),
             adapter: NumberPickerAdapter(data: [
               NumberPickerColumn(
@@ -177,8 +174,6 @@ class _ChewieVideoState extends State<ChewieVideo>
         .showDialog(context);
   }
 
-
-
   /// [_onWillPop]
   ///
   /// async funstion that creates an exit dialog for our screen
@@ -208,13 +203,18 @@ class _ChewieVideoState extends State<ChewieVideo>
   /// populate variables with exercise info
   initializeVariables() {
     String exerciseNameAndSet = namesWithSet[index];
+    String exerciseNameAndSetNext = '';
+    if (index != namesWithSet.length - 1) {
+      exerciseNameAndSetNext = namesWithSet[index + 1];
+      seriesID = exerciseNameAndSetNext.split('_')[1];
+    }
     exerciseDuration = workoutExercisesWithSets[index].data['duration'];
     exerciseIsReps = workoutExercisesWithSets[index].data['isReps'];
     exerciseReps = workoutExercisesWithSets[index].data['reps'];
     exerciseSets = workoutExercisesWithSets[index].data['sets'];
     exerciseRest = workoutExercisesWithSets[index].data['rest'];
     exerciseTips = workoutExercisesWithSets[index].data['tips'];
-    exerciseName = exerciseNameAndSet.split('_')[1];
+    exerciseName = exerciseNameAndSet.split('_')[2];
     exerciseSet = exerciseNameAndSet.split('_')[0];
     exerciseRepsDescription =
         workoutExercisesWithSets[index].data['repsDescription'];
@@ -229,6 +229,31 @@ class _ChewieVideoState extends State<ChewieVideo>
         index++;
         isPrevious = true;
       });
+      if (listOfBoundarySets.contains(index) && index != source.length - 1) {
+        overlayState = Overlay.of(context);
+        overlayEntry = OverlayEntry(
+            builder: (BuildContext context) => Visibility(
+                visible: true,
+                child: SeriesInfoScreen(
+                    trainerID: widget.userTrainerDocument.data['trainerID'],
+                    weekID: widget.weekID,
+                    sets: workoutExercisesWithSets[index + 1].data['sets'],
+                    workoutID: widget.workoutID,
+                    seriesID: seriesID)));
+        overlayState.insert(overlayEntry);
+      } else if (index == source.length - 1) {
+        overlayState = Overlay.of(context);
+        overlayEntry = OverlayEntry(
+            builder: (BuildContext context) => Visibility(
+                visible: true,
+                child: SeriesInfoScreen(
+                    trainerID: widget.userTrainerDocument.data['trainerID'],
+                    weekID: widget.weekID,
+                    sets: workoutExercisesWithSets[index].data['sets'],
+                    workoutID: widget.workoutID,
+                    seriesID: seriesID)));
+        overlayState.insert(overlayEntry);
+      }
     }
   }
 
@@ -269,7 +294,7 @@ class _ChewieVideoState extends State<ChewieVideo>
 
     /// initializing VideoController and giving him source (videos)
     vc = VideoController(
-      circularProgressIndicatorColor: Colors.transparent,
+        circularProgressIndicatorColor: Colors.transparent,
         controllerWidgets: true,
         looping: true,
         autoplay: false,
@@ -285,6 +310,25 @@ class _ChewieVideoState extends State<ChewieVideo>
     ]);
   }
 
+  insertOverlayOnWarmup() async {
+    if (index == 0) {
+      String exerciseNameAndSetNext = '';
+      exerciseNameAndSetNext = namesWithSet[0];
+      seriesID = exerciseNameAndSetNext.split('_')[1];
+      overlayState = Overlay.of(context);
+      overlayEntry = OverlayEntry(
+          builder: (BuildContext context) => Visibility(
+              visible: true,
+              child: SeriesInfoScreen(
+                  trainerID: widget.userTrainerDocument.data['trainerID'],
+                  weekID: widget.weekID,
+                  sets: workoutExercisesWithSets[index + 1].data['sets'],
+                  workoutID: widget.workoutID,
+                  seriesID: seriesID)));
+      overlayState.insert(overlayEntry);
+    }
+  }
+
   /// dispose whole widget and [vc] controller
   @override
   void dispose() {
@@ -298,7 +342,7 @@ class _ChewieVideoState extends State<ChewieVideo>
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     initializeVariables();
-
+    insertOverlayOnWarmup();
     return Scaffold(
       bottomNavigationBar: index == source.length - 1
           ? finishButton(nextPlay, context, index, source.length)

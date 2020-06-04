@@ -29,6 +29,7 @@ Widget bottomButtonStart(
       onPressed: () async {
         FullTrainingStopwatch().startStopwtach();
         workoutExercisesWithSets = [];
+        listOfBoundarySets = [0];
         namesWithSet = [];
         onlineVideos = [];
         for (var i = 0; i < serije.length; i++) {
@@ -42,8 +43,11 @@ Widget bottomButtonStart(
           int sets = vjezbe[0].data['sets'];
           for (var j = 0; j < sets; j++) {
             for (var z = 0; z < vjezbe.length; z++) {
-              namesWithSet
-                  .add((j + 1).toString() + '_' + vjezbe[z].data['name']);
+              namesWithSet.add((j + 1).toString() +
+                  '_' +
+                  serije[i].toString() +
+                  '_' +
+                  vjezbe[z].data['name']);
               workoutExercisesWithSets.add(vjezbe[z]);
             }
           }
@@ -52,6 +56,19 @@ Widget bottomButtonStart(
           onlineVideos.add(workoutExercisesWithSets[i].data['video']);
         }
         alertQuit = false;
+        for (var i = 0; i < namesWithSet.length; i++) {
+          if (i != 0) {
+            List<dynamic> ids = namesWithSet[i].toString().split('_');
+            List<dynamic> idsPrevious =
+                namesWithSet[i - 1].toString().split('_');
+            String id = ids[1];
+            String idPrevious = idsPrevious[1];
+            if (id != idPrevious) {
+              listOfBoundarySets.add(namesWithSet.indexOf(namesWithSet[i]));
+            }
+          }
+        }
+        print(listOfBoundarySets);
         ChewieVideoViewModel().playVideo(context, userDocument,
             userTrainerDocument, workoutID, weekID, finishedWorkout);
       },
