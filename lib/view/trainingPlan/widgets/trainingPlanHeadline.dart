@@ -26,6 +26,8 @@ Widget trainingPlanHeadline(
       ),
       userName(justName, context),
       Container(
+        alignment: Alignment.centerRight,
+        width: SizeConfig.blockSizeHorizontal * 24,
         child: settingsIcon(userDocument, userUID, context),
       )
     ],

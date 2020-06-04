@@ -111,7 +111,7 @@ class _ChewieVideoState extends State<ChewieVideo>
                         fontSize: MediaQuery.of(context).orientation ==
                                 Orientation.landscape
                             ? SizeConfig.safeBlockHorizontal * 1.5
-                            : SizeConfig.safeBlockHorizontal * 3),
+                            : SizeConfig.safeBlockHorizontal * 2.3),
                   )),
               NumberPickerColumn(
                   onFormatValue: (v) {

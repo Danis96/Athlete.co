@@ -378,7 +378,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                               top: MediaQuery.of(context).orientation == Orientation.portrait ?  SizeConfig.blockSizeVertical * 26.5 : SizeConfig.blockSizeVertical * 26,
                               left: MediaQuery.of(context).orientation == Orientation.portrait ?  SizeConfig.blockSizeHorizontal * 38 : SizeConfig.blockSizeHorizontal * 26
                             ),
-                            child: IconButton(icon: Icon(Icons.info), onPressed: () {}, color: Colors.white,iconSize: SizeConfig.blockSizeHorizontal * 6,),
+                            child: IconButton(icon: Icon(Icons.info), onPressed: () {}, color: Colors.white,iconSize: SizeConfig.blockSizeHorizontal * 5,),
                           ) : EmptyContainer()
                         ],
                       ),
@@ -462,7 +462,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
         _current = Duration();
         _pausedOn = Duration();
         controllerColor.value = 0.0;
-
       });
       showTime = false;
     }

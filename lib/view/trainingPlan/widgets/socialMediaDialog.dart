@@ -44,16 +44,24 @@ showSocialMediaDialog(BuildContext context) {
     backgroundColor: Color.fromRGBO(0, 0, 0, 0.7),
     title: Text(
       "Feel free to contact us",
-      style: TextStyle(color: MyColors().lightWhite),
+      style: TextStyle(color: MyColors().lightWhite, fontSize: SizeConfig.safeBlockHorizontal * 4),
     ),
     content: Container(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
-          whatsAppButton,
-          viberButton,
-          messengerButton,
-          emailButton
+          Container(
+            width: SizeConfig.blockSizeHorizontal * 10,
+            child: whatsAppButton),
+          Container(
+            width: SizeConfig.blockSizeHorizontal * 12,
+            child: viberButton),
+          Container(
+            width: SizeConfig.blockSizeHorizontal * 12,
+            child: messengerButton),
+          Container(
+            width: SizeConfig.blockSizeHorizontal * 12,
+            child: emailButton)
         ],
       ),
     ),

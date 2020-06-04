@@ -11,7 +11,7 @@ class IconAppBar extends StatelessWidget {
     return IconButton(
       icon: Icon(
         Icons.clear,
-        size: SizeConfig.blockSizeHorizontal * 8,
+        size: SizeConfig.blockSizeHorizontal * 5,
       ),
       onPressed: () {
         FocusScope.of(context).requestFocus(new FocusNode());

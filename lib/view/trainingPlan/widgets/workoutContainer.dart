@@ -71,32 +71,33 @@ Widget workoutContainer(
           horizontal: SizeConfig.blockSizeHorizontal * 4,
         ),
         enabled: false,
-        leading: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Icon(
-              Icons.fitness_center,
-              size: SizeConfig.blockSizeVertical * 5,
-              color: Colors.blueAccent,
-            ),
-          ],
+        leading: Container(
+          child: Icon(
+            Icons.fitness_center,
+            size: SizeConfig.blockSizeVertical * 5,
+            color: Colors.blueAccent,
+          ),
         ),
         trailing: workoutIDs.contains(workoutID)
             ? Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Icon(
-                    Icons.check,
-                    size: SizeConfig.blockSizeVertical * 3,
-                    color: Colors.blueAccent,
+                  Container(
+                    child: Icon(
+                      Icons.check,
+                      size: SizeConfig.blockSizeVertical * 2.5,
+                      color: Colors.blueAccent,
+                    ),
                   ),
-                  Text(
-                    'DONE',
-                    style: TextStyle(
-                        color: Colors.blueAccent,
-                        fontFamily: 'Roboto',
-                        fontSize: SizeConfig.blockSizeVertical * 2.5,
-                        fontWeight: FontWeight.w700),
+                  Container(
+                    child: Text(
+                      'DONE',
+                      style: TextStyle(
+                          color: Colors.blueAccent,
+                          fontFamily: 'Roboto',
+                          fontSize: SizeConfig.safeBlockHorizontal * 3,
+                          fontWeight: FontWeight.w700),
+                    ),
                   )
                 ],
               )
