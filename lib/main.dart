@@ -2,7 +2,7 @@ import 'package:attt/utils/text.dart';
 import 'package:attt/view/chewieVideo/widgets/notifiers.dart';
 import 'package:attt/view/chewieVideo/widgets/stopwatch.dart';
 import 'package:attt/view/home/pages/splashScreen.dart';
-import 'file:///C:/Users/danis.dev/Desktop/Athlete.co/lib/view/subscription/page/subscription.dart';
+//import 'file:///C:/Users/danis.dev/Desktop/Athlete.co/lib/view/subscription/page/subscription.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
