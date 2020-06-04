@@ -68,9 +68,9 @@ Widget nameWidget(
             : SizeConfig.blockSizeHorizontal * 0,
       ),
       child: Container(
-        alignment: Alignment.center,
-//        margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 10),
-        width: SizeConfig.blockSizeHorizontal * 60,
+        alignment: MediaQuery.of(context).orientation == Orientation.portrait ?  Alignment.center : Alignment.centerLeft,
+        margin: EdgeInsets.only(right: MediaQuery.of(context).orientation == Orientation.portrait ? SizeConfig.blockSizeHorizontal * 0 :SizeConfig.blockSizeHorizontal * 35 ),
+        width: MediaQuery.of(context).orientation == Orientation.portrait ? SizeConfig.blockSizeHorizontal * 60 : SizeConfig.blockSizeHorizontal * 90,
         child: RichText(
           overflow: TextOverflow.ellipsis,
           text: TextSpan(children: [
