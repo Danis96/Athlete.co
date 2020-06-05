@@ -308,6 +308,8 @@ class _ChewieVideoState extends State<ChewieVideo>
       DeviceOrientation.landscapeLeft,
       DeviceOrientation.landscapeRight
     ]);
+    WidgetsBinding.instance
+        .addPostFrameCallback((callback) => insertOverlayOnWarmup());
   }
 
   insertOverlayOnWarmup() async {
@@ -342,7 +344,6 @@ class _ChewieVideoState extends State<ChewieVideo>
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     initializeVariables();
-    insertOverlayOnWarmup();
     return Scaffold(
       bottomNavigationBar: index == source.length - 1
           ? finishButton(nextPlay, context, index, source.length)
