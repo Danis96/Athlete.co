@@ -133,7 +133,7 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
 
   /// launch messenger
   launchMessenger() async {
-    var messengerUrl = 'http://m.me/dzefka.dzefka.3';
+    var messengerUrl = 'https://www.facebook.com/messages/t/www.athlete.co';
     if (await canLaunch(messengerUrl)) {
       await launch(messengerUrl);
     } else {
