@@ -182,4 +182,20 @@ class ChewieVideoViewModel {
       },
     );
   }
+
+  Future<List<DocumentSnapshot>> getSeriesName(String trainerID, String weekID, String workoutID, String seriesID) async {
+    var firestore = Firestore.instance;
+    QuerySnapshot qn = await firestore
+        .collection('Trainers')
+        .document(trainerID)
+        .collection('weeks')
+        .document(weekID)
+        .collection('workouts')
+        .document(workoutID)
+        .collection('series')
+        .where('seriesID', isEqualTo: seriesID)
+        .getDocuments(
+            source: hasActiveConnection ? Source.serverAndCache : Source.cache);
+    return qn.documents;
+  }
 }
