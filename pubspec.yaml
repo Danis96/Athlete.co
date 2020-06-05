@@ -91,6 +91,7 @@ flutter:
     - assets/images/google-login.png
     - assets/images/ar.jpg
     - assets/images/athlete-logo.png
+    - assets/images/athlete.png
     - assets/video/C.mp4
     - assets/video/F.mp4
     - assets/video/warmDown.mp4
