@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>83943705826-h64g9grqq9bm5jieeohv7u7bev4tvi9o.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.83943705826-h64g9grqq9bm5jieeohv7u7bev4tvi9o</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>83943705826-dpjvnge0v10auokn89dai6mepl38614k.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAcbBzFhrTTYXjSGnNJqohqw8iDMAA4tQE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>83943705826</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.attt</string>
+	<key>PROJECT_ID</key>
+	<string>athlete-co</string>
+	<key>STORAGE_BUCKET</key>
+	<string>athlete-co.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:83943705826:ios:6dccff48c1bbde46bfe2bb</string>
+	<key>DATABASE_URL</key>
+	<string>https://athlete-co.firebaseio.com</string>
+</dict>
+</plist>

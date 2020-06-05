@@ -23,7 +23,8 @@ dependencies:
     sdk: flutter
   firebase_auth: 
   cloud_firestore:
-  flutter_twitter_login: "^1.1.0" 
+  flutter_twitter_login: 
+    git: git://github.com/vudvhitech/flutter_twitter_login.git
   google_sign_in:
   splashscreen:
   flutter_signin_button:
@@ -39,7 +40,7 @@ dependencies:
   dio: any
   path_provider: ^1.6.7
   threading: ^0.0.10
-  flutter_ajanuw_android_pip: ^0.1.1
+  # flutter_ajanuw_android_pip: ^0.1.1
   video_box: ^0.12.0
   flutter_appavailability: ^0.0.21
   flutter_downloader: ^1.4.4
