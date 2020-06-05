@@ -10,7 +10,12 @@ class SeriesInfoScreen extends StatefulWidget {
   final String trainerID, weekID, workoutID, seriesID;
   final int sets;
   const SeriesInfoScreen(
-      {Key key, this.sets, this.seriesID, this.workoutID, this.trainerID, this.weekID})
+      {Key key,
+      this.sets,
+      this.seriesID,
+      this.workoutID,
+      this.trainerID,
+      this.weekID})
       : super(key: key);
 
   @override
@@ -131,9 +136,24 @@ class _SeriesInfoScreenState extends State<SeriesInfoScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: RaisedButton(
-        child: Text('START SERIES'),
-        onPressed: () => overlayEntry.remove(),
+      bottomNavigationBar: Container(
+        width: MediaQuery.of(context).size.width,
+        child: RaisedButton(
+          elevation: 0,
+          onPressed: () => overlayEntry.remove(),
+          child: Padding(
+            padding: EdgeInsets.all(22.0),
+            child: Text(
+              'START SERIES',
+              style: TextStyle(
+                fontStyle: FontStyle.italic,
+                fontSize: SizeConfig.blockSizeHorizontal * 4,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+          color: Colors.white,
+        ),
       ),
     );
   }
