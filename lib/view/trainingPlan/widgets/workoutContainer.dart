@@ -30,7 +30,9 @@ Widget workoutContainer(
           weekName,
           snapshot2.data[index2].data['notes'],
           true,
-          workoutIDs.contains(workoutID));
+          workoutIDs.contains(workoutID),
+          snapshot2.data[index2].data['tag'],
+      );
     },
     child: Container(
       margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 1.25),
