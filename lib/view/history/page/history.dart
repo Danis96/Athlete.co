@@ -51,7 +51,7 @@ class _HistoryState extends State<History> {
             children: <Widget>[
               Container(
                   margin: EdgeInsets.only(
-                      top: SizeConfig.blockSizeVertical * 5.4,
+                      top: SizeConfig.blockSizeVertical * 6,
                       right: SizeConfig.blockSizeHorizontal * 0.5),
                   child: settingsIcon(
                       widget.userDocument, widget.userUID, context)),
