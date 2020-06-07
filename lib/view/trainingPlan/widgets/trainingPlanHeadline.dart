@@ -21,13 +21,13 @@ Widget trainingPlanHeadline(
       userImage(image),
       SizedBox(
         width: MediaQuery.of(context).orientation == Orientation.portrait
-            ? SizeConfig.blockSizeHorizontal * 4.5
+            ? SizeConfig.blockSizeHorizontal * 4.3
             : SizeConfig.blockSizeHorizontal * 3.5,
       ),
       userName(justName, context),
       Container(
-        alignment: Alignment.centerRight,
-        width: SizeConfig.blockSizeHorizontal * 24,
+        alignment: Alignment.centerLeft,
+        width: SizeConfig.blockSizeHorizontal * 22,
         child: settingsIcon(userDocument, userUID, context),
       )
     ],
