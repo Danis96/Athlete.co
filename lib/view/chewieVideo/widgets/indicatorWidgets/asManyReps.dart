@@ -10,9 +10,9 @@ Widget asManyReps(BuildContext context, String repsDescription) {
          top: MediaQuery.of(context)
              .orientation ==
              Orientation.landscape
-             ? SizeConfig.blockSizeVertical * 19
+             ? SizeConfig.blockSizeVertical * 62
              : SizeConfig.blockSizeVertical *
-           30.5,
+           16.5,
          right: MediaQuery.of(context)
              .orientation ==
              Orientation.landscape
@@ -26,16 +26,16 @@ Widget asManyReps(BuildContext context, String repsDescription) {
              ? SizeConfig.blockSizeHorizontal *
              0
              : SizeConfig.blockSizeHorizontal *
-             27),
+             32),
      width: MediaQuery.of(context)
          .orientation ==
          Orientation.landscape
-         ? SizeConfig.blockSizeHorizontal * 16
+         ? SizeConfig.blockSizeHorizontal * 20
          : SizeConfig.blockSizeHorizontal * 35,
      height: MediaQuery.of(context)
          .orientation ==
          Orientation.landscape
-         ? SizeConfig.blockSizeVertical * 10 : SizeConfig.blockSizeVertical * 8,
+         ? SizeConfig.blockSizeVertical * 14 : SizeConfig.blockSizeVertical * 8,
      child: Text(
        repsDescription != null ? repsDescription.toUpperCase() : '',
        //'AS MANY REPS AS POSSIBLE',

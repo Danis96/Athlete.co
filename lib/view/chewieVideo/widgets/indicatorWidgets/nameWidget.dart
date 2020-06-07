@@ -44,20 +44,17 @@ Widget nameWidget(
     },
     child: Container(
       alignment: MediaQuery.of(context).orientation == Orientation.landscape
-          ? Alignment.centerLeft :  Alignment.center,
+          ? Alignment.centerLeft
+          : Alignment.center,
       width: SizeConfig.blockSizeHorizontal * 90,
       margin: EdgeInsets.only(
         top: MediaQuery.of(context).orientation == Orientation.landscape
             ? isReps == 0
-                ? SizeConfig.blockSizeVertical * 28
-                : SizeConfig.blockSizeVertical * 28
+                ? SizeConfig.blockSizeVertical * 70
+                : SizeConfig.blockSizeVertical * 70
             : isReps == 0
-                ? index == (listLenght - 1)
-                    ? SizeConfig.blockSizeVertical * 9.8
-                    : SizeConfig.blockSizeVertical * 7
-                : index == (listLenght - 1)
-                    ? SizeConfig.blockSizeVertical * 7
-                    : SizeConfig.blockSizeVertical * 7,
+                ? SizeConfig.blockSizeVertical * 0
+                : SizeConfig.blockSizeVertical * 0,
         left: MediaQuery.of(context).orientation == Orientation.landscape
             ? SizeConfig.blockSizeHorizontal * 1
             : SizeConfig.blockSizeHorizontal * 1,
@@ -68,36 +65,47 @@ Widget nameWidget(
             : SizeConfig.blockSizeHorizontal * 0,
       ),
       child: Container(
-        alignment: MediaQuery.of(context).orientation == Orientation.portrait ?  Alignment.center : Alignment.centerLeft,
-        margin: EdgeInsets.only(right: MediaQuery.of(context).orientation == Orientation.portrait ? SizeConfig.blockSizeHorizontal * 0 :SizeConfig.blockSizeHorizontal * 35 ),
-        width: MediaQuery.of(context).orientation == Orientation.portrait ? SizeConfig.blockSizeHorizontal * 60 : SizeConfig.blockSizeHorizontal * 90,
+        alignment: MediaQuery.of(context).orientation == Orientation.portrait
+            ? Alignment.center
+            : Alignment.centerLeft,
+        margin: EdgeInsets.only(
+            right: MediaQuery.of(context).orientation == Orientation.portrait
+                ? SizeConfig.blockSizeHorizontal * 0
+                : SizeConfig.blockSizeHorizontal * 35),
+        width: MediaQuery.of(context).orientation == Orientation.portrait
+            ? SizeConfig.blockSizeHorizontal * 90
+            : SizeConfig.blockSizeHorizontal * 90,
         child: RichText(
           overflow: TextOverflow.ellipsis,
           text: TextSpan(children: [
             TextSpan(
               text: name + ' ',
               style: TextStyle(
-                  color: MediaQuery.of(context).orientation == Orientation.landscape
-                      ? Colors.white.withOpacity(0.6) : Colors.white,
-                  fontSize:
-                      MediaQuery.of(context).orientation == Orientation.landscape
-                          ? SizeConfig.safeBlockHorizontal * 3
-                          : SizeConfig.safeBlockHorizontal * 6,
+                  color: MediaQuery.of(context).orientation ==
+                          Orientation.landscape
+                      ? Colors.white.withOpacity(0.6)
+                      : Colors.white,
+                  fontSize: MediaQuery.of(context).orientation ==
+                          Orientation.landscape
+                      ? SizeConfig.safeBlockHorizontal * 3
+                      : SizeConfig.safeBlockHorizontal * 6,
                   fontWeight: FontWeight.bold,
                   fontStyle: FontStyle.italic),
             ),
-           MediaQuery.of(context).orientation == Orientation.portrait ?  WidgetSpan(
-               alignment: PlaceholderAlignment.bottom,
-               child: EmptyContainer()) : WidgetSpan(
-                alignment: PlaceholderAlignment.bottom,
-                child: Icon(
-                  Icons.info,
-                  size:
-                      MediaQuery.of(context).orientation == Orientation.landscape
+            MediaQuery.of(context).orientation == Orientation.portrait
+                ? WidgetSpan(
+                    alignment: PlaceholderAlignment.bottom,
+                    child: EmptyContainer())
+                : WidgetSpan(
+                    alignment: PlaceholderAlignment.bottom,
+                    child: Icon(
+                      Icons.info,
+                      size: MediaQuery.of(context).orientation ==
+                              Orientation.landscape
                           ? SizeConfig.blockSizeHorizontal * 2.3
                           : SizeConfig.blockSizeHorizontal * 3,
-                  color: Colors.white,
-                ))
+                      color: Colors.white,
+                    ))
           ]),
         ),
       ),
