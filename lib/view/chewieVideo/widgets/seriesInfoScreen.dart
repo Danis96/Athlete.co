@@ -83,23 +83,18 @@ class _SeriesInfoScreenState extends State<SeriesInfoScreen> {
               SizedBox(
                 height: SizeConfig.blockSizeVertical * 1,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(
-                    'Circuit exercises - ' + widget.sets.toString() + ' sets:',
-                    style: TextStyle(
-                      fontSize: MediaQuery.of(context).orientation ==
-                              Orientation.landscape
-                          ? SizeConfig.safeBlockHorizontal * 2.5
-                          : SizeConfig.safeBlockHorizontal * 5.5,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontStyle: FontStyle.italic,
-                    ),
-                    textAlign: TextAlign.left,
-                  ),
-                ],
+              Text(
+                'Circuit - ' + widget.sets.toString() + ' sets:',
+                style: TextStyle(
+                  fontSize: MediaQuery.of(context).orientation ==
+                          Orientation.landscape
+                      ? SizeConfig.safeBlockHorizontal * 2.5
+                      : SizeConfig.safeBlockHorizontal * 5.5,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontStyle: FontStyle.italic,
+                ),
+                textAlign: TextAlign.left,
               ),
               FutureBuilder(
                   future: _future,
@@ -123,7 +118,7 @@ class _SeriesInfoScreenState extends State<SeriesInfoScreen> {
                                 fontWeight: FontWeight.bold,
                                 fontStyle: FontStyle.italic,
                               ),
-                              textAlign: TextAlign.left,
+                              textAlign: TextAlign.center,
                             );
                           });
                     } else {
@@ -144,7 +139,7 @@ class _SeriesInfoScreenState extends State<SeriesInfoScreen> {
           child: Padding(
             padding: EdgeInsets.all(22.0),
             child: Text(
-              'START SERIES',
+              'START CIRCUIT',
               style: TextStyle(
                 fontStyle: FontStyle.italic,
                 fontSize: SizeConfig.blockSizeHorizontal * 4,
