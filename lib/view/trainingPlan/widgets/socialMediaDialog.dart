@@ -43,7 +43,7 @@ showSocialMediaDialog(BuildContext context) {
   AlertDialog alert = AlertDialog(
     backgroundColor: Color.fromRGBO(0, 0, 0, 0.7),
     title: Text(
-      "Feel free to contact us",
+      "Contact Us",
       style: TextStyle(color: MyColors().lightWhite, fontSize: SizeConfig.safeBlockHorizontal * 4),
     ),
     content: Container(

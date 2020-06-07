@@ -16,6 +16,7 @@ Widget trainingPlanHeadline(
   String justName = nameSurname[0];
   String image = userDocument.data['image'];
   return Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
     crossAxisAlignment: CrossAxisAlignment.center,
     children: <Widget>[
       userImage(image),
@@ -25,11 +26,7 @@ Widget trainingPlanHeadline(
             : SizeConfig.blockSizeHorizontal * 3.5,
       ),
       userName(justName, context),
-      Container(
-        alignment: Alignment.centerLeft,
-        width: SizeConfig.blockSizeHorizontal * 22,
-        child: settingsIcon(userDocument, userUID, context),
-      )
+      settingsIcon(userDocument, userUID, context)
     ],
   );
 }

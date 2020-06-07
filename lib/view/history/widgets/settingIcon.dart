@@ -9,7 +9,7 @@ Widget settingsIcon(
     DocumentSnapshot userDocument, String userUID, BuildContext context) {
   return Container(
     alignment: Alignment.centerRight,
-    margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 8),
+    //margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 8),
     child: IconButton(
       onPressed: () => Navigator.of(context).push(CardAnimationTween(
           widget: SettingsPage(
