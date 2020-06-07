@@ -47,7 +47,7 @@ class SettingsPage extends StatelessWidget {
               height: 1,
               color: Colors.white24,
             ),
-            settingsContainer('Change your athlete', 'Name of athelte', _isAthlete,
+            settingsContainer('Change your athlete or program', '', _isAthlete,
                 userDocument, context, userUID),
             Divider(
               thickness: 1,
@@ -55,8 +55,8 @@ class SettingsPage extends StatelessWidget {
               color: Colors.white24,
             ),
             settingsContainer(
-                'Any questions',
-                'If you have any questions feel free to ask.',
+                'Can we help?',
+                'Contact us.',
                 _isQuestions,
                 userDocument,
                 context,
