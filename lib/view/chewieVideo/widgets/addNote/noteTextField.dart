@@ -56,7 +56,7 @@ class NoteTextField extends StatelessWidget {
             ),
             suffixIcon: finishScreen == true
                 ? GestureDetector(
-                  behavior: HitTestBehavior.translucent,
+                    behavior: HitTestBehavior.translucent,
                     onTap: () {
                       FocusScope.of(context).requestFocus(new FocusNode());
                     },
@@ -64,13 +64,25 @@ class NoteTextField extends StatelessWidget {
                       children: <Widget>[
                         IconButton(
                           color: Colors.white,
-                          icon: Icon(Icons.check_circle),
-                          onPressed: () {},
+                          icon: Icon(
+                            Icons.check_circle,
+                          ),
+                          onPressed: () {
+                            FocusScope.of(context)
+                                .requestFocus(new FocusNode());
+                          },
                         ),
-                        Text(
-                          'DONE',
-                          style: TextStyle(
-                            color: Colors.white,
+                        GestureDetector(
+                          behavior: HitTestBehavior.translucent,
+                          onTap: () {
+                            FocusScope.of(context)
+                                .requestFocus(new FocusNode());
+                          },
+                          child: Text(
+                            'DONE',
+                            style: TextStyle(
+                              color: Colors.white,
+                            ),
                           ),
                         )
                       ],

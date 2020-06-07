@@ -74,8 +74,10 @@ class _WorkoutState extends State<Workout> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-            widget.weekName.toUpperCase() + ' ' + widget.workoutName.toUpperCase() + ' ' + widget.tag.toUpperCase(),
-          style: TextStyle(fontSize: SizeConfig.blockSizeHorizontal * 5),
+          widget.weekName + ' ' + widget.workoutName + ' ' + widget.tag,
+          style: TextStyle(
+            fontSize: SizeConfig.blockSizeHorizontal * 5,
+          ),
         ),
         backgroundColor: MyColors().lightBlack,
         elevation: 0,
