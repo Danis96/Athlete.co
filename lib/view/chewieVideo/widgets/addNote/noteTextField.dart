@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 
 class NoteTextField extends StatelessWidget {
   final Function updateNewNote;
-  const NoteTextField({Key key, this.updateNewNote}) : super(key: key);
+  final bool finishScreen;
+  const NoteTextField({Key key, this.finishScreen, this.updateNewNote})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +54,29 @@ class NoteTextField extends StatelessWidget {
               Icons.edit,
               color: MyColors().white,
             ),
+            suffixIcon: finishScreen == true
+                ? GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      FocusScope.of(context).requestFocus(new FocusNode());
+                    },
+                    child: Column(
+                      children: <Widget>[
+                        IconButton(
+                          color: Colors.white,
+                          icon: Icon(Icons.check_circle),
+                          onPressed: () {},
+                        ),
+                        Text(
+                          'DONE',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                : null,
           ),
         ),
       ),
