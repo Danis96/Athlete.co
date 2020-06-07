@@ -7,6 +7,7 @@ import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/asManyReps.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/clearButton.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/colorProgress.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/fullscreenButton.dart';
+import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/infoIcon.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/nameWidget.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/nextbutton.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/noteButton.dart';
@@ -176,18 +177,16 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       });
     });
 
-
     /// when timer is done activate this
     sub.onDone(() {
       print("Done");
       countDownTimer.cancel();
       sub.cancel();
-      if(_current.inSeconds != 0) {
+      if (_current.inSeconds != 0) {
         print('Nece biti zvuka');
       } else {
         SoundPlayer().playSound();
       }
-
     });
 
     isTimeChoosed = false;
@@ -298,6 +297,32 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                       ),
                     ),
                     Container(
+                      alignment: Alignment.center,
+                      margin: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).orientation ==
+                                  Orientation.portrait
+                              ? SizeConfig.blockSizeVertical * 64
+                              : SizeConfig.blockSizeVertical * 0),
+                      child: nameWidget(
+                          infoClicked,
+                          goBackToChewie,
+                          isFromPortrait,
+                          context,
+                          widget.controller,
+                          checkIsOnTimeAndPauseTimer,
+                          widget.name,
+                          widget.video,
+                          widget.tips,
+                          widget.isReps,
+                          widget.index,
+                          widget.listLenght),
+                    ),
+                    Container(
+                      child: widget.isReps == 0
+                          ? repsWidget(context, widget.isReps, widget.reps)
+                          : asManyReps(context, widget.repsDescription),
+                    ),
+                    Container(
                       margin: EdgeInsets.only(
                           top: MediaQuery.of(context).orientation ==
                                   Orientation.landscape
@@ -333,9 +358,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                       child: Stack(
                         children: <Widget>[
 //
-                          widget.isReps == 0
-                              ? repsWidget(context, widget.isReps, widget.reps)
-                              : asManyReps(context, widget.repsDescription),
 
                           /// reps or timer,
                           /// depend on the exercise type
@@ -357,29 +379,8 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                               ? colorProgress(controllerColor, context)
                               : EmptyContainer(),
 
-                          /// name widget,
-                          /// here you can click to go on info about specific exercise
-                          nameWidget(
-                              infoClicked,
-                              goBackToChewie,
-                              isFromPortrait,
-                              context,
-                              widget.controller,
-                              checkIsOnTimeAndPauseTimer,
-                              widget.name,
-                              widget.video,
-                              widget.tips,
-                              widget.isReps,
-                              widget.index,
-                              widget.listLenght),
-
-                         MediaQuery.of(context).orientation == Orientation.portrait ?  Container(
-                            margin: EdgeInsets.only(
-                              top: MediaQuery.of(context).orientation == Orientation.portrait ?  SizeConfig.blockSizeVertical * 26.5 : SizeConfig.blockSizeVertical * 26,
-                              left: MediaQuery.of(context).orientation == Orientation.portrait ?  SizeConfig.blockSizeHorizontal * 38 : SizeConfig.blockSizeHorizontal * 26
-                            ),
-                            child: IconButton(icon: Icon(Icons.info), onPressed: () {}, color: Colors.white,iconSize: SizeConfig.blockSizeHorizontal * 5,),
-                          ) : EmptyContainer()
+                          /// info icon
+                          InfoIcon(context),
                         ],
                       ),
                     ),
@@ -449,7 +450,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
     widget.showTimerDialog(context);
     widget.controller.pause();
     _pausedOn = _current;
-    if(countDownTimer != null) {
+    if (countDownTimer != null) {
       countDownTimer.cancel();
     }
     isTimerPaused = true;
@@ -493,12 +494,10 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
           MediaQuery.of(context).orientation == Orientation.landscape
               ? SystemChrome.setPreferredOrientations(
                   [DeviceOrientation.portraitUp])
-              : SystemChrome.setPreferredOrientations(
-                  [
-                    DeviceOrientation.landscapeRight,
-                    DeviceOrientation.landscapeLeft,
-                  ]
-                ),
+              : SystemChrome.setPreferredOrientations([
+                  DeviceOrientation.landscapeRight,
+                  DeviceOrientation.landscapeLeft,
+                ]),
         });
   }
 }

@@ -19,17 +19,17 @@ Widget repsWidget(BuildContext context, int isReps, int reps ) {
         top: MediaQuery.of(context)
             .orientation ==
             Orientation.landscape
-            ? SizeConfig.blockSizeVertical * 17
+            ? SizeConfig.blockSizeVertical * 62
             : isReps == 0
             ? SizeConfig.blockSizeVertical *
-           31
+           17
             : SizeConfig.blockSizeVertical *
             2,
         left: MediaQuery.of(context)
             .orientation ==
             Orientation.landscape
             ? SizeConfig.blockSizeHorizontal * 1.2
-            : SizeConfig.blockSizeHorizontal * 0),
+            : SizeConfig.blockSizeHorizontal * 5),
     child: Text('x' + reps.toString(),
         style: TextStyle(
             color: Colors.white,
