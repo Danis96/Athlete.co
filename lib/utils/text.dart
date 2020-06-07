@@ -40,7 +40,7 @@ class MyText {
    /// trainingPlanGuides.dart
     final String youTraining = 'Your training plan is:';
     final String trDuration = 'Duration:';
-    final String trWeeks = ' weeks';
+    final String trWeeks = ' Weeks';
     final String trAthlete = 'The athlete you will train with is:';
     final String trPerfomancec = 'The performance coach you will train with is:';
     final String trBest = 'Welcome to your new personal best.';
