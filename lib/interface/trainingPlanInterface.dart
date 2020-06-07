@@ -16,7 +16,9 @@ abstract class TrainingPlanInterface {
       String weekName,
       List<dynamic> listOfNotes,
       bool alreadyFinishedWorkout,
-      bool finishedWorkout);
+      bool finishedWorkout,
+      String tag,
+      );
   whatsAppOpen(
       String phoneNumber, String message, String screen, BuildContext context);
   secondTabPressed(BuildContext context, DocumentSnapshot userTrainerDocument,

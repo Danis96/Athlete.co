@@ -14,7 +14,7 @@ import 'package:flutter/material.dart';
 class Workout extends StatefulWidget {
   final DocumentSnapshot userDocument, userTrainerDocument;
   final String trainerID;
-  final String workoutName, workoutID, weekID, warmupDesc, weekName;
+  final String workoutName, workoutID, weekID, warmupDesc, weekName, tag;
   final List<dynamic> listOfNotes;
   final bool alreadyFinishedWorkout, finishedWorkout;
 
@@ -31,6 +31,7 @@ class Workout extends StatefulWidget {
     this.warmupDesc,
     this.weekName,
     this.finishedWorkout,
+    this.tag,
   }) : super(key: key);
 
   @override
@@ -73,7 +74,7 @@ class _WorkoutState extends State<Workout> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.workoutName.toUpperCase(),
+            widget.weekName.toUpperCase() + ' ' + widget.workoutName.toUpperCase() + ' ' + widget.tag.toUpperCase(),
           style: TextStyle(fontSize: SizeConfig.blockSizeHorizontal * 5),
         ),
         backgroundColor: MyColors().lightBlack,

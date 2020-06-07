@@ -54,6 +54,7 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
     List<dynamic> listOfNotes,
     bool alreadyFinishedWorkout,
     bool finishedWorkout,
+      String tag,
   ) {
     Navigator.push(
         context,
@@ -69,7 +70,9 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
                 weekName: weekName,
                 listOfNotes: listOfNotes,
                 alreadyFinishedWorkout: alreadyFinishedWorkout,
-                finishedWorkout: finishedWorkout)));
+                finishedWorkout: finishedWorkout,
+                tag: tag,
+            )));
   }
 
   @override
