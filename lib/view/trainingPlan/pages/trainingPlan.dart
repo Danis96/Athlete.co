@@ -87,7 +87,7 @@ class _TrainingPlanState extends State<TrainingPlan> {
                     child: FlatButton.icon(
                   onPressed: () => showSocialMediaDialog(context),
                   label: Text(
-                    'Feel free to ask',
+                    'Can we help? Contact us.',
                     style: TextStyle(
                         color: MyColors().lightWhite,
                         fontSize: MediaQuery.of(context).orientation ==
