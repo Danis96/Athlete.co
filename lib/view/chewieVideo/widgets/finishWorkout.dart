@@ -71,6 +71,7 @@ class _FinishWorkoutState extends State<FinishWorkout> {
                   timerWidgets(context, displayTime),
                   NoteTextField(
                     updateNewNote: updateNewNote,
+                    finishScreen: true,
                   ),
                   anyQuestionContainer(context),
                 ],

@@ -45,6 +45,7 @@ class _CreateScreenViewState extends State<CreateScreenView> {
           children: <Widget>[
             NoteTextField(
               updateNewNote: updateNewNote,
+              finishScreen: false,
             ),
             DoneButton(
                 newNote: newNote,
