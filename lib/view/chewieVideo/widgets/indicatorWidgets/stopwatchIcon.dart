@@ -21,13 +21,19 @@ Widget stopIcon(Function pressTimer, BuildContext context, int isReps) {
           ? SizeConfig.blockSizeHorizontal * 0
           : SizeConfig.blockSizeHorizontal * 68,
     ),
-    child: IconButton(
-      icon: Icon(Icons.timer),
-      onPressed: () => pressTimer(),
-      color: MyColors().lightWhite,
-      iconSize: MediaQuery.of(context).orientation == Orientation.portrait
-          ? SizeConfig.safeBlockHorizontal * 13
-          : SizeConfig.safeBlockHorizontal * 6,
+    child: GestureDetector(
+      onTap: () => pressTimer(),
+      child: Container(
+        width: SizeConfig.blockSizeHorizontal * 30,
+        height: SizeConfig.blockSizeVertical * 30,
+        child: Icon(
+          Icons.timer,
+          color: MyColors().lightWhite,
+          size: MediaQuery.of(context).orientation == Orientation.portrait
+              ? SizeConfig.safeBlockHorizontal * 13
+              : SizeConfig.safeBlockHorizontal * 6,
+        ),
+      ),
     ),
   );
 }
