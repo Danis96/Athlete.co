@@ -5,7 +5,6 @@ import 'package:attt/view/history/widgets/settingIcon.dart';
 import 'package:attt/view/history/widgets/historyEmptyState.dart';
 import 'package:attt/view/history/widgets/historyList.dart';
 import 'package:attt/view/history/widgets/historyCustomBottomNavigationBar.dart';
-import 'package:attt/view/trainingPlan/widgets/trainingPlanHeadline.dart';
 import 'package:attt/view_model/signInViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';

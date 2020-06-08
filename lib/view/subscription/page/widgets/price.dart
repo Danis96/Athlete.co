@@ -2,8 +2,6 @@
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/home/pages/signin.dart';
-import 'package:attt/view/subscription/declinedScreen.dart';
-import 'package:attt/view/subscription/page/subscription.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';

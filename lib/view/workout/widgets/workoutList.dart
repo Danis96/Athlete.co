@@ -1,13 +1,8 @@
-import 'dart:async';
-
 import 'package:attt/models/seriesModel.dart';
-import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
-import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/workout/widgets/markDone.dart';
 import 'package:attt/view/workout/widgets/warmupContainer.dart';
-import 'package:attt/view_model/chewieVideoViewModel.dart';
 import 'package:attt/view_model/workoutViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';

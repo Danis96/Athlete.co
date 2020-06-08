@@ -1,6 +1,5 @@
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/size_config.dart';
-import 'package:attt/view/home/pages/signin.dart';
 import 'package:attt/view/subscription/page/widgets/headlineCont.dart';
 import 'package:attt/view/subscription/page/widgets/price.dart';
 import 'package:attt/view/subscription/page/widgets/reviews.dart';
@@ -10,7 +9,6 @@ import 'package:attt/view/subscription/page/widgets/textReviews.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:async';
-import 'package:flutter/services.dart';
 import 'package:purchases_flutter/purchases_flutter.dart';
 
 class SubscriptionClass extends StatefulWidget {
