@@ -18,9 +18,12 @@ Widget fullscreenButton(
                 ? SizeConfig.blockSizeHorizontal * 12
                 : SizeConfig.blockSizeHorizontal * 0),
     child: IconButton(
-        icon: Icon(Icons.fullscreen),
+        icon: Icon(MediaQuery.of(context).orientation == Orientation.portrait
+            ? Icons.fullscreen
+            : Icons.fullscreen_exit),
         iconSize: MediaQuery.of(context).orientation == Orientation.landscape
-            ? SizeConfig.blockSizeHorizontal * 4 :SizeConfig.blockSizeHorizontal * 7 ,
+            ? SizeConfig.blockSizeHorizontal * 4
+            : SizeConfig.blockSizeHorizontal * 7,
         color: Colors.white,
         onPressed: () => rotateScreen()),
   );
