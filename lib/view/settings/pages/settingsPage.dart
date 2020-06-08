@@ -15,7 +15,6 @@ class SettingsPage extends StatelessWidget {
   String _isAthlete = 'athlete',
       _isQuestions = 'question',
       _isTerms = 'terms',
-      _isPrivacy = 'privacy',
       _isLogOut = 'logout';
 
   @override

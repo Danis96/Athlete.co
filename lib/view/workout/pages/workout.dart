@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:attt/utils/checkForInternet.dart';
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/emptyContainer.dart';

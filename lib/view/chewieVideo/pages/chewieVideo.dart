@@ -68,7 +68,6 @@ class _ChewieVideoState extends State<ChewieVideo>
   }
 
   /// minutes for timer and seconds
-  String _currentMinutes, _currentSeconds;
   List<dynamic> time = [];
   String timeToSplit;
   var ms;
@@ -394,11 +393,5 @@ class _ChewieVideoState extends State<ChewieVideo>
         ),
       ),
     );
-  }
-
-  @override
-  showRest(BuildContext context, String toPlay) {
-//    // TODO: implement showRest
-//    throw UnimplementedError();
   }
 }

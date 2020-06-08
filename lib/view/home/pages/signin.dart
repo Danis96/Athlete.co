@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:attt/utils/checkForInternet.dart';
 import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
@@ -8,8 +7,6 @@ import 'package:attt/view/home/widgets/logo.dart';
 import 'package:attt/view_model/signInViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
-final GlobalKey<State> _keyLoader = new GlobalKey<State>();
 
 class Signin extends StatefulWidget {
   const Signin({Key key}) : super(key: key);
@@ -60,8 +57,6 @@ class _SigninState extends State<Signin> {
                             shrinkWrap: true,
                             itemCount: snapshot.data.length,
                             itemBuilder: (BuildContext context, int index) {
-                              String trainerID =
-                                  snapshot.data[index].data['trainerID'];
                               String trainerName =
                                   snapshot.data[index].data['trainer_name'];
                               print('Trainer ' + trainerName);
