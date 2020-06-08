@@ -73,6 +73,9 @@ class _FinishWorkoutState extends State<FinishWorkout> {
                     updateNewNote: updateNewNote,
                     finishScreen: true,
                   ),
+                  SizedBox(
+                    height: SizeConfig.blockSizeVertical * 1.5,
+                  ),
                   anyQuestionContainer(context),
                 ],
               ),

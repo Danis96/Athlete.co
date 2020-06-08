@@ -380,7 +380,19 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                               : EmptyContainer(),
 
                           /// info icon
-                          InfoIcon(context),
+                          infoIcon(
+                              infoClicked,
+                              goBackToChewie,
+                              isFromPortrait,
+                              context,
+                              widget.controller,
+                              checkIsOnTimeAndPauseTimer,
+                              widget.name,
+                              widget.video,
+                              widget.tips,
+                              widget.isReps,
+                              widget.index,
+                              widget.listLenght),
                         ],
                       ),
                     ),

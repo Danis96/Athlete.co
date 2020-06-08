@@ -38,9 +38,6 @@ Widget anyQuestionContainer(BuildContext context) {
           ),
         ),
       ),
-      SizedBox(
-        height: SizeConfig.blockSizeVertical * 35,
-      ),
     ],
   );
 }
