@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/home/pages/signin.dart';
+import 'package:attt/view/subscription/page/subscription.dart';
 import 'package:flutter/material.dart';
 
 class CustomSplashScreen extends StatefulWidget {
@@ -21,7 +22,7 @@ class _CustomSplashScreenState extends State<CustomSplashScreen> {
   navigation() {
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
-          builder: (_) => Signin(),
+          builder: (_) => SubscriptionClass(),
         ),
         (Route<dynamic> route) => false);
   }
