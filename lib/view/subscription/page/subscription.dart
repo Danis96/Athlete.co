@@ -27,6 +27,8 @@ class _SubscriptionClassState extends State<SubscriptionClass> {
     
   }
 
+  String priceMonthly = '\$19.99';
+  String priceLifetime = '\$99.99';
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
@@ -75,9 +77,9 @@ class _SubscriptionClassState extends State<SubscriptionClass> {
                 children: [
                   headlineStart(),
                   priceContainer(
-                      'MONTHLY', 'FOR ONLY 19.99', monthly, context),
+                      '1 month for $priceMonthly', ' Subscription will be renewed \n after 1 month', '7 DAYS', 'FREE TRIAL', monthly, context),
                   priceContainer(
-                      'LIFE TIME', 'FOR ONLY 99.99', lifetime, context),
+                      'Lifetime for $priceLifetime', 'Subscription will not be renewed', '7 DAYS', 'FREE TRIAL', lifetime, context),
                   textCont(),
                   starsRow(),
                   reviews(ReviewText().name1, ReviewText().rev1),
