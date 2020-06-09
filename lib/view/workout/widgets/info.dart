@@ -105,17 +105,22 @@ class _InfoExerciseState extends State<InfoExercise> {
                                     onPressed: () => onDone(),
                                   ),
                                 ),
-                                Container(
-                                  margin: EdgeInsets.only(
-                                      left: SizeConfig.blockSizeHorizontal * 2),
-                                  child: Text(
-                                    widget.exerciseNameForInfo,
-                                    style: TextStyle(
-                                        color: MyColors().white,
-                                        fontSize:
-                                            SizeConfig.safeBlockHorizontal * 5,
-                                        fontWeight: FontWeight.bold,
-                                        fontStyle: FontStyle.italic),
+                                Expanded(
+                                  child: Container(
+                                    margin: EdgeInsets.only(
+                                        left:
+                                            SizeConfig.blockSizeHorizontal * 2),
+                                    child: Text(
+                                      widget.exerciseNameForInfo,
+                                      overflow: TextOverflow.clip,
+                                      style: TextStyle(
+                                          color: MyColors().white,
+                                          fontSize:
+                                              SizeConfig.safeBlockHorizontal *
+                                                  5,
+                                          fontWeight: FontWeight.bold,
+                                          fontStyle: FontStyle.italic),
+                                    ),
                                   ),
                                 )
                               ],

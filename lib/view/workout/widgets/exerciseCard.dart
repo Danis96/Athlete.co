@@ -44,7 +44,6 @@ class _ExerciseCardState extends State<ExerciseCard> {
   /// for saving state
   String state;
 
-
   @override
   Widget build(BuildContext context) {
     /// for tips
@@ -52,15 +51,15 @@ class _ExerciseCardState extends State<ExerciseCard> {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () => Navigator.of(context).push(CardAnimationTween(
-              widget: InfoExercise(
-            exerciseTips: widget.exerciseTips,
-            exerciseNameForInfo: widget.exerciseName,
-            exerciseVideoForInfo: widget.exerciseVideo,
-          ))),
-          child: Container(
-            child: Row(
-        key: ValueKey(widget.exerciseID),
-        children: <Widget>[
+          widget: InfoExercise(
+        exerciseTips: widget.exerciseTips,
+        exerciseNameForInfo: widget.exerciseName,
+        exerciseVideoForInfo: widget.exerciseVideo,
+      ))),
+      child: Container(
+        child: Row(
+          key: ValueKey(widget.exerciseID),
+          children: <Widget>[
             /// image thumbnail
             Container(
               margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
@@ -73,37 +72,42 @@ class _ExerciseCardState extends State<ExerciseCard> {
                 fit: BoxFit.contain,
               ),
             ),
-            Container(
-              padding: EdgeInsets.all(10.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    child: Text(widget.exerciseName,
+            Expanded(
+              child: Container(
+                padding: EdgeInsets.all(10.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      child: Text(
+                        widget.exerciseName,
+                        overflow: TextOverflow.clip,
                         style: TextStyle(
                             color: MyColors().white,
                             fontSize: SizeConfig.blockSizeHorizontal * 4,
-                            fontWeight: FontWeight.w500)),
-                  ),
-                  Row(
-                    children: <Widget>[
-                      Text(
-                        widget.exerciseIsReps == 0
-                            ? 'Sets ${widget.exerciseSets} |  Reps ${widget.exerciseReps} '
-                            : 'Sets ${widget.exerciseSets} ',
-                        style: TextStyle(
-                            color: MyColors().lightWhite,
-                            fontSize: SizeConfig.blockSizeHorizontal * 3),
+                            fontWeight: FontWeight.w500),
                       ),
-                    ],
-                  ),
-                ],
+                    ),
+                    Row(
+                      children: <Widget>[
+                        Text(
+                          widget.exerciseIsReps == 0
+                              ? 'Sets ${widget.exerciseSets} |  Reps ${widget.exerciseReps} '
+                              : 'Sets ${widget.exerciseSets} ',
+                          style: TextStyle(
+                              color: MyColors().lightWhite,
+                              fontSize: SizeConfig.blockSizeHorizontal * 3),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
-        ],
+          ],
+        ),
       ),
-          ),
     );
   }
 }
