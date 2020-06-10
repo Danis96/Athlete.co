@@ -24,6 +24,7 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>com.googleusercontent.apps.83943705826-h64g9grqq9bm5jieeohv7u7bev4tvi9o</string>
+                 <string>fb544521803159979</string>
 			</array>
 		</dict>
 	</array>
@@ -55,5 +56,27 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+    <key>FacebookAppID</key>
+    <string>544521803159979</string>
+    <key>FacebookDisplayName</key>
+    <string>Athlete.co</string>
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+      <string>fbapi</string>
+      <string>fbapi20130214</string>
+      <string>fbapi20130410</string>
+      <string>fbapi20130702</string>
+      <string>fbapi20131010</string>
+      <string>fbapi20131219</string>
+      <string>fbapi20140410</string>
+      <string>fbapi20140116</string>
+      <string>fbapi20150313</string>
+      <string>fbapi20150629</string>
+      <string>fbapi20160328</string>
+      <string>fbauth</string>
+      <string>fb-messenger-share-api</string>
+      <string>fbauth2</string>
+      <string>fbshareextension</string>
+    </array>
 </dict>
 </plist>

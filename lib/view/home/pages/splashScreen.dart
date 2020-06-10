@@ -22,10 +22,11 @@ class _CustomSplashScreenState extends State<CustomSplashScreen> {
   navigation() {
     Navigator.of(context).pushAndRemoveUntil(
         MaterialPageRoute(
-          builder: (_) => SubscriptionClass(),
+          builder: (_) => Signin(),
         ),
         (Route<dynamic> route) => false);
   }
+
 
   @override
   Widget build(BuildContext context) {

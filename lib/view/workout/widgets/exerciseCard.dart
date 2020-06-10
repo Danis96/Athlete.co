@@ -20,6 +20,7 @@ class ExerciseCard extends StatefulWidget {
   final String exerciseID;
   final Function refreshParent;
   final Source source;
+  final String time;
 
   ExerciseCard({
     this.exerciseImage,
@@ -34,6 +35,7 @@ class ExerciseCard extends StatefulWidget {
     this.exerciseID,
     this.refreshParent,
     this.source,
+    this.time,
   });
 
   @override
@@ -93,8 +95,12 @@ class _ExerciseCardState extends State<ExerciseCard> {
                       children: <Widget>[
                         Text(
                           widget.exerciseIsReps == 0
-                              ? 'Sets ${widget.exerciseSets} |  Reps ${widget.exerciseReps} '
-                              : 'Sets ${widget.exerciseSets} ',
+                              ? widget.time == null
+                                  ? 'Sets ${widget.exerciseSets} | Reps ${widget.exerciseReps} '
+                                  : 'Sets ${widget.exerciseSets} | Reps ${widget.exerciseReps} | Time ${widget.time}'
+                              : widget.time == null
+                                  ? 'Sets ${widget.exerciseSets}'
+                                  : 'Sets ${widget.exerciseSets} | Time ${widget.time}',
                           style: TextStyle(
                               color: MyColors().lightWhite,
                               fontSize: SizeConfig.blockSizeHorizontal * 3),
