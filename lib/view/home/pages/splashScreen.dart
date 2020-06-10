@@ -39,7 +39,7 @@ class _CustomSplashScreenState extends State<CustomSplashScreen> {
           ClipRRect(
             borderRadius: BorderRadius.circular(6.0),
             child: Image.asset(
-              'assets/images/athlete-logo.png',
+              'assets/images/athlete.png',
               width: SizeConfig.blockSizeHorizontal * 44.444,
             ),
           ),
