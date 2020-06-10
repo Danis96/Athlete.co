@@ -10,6 +10,7 @@ import 'package:attt/utils/customExpansion.dart' as custom;
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class WarmupContainer extends StatefulWidget {
+  String circuit;
   String trainerName;
   String weekName;
   String workoutName;
@@ -30,6 +31,7 @@ class WarmupContainer extends StatefulWidget {
   Source source;
   WarmupContainer(
       {Key key,
+      this.circuit,
       this.trainerID,
       this.warmupDesc,
       this.workoutID,
@@ -102,7 +104,7 @@ class _WarmupContainerState extends State<WarmupContainer> {
                   color: MyColors().white,
                   fontSize: SizeConfig.blockSizeHorizontal * 5),
             ),
-            subtitle: warmupDescription,
+            subtitle: widget.circuit == null ? warmupDescription : widget.seriesName + ' ' + widget.circuit,
             iconColor: MyColors().white,
             backgroundColor: MyColors().black,
             initiallyExpanded: false,
