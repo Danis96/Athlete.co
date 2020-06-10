@@ -45,6 +45,9 @@ class _FinishWorkoutState extends State<FinishWorkout> {
     SizeConfig().init(context);
     return GestureDetector(
       onTap: () {
+        setState(() {
+          focused = false;
+        });
         FocusScope.of(context).requestFocus(new FocusNode());
       },
       child: Scaffold(
@@ -61,6 +64,9 @@ class _FinishWorkoutState extends State<FinishWorkout> {
           onWillPop: () => _onWillPop(),
           child: GestureDetector(
             onTap: () {
+              setState(() {
+                focused = false;
+              });
               FocusScope.of(context).requestFocus(new FocusNode());
             },
             child: Container(
@@ -76,7 +82,7 @@ class _FinishWorkoutState extends State<FinishWorkout> {
                   SizedBox(
                     height: SizeConfig.blockSizeVertical * 1.5,
                   ),
-                  anyQuestionContainer(context),
+                  AnyQuestionContainer(),
                 ],
               ),
             ),

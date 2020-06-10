@@ -1,3 +1,4 @@
+import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/view_model/historyViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:attt/view/history/widgets/finishedWeekContainer.dart';
@@ -16,9 +17,7 @@ Widget futureWeekContainer(List<dynamic> finishedWeeksWithAthlete, int index,
         return finishedWeekContainer(weekName, trainerName, workoutsList,
             finishedWeeksWithAthlete, index);
       } else {
-        return Center(
-          child: CircularProgressIndicator(),
-        );
+        return EmptyContainer();
       }
     },
   );

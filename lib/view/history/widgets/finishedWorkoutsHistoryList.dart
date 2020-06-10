@@ -9,8 +9,12 @@ Widget finishedWorkoutsHistoryList(List<dynamic> workoutsList,
       shrinkWrap: true,
       itemCount: workoutsList.length,
       itemBuilder: (BuildContext context, int index2) {
-        return futureWorkoutContainer(
-            finishedWeeksWithAthlete, index, index2, workoutsList);
+        return FutureWorkoutContainer(
+          finishedWeeksWithAthlete: finishedWeeksWithAthlete,
+          index2: index2,
+          index: index,
+          workoutsList: workoutsList,
+        );
       },
     ),
   );

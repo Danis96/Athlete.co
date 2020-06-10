@@ -26,19 +26,11 @@ class _SeriesInfoScreenState extends State<SeriesInfoScreen> {
   List<DocumentSnapshot> seriesDocuments = [];
   DocumentSnapshot seriesDocument;
   String seriesName = '';
-  Future _future;
-  List<dynamic> exercisesList = [];
 
   @override
   void initState() {
     super.initState();
     getSeriesName();
-    _future = WorkoutViewModel().getExercises(
-        widget.trainerID,
-        widget.weekID,
-        widget.workoutID,
-        widget.seriesID,
-        hasActiveConnection ? Source.serverAndCache : Source.cache);
   }
 
   getSeriesName() async {
@@ -58,10 +50,10 @@ class _SeriesInfoScreenState extends State<SeriesInfoScreen> {
       body: Padding(
         padding: EdgeInsets.only(
             left: MediaQuery.of(context).orientation == Orientation.portrait
-                ? SizeConfig.blockSizeHorizontal * 4.5
+                ? SizeConfig.blockSizeHorizontal * 15
                 : SizeConfig.blockSizeHorizontal * 2,
             right: MediaQuery.of(context).orientation == Orientation.portrait
-                ? SizeConfig.blockSizeHorizontal * 4.5
+                ? SizeConfig.blockSizeHorizontal * 15
                 : SizeConfig.blockSizeHorizontal * 2),
         child: Center(
           child: Column(
@@ -80,53 +72,6 @@ class _SeriesInfoScreenState extends State<SeriesInfoScreen> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(
-                height: SizeConfig.blockSizeVertical * 1,
-              ),
-              Text(
-                'Circuit - ' + widget.sets.toString() + ' sets:',
-                style: TextStyle(
-                  fontSize: MediaQuery.of(context).orientation ==
-                          Orientation.landscape
-                      ? SizeConfig.safeBlockHorizontal * 2.5
-                      : SizeConfig.safeBlockHorizontal * 5.5,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontStyle: FontStyle.italic,
-                ),
-                textAlign: TextAlign.left,
-              ),
-              FutureBuilder(
-                  future: _future,
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (snapshot.hasData) {
-                      return ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: snapshot.data.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Text(
-                              (index + 1).toString() +
-                                  '. ' +
-                                  snapshot.data[index].data['name'],
-                              style: TextStyle(
-                                fontSize: MediaQuery.of(context).orientation ==
-                                        Orientation.landscape
-                                    ? SizeConfig.safeBlockHorizontal * 2.5
-                                    : SizeConfig.safeBlockHorizontal * 5.5,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontStyle: FontStyle.italic,
-                              ),
-                              textAlign: TextAlign.center,
-                            );
-                          });
-                    } else {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  }),
             ],
           ),
         ),
