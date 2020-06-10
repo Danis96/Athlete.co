@@ -93,6 +93,7 @@ class _WorkoutListState extends State<WorkoutList> {
                     seriesID = series[index].seriesID;
                     seriesName = series[index].name;
                     return WarmupContainer(
+                      circuit: series[index].circuit,
                       trainerName: widget.trainerName,
                       weekName: widget.weekName,
                       workoutName: widget.workoutName,
