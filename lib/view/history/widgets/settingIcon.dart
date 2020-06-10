@@ -19,7 +19,9 @@ Widget settingsIcon(
       icon: Icon(
         Icons.settings,
         color: MyColors().white,
-        size: SizeConfig.blockSizeHorizontal * 7,
+        size: MediaQuery.of(context).orientation == Orientation.portrait
+            ? SizeConfig.safeBlockHorizontal * 7
+            : SizeConfig.safeBlockHorizontal * 4,
       ),
     ),
   );

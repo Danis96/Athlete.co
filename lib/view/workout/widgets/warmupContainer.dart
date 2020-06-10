@@ -1,3 +1,4 @@
+import 'package:attt/models/exerciseModel.dart';
 import 'package:attt/storage/storage.dart';
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/emptyContainer.dart';
@@ -62,6 +63,7 @@ class _WarmupContainerState extends State<WarmupContainer> {
   bool refreshed = false;
   String warmupDescription = '';
   List<DocumentSnapshot> warmupDoc;
+  List<dynamic> exercises = [];
   @override
   void initState() {
     super.initState();
@@ -118,23 +120,26 @@ class _WarmupContainerState extends State<WarmupContainer> {
                       widget.source),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.hasData) {
+                      exercises = snapshot.data
+                          .map((e) => Exercise.fromDocument(e))
+                          .toList();
+
                       return ListView.builder(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: snapshot.data.length,
                           itemBuilder: (BuildContext context, int index) {
                             return ExerciseCard(
-                              exerciseImage: snapshot.data[index].data['image'],
-                              exerciseIsReps:
-                                  snapshot.data[index].data['isReps'],
-                              exerciseName: snapshot.data[index].data['name'],
-                              exerciseReps: snapshot.data[index].data['reps'],
-                              exerciseRest: snapshot.data[index].data['rest'],
-                              exerciseSets: snapshot.data[index].data['sets'],
-                              exerciseTips: snapshot.data[index].data['tips'],
-                              exerciseVideo: snapshot.data[index].data['video'],
-                              exerciseID:
-                                  snapshot.data[index].data['exerciseID'],
+                              exerciseImage: exercises[index].image,
+                              exerciseIsReps: exercises[index].isReps,
+                              exerciseName: exercises[index].name,
+                              exerciseReps: exercises[index].reps,
+                              exerciseRest: exercises[index].rest,
+                              exerciseSets: exercises[index].sets,
+                              exerciseTips: exercises[index].tips,
+                              exerciseVideo: exercises[index].video,
+                              exerciseID: exercises[index].exerciseID,
+                              time: exercises[index].time,
                               storage: Storage(),
                               refreshParent: widget.refreshFromInfo,
                               source: widget.source,

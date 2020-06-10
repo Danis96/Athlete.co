@@ -24,7 +24,6 @@ class _SubscriptionClassState extends State<SubscriptionClass> {
   void initState() {
     super.initState();
     initPlatformState();
-    
   }
 
   String priceMonthly = '\$19.99';
@@ -77,9 +76,19 @@ class _SubscriptionClassState extends State<SubscriptionClass> {
                 children: [
                   headlineStart(),
                   priceContainer(
-                      '1 month for $priceMonthly', ' Subscription will be renewed \n after 1 month', '7 DAYS', 'FREE TRIAL', monthly, context),
+                      '1 month for $priceMonthly',
+                      ' Subscription will be renewed \n after 1 month',
+                      '7 DAYS',
+                      'FREE TRIAL',
+                      monthly,
+                      context),
                   priceContainer(
-                      'Lifetime for $priceLifetime', 'Subscription will not be renewed', '7 DAYS', 'FREE TRIAL', lifetime, context),
+                      'Lifetime for $priceLifetime',
+                      'Subscription will not be renewed',
+                      '7 DAYS',
+                      'FREE TRIAL',
+                      lifetime,
+                      context),
                   textCont(),
                   starsRow(),
                   reviews(ReviewText().name1, ReviewText().rev1),

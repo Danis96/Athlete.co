@@ -27,6 +27,7 @@ class _CustomSplashScreenState extends State<CustomSplashScreen> {
         (Route<dynamic> route) => false);
   }
 
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
