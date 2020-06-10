@@ -1,23 +1,31 @@
+import 'dart:async';
+
 import 'package:attt/utils/colors.dart';
+import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
-class NoteTextField extends StatelessWidget {
+class NoteTextField extends StatefulWidget {
   final Function updateNewNote;
   final bool finishScreen;
   const NoteTextField({Key key, this.finishScreen, this.updateNewNote})
       : super(key: key);
 
   @override
+  _NoteTextFieldState createState() => _NoteTextFieldState();
+}
+
+class _NoteTextFieldState extends State<NoteTextField> {
+  @override
   Widget build(BuildContext context) {
-    return finishScreen == false
+    return widget.finishScreen == false
         ? Expanded(
             child: Material(
               color: MyColors().lightBlack,
               child: new TextFormField(
                 enableInteractiveSelection: false,
-                onChanged: (input) => updateNewNote(input),
+                onChanged: (input) => widget.updateNewNote(input),
                 initialValue: userNotes,
                 autofocus: false,
                 enableSuggestions: false,
@@ -56,42 +64,6 @@ class NoteTextField extends StatelessWidget {
                     Icons.edit,
                     color: MyColors().white,
                   ),
-                  suffixIcon: finishScreen == true
-                      ? GestureDetector(
-                          behavior: HitTestBehavior.translucent,
-                          onTap: () {
-                            FocusScope.of(context)
-                                .requestFocus(new FocusNode());
-                          },
-                          child: Column(
-                            children: <Widget>[
-                              IconButton(
-                                color: Colors.white,
-                                icon: Icon(
-                                  Icons.check_circle,
-                                ),
-                                onPressed: () {
-                                  FocusScope.of(context)
-                                      .requestFocus(new FocusNode());
-                                },
-                              ),
-                              GestureDetector(
-                                behavior: HitTestBehavior.translucent,
-                                onTap: () {
-                                  FocusScope.of(context)
-                                      .requestFocus(new FocusNode());
-                                },
-                                child: Text(
-                                  'DONE',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                        )
-                      : null,
                 ),
               ),
             ),
@@ -99,8 +71,13 @@ class NoteTextField extends StatelessWidget {
         : Material(
             color: MyColors().lightBlack,
             child: new TextFormField(
+              onTap: () {
+                setState(() {
+                  focused = true;
+                });
+              },
               enableInteractiveSelection: false,
-              onChanged: (input) => updateNewNote(input),
+              onChanged: (input) => widget.updateNewNote(input),
               initialValue: userNotes,
               autofocus: false,
               enableSuggestions: false,
@@ -139,42 +116,22 @@ class NoteTextField extends StatelessWidget {
                   Icons.edit,
                   color: MyColors().white,
                 ),
-                suffixIcon: finishScreen == true
-                    ? GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        onTap: () {
-                          FocusScope.of(context).requestFocus(new FocusNode());
-                        },
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            IconButton(
-                              color: Colors.white,
-                              icon: Icon(
-                                Icons.check_circle,
-                              ),
-                              onPressed: () {
-                                FocusScope.of(context)
-                                    .requestFocus(new FocusNode());
-                              },
-                            ),
-                            GestureDetector(
-                              behavior: HitTestBehavior.translucent,
-                              onTap: () {
-                                FocusScope.of(context)
-                                    .requestFocus(new FocusNode());
-                              },
-                              child: Text(
-                                'DONE',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                ),
-                              ),
-                            )
-                          ],
+                suffixIcon: focused
+                    ? IconButton(
+                        color: Colors.white,
+                        icon: Icon(
+                          Icons.check_circle,
                         ),
+                        onPressed: () {
+                          FocusScope.of(context).requestFocus(new FocusNode());
+                          Timer(Duration(milliseconds: 150), () {
+                            setState(() {
+                              focused = false;
+                            });
+                          });
+                        },
                       )
-                    : null,
+                    : EmptyContainer(),
               ),
             ),
           );

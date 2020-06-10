@@ -4,31 +4,53 @@ import 'package:flutter/material.dart';
 import 'package:attt/view/history/widgets/emptyHisotryWorkoutContainer.dart';
 import 'package:attt/view/history/widgets/historyWorkoutContainer.dart';
 
-Widget futureWorkoutContainer(List<dynamic> finishedWeeksWithAthlete, int index,
-    int index2, List<dynamic> workoutsList) {
+class FutureWorkoutContainer extends StatefulWidget {
+  final List<dynamic> finishedWeeksWithAthlete, workoutsList;
+  final int index, index2;
+  FutureWorkoutContainer(
+      {Key key,
+      this.finishedWeeksWithAthlete,
+      this.index,
+      this.index2,
+      this.workoutsList})
+      : super(key: key);
+
+  @override
+  _FutureWorkoutContainerState createState() => _FutureWorkoutContainerState();
+}
+
+class _FutureWorkoutContainerState extends State<FutureWorkoutContainer> {
   String workoutName = '';
   String workoutTag = '';
   List<dynamic> workoutNotes = [];
-  return FutureBuilder(
-    future: HistoryViewModel().getWorkoutName(
-        finishedWeeksWithAthlete[index].toString().split('_')[0],
-        finishedWeeksWithAthlete[index].toString().split('_')[1],
-        workoutsList[index2].toString().split(' ')[0]),
-    builder: (BuildContext context, AsyncSnapshot snapshot3) {
-      if (snapshot3.hasData) {
-        userNotesHistory = '';
-        if (snapshot3 != null) {
-          workoutName = snapshot3.data[0].data['name'];
-          workoutTag = snapshot3.data[0].data['tag'];
-          workoutNotes = snapshot3.data[0].data['historyNotes'];
-          HistoryViewModel()
-              .getUserNotesHistory(workoutNotes, workoutsList, index2);
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder(
+      future: HistoryViewModel().getWorkoutName(
+          widget.finishedWeeksWithAthlete[widget.index]
+              .toString()
+              .split('_')[0],
+          widget.finishedWeeksWithAthlete[widget.index]
+              .toString()
+              .split('_')[1],
+          widget.workoutsList[widget.index2].toString().split(' ')[0]),
+      builder: (BuildContext context, AsyncSnapshot snapshot3) {
+        if (snapshot3.hasData) {
+          userNotesHistory = '';
+          if (snapshot3 != null) {
+            workoutName = snapshot3.data[0].data['name'];
+            workoutTag = snapshot3.data[0].data['tag'];
+            workoutNotes = snapshot3.data[0].data['historyNotes'];
+            HistoryViewModel().getUserNotesHistory(
+                workoutNotes, widget.workoutsList, widget.index2);
+          }
+          return historyWorkoutContainer(
+              workoutTag, workoutName, widget.workoutsList, widget.index2);
+        } else {
+          return emptyHistoryWorkoutContainer();
         }
-        return historyWorkoutContainer(
-            workoutTag, workoutName, workoutsList, index2);
-      } else {
-        return emptyHistoryWorkoutContainer();
-      }
-    },
-  );
+      },
+    );
+  }
 }
