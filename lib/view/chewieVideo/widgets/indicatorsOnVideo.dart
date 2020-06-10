@@ -357,42 +357,47 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                       ),
                       child: Stack(
                         children: <Widget>[
-//
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              /// reps or timer,
+                              /// depend on the exercise type
+                              showTime
+                                  ? timerWidget(
+                                      context,
+                                      widget.showTimerDialog,
+                                      format,
+                                      widget.controller,
+                                      isTimerPaused,
+                                      _current,
+                                      _pausedOn,
+                                      countDownTimer,
+                                      controllerColor,
+                                    )
+                                  : stopIcon(
+                                      pressTimer, context, widget.isReps),
 
-                          /// reps or timer,
-                          /// depend on the exercise type
-                          showTime
-                              ? timerWidget(
+                              showTime
+                                  ? colorProgress(controllerColor, context)
+                                  : EmptyContainer(),
+
+                              /// info icon
+                              infoIcon(
+                                  infoClicked,
+                                  goBackToChewie,
+                                  isFromPortrait,
                                   context,
-                                  widget.showTimerDialog,
-                                  format,
                                   widget.controller,
-                                  isTimerPaused,
-                                  _current,
-                                  _pausedOn,
-                                  countDownTimer,
-                                  controllerColor,
-                                )
-                              : stopIcon(pressTimer, context, widget.isReps),
-
-                          showTime
-                              ? colorProgress(controllerColor, context)
-                              : EmptyContainer(),
-
-                          /// info icon
-                          infoIcon(
-                              infoClicked,
-                              goBackToChewie,
-                              isFromPortrait,
-                              context,
-                              widget.controller,
-                              checkIsOnTimeAndPauseTimer,
-                              widget.name,
-                              widget.video,
-                              widget.tips,
-                              widget.isReps,
-                              widget.index,
-                              widget.listLenght),
+                                  checkIsOnTimeAndPauseTimer,
+                                  widget.name,
+                                  widget.video,
+                                  widget.tips,
+                                  widget.isReps,
+                                  widget.index,
+                                  widget.listLenght),
+                            ],
+                          ),
                         ],
                       ),
                     ),

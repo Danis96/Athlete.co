@@ -21,11 +21,12 @@ Widget infoIcon(
       ? Container(
           margin: EdgeInsets.only(
               top: MediaQuery.of(context).orientation == Orientation.portrait
-                  ? SizeConfig.blockSizeVertical * 26.7
+                  ? SizeConfig.blockSizeVertical * 4
                   : SizeConfig.blockSizeVertical * 26,
-              left: MediaQuery.of(context).orientation == Orientation.portrait
-                  ? SizeConfig.blockSizeHorizontal * 11.5
-                  : SizeConfig.blockSizeHorizontal * 26),
+//              left: MediaQuery.of(context).orientation == Orientation.portrait
+//                  ? SizeConfig.blockSizeHorizontal * 11.5
+//                  : SizeConfig.blockSizeHorizontal * 26
+                  ),
           child: IconButton(
             icon: Icon(Icons.info),
             onPressed: () {
