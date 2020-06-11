@@ -77,6 +77,7 @@
       <string>fb-messenger-share-api</string>
       <string>fbauth2</string>
       <string>fbshareextension</string>
+	  <string>whatsapp</string>
     </array>
 </dict>
 </plist>
