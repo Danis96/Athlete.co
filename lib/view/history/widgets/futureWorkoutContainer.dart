@@ -1,3 +1,4 @@
+import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/view_model/historyViewModel.dart';
 import 'package:flutter/material.dart';
@@ -38,12 +39,14 @@ class _FutureWorkoutContainerState extends State<FutureWorkoutContainer> {
       builder: (BuildContext context, AsyncSnapshot snapshot3) {
         if (snapshot3.hasData) {
           userNotesHistory = '';
-          if (snapshot3 != null) {
+          if (snapshot3 != null && snapshot3.data.length != 0) {
             workoutName = snapshot3.data[0].data['name'];
             workoutTag = snapshot3.data[0].data['tag'];
             workoutNotes = snapshot3.data[0].data['historyNotes'];
             HistoryViewModel().getUserNotesHistory(
                 workoutNotes, widget.workoutsList, widget.index2);
+          } else {
+            return EmptyContainer();
           }
           return historyWorkoutContainer(
               workoutTag, workoutName, widget.workoutsList, widget.index2);

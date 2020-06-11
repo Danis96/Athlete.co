@@ -11,7 +11,7 @@ Widget futureWeekContainer(List<dynamic> finishedWeeksWithAthlete, int index,
         finishedWeeksWithAthlete[index].toString().split('_')[1]),
     builder: (BuildContext context, AsyncSnapshot snapshot2) {
       if (snapshot2.hasData) {
-        if (snapshot2 != null) {
+        if (snapshot2 != null && snapshot2.data.length != 0) {
           weekName = snapshot2.data[0].data['name'];
         }
         return finishedWeekContainer(weekName, trainerName, workoutsList,
