@@ -14,7 +14,7 @@ showSocialMediaDialog(BuildContext context) {
     ),
     color: Color.fromRGBO(37, 211, 102, 1),
     onPressed: () => TrainingPlanViewModel().whatsAppOpen(
-        '+38762623629', 'Hello from Athlete.co!!!', 'Training Plan', context),
+        '+447725514766', 'Hello from Athlete.co!!!', 'Training Plan', context),
   );
   Widget viberButton = IconButton(
     icon: Icon(

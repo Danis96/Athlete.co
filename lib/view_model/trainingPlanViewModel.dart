@@ -136,7 +136,7 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
 
   /// launch messenger
   launchMessenger() async {
-    var messengerUrl = 'https://www.facebook.com/messages/t/www.athlete.co';
+    var messengerUrl = 'https://m.facebook.com/messages/?id=2050729918315322&env=messenger';
     if (await canLaunch(messengerUrl)) {
       await launch(messengerUrl);
     } else {
@@ -146,7 +146,7 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
 
   /// launch viber
   launchViber() async {
-    var viberUrl = 'viber://contact?number=%2B38762748065';
+    var viberUrl = 'viber://contact?number=%2B447725514766';
     if (await canLaunch(viberUrl)) {
       await launch(viberUrl);
     } else {
