@@ -33,9 +33,7 @@ class Athlete extends StatelessWidget  {
     );
   }
 }
-
 //
-//import 'package:attt/view/home/pages/signin.dart';
 //import 'package:flutter/material.dart';
 //import 'dart:async';
 //
@@ -44,7 +42,7 @@ class Athlete extends StatelessWidget  {
 //
 //void main() {
 //  runApp(MaterialApp(
-//    title: 'DemoSub Sample',
+//    title: 'RevenueCat Sample',
 //    home: InitialScreen(),
 //  ));
 //}
@@ -64,21 +62,37 @@ class Athlete extends StatelessWidget  {
 //    initPlatformState();
 //  }
 //
+//  // Platform messages are asynchronous, so we initialize in an async method.
+//  Future<void> initPlatformState() async {
+//    await Purchases.setDebugLogsEnabled(true);
+//    await Purchases.setup("uMRtYohBNQwHzTNMGFzgVjLqLRcFMQvh");
+//    Purchases.addAttributionData({}, PurchasesAttributionNetwork.facebook);
+//    PurchaserInfo purchaserInfo = await Purchases.getPurchaserInfo();
+//    Offerings offerings = await Purchases.getOfferings();
+//    // If the widget was removed from the tree while the asynchronous platform
+//    // message was in flight, we want to discard the reply rather than calling
+//    // setState to update our non-existent appearance.
+//    if (!mounted) return;
 //
+//    setState(() {
+//      _purchaserInfo = purchaserInfo;
+//      _offerings = offerings;
+//    });
+//  }
 //
 //  @override
 //  Widget build(BuildContext context) {
 //    if (_purchaserInfo == null) {
 //      return Scaffold(
-//        appBar: AppBar(title: Text("Demo Subscription Tech387T2")),
+//        appBar: AppBar(title: Text("RevenueCat Sample App")),
 //        body: Center(
 //          child: Text("Loading..."),
 //        ),
 //      );
 //    } else {
-//      var isPro = _purchaserInfo.entitlements.active.containsKey('default-monthly');
+//      var isPro = _purchaserInfo.entitlements.active.containsKey("default");
 //      if (isPro) {
-//        return ProScreen();
+//        return CatsScreen();
 //      } else {
 //        return UpsellScreen(
 //          offerings: _offerings,
@@ -97,34 +111,22 @@ class Athlete extends StatelessWidget  {
 //  Widget build(BuildContext context) {
 //    if (offerings != null) {
 //      final offering = offerings.current;
-//      if(offerings.current != null && offerings.current.availablePackages.isNotEmpty) {
-//          print(offerings.current);
-//      } else print(offerings);
 //      if (offering != null) {
 //        final monthly = offering.monthly;
-//        final lifetime = offering.lifetime;
-//        if (monthly != null
-//            && lifetime != null) {
-//          print(offering.monthly.toString() + 'OFFERING MONTHLY');
+////        final lifetime = offering.lifetime;
+//        if (monthly != null ) {
 //          return Scaffold(
-//              appBar: AppBar(title: Text("Purchase sell")),
+//              appBar: AppBar(title: Text("Upsell Screen")),
 //              body: Center(
 //                  child: Column(
-//                mainAxisSize: MainAxisSize.min,
-//                children: <Widget>[
-//                  PurchaseButton(package: monthly),
-//                  PurchaseButton(package: lifetime)
-//                ],
-//              )));
+//                    mainAxisSize: MainAxisSize.min,
+//                    children: <Widget>[
+//                      PurchaseButton(package: monthly),
+////                      PurchaseButton(package: lifetime)
+//                    ],
+//                  )));
 //        }
-//        else {
-//          print('Else3');
-//        }
-//      } else {
-//        print('Else2');
 //      }
-//    } else {
-//      print('Else1');
 //    }
 //    return Scaffold(
 //        appBar: AppBar(title: Text("Upsell Screen")),
@@ -143,18 +145,46 @@ class Athlete extends StatelessWidget  {
 //  Widget build(BuildContext context) {
 //    return RaisedButton(
 //      onPressed: () async {
+//        print('ON PRESSED');
+//        try {
+//          print('TRY');
+//          PurchaserInfo purchaserInfo =
+//          await Purchases.purchasePackage(package);
+//          var isPro = purchaserInfo.entitlements.all["default"].isActive;
+//          print('IS PRO : ' + isPro.toString());
+//          if (isPro) {
+//            print('IS PRO');
+//            return CatsScreen();
 //
+//          }
+//        } on PlatformException catch (e) {
+//          print('CATCH');
+//          var errorCode = PurchasesErrorHelper.getErrorCode(e);
+//          if (errorCode == PurchasesErrorCode.purchaseCancelledError) {
+//            print("User cancelled");
+//          } else if (errorCode == PurchasesErrorCode.purchaseNotAllowedError) {
+//            print("User not allowed to purchase");
+//          } else if (errorCode == PurchasesErrorCode.unknownError) {
+//            print('Unknown error');
+//          } else if (errorCode == PurchasesErrorCode.unexpectedBackendResponseError) {
+//            print('Bekend error');
+//
+//          }
+//          print(errorCode.toString() + ' ERROR CODE');
+//
+//        }
+//        return InitialScreen();
 //      },
 //      child: Text("Buy - (${package.product.priceString})"),
 //    );
 //  }
 //}
 //
-//class ProScreen extends StatelessWidget {
+//class CatsScreen extends StatelessWidget {
 //  @override
 //  Widget build(BuildContext context) {
 //    return Scaffold(
-//        appBar: AppBar(title: Text("Pro Screen")),
+//        appBar: AppBar(title: Text("Cats Screen")),
 //        body: Center(
 //          child: Text("User is pro"),
 //        ));
