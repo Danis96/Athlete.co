@@ -27,6 +27,7 @@ bool repsDone = false;
 bool isEndPlaying = false;
 bool restShowed = false;
 bool focused = false;
+bool loadingFinished = false;
 
 /// for disabling android back button when rest and  ready are active
 bool restGoing = false, readyGoing = false;
