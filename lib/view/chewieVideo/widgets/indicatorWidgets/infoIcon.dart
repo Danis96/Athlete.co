@@ -1,4 +1,5 @@
 import 'package:attt/utils/emptyContainer.dart';
+import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/workout/widgets/info.dart';
 import 'package:flutter/material.dart';
@@ -21,11 +22,8 @@ Widget infoIcon(
       ? Container(
           margin: EdgeInsets.only(
               top: MediaQuery.of(context).orientation == Orientation.portrait
-                  ? SizeConfig.blockSizeVertical * 4
+                  ? showTime ?  SizeConfig.blockSizeVertical * 2 : SizeConfig.blockSizeVertical * 3
                   : SizeConfig.blockSizeVertical * 26,
-//              left: MediaQuery.of(context).orientation == Orientation.portrait
-//                  ? SizeConfig.blockSizeHorizontal * 11.5
-//                  : SizeConfig.blockSizeHorizontal * 26
                   ),
           child: IconButton(
             icon: Icon(Icons.info),

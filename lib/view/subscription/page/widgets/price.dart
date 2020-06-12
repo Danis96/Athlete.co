@@ -36,7 +36,7 @@ Widget priceContainer(
                     color: MyColors().lightWhite,
                     fontWeight: FontWeight.bold,
                     fontStyle: FontStyle.italic,
-                    fontSize: SizeConfig.safeBlockHorizontal * 6),
+                    fontSize: SizeConfig.safeBlockHorizontal * 5),
               ),
             ),
             Container(
@@ -48,7 +48,7 @@ Widget priceContainer(
                 style: TextStyle(
                     color: MyColors().lightWhite,
                     fontWeight: FontWeight.w500,
-                    fontSize: SizeConfig.safeBlockHorizontal * 4),
+                    fontSize: SizeConfig.safeBlockHorizontal * 3),
               ),
             ),
           ],
