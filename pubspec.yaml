@@ -90,7 +90,6 @@ flutter:
   assets:
     - assets/images/logo.png
     - assets/images/google-login.png
-    - assets/images/ar.jpg
     - assets/images/athlete-logo.png
     - assets/images/athlete.png
     - assets/audio/bel.mp3
