@@ -20,7 +20,7 @@ abstract class TrainingPlanInterface {
       String tag,
       );
   whatsAppOpen(
-      String phoneNumber, String message, String screen, BuildContext context);
+      String phoneNumber, String message, String screen, String userName, BuildContext context);
   secondTabPressed(BuildContext context, DocumentSnapshot userTrainerDocument,
       DocumentSnapshot userDocument, String userUID);
   firstTabPressed(BuildContext context, DocumentSnapshot userTrainerDocument,

@@ -5,7 +5,8 @@ import 'package:attt/view/trainingPlan/widgets/socialMediaDialog.dart';
 import 'package:flutter/material.dart';
 
 class AnyQuestionContainer extends StatefulWidget {
-  AnyQuestionContainer({Key key}) : super(key: key);
+  final String userName;
+  AnyQuestionContainer({Key key, this.userName}) : super(key: key);
 
   @override
   _AnyQuestionContainerState createState() => _AnyQuestionContainerState();
@@ -21,7 +22,7 @@ class _AnyQuestionContainerState extends State<AnyQuestionContainer> {
             setState(() {
               focused = false;
             });
-            showSocialMediaDialog(context);
+            showSocialMediaDialog(context, widget.userName);
           },
           readOnly: true,
           enableInteractiveSelection: false,

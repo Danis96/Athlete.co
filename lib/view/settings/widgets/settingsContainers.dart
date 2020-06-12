@@ -42,7 +42,7 @@ checkAndDo(String isFrom, DocumentSnapshot userDocument, BuildContext context,
     isFromSettings = true;
     SettingsViewModel().changeAthlete(context, userDocument, userUID);
   } else if (isFrom == 'question') {
-    showSocialMediaDialog(context);
+    showSocialMediaDialog(context, userDocument.data['display_name']);
   } else if (isFrom == 'terms') {
     SettingsViewModel().goToTermsAndPrivacy(context);
   } else if (isFrom == 'privacy') {
