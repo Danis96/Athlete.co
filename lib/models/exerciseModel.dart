@@ -2,7 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Exercise {
   final String name, image, video, exerciseID, time;
-  final int isReps, reps, sets, rest;
+  final int isReps, sets, rest;
+  final reps;
   final List<dynamic> tips;
 
   Exercise(

@@ -23,7 +23,7 @@ class WorkoutList extends StatefulWidget {
   final String exerciseVideo;
   final String exerciseImage;
   final int exerciseIsReps;
-  final int exerciseReps;
+  final exerciseReps;
   final int exerciseSets;
   final String weekID;
   final String workoutID;
