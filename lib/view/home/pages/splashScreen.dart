@@ -43,6 +43,9 @@ class _CustomSplashScreenState extends State<CustomSplashScreen> {
               width: SizeConfig.blockSizeHorizontal * 44.444,
             ),
           ),
-        ])));
+        ],
+            ),
+        ),
+    );
   }
 }
