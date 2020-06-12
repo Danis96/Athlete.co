@@ -32,7 +32,7 @@ Widget timerWidget(
     margin: EdgeInsets.only(
       top: MediaQuery.of(context).orientation == Orientation.landscape
           ? SizeConfig.blockSizeVertical * 11
-          : SizeConfig.blockSizeVertical * 18,
+          : SizeConfig.blockSizeVertical * 16.5,
       left: MediaQuery.of(context).orientation == Orientation.landscape
           ? SizeConfig.blockSizeHorizontal * 68
           : SizeConfig.blockSizeHorizontal * 0,
