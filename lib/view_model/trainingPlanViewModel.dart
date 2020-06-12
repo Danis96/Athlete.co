@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:attt/view/trainingPlan/widgets/alertDialogTrainingPlanFinished.dart';
 import 'package:attt/interface/trainingPlanInterface.dart';
 import 'package:attt/utils/customScreenAnimation.dart';
@@ -78,7 +79,14 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
   @override
   whatsAppOpen(String phoneNumber, String message, String screen,
       BuildContext context) async {
-    var whatsappUrl = "whatsapp://send?phone=$phoneNumber&text=$message";
+
+    var whatsappUrl;
+
+    if(Platform.isIOS) {
+      whatsappUrl = 'whatsapp://wa.me/$phoneNumber/?text=${Uri.parse(message)}';
+    } else {
+      whatsappUrl = "whatsapp://send?phone=$phoneNumber&text=$message";
+    }
     if (await canLaunch(whatsappUrl)) {
       await launch(whatsappUrl);
     } else {
