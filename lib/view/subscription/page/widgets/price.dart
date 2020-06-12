@@ -14,8 +14,7 @@ Widget priceContainer(
       Container(
         decoration: BoxDecoration(
           color: MyColors().black,
-          border:
-          Border.all(
+          border: Border.all(
             color: Colors.yellow.withOpacity(0.7),
             style: BorderStyle.solid,
           ),
@@ -66,11 +65,10 @@ subscribe(Package package, BuildContext context) async {
   /// Makes a purchase. Returns a PurchaserInfo object
   /// then check if all entitlements are active [give them entitlement id]
   /// if user is pro, then show him the Signin, else print
-
   try {
     print(' u try sam usao  ++++++++++++++++++');
     PurchaserInfo purchaserInfo = await Purchases.purchasePackage(package);
-    var isPro = purchaserInfo.entitlements.all["default-monthly"].isActive;
+    var isPro = purchaserInfo.entitlements.all["default"].isActive;
     print('IS PRO ==== ' + isPro.toString());
     if (isPro) {
       print(' u IS PRO sam usao  ++++++++++++++++++');
@@ -86,6 +84,7 @@ subscribe(Package package, BuildContext context) async {
     } else if (errorCode == PurchasesErrorCode.purchaseNotAllowedError) {
       print("User not allowed to purchase ++++++++++++++");
     }
+    print(errorCode.toString() + ' ERROR CODE');
   }
 
   print('KLASAAAAAAAAAA');
