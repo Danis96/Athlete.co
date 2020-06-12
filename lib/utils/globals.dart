@@ -18,6 +18,7 @@ OverlayEntry overlayEntryPaused;
 OverlayState overlayStatePaused;
 List<dynamic> allVideos;
 List<dynamic> onlineVideos = [];
+List<dynamic> onlineCovers = [];
 List<dynamic> onlineWarmup = [];
 List<dynamic> listOfBoundarySets = [0];
 List<dynamic> onlineExercises = [];

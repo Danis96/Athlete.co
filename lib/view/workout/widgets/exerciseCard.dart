@@ -65,13 +65,13 @@ class _ExerciseCardState extends State<ExerciseCard> {
             /// image thumbnail
             Container(
               margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 5),
-              width: SizeConfig.blockSizeHorizontal * 20,
-              height: SizeConfig.blockSizeVertical * 10,
+              width: SizeConfig.blockSizeHorizontal * 15,
+              height: SizeConfig.blockSizeVertical * 5,
               child: Image.network(
                 widget.exerciseImage,
                 height: SizeConfig.blockSizeVertical * 10,
                 width: SizeConfig.blockSizeHorizontal * 10,
-                fit: BoxFit.contain,
+                fit: BoxFit.cover,
               ),
             ),
             Expanded(

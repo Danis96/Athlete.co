@@ -71,6 +71,7 @@ class _MyAlertDialogState extends State<MyAlertDialog> {
               ),
             ));
             onlineVideos = [];
+            onlineCovers = [];
             exerciseSnapshots = [];
           },
           child: new Text(

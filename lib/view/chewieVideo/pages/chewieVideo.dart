@@ -36,6 +36,7 @@ class _ChewieVideoState extends State<ChewieVideo>
     with WidgetsBindingObserver
     implements ChewieVideoInterface {
   List<dynamic> source = [];
+  List<dynamic> covers = [];
   VideoController vc;
   VideoPlayerController controller;
   List<dynamic> exerciseTips = [];
@@ -59,7 +60,13 @@ class _ChewieVideoState extends State<ChewieVideo>
     vc.looping = true;
     vc.bufferColor = Colors.transparent;
     vc.cover = Container(
-      child: Image.asset('assets/images/ar.jpg'),
+      child: AspectRatio(
+        aspectRatio: 2.0 / 1.2,
+        child: Image.network(
+          covers[nv],
+          fit: BoxFit.fitHeight,
+        ),
+      ),
     );
     vc.controllerWidgets = true;
 
@@ -260,6 +267,7 @@ class _ChewieVideoState extends State<ChewieVideo>
     onlineExercises = [];
     onlineWarmup = [];
     onlineVideos = [];
+    onlineCovers = [];
     exerciseSnapshots = [];
     alertQuit = true;
     FullTrainingStopwatch().stopStopwtach();
@@ -289,6 +297,7 @@ class _ChewieVideoState extends State<ChewieVideo>
   void initState() {
     super.initState();
     source = onlineVideos;
+    covers = onlineCovers;
     WidgetsBinding.instance.addObserver(this);
 
     /// initializing VideoController and giving him source (videos)
@@ -298,7 +307,13 @@ class _ChewieVideoState extends State<ChewieVideo>
         looping: true,
         autoplay: false,
         cover: Container(
-          child: Image.asset('assets/images/ar.jpg'),
+          child: AspectRatio(
+            aspectRatio: 2.0 / 1.2,
+            child: Image.network(
+              covers[index],
+              fit: BoxFit.fitHeight,
+            ),
+          ),
         ),
         source: VideoPlayerController.network(source[index]))
       ..initialize();

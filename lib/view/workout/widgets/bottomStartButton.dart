@@ -32,6 +32,7 @@ Widget bottomButtonStart(
         listOfBoundarySets = [0];
         namesWithSet = [];
         onlineVideos = [];
+        onlineCovers = [];
         for (var i = 0; i < serije.length; i++) {
           List<dynamic> vjezbe = await WorkoutViewModel().getExercises(
             userTrainerDocument.data['trainerID'],
@@ -54,6 +55,7 @@ Widget bottomButtonStart(
         }
         for (var i = 0; i < workoutExercisesWithSets.length; i++) {
           onlineVideos.add(workoutExercisesWithSets[i].data['video']);
+          onlineCovers.add(workoutExercisesWithSets[i].data['image']);
         }
         alertQuit = false;
         for (var i = 0; i < namesWithSet.length; i++) {
