@@ -6,7 +6,7 @@ import 'package:attt/view_model/trainingPlanViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-showSocialMediaDialog(BuildContext context) {
+showSocialMediaDialog(BuildContext context, String userName) {
   Widget whatsAppButton = IconButton(
     icon: Icon(
       FontAwesomeIcons.whatsapp,
@@ -14,7 +14,7 @@ showSocialMediaDialog(BuildContext context) {
     ),
     color: Color.fromRGBO(37, 211, 102, 1),
     onPressed: () => TrainingPlanViewModel().whatsAppOpen(
-        '+447725514766', 'Hello from Athlete.co!!!', 'Training Plan', context),
+        '+447725514766', 'Hi, my name is $userName.', 'Training Plan', 'Name',context),
   );
   Widget viberButton = IconButton(
     icon: Icon(
@@ -37,7 +37,7 @@ showSocialMediaDialog(BuildContext context) {
         color: Colors.redAccent,
         size: SizeConfig.blockSizeHorizontal * 10,
       ),
-      onPressed: () => TrainingPlanViewModel().launchEmail());
+      onPressed: () => TrainingPlanViewModel().launchEmail(userName));
 
   // set up the AlertDialog
   AlertDialog alert = AlertDialog(

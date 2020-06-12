@@ -82,7 +82,8 @@ class _FinishWorkoutState extends State<FinishWorkout> {
                   SizedBox(
                     height: SizeConfig.blockSizeVertical * 1.5,
                   ),
-                  AnyQuestionContainer(),
+                  AnyQuestionContainer(
+                      userName: widget.userDocument.data['display_name']),
                 ],
               ),
             ),

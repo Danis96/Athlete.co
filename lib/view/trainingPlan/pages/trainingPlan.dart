@@ -85,7 +85,7 @@ class _TrainingPlanState extends State<TrainingPlan> {
                 ),
                 Container(
                     child: FlatButton.icon(
-                  onPressed: () => showSocialMediaDialog(context),
+                  onPressed: () => showSocialMediaDialog(context, widget.userDocument.data['display_name']),
                   label: Text(
                     'Can we help? Contact us.',
                     style: TextStyle(

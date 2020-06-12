@@ -77,7 +77,7 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
   }
 
   @override
-  whatsAppOpen(String phoneNumber, String message, String screen,
+  whatsAppOpen(String phoneNumber, String message, String screen, String userName,
       BuildContext context) async {
 
     var whatsappUrl;
@@ -93,7 +93,7 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
       if (screen == 'Training Plan') {
         showAlertDialog(context);
       } else {
-        launchEmail();
+        launchEmail(userName);
       }
     }
   }
@@ -133,10 +133,12 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
     );
   }
 
-  launchEmail() async {
+  launchEmail(String userName) async {
     String email = 'backup@athlete.co';
+    String subject = 'Customer Service Enquiry from ATHLETE.CO App';
+    String body = 'Hi, my name is $userName.\n\n';
     if (await canLaunch("mailto:$email")) {
-      await launch("mailto:$email");
+      await launch("mailto:$email?subject=$subject&body=$body");
     } else {
       throw 'Could not launch';
     }
