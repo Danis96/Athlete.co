@@ -45,7 +45,8 @@ class _WorkoutState extends State<Workout> {
       _trainerName,
       _weekName,
       _workoutName;
-  int _exerciseIsReps, _exerciseReps, _exerciseSets;
+  int _exerciseIsReps, _exerciseSets;
+  var _exerciseReps;
   List<dynamic> _series = [], _exercises = [], _exerciseTips = [];
   List<dynamic> serije = [];
 

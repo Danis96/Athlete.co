@@ -1,6 +1,7 @@
 import 'package:attt/storage/storage.dart';
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/customScreenAnimation.dart';
+import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/workout/widgets/info.dart';
@@ -13,7 +14,7 @@ class ExerciseCard extends StatefulWidget {
   final String exerciseVideo;
   final String exerciseImage;
   final int exerciseIsReps;
-  final int exerciseReps;
+  final exerciseReps;
   final int exerciseRest;
   final int exerciseSets;
   final Storage storage;
@@ -94,13 +95,13 @@ class _ExerciseCardState extends State<ExerciseCard> {
                     Row(
                       children: <Widget>[
                         Text(
-                          widget.exerciseIsReps == 0
-                              ? widget.time == null
-                                  ? 'Sets ${widget.exerciseSets} | Reps ${widget.exerciseReps} '
-                                  : 'Sets ${widget.exerciseSets} | Reps ${widget.exerciseReps} | Time ${widget.time}'
-                              : widget.time == null
-                                  ? 'Sets ${widget.exerciseSets}'
-                                  : 'Sets ${widget.exerciseSets} | Time ${widget.time}',
+                          widget.time == null
+                              ? widget.exerciseReps == null
+                                  ? 'Sets ${widget.exerciseSets} '
+                                  : 'Sets ${widget.exerciseSets} | Reps ${widget.exerciseReps} '
+                              : widget.exerciseReps == null
+                                  ? 'Sets ${widget.exerciseSets} |  Time ${widget.time}'
+                                  : 'Sets ${widget.exerciseSets} | Reps ${widget.exerciseReps} | Time ${widget.time}',
                           style: TextStyle(
                               color: MyColors().lightWhite,
                               fontSize: SizeConfig.blockSizeHorizontal * 3),

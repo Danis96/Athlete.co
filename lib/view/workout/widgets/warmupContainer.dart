@@ -23,7 +23,7 @@ class WarmupContainer extends StatefulWidget {
   String image;
   int isReps;
   String name;
-  int reps;
+  var reps;
   int rest;
   int sets;
   List<String> tips;
