@@ -15,7 +15,7 @@ Widget infoIcon(
     String name,
     String video,
     List<dynamic> exTips,
-    int isReps,
+    var isReps,
     index,
     listLenght) {
   return MediaQuery.of(context).orientation == Orientation.portrait

@@ -42,11 +42,11 @@ class _ChewieVideoState extends State<ChewieVideo>
   List<dynamic> exerciseTips = [];
   int exerciseDuration,
       exerciseIsReps,
-      exerciseReps,
       exerciseSets,
       exerciseRest;
+  var exerciseReps;
   String exerciseName, exerciseRepsDescription;
-  String exerciseSet;
+  String exerciseSet, exerciseTime;
   String seriesID;
   int _index = 0;
   int get index => _index;
@@ -224,6 +224,7 @@ class _ChewieVideoState extends State<ChewieVideo>
     exerciseSet = exerciseNameAndSet.split('_')[0];
     exerciseRepsDescription =
         workoutExercisesWithSets[index].data['repsDescription'];
+    exerciseTime = workoutExercisesWithSets[index].data['time'];
   }
 
   /// when we want to play next video, we simply set index to increment
@@ -401,6 +402,7 @@ class _ChewieVideoState extends State<ChewieVideo>
                   showTimerDialog: showPickerNumber,
                   tips: exerciseTips,
                   video: source[index],
+                  exerciseTime: exerciseTime,
                 ),
               ),
             ),
