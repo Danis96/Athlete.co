@@ -7,7 +7,8 @@ import 'package:video_box/video.controller.dart';
 Widget noteButton(BuildContext context, bool noteClicked, isFromPortrait,
     VideoController controller, Function checkIsOnTimeAndPauseTimer,
     DocumentSnapshot userDocument, userTrainerDocument,
-    int index, listLenght,isReps, sets, reps,
+    int index, listLenght,isReps, sets,
+    var reps,
     String name, workoutID, weekID
     ) {
   return Container(

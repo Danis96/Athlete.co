@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
+import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/sound.dart';
@@ -15,6 +16,7 @@ import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/previousButton.da
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/repsWidget.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/setsWidget.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/stopwatchIcon.dart';
+import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/timeCont.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/timerWidget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -29,8 +31,15 @@ class IndicatorsOnVideo extends StatefulWidget {
   final DocumentSnapshot userDocument, userTrainerDocument;
   final int index, listLenght;
   final Function showAddNote, playNext, playPrevious, onWill, showTimerDialog;
-  final int isReps, sets, reps;
-  final String name, workoutID, weekID, currentSet, repsDescription, video;
+  final int isReps, sets;
+  final reps;
+  final String name,
+      workoutID,
+      weekID,
+      currentSet,
+      repsDescription,
+      video,
+      exerciseTime;
   final bool ctrl;
   final List<dynamic> tips;
 
@@ -55,6 +64,7 @@ class IndicatorsOnVideo extends StatefulWidget {
       this.userDocument,
       this.ctrl,
       this.onWill,
+      this.exerciseTime,
       this.showTimerDialog});
 
   @override
@@ -317,10 +327,13 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                           widget.index,
                           widget.listLenght),
                     ),
+                    timeCont(widget.exerciseTime, widget.reps),
                     Container(
-                      child: widget.isReps == 0
-                          ? repsWidget(context, widget.isReps, widget.reps)
-                          : asManyReps(context, widget.repsDescription),
+                        child: widget.reps == null
+                            ? EmptyContainer()
+                            : repsWidget(context, widget.isReps, widget.reps, widget.exerciseTime)),
+                    Container(
+                      child: asManyReps(context, widget.repsDescription),
                     ),
                     Container(
                       margin: EdgeInsets.only(

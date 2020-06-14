@@ -68,7 +68,7 @@ subscribe(Package package, BuildContext context) async {
   try {
     print(' u try sam usao  ++++++++++++++++++');
     PurchaserInfo purchaserInfo = await Purchases.purchasePackage(package);
-    var isPro = purchaserInfo.entitlements.all["default"].isActive;
+    var isPro = purchaserInfo.entitlements.all["default-monthly"].isActive;
     print('IS PRO ==== ' + isPro.toString());
     if (isPro) {
       print(' u IS PRO sam usao  ++++++++++++++++++');

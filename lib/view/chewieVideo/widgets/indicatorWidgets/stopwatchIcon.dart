@@ -3,7 +3,7 @@ import 'package:attt/utils/size_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-Widget stopIcon(Function pressTimer, BuildContext context, int isReps) {
+Widget stopIcon(Function pressTimer, BuildContext context, var isReps) {
   return Container(
     height: MediaQuery.of(context).orientation == Orientation.portrait
         ? SizeConfig.blockSizeVertical * 5.5

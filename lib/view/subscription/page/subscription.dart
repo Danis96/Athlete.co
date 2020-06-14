@@ -35,7 +35,7 @@ class _SubscriptionClassState extends State<SubscriptionClass> {
     await Purchases.setDebugLogsEnabled(true);
 
     /// here we add the public sdk that we get from RevenueCat
-    await Purchases.setup("uMRtYohBNQwHzTNMGFzgVjLqLRcFMQvh");
+    await Purchases.setup("tracruyrpuYrnZONKnHsDuYBerGnpBRn");
 
 //    Purchases.addAttributionData({}, PurchasesAttributionNetwork.facebook);
     PurchaserInfo purchaserInfo = await Purchases.getPurchaserInfo();
@@ -64,9 +64,9 @@ class _SubscriptionClassState extends State<SubscriptionClass> {
 
       if (offering != null) {
         final monthly = offering.monthly;
-//        final lifetime = offering.lifetime;
-        if (monthly != null )
-//            && lifetime != null)
+        final lifetime = offering.lifetime;
+        if (monthly != null
+            && lifetime != null)
     {
           print(offering.monthly.toString() + 'OFFERING MONTHLY');
           return Scaffold(
@@ -84,13 +84,13 @@ class _SubscriptionClassState extends State<SubscriptionClass> {
                       'FREE TRIAL',
                       monthly,
                       context),
-//                  priceContainer(
-//                      'Lifetime for $priceLifetime',
-//                      'Subscription will not be renewed',
-//                      '7 DAYS',
-//                      'FREE TRIAL',
-//                      lifetime,
-//                      context),
+                  priceContainer(
+                      'Lifetime for $priceLifetime',
+                      'Subscription will not be renewed',
+                      '7 DAYS',
+                      'FREE TRIAL',
+                      lifetime,
+                      context),
                   textCont(),
                   starsRow(),
                   reviews(ReviewText().name1, ReviewText().rev1),

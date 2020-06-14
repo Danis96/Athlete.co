@@ -34,6 +34,7 @@ class Athlete extends StatelessWidget  {
   }
 }
 //
+//
 //import 'package:flutter/material.dart';
 //import 'dart:async';
 //
@@ -65,7 +66,7 @@ class Athlete extends StatelessWidget  {
 //  // Platform messages are asynchronous, so we initialize in an async method.
 //  Future<void> initPlatformState() async {
 //    await Purchases.setDebugLogsEnabled(true);
-//    await Purchases.setup("uMRtYohBNQwHzTNMGFzgVjLqLRcFMQvh");
+//    await Purchases.setup("tracruyrpuYrnZONKnHsDuYBerGnpBRn");
 //    Purchases.addAttributionData({}, PurchasesAttributionNetwork.facebook);
 //    PurchaserInfo purchaserInfo = await Purchases.getPurchaserInfo();
 //    Offerings offerings = await Purchases.getOfferings();
@@ -90,7 +91,8 @@ class Athlete extends StatelessWidget  {
 //        ),
 //      );
 //    } else {
-//      var isPro = _purchaserInfo.entitlements.active.containsKey("default");
+//      var isPro =
+//          _purchaserInfo.entitlements.active.containsKey("default-monthly");
 //      if (isPro) {
 //        return CatsScreen();
 //      } else {
@@ -113,18 +115,18 @@ class Athlete extends StatelessWidget  {
 //      final offering = offerings.current;
 //      if (offering != null) {
 //        final monthly = offering.monthly;
-////        final lifetime = offering.lifetime;
-//        if (monthly != null ) {
+//        final lifetime = offering.lifetime;
+//        if (monthly != null && lifetime != null) {
 //          return Scaffold(
 //              appBar: AppBar(title: Text("Upsell Screen")),
 //              body: Center(
 //                  child: Column(
-//                    mainAxisSize: MainAxisSize.min,
-//                    children: <Widget>[
-//                      PurchaseButton(package: monthly),
-////                      PurchaseButton(package: lifetime)
-//                    ],
-//                  )));
+//                mainAxisSize: MainAxisSize.min,
+//                children: <Widget>[
+//                  PurchaseButton(package: monthly),
+//                  PurchaseButton(package: lifetime)
+//                ],
+//              )));
 //        }
 //      }
 //    }
@@ -145,33 +147,23 @@ class Athlete extends StatelessWidget  {
 //  Widget build(BuildContext context) {
 //    return RaisedButton(
 //      onPressed: () async {
-//        print('ON PRESSED');
 //        try {
-//          print('TRY');
 //          PurchaserInfo purchaserInfo =
-//          await Purchases.purchasePackage(package);
-//          var isPro = purchaserInfo.entitlements.all["default"].isActive;
-//          print('IS PRO : ' + isPro.toString());
+//              await Purchases.purchasePackage(package);
+//var isPro = purchaserInfo.entitlements.all["default-monthly"].isActive;
+////          var isPro =
+////              purchaserInfo.entitlements.active['default-monthly'].isActive;
 //          if (isPro) {
-//            print('IS PRO');
-//            return CatsScreen();
-//
+//            return Navigator.of(context)
+//                .push(MaterialPageRoute(builder: (_) => CatsScreen()));
 //          }
 //        } on PlatformException catch (e) {
-//          print('CATCH');
 //          var errorCode = PurchasesErrorHelper.getErrorCode(e);
 //          if (errorCode == PurchasesErrorCode.purchaseCancelledError) {
 //            print("User cancelled");
 //          } else if (errorCode == PurchasesErrorCode.purchaseNotAllowedError) {
 //            print("User not allowed to purchase");
-//          } else if (errorCode == PurchasesErrorCode.unknownError) {
-//            print('Unknown error');
-//          } else if (errorCode == PurchasesErrorCode.unexpectedBackendResponseError) {
-//            print('Bekend error');
-//
 //          }
-//          print(errorCode.toString() + ' ERROR CODE');
-//
 //        }
 //        return InitialScreen();
 //      },

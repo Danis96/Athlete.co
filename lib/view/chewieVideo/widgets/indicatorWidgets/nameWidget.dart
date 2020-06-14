@@ -46,7 +46,7 @@ Widget nameWidget(
       alignment: MediaQuery.of(context).orientation == Orientation.landscape
           ? Alignment.centerLeft
           : Alignment.center,
-      width: SizeConfig.blockSizeHorizontal * 90,
+      width: SizeConfig.blockSizeHorizontal * 100,
       margin: EdgeInsets.only(
         top: MediaQuery.of(context).orientation == Orientation.landscape
             ? isReps == 0
@@ -73,7 +73,7 @@ Widget nameWidget(
                 ? SizeConfig.blockSizeHorizontal * 0
                 : SizeConfig.blockSizeHorizontal * 35),
         width: MediaQuery.of(context).orientation == Orientation.portrait
-            ? SizeConfig.blockSizeHorizontal * 90
+            ? SizeConfig.blockSizeHorizontal * 100
             : SizeConfig.blockSizeHorizontal * 90,
         child: RichText(
           overflow: TextOverflow.ellipsis,

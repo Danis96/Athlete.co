@@ -12,7 +12,7 @@ Widget asManyReps(BuildContext context, String repsDescription) {
              Orientation.landscape
              ? SizeConfig.blockSizeVertical * 62
              : SizeConfig.blockSizeVertical *
-           16.5,
+           19,
          right: MediaQuery.of(context)
              .orientation ==
              Orientation.landscape
