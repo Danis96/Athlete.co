@@ -28,7 +28,7 @@ Widget repsWidget(
                     ? SizeConfig.blockSizeHorizontal * 50
                     : SizeConfig.blockSizeHorizontal * 34),
     child: Text(
-        reps.toString().length <= 2 ? 'x' + reps.toString() : reps.toString(),
+        reps.toString().length <= 2 ? 'x ' + reps.toString() : reps.toString(),
         style: TextStyle(
             color: Colors.white,
             fontSize:
