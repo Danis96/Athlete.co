@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class Exercise {
-  final String name, image, video, exerciseID, time;
+  final String name, image, video, exerciseID, time, repsDescription;
   final int isReps, sets, rest;
   final reps;
   final List<dynamic> tips;
@@ -17,6 +17,7 @@ class Exercise {
       this.tips,
       this.video,
       this.time,
+        this.repsDescription
       });
 
   factory Exercise.fromDocument(DocumentSnapshot doc) {
@@ -30,6 +31,7 @@ class Exercise {
         sets: doc['sets'],
         tips: doc['tips'],
         time: doc['time'],
+        repsDescription: doc['repsDescription'],
         video: doc['video']);
   }
 }
