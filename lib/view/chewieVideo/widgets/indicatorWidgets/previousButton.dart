@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 Widget previousButton(BuildContext context, Function resetTimer, playPrevious) {
    return Column(
+     crossAxisAlignment: CrossAxisAlignment.center,
      children: [
        Container(
          child: IconButton(
@@ -25,7 +26,7 @@ Widget previousButton(BuildContext context, Function resetTimer, playPrevious) {
          ),
        ),
        Container(
-         margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 3),
+         margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 0),
          child: Text('PREV', style: TextStyle(color: MediaQuery.of(context)
              .orientation ==
              Orientation.landscape

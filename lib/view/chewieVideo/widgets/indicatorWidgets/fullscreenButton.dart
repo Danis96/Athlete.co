@@ -7,8 +7,8 @@ Widget fullscreenButton(
     margin: EdgeInsets.only(
         top: MediaQuery.of(context).orientation == Orientation.landscape
             ? isReps == 0
-                ? SizeConfig.blockSizeVertical * 72
-                : SizeConfig.blockSizeVertical * 72
+                ? SizeConfig.blockSizeVertical * 0
+                : SizeConfig.blockSizeVertical * 0
             : isReps == 0
                 ? SizeConfig.blockSizeVertical * 0
                 : SizeConfig.blockSizeVertical * 0,

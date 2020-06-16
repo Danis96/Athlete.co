@@ -134,7 +134,7 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
   }
 
   launchEmail(String userName) async {
-    String email = 'backup@athlete.co';
+    String email = 'hello@athlete.co';
     String subject = 'Customer Service Enquiry from ATHLETE.CO App';
     String body = 'Hi, my name is $userName.\n\n';
     if (await canLaunch("mailto:$email")) {
