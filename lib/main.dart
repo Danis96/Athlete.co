@@ -5,10 +5,12 @@ import 'package:attt/view/home/pages/splashScreen.dart';
 // import 'file:///C:/Users/danis.dev/Desktop/Athlete.co/lib/view/subscription/page/subscription.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 import 'package:provider/provider.dart';
 
 void main() {
   final timerService = TimerService();
+  InAppPurchaseConnection.enablePendingPurchases();
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     runApp(
@@ -63,7 +65,20 @@ class Athlete extends StatelessWidget  {
 //    initPlatformState();
 //  }
 //
-//  // Platform messages are asynchronous, so we initialize in an async method.
+//  Future<void> initPlatformState() async {
+//    await Purchases.setDebugLogsEnabled(true);
+//    await Purchases.setup("tracruyrpuYrnZONKnHsDuYBerGnpBRn");
+//    PurchaserInfo purchaserInfo = await Purchases.getPurchaserInfo();
+//    Offerings offerings = await Purchases.getOfferings();
+//    if (!mounted) return;
+//
+//    setState(() {
+//      _purchaserInfo = purchaserInfo;
+//      _offerings = offerings;
+//    });
+//  }
+
+// Platform messages are asynchronous, so we initialize in an async method.
 //  Future<void> initPlatformState() async {
 //    await Purchases.setDebugLogsEnabled(true);
 //    await Purchases.setup("tracruyrpuYrnZONKnHsDuYBerGnpBRn");
@@ -80,9 +95,20 @@ class Athlete extends StatelessWidget  {
 //      _offerings = offerings;
 //    });
 //  }
-//
+
+//  getOff() async {
+//    try {
+//      Offerings offerings = await Purchases.getOfferings();
+//      if (offerings.current != null) {
+//        UpsellScreen(offerings: offerings,);
+//      }
+//    } on PlatformException catch (e) {
+//      // optional error handling
+//    }
+//  }
 //  @override
 //  Widget build(BuildContext context) {
+//   getOff();
 //    if (_purchaserInfo == null) {
 //      return Scaffold(
 //        appBar: AppBar(title: Text("RevenueCat Sample App")),
@@ -92,9 +118,10 @@ class Athlete extends StatelessWidget  {
 //      );
 //    } else {
 //      var isPro =
-//          _purchaserInfo.entitlements.active.containsKey("default-monthly");
+//          _purchaserInfo.entitlements.active.containsKey("monthly");
 //      if (isPro) {
-//        return CatsScreen();
+//        print('USER JE PRO');
+////        return CatsScreen();
 //      } else {
 //        return UpsellScreen(
 //          offerings: _offerings,
@@ -103,7 +130,7 @@ class Athlete extends StatelessWidget  {
 //    }
 //  }
 //}
-//
+////
 //class UpsellScreen extends StatelessWidget {
 //  final Offerings offerings;
 //
@@ -123,8 +150,10 @@ class Athlete extends StatelessWidget  {
 //                  child: Column(
 //                mainAxisSize: MainAxisSize.min,
 //                children: <Widget>[
-//                  PurchaseButton(package: monthly),
-//                  PurchaseButton(package: lifetime)
+//                 Btn(package:monthly),
+//                  Btn(package:lifetime),
+////                  PurchaseButton(package: monthly),
+////                  PurchaseButton(package: lifetime)
 //                ],
 //              )));
 //        }
@@ -135,6 +164,41 @@ class Athlete extends StatelessWidget  {
 //        body: Center(
 //          child: Text("Loading..."),
 //        ));
+//  }
+//}
+//
+//
+//class Btn extends StatefulWidget {
+//
+//  final Package package;
+//
+//  Btn({this.package});
+//
+//  @override
+//  _BtnState createState() => _BtnState();
+//}
+//
+//class _BtnState extends State<Btn> {
+//
+//  var isPro;
+//
+//  @override
+//  Widget build(BuildContext context) {
+//    return RaisedButton(onPressed: () async {
+//
+//
+//        PurchaserInfo purchaserInfo = await Purchases.purchasePackage(widget.package);
+//        print(purchaserInfo.toString() + ' PURCHASER INFO');
+//
+//
+//        isPro = purchaserInfo.entitlements.all["monthly"].isActive;
+//        if (isPro) {
+//          print('user IS PRO');
+//        }
+//        print('USER IS + $isPro');
+//
+//
+//    });
 //  }
 //}
 //
@@ -150,9 +214,9 @@ class Athlete extends StatelessWidget  {
 //        try {
 //          PurchaserInfo purchaserInfo =
 //              await Purchases.purchasePackage(package);
-//var isPro = purchaserInfo.entitlements.all["default-monthly"].isActive;
-////          var isPro =
-////              purchaserInfo.entitlements.active['default-monthly'].isActive;
+//          print(purchaserInfo);
+//          var isPro =
+//              purchaserInfo.entitlements.all["default-monthly"].isActive;
 //          if (isPro) {
 //            return Navigator.of(context)
 //                .push(MaterialPageRoute(builder: (_) => CatsScreen()));
