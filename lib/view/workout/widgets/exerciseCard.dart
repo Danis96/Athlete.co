@@ -22,6 +22,7 @@ class ExerciseCard extends StatefulWidget {
   final Function refreshParent;
   final Source source;
   final String time;
+  final String repsDescription;
 
   ExerciseCard({
     this.exerciseImage,
@@ -37,6 +38,7 @@ class ExerciseCard extends StatefulWidget {
     this.refreshParent,
     this.source,
     this.time,
+    this.repsDescription,
   });
 
   @override
@@ -97,11 +99,82 @@ class _ExerciseCardState extends State<ExerciseCard> {
                         Text(
                           widget.time == null
                               ? widget.exerciseReps == null
-                                  ? 'Sets ${widget.exerciseSets} '
-                                  : 'Sets ${widget.exerciseSets} | Reps ${widget.exerciseReps} '
+                                  ? widget.repsDescription == null ||
+                                          widget.repsDescription == ''
+                                      ? widget.exerciseSets == 1
+                                          ? ''
+                                          : 'Sets ${widget.exerciseSets} '
+                                      : widget.exerciseSets == 1
+                                          ? ''
+                                          : 'Sets ${widget.exerciseSets}\n'
+                                              '${widget.repsDescription}'
+                                  : widget.repsDescription == null ||
+                                          widget.repsDescription == ''
+                                      ? widget.exerciseSets == 1
+                                          ? widget.exerciseReps
+                                                  .toString()
+                                                  .contains('Metres')
+                                              ? '${widget.exerciseReps}'
+                                              : 'Reps ${widget.exerciseReps}'
+                                          : widget.exerciseReps
+                                                  .toString()
+                                                  .contains('Metres')
+                                              ? 'Sets ${widget.exerciseSets} | ${widget.exerciseReps} '
+                                              : 'Sets ${widget.exerciseSets} | Reps ${widget.exerciseReps} '
+                                      : widget.exerciseSets == 1
+                                          ? widget.exerciseReps
+                                                  .toString()
+                                                  .contains('Metres')
+                                              ? '${widget.exerciseReps}\n'
+                                                  '${widget.repsDescription}'
+                                              : 'Reps ${widget.exerciseReps}\n'
+                                                  '${widget.repsDescription}'
+                                          : widget.exerciseReps
+                                                  .toString()
+                                                  .contains('Metres')
+                                              ? 'Sets ${widget.exerciseSets} | ${widget.exerciseReps}\n'
+                                                  '${widget.repsDescription}'
+                                              : 'Sets ${widget.exerciseSets} | Reps ${widget.exerciseReps}\n'
+                                                  '${widget.repsDescription}'
                               : widget.exerciseReps == null
-                                  ? 'Sets ${widget.exerciseSets} |  Time ${widget.time}'
-                                  : 'Sets ${widget.exerciseSets} | Reps ${widget.exerciseReps} | Time ${widget.time}',
+                                  ? widget.repsDescription == null ||
+                                          widget.repsDescription == ''
+                                      ? widget.exerciseSets == 1
+                                          ? 'Time ${widget.time}'
+                                          : 'Sets ${widget.exerciseSets} | Time ${widget.time}'
+                                      : widget.exerciseSets == 1
+                                          ? 'Time ${widget.time}\n'
+                                              '${widget.repsDescription}'
+                                          : 'Sets ${widget.exerciseSets} | Time ${widget.time}\n'
+                                              '${widget.repsDescription}'
+                                  : widget.repsDescription == null ||
+                                          widget.repsDescription == ''
+                                      ? widget.exerciseSets == 1
+                                          ? widget.exerciseReps
+                                                  .toString()
+                                                  .contains('Metres')
+                                              ? '${widget.exerciseReps} | Time ${widget.time}'
+                                              : 'Reps ${widget.exerciseReps} | Time ${widget.time}'
+                                          : widget.exerciseReps
+                                                  .toString()
+                                                  .contains('Metres')
+                                              ? 'Sets ${widget.exerciseSets} | ${widget.exerciseReps} | Time ${widget.time}'
+                                              : 'Sets ${widget.exerciseSets} | Reps ${widget.exerciseReps} | Time ${widget.time}'
+                                      : widget.exerciseSets == 1
+                                          ? widget.exerciseReps
+                                                  .toString()
+                                                  .contains('Metres')
+                                              ? '${widget.exerciseReps} | Time ${widget.time}\n'
+                                                  '${widget.repsDescription}'
+                                              : 'Reps ${widget.exerciseReps} | Time ${widget.time}\n'
+                                                  '${widget.repsDescription}'
+                                          : widget.exerciseReps
+                                                  .toString()
+                                                  .contains('Metres')
+                                              ? 'Sets ${widget.exerciseSets} | ${widget.exerciseReps} | Time ${widget.time}\n'
+                                                  '${widget.repsDescription}'
+                                              : 'Sets ${widget.exerciseSets} | Reps ${widget.exerciseReps} | Time ${widget.time}\n'
+                                                  '${widget.repsDescription}',
                           style: TextStyle(
                               color: MyColors().lightWhite,
                               fontSize: SizeConfig.blockSizeHorizontal * 3),

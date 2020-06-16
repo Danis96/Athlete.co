@@ -139,6 +139,7 @@ class _WarmupContainerState extends State<WarmupContainer> {
                               exerciseTips: exercises[index].tips,
                               exerciseVideo: exercises[index].video,
                               exerciseID: exercises[index].exerciseID,
+                              repsDescription: exercises[index].repsDescription,
                               time: exercises[index].time,
                               storage: Storage(),
                               refreshParent: widget.refreshFromInfo,
