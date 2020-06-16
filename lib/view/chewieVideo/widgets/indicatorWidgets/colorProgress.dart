@@ -7,11 +7,11 @@ Widget colorProgress(
       margin: EdgeInsets.only(
           top: MediaQuery.of(context).orientation == Orientation.portrait
               ? SizeConfig.blockSizeVertical * 0
-              : SizeConfig.blockSizeVertical * 20,
+              : SizeConfig.blockSizeVertical * 0,
 
           left: MediaQuery.of(context).orientation == Orientation.portrait
               ? SizeConfig.blockSizeHorizontal * 0
-              : SizeConfig.blockSizeHorizontal * 68),
+              : SizeConfig.blockSizeHorizontal * 0),
       color: Colors.blueAccent,
       height: MediaQuery.of(context).orientation == Orientation.portrait
           ? SizeConfig.blockSizeVertical * 0.5

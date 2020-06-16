@@ -13,10 +13,10 @@ Widget setsWidget(
           ? isReps == 0 ? SizeConfig.blockSizeVertical * 0 : SizeConfig.blockSizeVertical * 0
           : SizeConfig.blockSizeVertical * 0 ,
         bottom: MediaQuery.of(context).orientation == Orientation.landscape
-            ? isReps == 0 ? SizeConfig.blockSizeVertical * 69 : SizeConfig.blockSizeVertical * 69
+            ? isReps == 0 ? SizeConfig.blockSizeVertical * 0 : SizeConfig.blockSizeVertical * 0
             : SizeConfig.blockSizeVertical * 0,
         left: MediaQuery.of(context).orientation == Orientation.landscape
-            ? SizeConfig.blockSizeHorizontal * 65.5
+            ? SizeConfig.blockSizeHorizontal * 5.0
             : SizeConfig.blockSizeHorizontal * 0,),
     child: Text(
       currentSet + '/' + sets.toString() + ' Sets',

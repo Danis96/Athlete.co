@@ -9,11 +9,11 @@ Widget clearIcon(BuildContext context, Function checkIsOnTimeAndPauseTimer, onWi
     margin: EdgeInsets.only(
        top: MediaQuery.of(context).orientation ==
            Orientation.landscape
-           ? SizeConfig.blockSizeVertical * 3.5
+           ? SizeConfig.blockSizeVertical * 0
            : SizeConfig.blockSizeVertical * 0 ,
         right: MediaQuery.of(context).orientation ==
             Orientation.landscape
-            ? SizeConfig.blockSizeHorizontal * 0.5
+            ? SizeConfig.blockSizeHorizontal * 0
             : SizeConfig.blockSizeHorizontal * 0),
     child: IconButton(
       icon: Icon(Icons.clear),

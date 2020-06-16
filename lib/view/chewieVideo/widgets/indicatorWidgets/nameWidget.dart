@@ -43,38 +43,39 @@ Widget nameWidget(
       }
     },
     child: Container(
-      alignment: MediaQuery.of(context).orientation == Orientation.landscape
-          ? Alignment.centerLeft
-          : Alignment.center,
-      width: SizeConfig.blockSizeHorizontal * 100,
+      alignment: MediaQuery.of(context).orientation == Orientation.portrait
+          ? Alignment.center : null,
+      width: MediaQuery.of(context).orientation == Orientation.portrait
+            ? SizeConfig.blockSizeHorizontal * 100
+            : SizeConfig.blockSizeHorizontal * 50,
       margin: EdgeInsets.only(
         top: MediaQuery.of(context).orientation == Orientation.landscape
             ? isReps == 0
-                ? SizeConfig.blockSizeVertical * 70
-                : SizeConfig.blockSizeVertical * 70
+                ? SizeConfig.blockSizeVertical * 0
+                : SizeConfig.blockSizeVertical * 0
             : isReps == 0
                 ? SizeConfig.blockSizeVertical * 0
                 : SizeConfig.blockSizeVertical * 0,
         left: MediaQuery.of(context).orientation == Orientation.landscape
-            ? SizeConfig.blockSizeHorizontal * 1
+            ? SizeConfig.blockSizeHorizontal * 0
             : SizeConfig.blockSizeHorizontal * 1,
         right: MediaQuery.of(context).orientation == Orientation.landscape
             ? isReps == 0
-                ? SizeConfig.blockSizeHorizontal * 37
-                : SizeConfig.blockSizeHorizontal * 30
+                ? SizeConfig.blockSizeHorizontal * 0
+                : SizeConfig.blockSizeHorizontal * 0
             : SizeConfig.blockSizeHorizontal * 0,
       ),
       child: Container(
         alignment: MediaQuery.of(context).orientation == Orientation.portrait
             ? Alignment.center
-            : Alignment.centerLeft,
+            : null,
         margin: EdgeInsets.only(
             right: MediaQuery.of(context).orientation == Orientation.portrait
                 ? SizeConfig.blockSizeHorizontal * 0
-                : SizeConfig.blockSizeHorizontal * 35),
+                : SizeConfig.blockSizeHorizontal * 0),
         width: MediaQuery.of(context).orientation == Orientation.portrait
             ? SizeConfig.blockSizeHorizontal * 100
-            : SizeConfig.blockSizeHorizontal * 90,
+            : SizeConfig.blockSizeHorizontal * 50,
         child: RichText(
           overflow: TextOverflow.ellipsis,
           text: TextSpan(children: [

@@ -8,20 +8,19 @@ Widget repsWidget(
     height: MediaQuery.of(context).orientation == Orientation.landscape
         ? SizeConfig.blockSizeVertical * 12
         : SizeConfig.blockSizeVertical * 6,
-    alignment: MediaQuery.of(context).orientation == Orientation.landscape
-        ? Alignment.centerLeft
-        : Alignment.center,
-    width: SizeConfig.blockSizeHorizontal * 95,
+    alignment: MediaQuery.of(context).orientation == Orientation.portrait
+        ? Alignment.center : null,
+    width: MediaQuery.of(context).orientation == Orientation.landscape ? null : SizeConfig.blockSizeHorizontal * 95,
     margin: EdgeInsets.only(
         top: MediaQuery.of(context).orientation == Orientation.landscape
-            ? SizeConfig.blockSizeVertical * 62
+            ? SizeConfig.blockSizeVertical * 0
             : isReps == 0
                 ? exerciseTime == null
                     ? SizeConfig.blockSizeVertical * 14
                     : SizeConfig.blockSizeVertical * 13.6
                 : SizeConfig.blockSizeVertical * 2,
         left: MediaQuery.of(context).orientation == Orientation.landscape
-            ? SizeConfig.blockSizeHorizontal * 1.2
+            ? SizeConfig.blockSizeHorizontal * 0
             : exerciseTime == null
                 ? SizeConfig.blockSizeHorizontal * 2
                 : reps.toString().length <= 2
