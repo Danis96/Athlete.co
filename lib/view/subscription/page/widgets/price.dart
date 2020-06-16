@@ -1,15 +1,13 @@
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/size_config.dart';
-import 'package:attt/view/home/pages/signin.dart';
 import 'package:attt/view/subscription/page/widgets/freeTrial.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:purchases_flutter/purchases_flutter.dart';
+import 'package:in_app_purchase/in_app_purchase.dart';
 
 Widget priceContainer(
-    String type, price, t1, t2, Package package, BuildContext context) {
+    String type, price, t1, t2, BuildContext context, Function onSubscribe, ProductDetails productDetails) {
   return GestureDetector(
-    onTap: () => subscribe(package, context),
+    onTap: () => onSubscribe(productDetails),
     child: Stack(children: [
       Container(
         decoration: BoxDecoration(
@@ -36,7 +34,7 @@ Widget priceContainer(
                     color: MyColors().lightWhite,
                     fontWeight: FontWeight.bold,
                     fontStyle: FontStyle.italic,
-                    fontSize: SizeConfig.safeBlockHorizontal * 5),
+                    fontSize: SizeConfig.safeBlockHorizontal * 8),
               ),
             ),
             Container(
@@ -44,11 +42,11 @@ Widget priceContainer(
               alignment: Alignment.centerLeft,
               width: SizeConfig.blockSizeHorizontal * 100,
               child: Text(
-                price,
+                  'for only ' + price,
                 style: TextStyle(
                     color: MyColors().lightWhite,
                     fontWeight: FontWeight.w500,
-                    fontSize: SizeConfig.safeBlockHorizontal * 3),
+                    fontSize: SizeConfig.safeBlockHorizontal * 4),
               ),
             ),
           ],
@@ -59,33 +57,3 @@ Widget priceContainer(
   );
 }
 
-subscribe(Package package, BuildContext context) async {
-  // when the button is pressed we are trying to
-  ///
-  /// Makes a purchase. Returns a PurchaserInfo object
-  /// then check if all entitlements are active [give them entitlement id]
-  /// if user is pro, then show him the Signin, else print
-  try {
-    print(' u try sam usao  ++++++++++++++++++');
-    PurchaserInfo purchaserInfo = await Purchases.purchasePackage(package);
-    var isPro = purchaserInfo.entitlements.all["default-monthly"].isActive;
-    print('IS PRO ==== ' + isPro.toString());
-    if (isPro) {
-      print(' u IS PRO sam usao  ++++++++++++++++++');
-      Navigator.of(context).push(MaterialPageRoute(builder: (_) => Signin()));
-    } else {
-      print('Not a pro +++++++++++++');
-    }
-  } on PlatformException catch (e) {
-    print(' u CATCH sam usao  ++++++++++++++++++');
-    var errorCode = PurchasesErrorHelper.getErrorCode(e);
-    if (errorCode == PurchasesErrorCode.purchaseCancelledError) {
-      print("User cancelled ++++++++++++++");
-    } else if (errorCode == PurchasesErrorCode.purchaseNotAllowedError) {
-      print("User not allowed to purchase ++++++++++++++");
-    }
-    print(errorCode.toString() + ' ERROR CODE');
-  }
-
-  print('KLASAAAAAAAAAA');
-}

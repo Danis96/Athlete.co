@@ -3,6 +3,7 @@ import 'package:attt/utils/customScreenAnimation.dart';
 import 'package:attt/utils/dialog.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/view/chooseAthlete/pages/chooseAthlete.dart';
+import 'package:attt/view/subscription/page/subscription.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -43,17 +44,14 @@ class SignInViewModel implements SignInInterface {
   signInWithTwitter(BuildContext context) async {
     Dialogs.showLoadingDialog(context, _keyLoader);
 
-
     final TwitterLogin twitterLogin = new TwitterLogin(
       consumerKey: 'Ilrsmygri8GsJmVVwMmqn5cLj',
       consumerSecret: '6Q9w2doSYaw8dygielC2aHfcoLDZIrCuhKRhPkjMCOJXwSUhlV',
     );
 
-
-      _twitterLoginResult = await twitterLogin.authorize();
-      _currentUserTwitterSession = _twitterLoginResult.session;
-      _twitterLoginStatus = _twitterLoginResult.status;
-  
+    _twitterLoginResult = await twitterLogin.authorize();
+    _currentUserTwitterSession = _twitterLoginResult.session;
+    _twitterLoginStatus = _twitterLoginResult.status;
 
     switch (_twitterLoginStatus) {
       case TwitterLoginStatus.loggedIn:
@@ -129,29 +127,17 @@ class SignInViewModel implements SignInInterface {
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
     Navigator.of(context).pushAndRemoveUntil(
-        CardAnimationTween(
-          widget: userExist
-              ? currentUserDocument.data['trainer'] != null &&
-                      currentUserDocument.data['trainer'] != ''
-                  ? TrainingPlan(
-                      userTrainerDocument: currentUserTrainerDocument,
-                      userDocument: currentUserDocument,
-                    )
-                  : ChooseAthlete(
-                      userDocument: currentUserDocument,
-                      name: userTwitterUsername,
-                      email: userTwitterEmail,
-                      photo: userTwitterPhoto,
-                      userUID: userUIDTwitter,
-                    )
-              : ChooseAthlete(
-                  userDocument: currentUserDocument,
-                  name: userTwitterUsername,
-                  email: userTwitterEmail,
-                  photo: userTwitterPhoto,
-                  userUID: userUIDTwitter,
-                ),
+        CardAnimationTween(widget:
+        SubscriptionClass(
+          currentUserDocument: currentUserDocument,
+          currentUserTrainerDocument: currentUserTrainerDocument,
+          userName: userName,
+          userEmail: userEmail,
+          userExist: userExist,
+          userPhoto: userPhoto,
+          userUID: userUIDTwitter,
         ),
+            ),
         (Route<dynamic> route) => false);
   }
 
@@ -226,29 +212,17 @@ class SignInViewModel implements SignInInterface {
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
     Navigator.of(context).pushAndRemoveUntil(
-        CardAnimationTween(
-          widget: userExist
-              ? currentUserDocument.data['trainer'] != null &&
-                      currentUserDocument.data['trainer'] != ''
-                  ? TrainingPlan(
-                      userTrainerDocument: currentUserTrainerDocument,
-                      userDocument: currentUserDocument,
-                    )
-                  : ChooseAthlete(
-                      userDocument: currentUserDocument,
-                      name: userName,
-                      email: userEmail,
-                      photo: userPhoto,
-                      userUID: userUIDGoogle,
-                    )
-              : ChooseAthlete(
-                  userDocument: currentUserDocument,
-                  name: userName,
-                  email: userEmail,
-                  photo: userPhoto,
-                  userUID: userUIDGoogle,
-                ),
+        CardAnimationTween(widget:
+        SubscriptionClass(
+          currentUserDocument: currentUserDocument,
+          currentUserTrainerDocument: currentUserTrainerDocument,
+          userName: userName,
+          userEmail: userEmail,
+          userExist: userExist,
+          userPhoto: userPhoto,
+          userUID: userUIDPref,
         ),
+            ),
         (Route<dynamic> route) => false);
   }
 
@@ -314,27 +288,15 @@ class SignInViewModel implements SignInInterface {
     ///Navigating logged user into application
     Navigator.of(context).pushAndRemoveUntil(
         CardAnimationTween(
-          widget: userExist
-              ? currentUserDocument.data['trainer'] != null &&
-                      currentUserDocument.data['trainer'] != ''
-                  ? TrainingPlan(
-                      userTrainerDocument: currentUserTrainerDocument,
-                      userDocument: currentUserDocument,
-                    )
-                  : ChooseAthlete(
-                      userDocument: currentUserDocument,
-                      name: userName,
-                      email: userEmail,
-                      photo: userPhoto,
-                      userUID: userUIDFacebook,
-                    )
-              : ChooseAthlete(
-                  userDocument: currentUserDocument,
-                  name: userName,
-                  email: userEmail,
-                  photo: userPhoto,
-                  userUID: userUIDFacebook,
-                ),
+          widget: SubscriptionClass(
+             currentUserDocument: currentUserDocument,
+            currentUserTrainerDocument: currentUserTrainerDocument,
+            userName: userName,
+            userEmail: userEmail,
+            userExist: userExist,
+            userPhoto: userPhoto,
+            userUID: userUIDFacebook,
+          ),
         ),
         (Route<dynamic> route) => false);
 
@@ -444,21 +406,16 @@ class SignInViewModel implements SignInInterface {
     if (userName != null && userPhoto != null) {
       isLoggedIn = true;
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (_) => currentUserDocument.data['trainer'] != null &&
-                    currentUserDocument.data['trainer'] != ''
-                ? TrainingPlan(
-                    userTrainerDocument: currentUserTrainerDocument,
-                    userDocument: currentUserDocument,
-                  )
-                : ChooseAthlete(
-                    userDocument: currentUserDocument,
-                    name: userName,
-                    email: userEmail,
-                    photo: userPhoto,
-                    userUID: userUIDP,
-                  ),
+          MaterialPageRoute(builder: (_) =>  SubscriptionClass(
+            currentUserDocument: currentUserDocument,
+            currentUserTrainerDocument: currentUserTrainerDocument,
+            userName: userName,
+            userEmail: userEmail,
+            userExist: true,
+            userPhoto: userPhoto,
+            userUID: userUIDP,
           ),
+              ),
           (Route<dynamic> route) => false);
     }
   }
