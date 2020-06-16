@@ -10,16 +10,16 @@ Widget stopIcon(Function pressTimer, BuildContext context, var isReps) {
         : SizeConfig.blockSizeVertical * 10,
     width: MediaQuery.of(context).orientation == Orientation.portrait
         ? SizeConfig.blockSizeHorizontal * 35
-        : SizeConfig.blockSizeHorizontal * 17,
+        : null,
     margin: EdgeInsets.only(
       top: MediaQuery.of(context).orientation == Orientation.portrait
           ? isReps == 0
               ? SizeConfig.blockSizeVertical * 16
               : SizeConfig.blockSizeVertical * 16
-          : SizeConfig.blockSizeVertical * 8,
+          : SizeConfig.blockSizeVertical * 0,
       left: MediaQuery.of(context).orientation == Orientation.portrait
           ? SizeConfig.blockSizeHorizontal * 0
-          : SizeConfig.blockSizeHorizontal * 68,
+          : SizeConfig.blockSizeHorizontal * 0,
     ),
     child: GestureDetector(
       onTap: () => pressTimer(),

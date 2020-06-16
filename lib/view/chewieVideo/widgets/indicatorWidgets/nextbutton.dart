@@ -6,6 +6,7 @@ import 'package:video_box/video.controller.dart';
 
 Widget nextButton(BuildContext context, Function resetTimer, playNext, VideoController vc) {
    return Column(
+     crossAxisAlignment: CrossAxisAlignment.center,
      children: [
        Container(
          child: IconButton(
@@ -26,7 +27,7 @@ Widget nextButton(BuildContext context, Function resetTimer, playNext, VideoCont
          ),
        ),
        Container(
-         margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 2),
+         margin: EdgeInsets.only(right: SizeConfig.blockSizeHorizontal * 0),
          child: Text('NEXT', style: TextStyle(color:MediaQuery.of(context)
              .orientation ==
              Orientation.landscape
