@@ -1,4 +1,5 @@
 import 'package:attt/interface/signinInterface.dart';
+import 'package:attt/utils/custoWeb.dart';
 import 'package:attt/utils/customScreenAnimation.dart';
 import 'package:attt/utils/dialog.dart';
 import 'package:attt/utils/globals.dart';
@@ -10,7 +11,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_twitter_login/flutter_twitter_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -226,129 +226,130 @@ class SignInViewModel implements SignInInterface {
         (Route<dynamic> route) => false);
   }
 
-  ///Facebook Login instance used for Facebook Login process
-  static final FacebookLogin facebookSignIn = new FacebookLogin();
 
-  ///Method that is being executed if Loggin Status is leggedIn
-  @override
-  Future<FirebaseUser> firebaseAuthWithFacebook(
-      {@required FacebookAccessToken token, BuildContext context}) async {
-    ///Gathering credentials from Facebook Access Token passed from
-    ///
-    ///signInWithFacebook() method after Facebook Login process succesfully completed.
-    AuthCredential credential =
-        FacebookAuthProvider.getCredential(accessToken: token.token);
-
-    ///Signing in user to Firebase using FirebaseAuth and credentials from previous step
-    AuthResult facebookAuthResult =
-        await _firebaseAuth.signInWithCredential(credential);
-
-    ///Creating a user from Firebase Authentication process's result
-    final FirebaseUser user = facebookAuthResult.user;
-    final FirebaseUser currentUser = await _firebaseAuth.currentUser();
-    assert(user.uid == currentUser.uid);
-
-    ///Populating variables used later in application
-    userEmail = currentUser.email;
-    userName = currentUser.displayName;
-    userPhoto = currentUser.photoUrl;
-    String userUIDFacebook = currentUser.uid;
-    userUIDPref = userUIDFacebook;
-
-    loginUser();
-
-    ///Checking if user already exists in database
-    ///
-    ///If user exists, users info is collected
-    ///If user does not exist, user is created
-    bool userExist = await doesUserAlreadyExist(userUIDFacebook);
-    if (!userExist) {
-      createUser(userName, userEmail, userPhoto, userUIDFacebook, 'Facebook');
-      currentUserDocuments = await getCurrentUserDocument(userUIDFacebook);
-      currentUserDocument = currentUserDocuments[0];
-    } else {
-      currentUserDocuments = await getCurrentUserDocument(userUIDFacebook);
-      currentUserDocument = currentUserDocuments[0];
-      if (currentUserDocument.data['trainer'] != null &&
-          currentUserDocument.data['trainer'] != '') {
-        currentUserTrainerDocuments =
-            await getCurrentUserTrainer(currentUserDocument.data['trainer']);
-        currentUserTrainerDocument = currentUserTrainerDocuments[0];
-        totalWeeks = await getCurrentUserTrainerWeeks(
-            currentUserTrainerDocument.data['trainerID']);
-        currentUserTrainerName =
-            currentUserTrainerDocument.data['trainer_name'];
-        currentUserTrainingPlanDuration =
-            currentUserTrainerDocument.data['training_plan_duration'];
-        currentUserTrainingPlan =
-            currentUserTrainerDocument.data['training_plan_name'];
-      }
-    }
-
-    ///Navigating logged user into application
-    Navigator.of(context).pushAndRemoveUntil(
-        CardAnimationTween(
-          widget: SubscriptionClass(
-             currentUserDocument: currentUserDocument,
-            currentUserTrainerDocument: currentUserTrainerDocument,
-            userName: userName,
-            userEmail: userEmail,
-            userExist: userExist,
-            userPhoto: userPhoto,
-            userUID: userUIDFacebook,
-          ),
-        ),
-        (Route<dynamic> route) => false);
-
-    ///Logging user to shared preference with aim to
-    ///
-    ///have the user later for autologging
-    return currentUser;
-  }
-
-  ///Method which initializes the Facebook Login
-  @override
-  signInWithFacebook(BuildContext context) async {
-    /// open dialog
-    Dialogs.showLoadingDialog(context, _keyLoader);
-
-    ///Logging user using Facebook Account
-    FacebookLoginResult result = await facebookSignIn.logIn(['email']);
-
-    ///Checking login status of a user after his commjnication
-    ///with application and Facebook login
-    switch (result.status) {
-
-      ///Case when user is successfully logged in
-      case FacebookLoginStatus.loggedIn:
-
-        ///Creating a user according to logged Facebook account
-        ///This user is later used for gathering information from database
-        var firebaseUser = await firebaseAuthWithFacebook(
-            token: result.accessToken, context: context);
-        currentUser = firebaseUser;
-
-        /// close dialog
-        //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        break;
-
-      ///Case when user canceles the loggin process
-      case FacebookLoginStatus.cancelledByUser:
-        result = null;
-
-        /// close dialog
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        break;
-
-      ///Case of any error occured during loggin process
-      case FacebookLoginStatus.error:
-        result = null;
-
-        /// close dialog
-        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-        break;
-    }
-  }
+//  ///Facebook Login instance used for Facebook Login process
+//  static final FacebookLogin facebookSignIn = new FacebookLogin();
+//
+//  ///Method that is being executed if Loggin Status is leggedIn
+//  @override
+//  Future<FirebaseUser> firebaseAuthWithFacebook(
+//      {@required FacebookAccessToken token, BuildContext context}) async {
+//    ///Gathering credentials from Facebook Access Token passed from
+//    ///
+//    ///signInWithFacebook() method after Facebook Login process succesfully completed.
+//    AuthCredential credential =
+//        FacebookAuthProvider.getCredential(accessToken: token.token);
+//
+//    ///Signing in user to Firebase using FirebaseAuth and credentials from previous step
+//    AuthResult facebookAuthResult =
+//        await _firebaseAuth.signInWithCredential(credential);
+//
+//    ///Creating a user from Firebase Authentication process's result
+//    final FirebaseUser user = facebookAuthResult.user;
+//    final FirebaseUser currentUser = await _firebaseAuth.currentUser();
+//    assert(user.uid == currentUser.uid);
+//
+//    ///Populating variables used later in application
+//    userEmail = currentUser.email;
+//    userName = currentUser.displayName;
+//    userPhoto = currentUser.photoUrl;
+//    String userUIDFacebook = currentUser.uid;
+//    userUIDPref = userUIDFacebook;
+//
+//    loginUser();
+//
+//    ///Checking if user already exists in database
+//    ///
+//    ///If user exists, users info is collected
+//    ///If user does not exist, user is created
+//    bool userExist = await doesUserAlreadyExist(userUIDFacebook);
+//    if (!userExist) {
+//      createUser(userName, userEmail, userPhoto, userUIDFacebook, 'Facebook');
+//      currentUserDocuments = await getCurrentUserDocument(userUIDFacebook);
+//      currentUserDocument = currentUserDocuments[0];
+//    } else {
+//      currentUserDocuments = await getCurrentUserDocument(userUIDFacebook);
+//      currentUserDocument = currentUserDocuments[0];
+//      if (currentUserDocument.data['trainer'] != null &&
+//          currentUserDocument.data['trainer'] != '') {
+//        currentUserTrainerDocuments =
+//            await getCurrentUserTrainer(currentUserDocument.data['trainer']);
+//        currentUserTrainerDocument = currentUserTrainerDocuments[0];
+//        totalWeeks = await getCurrentUserTrainerWeeks(
+//            currentUserTrainerDocument.data['trainerID']);
+//        currentUserTrainerName =
+//            currentUserTrainerDocument.data['trainer_name'];
+//        currentUserTrainingPlanDuration =
+//            currentUserTrainerDocument.data['training_plan_duration'];
+//        currentUserTrainingPlan =
+//            currentUserTrainerDocument.data['training_plan_name'];
+//      }
+//    }
+//
+//    ///Navigating logged user into application
+//    Navigator.of(context).pushAndRemoveUntil(
+//        CardAnimationTween(
+//          widget: SubscriptionClass(
+//             currentUserDocument: currentUserDocument,
+//            currentUserTrainerDocument: currentUserTrainerDocument,
+//            userName: userName,
+//            userEmail: userEmail,
+//            userExist: userExist,
+//            userPhoto: userPhoto,
+//            userUID: userUIDFacebook,
+//          ),
+//        ),
+//        (Route<dynamic> route) => false);
+//
+//    ///Logging user to shared preference with aim to
+//    ///
+//    ///have the user later for autologging
+//    return currentUser;
+//  }
+//
+//  ///Method which initializes the Facebook Login
+//  @override
+//  signInWithFacebook(BuildContext context) async {
+//    /// open dialog
+//    Dialogs.showLoadingDialog(context, _keyLoader);
+//
+//    ///Logging user using Facebook Account
+//    FacebookLoginResult result = await facebookSignIn.logIn(['email']);
+//
+//    ///Checking login status of a user after his commjnication
+//    ///with application and Facebook login
+//    switch (result.status) {
+//
+//      ///Case when user is successfully logged in
+//      case FacebookLoginStatus.loggedIn:
+//
+//        ///Creating a user according to logged Facebook account
+//        ///This user is later used for gathering information from database
+//        var firebaseUser = await firebaseAuthWithFacebook(
+//            token: result.accessToken, context: context);
+//        currentUser = firebaseUser;
+//
+//        /// close dialog
+//        //Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+//        break;
+//
+//      ///Case when user canceles the loggin process
+//      case FacebookLoginStatus.cancelledByUser:
+//        result = null;
+//
+//        /// close dialog
+//        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+//        break;
+//
+//      ///Case of any error occured during loggin process
+//      case FacebookLoginStatus.error:
+//        result = null;
+//
+//        /// close dialog
+//        Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+//        break;
+//    }
+//  }
 
   @override
   signOutGoogle(BuildContext context) async {
@@ -360,7 +361,7 @@ class SignInViewModel implements SignInInterface {
 
   @override
   signOutFacebook(BuildContext context) async {
-    await facebookSignIn.logOut();
+//    await facebookSignIn.logOut();
     currentUser = null;
     logout();
     print("User Sign Out Faceboook");
@@ -564,5 +565,31 @@ class SignInViewModel implements SignInInterface {
         .collection('Users')
         .document(userDocument.documentID)
         .updateData({'workouts_finished': FieldValue.arrayUnion(listToKeep)});
+  }
+
+  @override
+  signInWithFacebook(BuildContext context)  async {
+   const String your_client_id = "573013163622508";
+   const String your_redirect_url =
+        "https://www.facebook.com/connect/login_success.html";
+
+      String result = await Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => CustomWebView(
+                selectedUrl:
+                'https://www.facebook.com/dialog/oauth?client_id=$your_client_id&redirect_uri=$your_redirect_url&response_type=token&scope=email,public_profile,',
+              ),
+              maintainState: true),
+      );
+      if (result != null) {
+        try {
+          final facebookAuthCred =
+          FacebookAuthProvider.getCredential(accessToken: result);
+          final user =
+          await _firebaseAuth.signInWithCredential(facebookAuthCred);
+        } catch (e) {}
+
+    }
   }
 }

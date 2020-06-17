@@ -128,7 +128,7 @@ class _WorkoutListState extends State<WorkoutList> {
             );
           } else {
             return Center(
-              child: CircularProgressIndicator(),
+              child: EmptyContainer(),
             );
           }
         },
