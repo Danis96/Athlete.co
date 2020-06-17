@@ -1,7 +1,6 @@
 import 'package:attt/storage/storage.dart';
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/customScreenAnimation.dart';
-import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/workout/widgets/info.dart';

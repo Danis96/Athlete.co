@@ -1,11 +1,9 @@
 import 'dart:io';
-
 import 'package:attt/interface/subscriptionInterface.dart';
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/chooseAthlete/pages/chooseAthlete.dart';
-import 'package:attt/view/home/pages/signin.dart';
 import 'package:attt/view/subscription/declinedScreen.dart';
 import 'package:attt/view/subscription/page/widgets/headlineCont.dart';
 import 'package:attt/view/subscription/page/widgets/price.dart';

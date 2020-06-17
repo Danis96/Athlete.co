@@ -1,5 +1,4 @@
 import 'package:attt/utils/emptyContainer.dart';
-import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/workout/widgets/info.dart';
 import 'package:flutter/material.dart';
