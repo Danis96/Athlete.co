@@ -18,6 +18,8 @@ class _CustomWebViewState extends State<CustomWebView> {
     super.initState();
 
     flutterWebviewPlugin.onUrlChanged.listen((String url) {
+      print('CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCcc');
+      print(url);
       if (url.contains("#access_token")) {
         succeed(url);
       }

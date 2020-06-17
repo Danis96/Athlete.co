@@ -77,7 +77,7 @@ class _SubscriptionClassState extends State<SubscriptionClass>
     initStoreInfo();
 
     /// not a good choice, but deadline is here
-    Timer(Duration(milliseconds: 400), () {
+    Timer(Duration(milliseconds: 700), () {
       setState(() {});
     });
     super.initState();

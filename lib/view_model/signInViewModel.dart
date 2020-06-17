@@ -127,17 +127,17 @@ class SignInViewModel implements SignInInterface {
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
     Navigator.of(context).pushAndRemoveUntil(
-        CardAnimationTween(widget:
-        SubscriptionClass(
-          currentUserDocument: currentUserDocument,
-          currentUserTrainerDocument: currentUserTrainerDocument,
-          userName: userName,
-          userEmail: userEmail,
-          userExist: userExist,
-          userPhoto: userPhoto,
-          userUID: userUIDTwitter,
+        CardAnimationTween(
+          widget: SubscriptionClass(
+            currentUserDocument: currentUserDocument,
+            currentUserTrainerDocument: currentUserTrainerDocument,
+            userName: userName,
+            userEmail: userEmail,
+            userExist: userExist,
+            userPhoto: userPhoto,
+            userUID: userUIDTwitter,
+          ),
         ),
-            ),
         (Route<dynamic> route) => false);
   }
 
@@ -212,20 +212,19 @@ class SignInViewModel implements SignInInterface {
     Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
 
     Navigator.of(context).pushAndRemoveUntil(
-        CardAnimationTween(widget:
-        SubscriptionClass(
-          currentUserDocument: currentUserDocument,
-          currentUserTrainerDocument: currentUserTrainerDocument,
-          userName: userName,
-          userEmail: userEmail,
-          userExist: userExist,
-          userPhoto: userPhoto,
-          userUID: userUIDPref,
+        CardAnimationTween(
+          widget: SubscriptionClass(
+            currentUserDocument: currentUserDocument,
+            currentUserTrainerDocument: currentUserTrainerDocument,
+            userName: userName,
+            userEmail: userEmail,
+            userExist: userExist,
+            userPhoto: userPhoto,
+            userUID: userUIDPref,
+          ),
         ),
-            ),
         (Route<dynamic> route) => false);
   }
-
 
 //  ///Facebook Login instance used for Facebook Login process
 //  static final FacebookLogin facebookSignIn = new FacebookLogin();
@@ -407,16 +406,17 @@ class SignInViewModel implements SignInInterface {
     if (userName != null && userPhoto != null) {
       isLoggedIn = true;
       Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (_) =>  SubscriptionClass(
-            currentUserDocument: currentUserDocument,
-            currentUserTrainerDocument: currentUserTrainerDocument,
-            userName: userName,
-            userEmail: userEmail,
-            userExist: true,
-            userPhoto: userPhoto,
-            userUID: userUIDP,
+          MaterialPageRoute(
+            builder: (_) => SubscriptionClass(
+              currentUserDocument: currentUserDocument,
+              currentUserTrainerDocument: currentUserTrainerDocument,
+              userName: userName,
+              userEmail: userEmail,
+              userExist: true,
+              userPhoto: userPhoto,
+              userUID: userUIDP,
+            ),
           ),
-              ),
           (Route<dynamic> route) => false);
     }
   }
@@ -568,28 +568,88 @@ class SignInViewModel implements SignInInterface {
   }
 
   @override
-  signInWithFacebook(BuildContext context)  async {
-   const String your_client_id = "573013163622508";
-   const String your_redirect_url =
+  signInWithFacebook(BuildContext context) async {
+    const String your_client_id = "573013163622508";
+    const String your_redirect_url =
         "https://www.facebook.com/connect/login_success.html";
 
-      String result = await Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => CustomWebView(
+    String result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => CustomWebView(
                 selectedUrl:
-                'https://www.facebook.com/dialog/oauth?client_id=$your_client_id&redirect_uri=$your_redirect_url&response_type=token&scope=email,public_profile,',
+                    'https://www.facebook.com/dialog/oauth?client_id=$your_client_id&redirect_uri=$your_redirect_url&response_type=token&scope=email,public_profile,',
               ),
-              maintainState: true),
-      );
-      if (result != null) {
-        try {
-          final facebookAuthCred =
-          FacebookAuthProvider.getCredential(accessToken: result);
-          final user =
-          await _firebaseAuth.signInWithCredential(facebookAuthCred);
-        } catch (e) {}
+          maintainState: true),
+    );
 
+    if (result != null) {
+      print('RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRrr  ' + result);
+      try {
+        final facebookAuthCred =
+            FacebookAuthProvider.getCredential(accessToken: result);
+        final user = await _firebaseAuth.signInWithCredential(facebookAuthCred);
+        currentUser = user.user;
+        //Populating variables used later in application
+        userEmail = currentUser.email;
+        userName = currentUser.displayName;
+        userPhoto = currentUser.photoUrl;
+        String userUIDFacebook = currentUser.uid;
+        userUIDPref = userUIDFacebook;
+
+        loginUser();
+
+        ///Checking if user already exists in database
+        ///
+        ///If user exists, users info is collected
+        ///If user does not exist, user is created
+        bool userExist = await doesUserAlreadyExist(userUIDFacebook);
+        if (!userExist) {
+          createUser(
+              userName, userEmail, userPhoto, userUIDFacebook, 'Facebook');
+          currentUserDocuments = await getCurrentUserDocument(userUIDFacebook);
+          currentUserDocument = currentUserDocuments[0];
+        } else {
+          currentUserDocuments = await getCurrentUserDocument(userUIDFacebook);
+          currentUserDocument = currentUserDocuments[0];
+          if (currentUserDocument.data['trainer'] != null &&
+              currentUserDocument.data['trainer'] != '') {
+            currentUserTrainerDocuments = await getCurrentUserTrainer(
+                currentUserDocument.data['trainer']);
+            currentUserTrainerDocument = currentUserTrainerDocuments[0];
+            totalWeeks = await getCurrentUserTrainerWeeks(
+                currentUserTrainerDocument.data['trainerID']);
+            currentUserTrainerName =
+                currentUserTrainerDocument.data['trainer_name'];
+            currentUserTrainingPlanDuration =
+                currentUserTrainerDocument.data['training_plan_duration'];
+            currentUserTrainingPlan =
+                currentUserTrainerDocument.data['training_plan_name'];
+          }
+        }
+
+        ///Navigating logged user into application
+        Navigator.of(context).pushAndRemoveUntil(
+            CardAnimationTween(
+              widget: SubscriptionClass(
+                currentUserDocument: currentUserDocument,
+                currentUserTrainerDocument: currentUserTrainerDocument,
+                userName: userName,
+                userEmail: userEmail,
+                userExist: userExist,
+                userPhoto: userPhoto,
+                userUID: userUIDFacebook,
+              ),
+            ),
+            (Route<dynamic> route) => false);
+
+        ///Logging user to shared preference with aim to
+        ///
+        ///have the user later for autologging
+        ///return currentUser;
+      } catch (e) {
+        print('ERRRRRRRRRRRRRRRROOOOOOOOOORRRRRRRRRRRRRRRR    ' + e.toString());
+      }
     }
   }
 }
