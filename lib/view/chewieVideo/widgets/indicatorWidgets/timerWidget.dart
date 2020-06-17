@@ -28,15 +28,7 @@ Widget timerWidget(
     height: MediaQuery.of(context).orientation == Orientation.portrait
         ? SizeConfig.blockSizeVertical * 5.5 : SizeConfig.blockSizeVertical * 10,
     width: MediaQuery.of(context).orientation == Orientation.portrait
-        ? SizeConfig.blockSizeHorizontal * 35 :  SizeConfig.blockSizeHorizontal * 17 ,
-    margin: EdgeInsets.only(
-      top: MediaQuery.of(context).orientation == Orientation.landscape
-          ? SizeConfig.blockSizeVertical * 0
-          : SizeConfig.blockSizeVertical * 16.5,
-      left: MediaQuery.of(context).orientation == Orientation.landscape
-          ? SizeConfig.blockSizeHorizontal * 0
-          : SizeConfig.blockSizeHorizontal * 0,
-    ),
+        ? SizeConfig.blockSizeHorizontal * 35 :  SizeConfig.blockSizeHorizontal * 17,
     child: RaisedButton(
         color: Colors.white.withOpacity(0.8),
       onPressed: () => pressTimer(),
