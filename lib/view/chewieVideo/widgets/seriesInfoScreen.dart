@@ -50,10 +50,10 @@ class _SeriesInfoScreenState extends State<SeriesInfoScreen> {
       body: Padding(
         padding: EdgeInsets.only(
             left: MediaQuery.of(context).orientation == Orientation.portrait
-                ? SizeConfig.blockSizeHorizontal * 15
+                ? SizeConfig.blockSizeHorizontal * 5
                 : SizeConfig.blockSizeHorizontal * 2,
             right: MediaQuery.of(context).orientation == Orientation.portrait
-                ? SizeConfig.blockSizeHorizontal * 15
+                ? SizeConfig.blockSizeHorizontal * 5
                 : SizeConfig.blockSizeHorizontal * 2),
         child: Center(
           child: Column(

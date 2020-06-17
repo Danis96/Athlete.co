@@ -20,11 +20,6 @@ Widget infoIcon(
     listLenght) {
   return MediaQuery.of(context).orientation == Orientation.portrait
       ? Container(
-          margin: EdgeInsets.only(
-              top: MediaQuery.of(context).orientation == Orientation.portrait
-                  ? showTime ?  SizeConfig.blockSizeVertical * 2 : SizeConfig.blockSizeVertical * 3
-                  : SizeConfig.blockSizeVertical * 26,
-                  ),
           child: IconButton(
             icon: Icon(Icons.info),
             onPressed: () {

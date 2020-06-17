@@ -6,24 +6,20 @@ import 'package:flutter/material.dart';
 Widget timeCont(String exerciseTime, reps, BuildContext context) {
   return Container(
     height: exerciseTime == null
-        ? SizeConfig.safeBlockHorizontal * 5
-        : SizeConfig.safeBlockHorizontal * 5,
-    margin: EdgeInsets.only(
-        top: MediaQuery.of(context).orientation == Orientation.landscape
-            ? 0
-            : SizeConfig.blockSizeVertical * 15,
-        left: MediaQuery.of(context).orientation == Orientation.landscape
-            ? 0
-            : reps == null
-                ? SizeConfig.blockSizeHorizontal * 39
-                : SizeConfig.blockSizeHorizontal * 13),
+        ? SizeConfig.safeBlockHorizontal * 6
+        : SizeConfig.safeBlockHorizontal * 6,
     child: exerciseTime == null
         ? EmptyContainer()
         : Text(
             exerciseTime,
             style: TextStyle(
                 color: MyColors().white,
-                fontSize: SizeConfig.safeBlockHorizontal * 6),
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.italic,
+                fontSize:
+                    MediaQuery.of(context).orientation == Orientation.landscape
+                        ? SizeConfig.blockSizeVertical * 7
+                        : SizeConfig.safeBlockHorizontal * 7),
           ),
   );
 }
