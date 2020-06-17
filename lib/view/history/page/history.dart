@@ -1,13 +1,10 @@
 import 'dart:async';
-
 import 'package:attt/utils/checkForInternet.dart';
 import 'package:attt/utils/colors.dart';
-import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
-import 'package:attt/view/history/widgets/emptyHisotryWorkoutContainer.dart';
-import 'package:attt/view/history/widgets/settingIcon.dart';
 import 'package:attt/view/history/widgets/historyEmptyState.dart';
+import 'package:attt/view/history/widgets/settingIcon.dart';
 import 'package:attt/view/history/widgets/historyList.dart';
 import 'package:attt/view/history/widgets/historyCustomBottomNavigationBar.dart';
 import 'package:attt/view_model/signInViewModel.dart';
@@ -38,12 +35,6 @@ class _HistoryState extends State<History> {
     super.initState();
     InternetConnectivity().checkForConnectivity();
     newMethod();
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => Timer(Duration(seconds: 5), () {
-              setState(() {
-                loadingFinished = true;
-              });
-            }));
   }
 
   @override
@@ -76,9 +67,7 @@ class _HistoryState extends State<History> {
                       ],
                     ),
                     finishedWorkouts.isEmpty
-                        ? Center(
-                          child: CircularProgressIndicator(),
-                        )
+                        ? historyEmptyState()
                         : historyList(
                             finishedWeeksWithAthlete, finishedWorkouts),
                   ],
