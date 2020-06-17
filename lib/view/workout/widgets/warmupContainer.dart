@@ -93,7 +93,7 @@ class _WarmupContainerState extends State<WarmupContainer> {
                     });
               } else {
                 return Center(
-                  child: CircularProgressIndicator(),
+                  child: EmptyContainer(),
                 );
               }
             }),
