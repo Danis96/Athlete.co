@@ -5,9 +5,6 @@ Widget finishButton(
     Function nextPlay, BuildContext context, int index, listLenght) {
   SizeConfig().init(context);
   return Container(
-    height: MediaQuery.of(context).orientation == Orientation.landscape
-        ? SizeConfig.blockSizeVertical * 10
-        : SizeConfig.blockSizeVertical * 6,
     color: Colors.white,
     child: FlatButton(
         onPressed: () {

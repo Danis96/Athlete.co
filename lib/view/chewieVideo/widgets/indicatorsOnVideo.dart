@@ -455,7 +455,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                       ),
                       timeCont(widget.exerciseTime, widget.reps, context),
                       SizedBox(
-                        height: SizeConfig.blockSizeVertical * 9.6,
+                        height: SizeConfig.blockSizeVertical * 6,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
