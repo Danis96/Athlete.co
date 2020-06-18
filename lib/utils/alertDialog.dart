@@ -73,6 +73,7 @@ class _MyAlertDialogState extends State<MyAlertDialog> {
             onlineVideos = [];
             onlineCovers = [];
             exerciseSnapshots = [];
+            widget.close();
           },
           child: new Text(
             widget.yes,

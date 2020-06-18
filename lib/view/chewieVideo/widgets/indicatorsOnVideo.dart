@@ -18,7 +18,6 @@ import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/stopwatchIcon.dar
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/timeCont.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/timerWidget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:quiver/async.dart';
@@ -112,6 +111,10 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     switch (state) {
+
+      case AppLifecycleState.detached:
+
+        break;
 
       /// this state of the app activates first when the app
       /// is going into the background
