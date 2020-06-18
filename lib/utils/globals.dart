@@ -98,3 +98,6 @@ List<dynamic> finishedWeeks = [];
 
 ///for manual finishing workout
 bool checked = false;
+
+/// global key for loaders
+

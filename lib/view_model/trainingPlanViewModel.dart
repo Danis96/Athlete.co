@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TrainingPlanViewModel implements TrainingPlanInterface {
+
   @override
   Future getWeeks(String trainerID, Source source) async {
     var firestore = Firestore.instance;
