@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:attt/interface/signinInterface.dart';
 import 'package:attt/utils/custoWeb.dart';
 import 'package:attt/utils/customScreenAnimation.dart';
@@ -148,10 +150,15 @@ class SignInViewModel implements SignInInterface {
   signInWithGoogle(BuildContext context) async {
     /// open dialog
     Dialogs.showLoadingDialog(context, _keyLoader);
+    /// close dialog
+    Timer(Duration(seconds: 2), () {
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    });
 
     final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
     final GoogleSignInAuthentication googleSignInAuthentication =
         await googleSignInAccount.authentication;
+
 
     /// we get credentials over [GoogleAuthProvider] and get [accessToken & idToken]
     final AuthCredential credential = GoogleAuthProvider.getCredential(
@@ -162,6 +169,10 @@ class SignInViewModel implements SignInInterface {
     /// we collect that result and we collect activeUsers info
     final AuthResult authResult =
         await _firebaseAuth.signInWithCredential(credential);
+    /// close dialog
+    Timer(Duration(seconds: 2), () {
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+    });
     final FirebaseUser user = authResult.user;
 
     assert(!user.isAnonymous);
@@ -206,8 +217,8 @@ class SignInViewModel implements SignInInterface {
       }
     }
 
-    /// close dialog
-    Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+
+
 
     Navigator.of(context).pushAndRemoveUntil(
         CardAnimationTween(
@@ -234,7 +245,6 @@ class SignInViewModel implements SignInInterface {
 
   @override
   signOutFacebook(BuildContext context) async {
-//    await facebookSignIn.logOut();
     currentUser = null;
     logout();
     print("User Sign Out Faceboook");
