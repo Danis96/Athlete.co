@@ -33,12 +33,27 @@ class _SeriesInfoScreenState extends State<SeriesInfoScreen> {
   }
 
   getSeriesName() async {
+    List<dynamic> seriesNameWords = [];
     seriesDocuments = await ChewieVideoViewModel().getSeriesName(
         widget.trainerID, widget.weekID, widget.workoutID, widget.seriesID);
     seriesDocument = seriesDocuments[0];
     setState(() {
       seriesName = seriesDocument.data['name'];
     });
+    if (MediaQuery.of(context).orientation == Orientation.portrait) {
+      seriesNameWords = seriesName.split(' ');
+      if (seriesNameWords.length == 4) {
+        setState(() {
+          seriesName = seriesNameWords[0] +
+              ' ' +
+              seriesNameWords[1] +
+              '\n' +
+              seriesNameWords[2] +
+              ' ' +
+              seriesNameWords[3];
+        });
+      }
+    }
   }
 
   @override

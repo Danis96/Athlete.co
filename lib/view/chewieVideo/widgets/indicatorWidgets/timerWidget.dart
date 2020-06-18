@@ -28,7 +28,7 @@ Widget timerWidget(
     height: MediaQuery.of(context).orientation == Orientation.portrait
         ? SizeConfig.blockSizeVertical * 5.5 : SizeConfig.blockSizeVertical * 10,
     width: MediaQuery.of(context).orientation == Orientation.portrait
-        ? SizeConfig.blockSizeHorizontal * 35 :  SizeConfig.blockSizeHorizontal * 17,
+        ? SizeConfig.blockSizeHorizontal * 35 :  SizeConfig.blockSizeHorizontal * 19,
     child: RaisedButton(
         color: Colors.white.withOpacity(0.8),
       onPressed: () => pressTimer(),

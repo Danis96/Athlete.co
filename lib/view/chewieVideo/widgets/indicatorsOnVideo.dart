@@ -283,16 +283,13 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                               widget.listLenght,
                               widget.isReps,
                               widget.sets,
-                              widget.reps,
+                              widget.reps.toString(),
                               widget.name,
                               widget.workoutID,
                               widget.weekID),
                           clearIcon(context, checkIsOnTimeAndPauseTimer,
                               widget.onWill),
                         ],
-                      ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical * 2,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -313,7 +310,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                         ],
                       ),
                       SizedBox(
-                        height: SizeConfig.blockSizeVertical * 2,
+                        height: SizeConfig.blockSizeVertical * 1,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -321,7 +318,12 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                           widget.exerciseTime != null
                               ? timeCont(
                                   widget.exerciseTime, widget.reps, context)
-                              : EmptyContainer(),
+                              : SizedBox(
+                                  height: MediaQuery.of(context).orientation ==
+                                          Orientation.landscape
+                                      ? SizeConfig.blockSizeVertical * 9
+                                      : SizeConfig.blockSizeHorizontal * 9,
+                                ),
                           (widget.exerciseTime != null && widget.reps != null)
                               ? SizedBox(
                                   width: SizeConfig.blockSizeHorizontal * 20,
@@ -330,11 +332,16 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                           widget.reps != null
                               ? repsWidget(context, widget.isReps, widget.reps,
                                   widget.exerciseTime)
-                              : EmptyContainer(),
+                              : SizedBox(
+                                  height: MediaQuery.of(context).orientation ==
+                                          Orientation.landscape
+                                      ? SizeConfig.blockSizeVertical * 7
+                                      : SizeConfig.blockSizeHorizontal * 7,
+                                ),
                         ],
                       ),
                       SizedBox(
-                        height: SizeConfig.blockSizeVertical * 2,
+                        height: SizeConfig.blockSizeVertical * 1,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -343,7 +350,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                         ],
                       ),
                       SizedBox(
-                        height: SizeConfig.blockSizeVertical * 40,
+                        height: SizeConfig.blockSizeVertical * 43,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -439,11 +446,15 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                               widget.listLenght,
                               widget.isReps,
                               widget.sets,
-                              widget.reps,
+                              widget.reps.toString(),
                               widget.name,
                               widget.workoutID,
                               widget.weekID),
-                          asManyReps(context, widget.repsDescription),
+                          widget.repsDescription == null
+                              ? SizedBox(
+                                  width: SizeConfig.blockSizeHorizontal * 40,
+                                )
+                              : asManyReps(context, widget.repsDescription),
                           setsWidget(context, widget.currentSet, widget.sets,
                               widget.isReps),
                           clearIcon(context, checkIsOnTimeAndPauseTimer,
@@ -453,9 +464,13 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                       SizedBox(
                         height: SizeConfig.blockSizeVertical * 2,
                       ),
-                      timeCont(widget.exerciseTime, widget.reps, context),
+                      widget.exerciseTime == null
+                          ? SizedBox(
+                              height: SizeConfig.safeBlockVertical * 6,
+                            )
+                          : timeCont(widget.exerciseTime, widget.reps, context),
                       SizedBox(
-                        height: SizeConfig.blockSizeVertical * 6,
+                        height: SizeConfig.blockSizeVertical * 9,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -472,14 +487,14 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                         ],
                       ),
                       SizedBox(
-                        height: SizeConfig.blockSizeVertical * 7,
+                        height: SizeConfig.blockSizeVertical * 4,
                       ),
                       Padding(
                         padding: EdgeInsets.only(
                           left: SizeConfig.blockSizeHorizontal * 3,
                           right: showTime
-                              ? SizeConfig.blockSizeHorizontal * 4.8
-                              : SizeConfig.blockSizeHorizontal * 0,
+                              ? SizeConfig.blockSizeHorizontal * 4
+                              : SizeConfig.blockSizeHorizontal * 0.5,
                         ),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,

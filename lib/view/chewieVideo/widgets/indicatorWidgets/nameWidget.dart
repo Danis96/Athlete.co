@@ -44,8 +44,8 @@ Widget nameWidget(
     },
     child: Container(
       width: MediaQuery.of(context).orientation == Orientation.portrait
-            ? SizeConfig.blockSizeHorizontal * 90
-            : SizeConfig.blockSizeHorizontal * 50,
+          ? SizeConfig.blockSizeHorizontal * 90
+          : SizeConfig.blockSizeHorizontal * 50,
       child: Container(
         alignment: MediaQuery.of(context).orientation == Orientation.portrait
             ? Alignment.center
@@ -59,16 +59,13 @@ Widget nameWidget(
             TextSpan(
               text: name + ' ',
               style: TextStyle(
-                  color: MediaQuery.of(context).orientation ==
-                          Orientation.landscape
-                      ? Colors.white.withOpacity(0.6)
-                      : Colors.white,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                  fontStyle: FontStyle.italic,
                   fontSize: MediaQuery.of(context).orientation ==
                           Orientation.landscape
-                      ? SizeConfig.safeBlockHorizontal * 3
-                      : SizeConfig.safeBlockHorizontal * 6,
-                  fontWeight: FontWeight.bold,
-                  fontStyle: FontStyle.italic),
+                      ? SizeConfig.safeBlockVertical * 4
+                      : SizeConfig.safeBlockHorizontal * 4),
             ),
             MediaQuery.of(context).orientation == Orientation.portrait
                 ? WidgetSpan(
