@@ -242,7 +242,7 @@ class _SubscriptionClassState extends State<SubscriptionClass>
         print(_isPurchased.toString() + 'IS PURCHASE');
 
         return priceContainer(
-          productDetails.price.length <= 6 ? 'Monthly' : 'Annual',
+          productDetails.price.substring(0, 1) == '9' ? 'Annual' : 'Monthly',
           productDetails.price,
           '7 DAYS',
           'FREE TRIAL',
