@@ -9,8 +9,8 @@ class AddNote extends StatefulWidget {
   final VideoController controller;
   final DocumentSnapshot userDocument, userTrainerDocument;
   final int index, listLenght;
-  final int isReps, sets, reps;
-  final String name;
+  final int isReps, sets;
+  final String name, reps;
   final String workoutID, weekID;
   AddNote(
       {Key key,

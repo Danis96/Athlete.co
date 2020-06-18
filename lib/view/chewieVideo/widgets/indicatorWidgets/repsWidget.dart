@@ -8,13 +8,12 @@ Widget repsWidget(
     child: Text(
       reps.toString().length <= 2 ? 'x ' + reps.toString() : reps.toString(),
       style: TextStyle(
-        color: Colors.white,
-        fontSize: MediaQuery.of(context).orientation == Orientation.landscape
-            ? SizeConfig.blockSizeVertical * 7
-            : SizeConfig.safeBlockHorizontal * 7,
-        fontWeight: FontWeight.bold,
-        fontStyle: FontStyle.italic,
-      ),
+          color: Colors.white,
+          fontWeight: FontWeight.w600,
+          fontStyle: FontStyle.italic,
+          fontSize: MediaQuery.of(context).orientation == Orientation.landscape
+              ? SizeConfig.safeBlockVertical * 6
+              : SizeConfig.safeBlockHorizontal * 4),
     ),
   );
 }
