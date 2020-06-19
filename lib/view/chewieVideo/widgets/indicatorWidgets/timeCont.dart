@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 
 Widget timeCont(String exerciseTime, reps, BuildContext context) {
   return Container(
+    alignment: Alignment.center,
     height: MediaQuery.of(context).orientation == Orientation.landscape
         ? SizeConfig.blockSizeVertical * 9
         : SizeConfig.blockSizeHorizontal * 9,
@@ -19,8 +20,9 @@ Widget timeCont(String exerciseTime, reps, BuildContext context) {
                 fontStyle: FontStyle.italic,
                 fontSize:
                     MediaQuery.of(context).orientation == Orientation.landscape
-                        ? SizeConfig.safeBlockVertical * 6
+                        ? SizeConfig.safeBlockVertical * 4
                         : SizeConfig.safeBlockHorizontal * 4),
+                        textAlign: TextAlign.center,
           ),
   );
 }
