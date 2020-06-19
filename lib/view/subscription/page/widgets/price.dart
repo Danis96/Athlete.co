@@ -5,23 +5,24 @@ import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
 Widget priceContainer(
-    String type, price, t1, t2, BuildContext context, Function onSubscribe, ProductDetails productDetails) {
+    String type, price,  BuildContext context, Function onSubscribe, ProductDetails productDetails) {
   return GestureDetector(
     onTap: () => onSubscribe(productDetails),
-    child: Stack(children: [
+    child: Stack(
+        children: [
       Container(
         decoration: BoxDecoration(
-          color: MyColors().black,
-          border: Border.all(
-            color: Colors.yellow.withOpacity(0.7),
-            style: BorderStyle.solid,
-          ),
+          color: Colors.blueAccent.withOpacity(0.4),
+          borderRadius: BorderRadius.all(Radius.circular(4)),
+//          border: Border.all(
+//            color: Colors.amber.withOpacity(0.7),
+//            style: BorderStyle.solid,
+//          ),
         ),
         margin: EdgeInsets.only(
-            top: SizeConfig.blockSizeVertical * 2,
-            left: SizeConfig.blockSizeHorizontal * 3,
-            right: SizeConfig.blockSizeHorizontal * 3),
-        height: SizeConfig.blockSizeVertical * 12,
+            top: SizeConfig.blockSizeVertical * 1,
+           ),
+        height: SizeConfig.blockSizeVertical * 10,
         child: Column(
           children: [
             Container(
@@ -34,7 +35,7 @@ Widget priceContainer(
                     color: MyColors().lightWhite,
                     fontWeight: FontWeight.bold,
                     fontStyle: FontStyle.italic,
-                    fontSize: SizeConfig.safeBlockHorizontal * 8),
+                    fontSize: SizeConfig.safeBlockHorizontal * 5),
               ),
             ),
             Container(
@@ -42,7 +43,7 @@ Widget priceContainer(
               alignment: Alignment.centerLeft,
               width: SizeConfig.blockSizeHorizontal * 100,
               child: Text(
-                  'for only ' + price,
+                  'then only '.toUpperCase() + price,
                 style: TextStyle(
                     color: MyColors().lightWhite,
                     fontWeight: FontWeight.w500,
@@ -52,7 +53,6 @@ Widget priceContainer(
           ],
         ),
       ),
-      freeTrial(t1, t2)
     ]),
   );
 }

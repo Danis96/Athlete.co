@@ -6,16 +6,27 @@ import 'package:flutter/material.dart';
 
 Widget headlineStart() {
   return Container(
-    margin: EdgeInsets.only(left: SizeConfig.blockSizeHorizontal * 3),
     alignment: Alignment.centerLeft,
     width: SizeConfig.blockSizeHorizontal * 100,
-    child: Text(
-      'START YOUR\n 7 DAY \n FREE TRIAL',
-      style: TextStyle(
-          color: MyColors().lightWhite,
-          fontSize: SizeConfig.safeBlockHorizontal * 10.0,
-          fontStyle: FontStyle.italic,
-          fontWeight: FontWeight.bold),
+    child: Column(
+      children: <Widget>[
+        Text(
+          'Welcome to your new\npersonal best'.toUpperCase(),
+          style: TextStyle(
+              color: MyColors().white,
+              fontSize: SizeConfig.safeBlockHorizontal * 6.5,
+              fontStyle: FontStyle.italic,
+              fontWeight: FontWeight.bold),
+        ),
+        Container(
+          alignment: Alignment.centerLeft,
+          width: SizeConfig.blockSizeHorizontal * 80,
+          child: Divider(
+            thickness: 3.0,
+            color: Colors.amber.withOpacity(0.7),
+          ),
+        )
+      ],
     ),
   );
 }

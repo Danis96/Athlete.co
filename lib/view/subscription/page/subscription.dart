@@ -5,10 +5,16 @@ import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/chooseAthlete/pages/chooseAthlete.dart';
 import 'package:attt/view/subscription/declinedScreen.dart';
+import 'package:attt/view/subscription/page/page1.dart';
+import 'package:attt/view/subscription/page/page3.dart';
+import 'package:attt/view/subscription/page/widgets/centerText.dart';
 import 'package:attt/view/subscription/page/widgets/headlineCont.dart';
+import 'package:attt/view/subscription/page/widgets/page2.dart';
+import 'package:attt/view/subscription/page/widgets/phasesCont.dart';
 import 'package:attt/view/subscription/page/widgets/price.dart';
 import 'package:attt/view/subscription/page/widgets/reviews.dart';
 import 'package:attt/view/subscription/page/widgets/starRow.dart';
+import 'package:attt/view/subscription/page/widgets/subText.dart';
 import 'package:attt/view/subscription/page/widgets/textCont.dart';
 import 'package:attt/view/subscription/page/widgets/textReviews.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
@@ -48,6 +54,7 @@ class SubscriptionClass extends StatefulWidget {
 
 class _SubscriptionClassState extends State<SubscriptionClass>
     implements SubscriptionInterface {
+  PageController _pageController;
   final InAppPurchaseConnection _connection = InAppPurchaseConnection.instance;
   StreamSubscription<List<PurchaseDetails>> _subscription;
   List<String> _notFoundIds = [];
@@ -73,6 +80,7 @@ class _SubscriptionClassState extends State<SubscriptionClass>
       // handle error here.
     });
     initStoreInfo();
+    _pageController = PageController();
 
     /// not a good choice, but deadline is here
     Timer(Duration(milliseconds: 700), () {
@@ -202,7 +210,7 @@ class _SubscriptionClassState extends State<SubscriptionClass>
   Card _buildProductList() {
     if (_loading) {
       return Card(
-          color: MyColors().lightBlack,
+          color: Colors.transparent,
           child: (ListTile(
               leading: CircularProgressIndicator(),
               title: Text('Fetching products...'))));
@@ -242,10 +250,8 @@ class _SubscriptionClassState extends State<SubscriptionClass>
         print(_isPurchased.toString() + 'IS PURCHASE');
 
         return priceContainer(
-          productDetails.price.substring(0, 1) == '9' ? 'Annual' : 'Monthly',
+          '7 DAY FREE TRIAL',
           productDetails.price,
-          '7 DAYS',
-          'FREE TRIAL',
           context,
           subscribePressed,
           productDetails,
@@ -254,8 +260,9 @@ class _SubscriptionClassState extends State<SubscriptionClass>
     ));
 
     return Card(
-        color: MyColors().lightBlack,
+        color: Colors.transparent,
         child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: <Widget>[EmptyContainer(), Divider()] + productList));
   }
 
@@ -352,22 +359,18 @@ class _SubscriptionClassState extends State<SubscriptionClass>
 
     return !_isPurchased
         ? Scaffold(
-            backgroundColor: MyColors().lightBlack,
+            backgroundColor: Colors.transparent,
             body: Padding(
               padding: const EdgeInsets.all(10.0),
               child: Container(
                 decoration: BoxDecoration(color: MyColors().lightBlack),
-                child: ListView(
-                  shrinkWrap: true,
+                child: PageView(
+                  controller: _pageController,
+                  scrollDirection: Axis.vertical,
                   children: [
-                    headlineStart(),
-                    _buildProductList(),
-                    textCont(),
-                    starsRow(),
-                    reviews(ReviewText().name1, ReviewText().rev1),
-                    reviews(ReviewText().name2, ReviewText().rev2),
-                    reviews(ReviewText().name3, ReviewText().rev3),
-                    reviews(ReviewText().name4, ReviewText().rev4),
+                     pageOne(_pageController),
+                     pageTwo(),
+                     pageThree(_buildProductList()),
                   ],
                 ),
               ),
@@ -392,7 +395,10 @@ class _SubscriptionClassState extends State<SubscriptionClass>
                 name: widget.userName,
                 email: widget.userEmail,
                 photo: widget.userPhoto,
-                userUID: widget.userUID ,
+                userUID: widget.userUID,
               );
   }
 }
+
+
+

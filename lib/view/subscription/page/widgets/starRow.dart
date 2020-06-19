@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 Widget starsRow() {
   return Container(
+    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 1),
     width: SizeConfig.blockSizeHorizontal * 100,
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,

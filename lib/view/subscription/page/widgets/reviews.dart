@@ -15,15 +15,15 @@ Widget reviews(String name, review) {
           child: Text(
             name,
             style: TextStyle(
-                color: MyColors().white,
-                fontSize: SizeConfig.safeBlockHorizontal * 5),
+                color: Colors.amber,
+                fontSize: SizeConfig.safeBlockHorizontal * 6),
           ),
         ),
         Container(
           padding: EdgeInsets.all(4),
           child: Text(
               review,
-              style: TextStyle(color: MyColors().lightWhite, fontSize: SizeConfig.safeBlockHorizontal * 3.7)),
+              style: TextStyle(color: MyColors().lightWhite, fontSize: SizeConfig.safeBlockHorizontal * 4)),
         ),
       ],
     ),
