@@ -312,11 +312,9 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                               widget.listLenght),
                         ],
                       ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical * 1,
-                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           widget.exerciseTime != null
                               ? timeCont(
@@ -343,9 +341,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                 ),
                         ],
                       ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical * 1,
-                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
@@ -353,7 +348,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                         ],
                       ),
                       SizedBox(
-                        height: SizeConfig.blockSizeVertical * 43,
+                        height: SizeConfig.blockSizeVertical * 45,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -469,7 +464,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                       ),
                       widget.exerciseTime == null
                           ? SizedBox(
-                              height: SizeConfig.safeBlockVertical * 6,
+                              height: SizeConfig.blockSizeVertical * 9,
                             )
                           : timeCont(widget.exerciseTime, widget.reps, context),
                       SizedBox(
