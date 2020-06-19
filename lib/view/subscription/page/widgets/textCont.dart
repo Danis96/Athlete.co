@@ -4,15 +4,15 @@ import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
-Widget textCont() {
+Widget textCont(String text) {
   return Container(
     alignment: Alignment.center,
     width: SizeConfig.blockSizeHorizontal * 100,
     padding: EdgeInsets.all(10.0),
     child: Text(
-      '100% Satisfaction Guarantee',
+      text,
       style: TextStyle(
-          color: MyColors().lightWhite,
+          color: Colors.amber,
           fontSize: SizeConfig.safeBlockHorizontal * 6),
     ),
   );
