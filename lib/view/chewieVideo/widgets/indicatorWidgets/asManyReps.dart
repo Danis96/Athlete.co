@@ -5,7 +5,7 @@ Widget asManyReps(BuildContext context, String repsDescription) {
   return Container(
     alignment: Alignment.center,
     child: Text(
-      repsDescription,
+      repsDescription == null ? "" :  repsDescription,
       style: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.w600,

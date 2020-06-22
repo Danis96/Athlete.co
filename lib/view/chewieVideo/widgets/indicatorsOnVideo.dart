@@ -249,8 +249,227 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
               top: SizeConfig.blockSizeVertical * 3,
               left: SizeConfig.blockSizeHorizontal * 3,
               right: SizeConfig.blockSizeHorizontal * 3),
-          child: MediaQuery.of(context).orientation == Orientation.portrait
-              ? widget.isReps == 0
+          child: widget.isReps == 0
+              ? Column(
+                  children: <Widget>[
+                    Stack(
+                      alignment: Alignment.topRight,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            clearIcon(
+                              context,
+                              checkIsOnTimeAndPauseTimer,
+                              widget.onWill,
+                            ),
+                          ],
+                        ),
+                        InkWell(
+                          onTap: () {
+                            if (_counter == 0) {
+                              pauseAndPlayFunction();
+                              isTips = false;
+                              _counter = 1;
+                            }
+                            Timer(Duration(seconds: 1), () {
+                              _counter = 0;
+                            });
+                          },
+                          child: Container(
+                            width: SizeConfig.blockSizeHorizontal * 83,
+                            height: SizeConfig.blockSizeVertical * 20,
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(
+                      height: SizeConfig.blockSizeVertical * 15,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        nameWidget(
+                          infoClicked,
+                          goBackToChewie,
+                          isFromPortrait,
+                          context,
+                          widget.controller,
+                          checkIsOnTimeAndPauseTimer,
+                          widget.name,
+                          widget.video,
+                          widget.tips,
+                          widget.isReps,
+                          widget.index,
+                          widget.listLenght,
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: SizeConfig.blockSizeVertical * 8,
+                    ),
+                    Column(
+                      children: <Widget>[
+                        widget.repsDescription != null ||
+                                widget.repsDescription != ''
+                            ? Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(5.0),
+                                      topLeft: Radius.circular(5.0)),
+                                  color: Colors.grey,
+                                ),
+                                width: SizeConfig.blockSizeHorizontal * 85,
+                                height: SizeConfig.blockSizeVertical * 7,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    asManyReps(
+                                      context,
+                                      widget.repsDescription,
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : EmptyContainer(),
+                        Container(
+                          width: SizeConfig.blockSizeHorizontal * 85,
+                          height: SizeConfig.blockSizeVertical * 22,
+                          decoration: BoxDecoration(
+                            borderRadius: widget.repsDescription != null ||
+                                    widget.repsDescription != ''
+                                ? BorderRadius.only(
+                                    bottomLeft: Radius.circular(5.0),
+                                    bottomRight: Radius.circular(5.0))
+                                : BorderRadius.all(Radius.circular(5.0)),
+                            color: Colors.white,
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Container(
+                                height: SizeConfig.blockSizeVertical * 10,
+                                child: repsWidget(
+                                  context,
+                                  widget.isReps,
+                                  widget.reps,
+                                  widget.exerciseTime,
+                                ),
+                              ),
+                              Container(
+                                width: SizeConfig.blockSizeHorizontal * 60,
+                                child: RaisedButton(
+                                  color: MyColors().lightBlack,
+                                  child: Text(
+                                    'DONE',
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                        fontSize:
+                                            SizeConfig.safeBlockHorizontal * 4),
+                                  ),
+                                  onPressed: () {},
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                setsWidget(
+                                  context,
+                                  widget.currentSet,
+                                  widget.sets,
+                                  widget.isReps,
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 2,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                widget.index == 0
+                                    ? SizedBox(
+                                        width:
+                                            SizeConfig.blockSizeHorizontal * 10,
+                                      )
+                                    : previousButton(
+                                        context,
+                                        resetTimer,
+                                        widget.playPrevious,
+                                      ),
+                                Container(
+                                  child: Row(
+                                    children: <Widget>[
+                                      noteButton(
+                                        context,
+                                        noteClicked,
+                                        isFromPortrait,
+                                        widget.controller,
+                                        checkIsOnTimeAndPauseTimer,
+                                        widget.userDocument,
+                                        widget.userTrainerDocument,
+                                        widget.index,
+                                        widget.listLenght,
+                                        widget.isReps,
+                                        widget.sets,
+                                        widget.reps.toString(),
+                                        widget.name,
+                                        widget.workoutID,
+                                        widget.weekID,
+                                      ),
+                                      SizedBox(
+                                        width:
+                                            SizeConfig.blockSizeHorizontal * 3,
+                                      ),
+                                      infoIcon(
+                                        infoClicked,
+                                        goBackToChewie,
+                                        isFromPortrait,
+                                        context,
+                                        widget.controller,
+                                        checkIsOnTimeAndPauseTimer,
+                                        widget.name,
+                                        widget.video,
+                                        widget.tips,
+                                        widget.isReps,
+                                        widget.index,
+                                        widget.listLenght,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                widget.index == (widget.listLenght - 1)
+                                    ? SizedBox(
+                                        width:
+                                            SizeConfig.blockSizeHorizontal * 10,
+                                      )
+                                    : nextButton(
+                                        context,
+                                        resetTimer,
+                                        widget.playNext,
+                                        widget.controller,
+                                      ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    )
+                  ],
+                )
+              : widget.isReps == 1
                   ? Column(
                       children: <Widget>[
                         Stack(
@@ -310,7 +529,8 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                         ),
                         Column(
                           children: <Widget>[
-                            widget.repsDescription != null
+                            widget.repsDescription != null ||
+                                    widget.repsDescription != ''
                                 ? Container(
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.only(
@@ -349,14 +569,17 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                     MainAxisAlignment.spaceEvenly,
                                 children: <Widget>[
                                   Container(
-                                    height: SizeConfig.blockSizeVertical * 10,
-                                    child: repsWidget(
-                                      context,
-                                      widget.isReps,
-                                      widget.reps,
-                                      widget.exerciseTime,
-                                    ),
-                                  ),
+                                      height: SizeConfig.blockSizeVertical * 10,
+                                      child: timerWidget(
+                                          context,
+                                          widget.showTimerDialog,
+                                          format,
+                                          widget.controller,
+                                          isTimerPaused,
+                                          _current,
+                                          _pausedOn,
+                                          countDownTimer,
+                                          controllerColor)),
                                   Container(
                                     width: SizeConfig.blockSizeHorizontal * 60,
                                     child: RaisedButton(
@@ -475,8 +698,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                         )
                       ],
                     )
-                  : EmptyContainer()
-              : EmptyContainer(),
+                  : EmptyContainer(),
 
           // MediaQuery.of(context).orientation == Orientation.portrait
           //     ? Column(
