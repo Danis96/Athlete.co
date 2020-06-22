@@ -50,6 +50,7 @@ dependencies:
   connectivity: ^0.4.8+6
   overlay_container: ^0.0.4+1
   awesome_button: ^1.0.2
+  flutter_spinkit: ^4.1.2+1
   flutter_picker:
     git: git://github.com/yangyxd/flutter_picker.git
 

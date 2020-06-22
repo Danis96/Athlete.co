@@ -5,6 +5,7 @@ import 'package:attt/utils/custoWeb.dart';
 import 'package:attt/utils/customScreenAnimation.dart';
 import 'package:attt/utils/dialog.dart';
 import 'package:attt/utils/globals.dart';
+import 'package:attt/view/subscription/page/checkSub.dart';
 import 'package:attt/view/subscription/page/subscription.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -128,7 +129,7 @@ class SignInViewModel implements SignInInterface {
 
     Navigator.of(context).pushAndRemoveUntil(
         CardAnimationTween(
-          widget: SubscriptionClass(
+          widget: CheckSubscription(
             currentUserDocument: currentUserDocument,
             currentUserTrainerDocument: currentUserTrainerDocument,
             userName: userName,
@@ -222,7 +223,7 @@ class SignInViewModel implements SignInInterface {
 
     Navigator.of(context).pushAndRemoveUntil(
         CardAnimationTween(
-          widget: SubscriptionClass(
+          widget: CheckSubscription(
             currentUserDocument: currentUserDocument,
             currentUserTrainerDocument: currentUserTrainerDocument,
             userName: userName,
@@ -291,7 +292,7 @@ class SignInViewModel implements SignInInterface {
       isLoggedIn = true;
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
-            builder: (_) => SubscriptionClass(
+            builder: (_) => CheckSubscription(
               currentUserDocument: currentUserDocument,
               currentUserTrainerDocument: currentUserTrainerDocument,
               userName: userName,
@@ -515,7 +516,7 @@ class SignInViewModel implements SignInInterface {
         ///Navigating logged user into application
         Navigator.of(context).pushAndRemoveUntil(
             CardAnimationTween(
-              widget: SubscriptionClass(
+              widget: CheckSubscription(
                 currentUserDocument: currentUserDocument,
                 currentUserTrainerDocument: currentUserTrainerDocument,
                 userName: userName,
