@@ -43,46 +43,13 @@ Widget nameWidget(
       }
     },
     child: Container(
-      width: MediaQuery.of(context).orientation == Orientation.portrait
-          ? SizeConfig.blockSizeHorizontal * 90
-          : SizeConfig.blockSizeHorizontal * 50,
-      child: Container(
-        alignment: MediaQuery.of(context).orientation == Orientation.portrait
-            ? Alignment.center
-            : null,
-        width: MediaQuery.of(context).orientation == Orientation.portrait
-            ? SizeConfig.blockSizeHorizontal * 100
-            : SizeConfig.blockSizeHorizontal * 50,
-        child: RichText(
-          overflow: TextOverflow.ellipsis,
-          text: TextSpan(children: [
-            TextSpan(
-              text: name + ' ',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                  fontStyle: FontStyle.italic,
-                  fontSize: MediaQuery.of(context).orientation ==
-                          Orientation.landscape
-                      ? SizeConfig.safeBlockVertical * 4
-                      : SizeConfig.safeBlockHorizontal * 4),
-            ),
-            MediaQuery.of(context).orientation == Orientation.portrait
-                ? WidgetSpan(
-                    alignment: PlaceholderAlignment.bottom,
-                    child: EmptyContainer())
-                : WidgetSpan(
-                    alignment: PlaceholderAlignment.bottom,
-                    child: Icon(
-                      Icons.info,
-                      size: MediaQuery.of(context).orientation ==
-                              Orientation.landscape
-                          ? SizeConfig.blockSizeHorizontal * 2.3
-                          : SizeConfig.blockSizeHorizontal * 3,
-                      color: Colors.white,
-                    ))
-          ]),
-        ),
+      child: Text(
+        name,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w400,
+            fontSize: SizeConfig.safeBlockHorizontal * 10),
       ),
     ),
   );

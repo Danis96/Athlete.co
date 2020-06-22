@@ -4,25 +4,30 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:video_box/video.controller.dart';
 
-Widget noteButton(BuildContext context, bool noteClicked, isFromPortrait,
-    VideoController controller, Function checkIsOnTimeAndPauseTimer,
-    DocumentSnapshot userDocument, userTrainerDocument,
-    int index, listLenght,isReps, sets,
+Widget noteButton(
+    BuildContext context,
+    bool noteClicked,
+    isFromPortrait,
+    VideoController controller,
+    Function checkIsOnTimeAndPauseTimer,
+    DocumentSnapshot userDocument,
+    userTrainerDocument,
+    int index,
+    listLenght,
+    isReps,
+    sets,
     var reps,
-    String name, workoutID, weekID
-    ) {
+    String name,
+    workoutID,
+    weekID) {
   return Container(
-    margin: EdgeInsets.only(
-        top: MediaQuery.of(context).orientation == Orientation.landscape
-            ? SizeConfig.blockSizeVertical * 0
-            : SizeConfig.blockSizeVertical * 0),
-    child: IconButton(
-        color: Colors.white,
-        iconSize: MediaQuery.of(context).orientation == Orientation.landscape
-            ? SizeConfig.blockSizeHorizontal * 3.5
-            : SizeConfig.blockSizeHorizontal * 7.5,
-        icon: Icon(Icons.comment),
-        onPressed: () {
+    height: SizeConfig.blockSizeHorizontal * 10,
+    width: SizeConfig.blockSizeHorizontal * 10,
+    child: ClipOval(
+        child: Material(
+      color: Colors.white,
+      child: InkWell(
+        onTap: () {
           if (noteClicked) {
             checkIsOnTimeAndPauseTimer();
             noteClicked = false;
@@ -37,13 +42,13 @@ Widget noteButton(BuildContext context, bool noteClicked, isFromPortrait,
                 builder: (_) => AddNote(
                     controller: controller,
                     listLenght: listLenght,
-                    userDocument:userDocument,
+                    userDocument: userDocument,
                     userTrainerDocument: userTrainerDocument,
                     index: index,
                     isReps: isReps,
                     reps: reps,
                     sets: sets,
-                    name:name,
+                    name: name,
                     workoutID: workoutID,
                     weekID: weekID),
               ),
@@ -51,6 +56,12 @@ Widget noteButton(BuildContext context, bool noteClicked, isFromPortrait,
           } else {
             print('NE MOZE VIŠE PAŠA 2');
           }
-        }),
+        },
+        child: Icon(
+          Icons.comment,
+          size: SizeConfig.blockSizeHorizontal * 5,
+        ),
+      ),
+    )),
   );
 }

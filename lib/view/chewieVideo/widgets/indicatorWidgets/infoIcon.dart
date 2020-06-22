@@ -1,4 +1,3 @@
-import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/workout/widgets/info.dart';
 import 'package:flutter/material.dart';
@@ -17,35 +16,40 @@ Widget infoIcon(
     var isReps,
     index,
     listLenght) {
-  return MediaQuery.of(context).orientation == Orientation.portrait
-      ? Container(
-          child: IconButton(
-            icon: Icon(Icons.info),
-            onPressed: () {
-              if (infoClicked) {
-                checkIsOnTimeAndPauseTimer();
-                goBackToChewie = true;
-                infoClicked = false;
-                controller.pause();
-                if (MediaQuery.of(context).orientation == Orientation.portrait)
-                  isFromPortrait = true;
-                else
-                  isFromPortrait = false;
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (_) => InfoExercise(
-                    vc: controller,
-                    exerciseNameForInfo: name,
-                    exerciseTips: exTips,
-                    exerciseVideoForInfo: video,
-                  ),
-                ));
-              } else {
-                print('NE MOZE VIŠE PAŠA');
-              }
-            },
-            color: Colors.white,
-            iconSize: SizeConfig.blockSizeHorizontal * 8,
-          ),
-        )
-      : EmptyContainer();
+  return Container(
+    height: SizeConfig.blockSizeHorizontal * 10,
+    width: SizeConfig.blockSizeHorizontal * 10,
+    child: ClipOval(
+        child: Material(
+      color: Colors.white,
+      child: InkWell(
+        onTap: () {
+          if (infoClicked) {
+            checkIsOnTimeAndPauseTimer();
+            goBackToChewie = true;
+            infoClicked = false;
+            controller.pause();
+            if (MediaQuery.of(context).orientation == Orientation.portrait)
+              isFromPortrait = true;
+            else
+              isFromPortrait = false;
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (_) => InfoExercise(
+                vc: controller,
+                exerciseNameForInfo: name,
+                exerciseTips: exTips,
+                exerciseVideoForInfo: video,
+              ),
+            ));
+          } else {
+            print('NE MOZE VIŠE PAŠA');
+          }
+        },
+        child: Icon(
+          Icons.info,
+          size: SizeConfig.blockSizeHorizontal * 5,
+        ),
+      ),
+    )),
+  );
 }
