@@ -267,6 +267,7 @@ class SignInViewModel implements SignInInterface {
     userPhoto = prefs.getString('photoURL');
     String userUIDP = prefs.getString('userUIDPref');
 
+
     currentUserDocuments = await getCurrentUserDocument(userUIDP);
     currentUserDocument = currentUserDocuments[0];
 

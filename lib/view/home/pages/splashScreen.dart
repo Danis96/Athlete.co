@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'package:attt/utils/colors.dart';
+import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/home/pages/signin.dart';
+import 'package:attt/view_model/signInViewModel.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomSplashScreen extends StatefulWidget {
   const CustomSplashScreen({Key key}) : super(key: key);
@@ -15,7 +18,15 @@ class _CustomSplashScreenState extends State<CustomSplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(Duration(seconds: 2), navigation);
+    checkForPrefs();
+  }
+
+  checkForPrefs() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String email = prefs.getString('email');
+    print('Check for prefs: ' + email.toString());
+    if(email != null) SignInViewModel().autoLogIn(context);
+    else navigation();
   }
 
   navigation() {
