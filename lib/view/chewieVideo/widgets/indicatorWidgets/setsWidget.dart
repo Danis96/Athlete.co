@@ -9,9 +9,7 @@ Widget setsWidget(BuildContext context, String currentSet, int sets, isReps) {
           color: Colors.white,
           fontWeight: FontWeight.w600,
           fontStyle: FontStyle.italic,
-          fontSize: MediaQuery.of(context).orientation == Orientation.landscape
-              ? SizeConfig.safeBlockVertical * 4
-              : SizeConfig.safeBlockHorizontal * 4),
+          fontSize: SizeConfig.safeBlockHorizontal * 4),
     ),
   );
 }

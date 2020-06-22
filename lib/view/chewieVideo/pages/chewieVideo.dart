@@ -40,10 +40,7 @@ class _ChewieVideoState extends State<ChewieVideo>
   VideoController vc;
   VideoPlayerController controller;
   List<dynamic> exerciseTips = [];
-  int exerciseDuration,
-      exerciseIsReps,
-      exerciseSets,
-      exerciseRest;
+  int exerciseDuration, exerciseIsReps, exerciseSets, exerciseRest;
   var exerciseReps;
   String exerciseName, exerciseRepsDescription;
   String exerciseSet, exerciseTime;
@@ -58,6 +55,7 @@ class _ChewieVideoState extends State<ChewieVideo>
     controller = VideoPlayerController.network(source[nv]);
     vc.setSource(controller);
     vc.looping = true;
+    vc.isFullScreen = false;
     vc.bufferColor = Colors.transparent;
     vc.cover = Container(
       child: AspectRatio(
@@ -318,6 +316,7 @@ class _ChewieVideoState extends State<ChewieVideo>
         ),
         source: VideoPlayerController.network(source[index]))
       ..initialize();
+    vc.isFullScreen = false;
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
       DeviceOrientation.landscapeLeft,
@@ -360,6 +359,7 @@ class _ChewieVideoState extends State<ChewieVideo>
     SizeConfig().init(context);
     initializeVariables();
     return Scaffold(
+      backgroundColor: MyColors().lightBlack,
       bottomNavigationBar: index == source.length - 1
           ? finishButton(nextPlay, context, index, source.length)
           : EmptyContainer(),
@@ -367,11 +367,12 @@ class _ChewieVideoState extends State<ChewieVideo>
         onWillPop: () => _onWillPop(),
         child: Stack(
           children: <Widget>[
-            Center(
-              /// video / beforeChildren / controllerWidgets-> children / afterChildren
-              child: VideoBox(
-                controller: vc,
-              ),
+            Column(
+              children: <Widget>[
+                VideoBox(
+                  controller: vc,
+                ),
+              ],
             ),
             Positioned(
               child: Container(

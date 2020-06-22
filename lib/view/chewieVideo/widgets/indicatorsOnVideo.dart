@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
+import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/sound.dart';
@@ -111,9 +112,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     super.didChangeAppLifecycleState(state);
     switch (state) {
-
       case AppLifecycleState.detached:
-
         break;
 
       /// this state of the app activates first when the app
@@ -245,59 +244,52 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
     SizeConfig().init(context);
     return SlideTransition(
         position: _offsetAnimation,
-        child: InkWell(
-          onTap: () {
-            if (_counter == 0) {
-              pauseAndPlayFunction();
-              isTips = false;
-              _counter = 1;
-            }
-            Timer(Duration(seconds: 1), () {
-              _counter = 0;
-            });
-          },
-          child: Padding(
-            padding: EdgeInsets.only(
-                top: SizeConfig.blockSizeVertical * 3,
-                bottom: SizeConfig.blockSizeVertical * 1,
-                left:
-                    MediaQuery.of(context).orientation == Orientation.landscape
-                        ? SizeConfig.blockSizeHorizontal * 3
-                        : SizeConfig.blockSizeHorizontal * 3,
-                right:
-                    MediaQuery.of(context).orientation == Orientation.landscape
-                        ? SizeConfig.blockSizeHorizontal * 3
-                        : SizeConfig.blockSizeHorizontal * 3),
-            child: MediaQuery.of(context).orientation == Orientation.portrait
-                ? Column(
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          noteButton(
-                              context,
-                              noteClicked,
-                              isFromPortrait,
-                              widget.controller,
-                              checkIsOnTimeAndPauseTimer,
-                              widget.userDocument,
-                              widget.userTrainerDocument,
-                              widget.index,
-                              widget.listLenght,
-                              widget.isReps,
-                              widget.sets,
-                              widget.reps.toString(),
-                              widget.name,
-                              widget.workoutID,
-                              widget.weekID),
-                          clearIcon(context, checkIsOnTimeAndPauseTimer,
-                              widget.onWill),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          nameWidget(
+        child: Padding(
+          padding: EdgeInsets.only(
+              top: SizeConfig.blockSizeVertical * 3,
+              left: SizeConfig.blockSizeHorizontal * 3,
+              right: SizeConfig.blockSizeHorizontal * 3),
+          child: MediaQuery.of(context).orientation == Orientation.portrait
+              ? widget.isReps == 0
+                  ? Column(
+                      children: <Widget>[
+                        Stack(
+                          alignment: Alignment.topRight,
+                          children: <Widget>[
+                            Row(
+                              children: <Widget>[
+                                clearIcon(
+                                  context,
+                                  checkIsOnTimeAndPauseTimer,
+                                  widget.onWill,
+                                ),
+                              ],
+                            ),
+                            InkWell(
+                              onTap: () {
+                                if (_counter == 0) {
+                                  pauseAndPlayFunction();
+                                  isTips = false;
+                                  _counter = 1;
+                                }
+                                Timer(Duration(seconds: 1), () {
+                                  _counter = 0;
+                                });
+                              },
+                              child: Container(
+                                width: SizeConfig.blockSizeHorizontal * 83,
+                                height: SizeConfig.blockSizeVertical * 20,
+                              ),
+                            )
+                          ],
+                        ),
+                        SizedBox(
+                          height: SizeConfig.blockSizeVertical * 15,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            nameWidget(
                               infoClicked,
                               goBackToChewie,
                               isFromPortrait,
@@ -309,264 +301,481 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                               widget.tips,
                               widget.isReps,
                               widget.index,
-                              widget.listLenght),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          widget.exerciseTime != null
-                              ? timeCont(
-                                  widget.exerciseTime, widget.reps, context)
-                              : SizedBox(
-                                  height: MediaQuery.of(context).orientation ==
-                                          Orientation.landscape
-                                      ? SizeConfig.blockSizeVertical * 9
-                                      : SizeConfig.blockSizeHorizontal * 9,
-                                ),
-                          (widget.exerciseTime != null && widget.reps != null)
-                              ? SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal * 20,
-                                )
-                              : EmptyContainer(),
-                          widget.reps != null
-                              ? repsWidget(context, widget.isReps, widget.reps,
-                                  widget.exerciseTime)
-                              : SizedBox(
-                                  height: MediaQuery.of(context).orientation ==
-                                          Orientation.landscape
-                                      ? SizeConfig.blockSizeVertical * 7
-                                      : SizeConfig.blockSizeHorizontal * 7,
-                                ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          asManyReps(context, widget.repsDescription),
-                        ],
-                      ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical * 45,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          widget.index == 0
-                              ? SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal * 15,
-                                )
-                              : previousButton(
-                                  context, resetTimer, widget.playPrevious),
-                          Stack(
-                            children: <Widget>[
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: <Widget>[
-                                  /// reps or timer,
-                                  /// depend on the exercise type
-                                  showTime
-                                      ? timerWidget(
+                              widget.listLenght,
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: SizeConfig.blockSizeVertical * 8,
+                        ),
+                        Column(
+                          children: <Widget>[
+                            widget.repsDescription != null
+                                ? Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                          topRight: Radius.circular(5.0),
+                                          topLeft: Radius.circular(5.0)),
+                                      color: Colors.grey,
+                                    ),
+                                    width: SizeConfig.blockSizeHorizontal * 85,
+                                    height: SizeConfig.blockSizeVertical * 7,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        asManyReps(
                                           context,
-                                          widget.showTimerDialog,
-                                          format,
-                                          widget.controller,
-                                          isTimerPaused,
-                                          _current,
-                                          _pausedOn,
-                                          countDownTimer,
-                                          controllerColor,
-                                        )
-                                      : stopIcon(
-                                          pressTimer, context, widget.isReps),
-                                  showTime
-                                      ? colorProgress(controllerColor, context)
-                                      : EmptyContainer(),
+                                          widget.repsDescription,
+                                        ),
+                                      ],
+                                    ),
+                                  )
+                                : EmptyContainer(),
+                            Container(
+                              width: SizeConfig.blockSizeHorizontal * 85,
+                              height: SizeConfig.blockSizeVertical * 22,
+                              decoration: BoxDecoration(
+                                borderRadius: widget.repsDescription != null
+                                    ? BorderRadius.only(
+                                        bottomLeft: Radius.circular(5.0),
+                                        bottomRight: Radius.circular(5.0))
+                                    : BorderRadius.all(Radius.circular(5.0)),
+                                color: Colors.white,
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  Container(
+                                    height: SizeConfig.blockSizeVertical * 10,
+                                    child: repsWidget(
+                                      context,
+                                      widget.isReps,
+                                      widget.reps,
+                                      widget.exerciseTime,
+                                    ),
+                                  ),
+                                  Container(
+                                    width: SizeConfig.blockSizeHorizontal * 60,
+                                    child: RaisedButton(
+                                      color: MyColors().lightBlack,
+                                      child: Text(
+                                        'DONE',
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize:
+                                                SizeConfig.safeBlockHorizontal *
+                                                    4),
+                                      ),
+                                      onPressed: () {},
+                                    ),
+                                  ),
                                 ],
                               ),
-                            ],
-                          ),
-                          widget.index == (widget.listLenght - 1)
-                              ? SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal * 15,
-                                )
-                              : nextButton(context, resetTimer, widget.playNext,
-                                  widget.controller),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          infoIcon(
-                              infoClicked,
-                              goBackToChewie,
-                              isFromPortrait,
-                              context,
-                              widget.controller,
-                              checkIsOnTimeAndPauseTimer,
-                              widget.name,
-                              widget.video,
-                              widget.tips,
-                              widget.isReps,
-                              widget.index,
-                              widget.listLenght),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          setsWidget(context, widget.currentSet, widget.sets,
-                              widget.isReps),
-                          fullscreenButton(
-                              context, widget.isReps, rotateScreen),
-                        ],
-                      ),
-                    ],
-                  )
-                : Column(
-                    children: <Widget>[
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[
-                          noteButton(
-                              context,
-                              noteClicked,
-                              isFromPortrait,
-                              widget.controller,
-                              checkIsOnTimeAndPauseTimer,
-                              widget.userDocument,
-                              widget.userTrainerDocument,
-                              widget.index,
-                              widget.listLenght,
-                              widget.isReps,
-                              widget.sets,
-                              widget.reps.toString(),
-                              widget.name,
-                              widget.workoutID,
-                              widget.weekID),
-                          widget.repsDescription == null
-                              ? SizedBox(
-                                  width: SizeConfig.blockSizeHorizontal * 40,
-                                )
-                              : asManyReps(context, widget.repsDescription),
-                          setsWidget(context, widget.currentSet, widget.sets,
-                              widget.isReps),
-                          clearIcon(context, checkIsOnTimeAndPauseTimer,
-                              widget.onWill),
-                        ],
-                      ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical * 2,
-                      ),
-                      widget.exerciseTime == null
-                          ? SizedBox(
-                              height: SizeConfig.blockSizeVertical * 9,
-                            )
-                          : timeCont(widget.exerciseTime, widget.reps, context),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical * 9,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          widget.index == 0
-                              ? EmptyContainer()
-                              : previousButton(
-                                  context, resetTimer, widget.playPrevious),
-                          widget.index == (widget.listLenght - 1)
-                              ? EmptyContainer()
-                              : nextButton(context, resetTimer, widget.playNext,
-                                  widget.controller),
-                        ],
-                      ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical * 4,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal * 3,
-                          right: showTime
-                              ? SizeConfig.blockSizeHorizontal * 4
-                              : SizeConfig.blockSizeHorizontal * 0.5,
+                            ),
+                          ],
                         ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            widget.reps == null
-                                ? EmptyContainer()
-                                : repsWidget(context, widget.isReps,
-                                    widget.reps, widget.exerciseTime),
-                            Stack(
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.bottomCenter,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: <Widget>[
-                                Column(
+                                Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
                                   children: <Widget>[
-                                    /// reps or timer,
-                                    /// depend on the exercise type
-                                    showTime
-                                        ? timerWidget(
-                                            context,
-                                            widget.showTimerDialog,
-                                            format,
-                                            widget.controller,
-                                            isTimerPaused,
-                                            _current,
-                                            _pausedOn,
-                                            countDownTimer,
-                                            controllerColor,
+                                    setsWidget(
+                                      context,
+                                      widget.currentSet,
+                                      widget.sets,
+                                      widget.isReps,
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: SizeConfig.blockSizeVertical * 2,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: <Widget>[
+                                    widget.index == 0
+                                        ? SizedBox(
+                                            width:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    10,
                                           )
-                                        : stopIcon(
-                                            pressTimer, context, widget.isReps),
-                                    showTime
-                                        ? colorProgress(
-                                            controllerColor, context)
-                                        : EmptyContainer(),
+                                        : previousButton(
+                                            context,
+                                            resetTimer,
+                                            widget.playPrevious,
+                                          ),
+                                    Container(
+                                      child: Row(
+                                        children: <Widget>[
+                                          noteButton(
+                                            context,
+                                            noteClicked,
+                                            isFromPortrait,
+                                            widget.controller,
+                                            checkIsOnTimeAndPauseTimer,
+                                            widget.userDocument,
+                                            widget.userTrainerDocument,
+                                            widget.index,
+                                            widget.listLenght,
+                                            widget.isReps,
+                                            widget.sets,
+                                            widget.reps.toString(),
+                                            widget.name,
+                                            widget.workoutID,
+                                            widget.weekID,
+                                          ),
+                                          SizedBox(
+                                            width:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    3,
+                                          ),
+                                          infoIcon(
+                                            infoClicked,
+                                            goBackToChewie,
+                                            isFromPortrait,
+                                            context,
+                                            widget.controller,
+                                            checkIsOnTimeAndPauseTimer,
+                                            widget.name,
+                                            widget.video,
+                                            widget.tips,
+                                            widget.isReps,
+                                            widget.index,
+                                            widget.listLenght,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    widget.index == (widget.listLenght - 1)
+                                        ? SizedBox(
+                                            width:
+                                                SizeConfig.blockSizeHorizontal *
+                                                    10,
+                                          )
+                                        : nextButton(
+                                            context,
+                                            resetTimer,
+                                            widget.playNext,
+                                            widget.controller,
+                                          ),
                                   ],
                                 ),
                               ],
                             ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: SizeConfig.blockSizeVertical * 0.5,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: SizeConfig.blockSizeHorizontal * 3,
-                        ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            nameWidget(
-                                infoClicked,
-                                goBackToChewie,
-                                isFromPortrait,
-                                context,
-                                widget.controller,
-                                checkIsOnTimeAndPauseTimer,
-                                widget.name,
-                                widget.video,
-                                widget.tips,
-                                widget.isReps,
-                                widget.index,
-                                widget.listLenght),
-                            fullscreenButton(
-                                context, widget.isReps, rotateScreen),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-          ),
+                          ),
+                        )
+                      ],
+                    )
+                  : EmptyContainer()
+              : EmptyContainer(),
+
+          // MediaQuery.of(context).orientation == Orientation.portrait
+          //     ? Column(
+          //         children: <Widget>[
+          //           Row(
+          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //             children: <Widget>[
+          //               noteButton(
+          //                   context,
+          //                   noteClicked,
+          //                   isFromPortrait,
+          //                   widget.controller,
+          //                   checkIsOnTimeAndPauseTimer,
+          //                   widget.userDocument,
+          //                   widget.userTrainerDocument,
+          //                   widget.index,
+          //                   widget.listLenght,
+          //                   widget.isReps,
+          //                   widget.sets,
+          //                   widget.reps.toString(),
+          //                   widget.name,
+          //                   widget.workoutID,
+          //                   widget.weekID),
+          //               clearIcon(context, checkIsOnTimeAndPauseTimer,
+          //                   widget.onWill),
+          //             ],
+          //           ),
+          //           Row(
+          //             mainAxisAlignment: MainAxisAlignment.center,
+          //             children: <Widget>[
+          //               nameWidget(
+          //                   infoClicked,
+          //                   goBackToChewie,
+          //                   isFromPortrait,
+          //                   context,
+          //                   widget.controller,
+          //                   checkIsOnTimeAndPauseTimer,
+          //                   widget.name,
+          //                   widget.video,
+          //                   widget.tips,
+          //                   widget.isReps,
+          //                   widget.index,
+          //                   widget.listLenght),
+          //             ],
+          //           ),
+          //           Row(
+          //             mainAxisAlignment: MainAxisAlignment.center,
+          //             crossAxisAlignment: CrossAxisAlignment.center,
+          //             children: <Widget>[
+          //               widget.exerciseTime != null
+          //                   ? timeCont(
+          //                       widget.exerciseTime, widget.reps, context)
+          //                   : SizedBox(
+          //                       height: MediaQuery.of(context).orientation ==
+          //                               Orientation.landscape
+          //                           ? SizeConfig.blockSizeVertical * 9
+          //                           : SizeConfig.blockSizeHorizontal * 9,
+          //                     ),
+          //               (widget.exerciseTime != null && widget.reps != null)
+          //                   ? SizedBox(
+          //                       width: SizeConfig.blockSizeHorizontal * 20,
+          //                     )
+          //                   : EmptyContainer(),
+          //               widget.reps != null
+          //                   ? repsWidget(context, widget.isReps, widget.reps,
+          //                       widget.exerciseTime)
+          //                   : SizedBox(
+          //                       height: MediaQuery.of(context).orientation ==
+          //                               Orientation.landscape
+          //                           ? SizeConfig.blockSizeVertical * 7
+          //                           : SizeConfig.blockSizeHorizontal * 7,
+          //                     ),
+          //             ],
+          //           ),
+          //           Row(
+          //             mainAxisAlignment: MainAxisAlignment.center,
+          //             children: <Widget>[
+          //               asManyReps(context, widget.repsDescription),
+          //             ],
+          //           ),
+          //           SizedBox(
+          //             height: SizeConfig.blockSizeVertical * 45,
+          //           ),
+          //           Row(
+          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //             crossAxisAlignment: CrossAxisAlignment.center,
+          //             children: <Widget>[
+          //               widget.index == 0
+          //                   ? SizedBox(
+          //                       width: SizeConfig.blockSizeHorizontal * 15,
+          //                     )
+          //                   : previousButton(
+          //                       context, resetTimer, widget.playPrevious),
+          //               Stack(
+          //                 children: <Widget>[
+          //                   Column(
+          //                     mainAxisAlignment: MainAxisAlignment.center,
+          //                     crossAxisAlignment: CrossAxisAlignment.center,
+          //                     children: <Widget>[
+          //                       /// reps or timer,
+          //                       /// depend on the exercise type
+          //                       showTime
+          //                           ? timerWidget(
+          //                               context,
+          //                               widget.showTimerDialog,
+          //                               format,
+          //                               widget.controller,
+          //                               isTimerPaused,
+          //                               _current,
+          //                               _pausedOn,
+          //                               countDownTimer,
+          //                               controllerColor,
+          //                             )
+          //                           : stopIcon(
+          //                               pressTimer, context, widget.isReps),
+          //                       showTime
+          //                           ? colorProgress(controllerColor, context)
+          //                           : EmptyContainer(),
+          //                     ],
+          //                   ),
+          //                 ],
+          //               ),
+          //               widget.index == (widget.listLenght - 1)
+          //                   ? SizedBox(
+          //                       width: SizeConfig.blockSizeHorizontal * 15,
+          //                     )
+          //                   : nextButton(context, resetTimer, widget.playNext,
+          //                       widget.controller),
+          //             ],
+          //           ),
+          //           Row(
+          //             mainAxisAlignment: MainAxisAlignment.center,
+          //             children: <Widget>[
+          //               infoIcon(
+          //                   infoClicked,
+          //                   goBackToChewie,
+          //                   isFromPortrait,
+          //                   context,
+          //                   widget.controller,
+          //                   checkIsOnTimeAndPauseTimer,
+          //                   widget.name,
+          //                   widget.video,
+          //                   widget.tips,
+          //                   widget.isReps,
+          //                   widget.index,
+          //                   widget.listLenght),
+          //             ],
+          //           ),
+          //           Row(
+          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //             children: <Widget>[
+          //               setsWidget(context, widget.currentSet, widget.sets,
+          //                   widget.isReps),
+          //               fullscreenButton(
+          //                   context, widget.isReps, rotateScreen),
+          //             ],
+          //           ),
+          //         ],
+          //       )
+          //     : Column(
+          //         children: <Widget>[
+          //           Row(
+          //             crossAxisAlignment: CrossAxisAlignment.center,
+          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //             children: <Widget>[
+          //               noteButton(
+          //                   context,
+          //                   noteClicked,
+          //                   isFromPortrait,
+          //                   widget.controller,
+          //                   checkIsOnTimeAndPauseTimer,
+          //                   widget.userDocument,
+          //                   widget.userTrainerDocument,
+          //                   widget.index,
+          //                   widget.listLenght,
+          //                   widget.isReps,
+          //                   widget.sets,
+          //                   widget.reps.toString(),
+          //                   widget.name,
+          //                   widget.workoutID,
+          //                   widget.weekID),
+          //               widget.repsDescription == null
+          //                   ? SizedBox(
+          //                       width: SizeConfig.blockSizeHorizontal * 40,
+          //                     )
+          //                   : asManyReps(context, widget.repsDescription),
+          //               setsWidget(context, widget.currentSet, widget.sets,
+          //                   widget.isReps),
+          //               clearIcon(context, checkIsOnTimeAndPauseTimer,
+          //                   widget.onWill),
+          //             ],
+          //           ),
+          //           SizedBox(
+          //             height: SizeConfig.blockSizeVertical * 2,
+          //           ),
+          //           widget.exerciseTime == null
+          //               ? SizedBox(
+          //                   height: SizeConfig.blockSizeVertical * 9,
+          //                 )
+          //               : timeCont(widget.exerciseTime, widget.reps, context),
+          //           SizedBox(
+          //             height: SizeConfig.blockSizeVertical * 9,
+          //           ),
+          //           Row(
+          //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //             crossAxisAlignment: CrossAxisAlignment.center,
+          //             children: <Widget>[
+          //               widget.index == 0
+          //                   ? EmptyContainer()
+          //                   : previousButton(
+          //                       context, resetTimer, widget.playPrevious),
+          //               widget.index == (widget.listLenght - 1)
+          //                   ? EmptyContainer()
+          //                   : nextButton(context, resetTimer, widget.playNext,
+          //                       widget.controller),
+          //             ],
+          //           ),
+          //           SizedBox(
+          //             height: SizeConfig.blockSizeVertical * 4,
+          //           ),
+          //           Padding(
+          //             padding: EdgeInsets.only(
+          //               left: SizeConfig.blockSizeHorizontal * 3,
+          //               right: showTime
+          //                   ? SizeConfig.blockSizeHorizontal * 4
+          //                   : SizeConfig.blockSizeHorizontal * 0.5,
+          //             ),
+          //             child: Row(
+          //               crossAxisAlignment: CrossAxisAlignment.center,
+          //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //               children: <Widget>[
+          //                 widget.reps == null
+          //                     ? EmptyContainer()
+          //                     : repsWidget(context, widget.isReps,
+          //                         widget.reps, widget.exerciseTime),
+          //                 Stack(
+          //                   children: <Widget>[
+          //                     Column(
+          //                       mainAxisAlignment: MainAxisAlignment.center,
+          //                       crossAxisAlignment: CrossAxisAlignment.center,
+          //                       children: <Widget>[
+          //                         /// reps or timer,
+          //                         /// depend on the exercise type
+          //                         showTime
+          //                             ? timerWidget(
+          //                                 context,
+          //                                 widget.showTimerDialog,
+          //                                 format,
+          //                                 widget.controller,
+          //                                 isTimerPaused,
+          //                                 _current,
+          //                                 _pausedOn,
+          //                                 countDownTimer,
+          //                                 controllerColor,
+          //                               )
+          //                             : stopIcon(
+          //                                 pressTimer, context, widget.isReps),
+          //                         showTime
+          //                             ? colorProgress(
+          //                                 controllerColor, context)
+          //                             : EmptyContainer(),
+          //                       ],
+          //                     ),
+          //                   ],
+          //                 ),
+          //               ],
+          //             ),
+          //           ),
+          //           SizedBox(
+          //             height: SizeConfig.blockSizeVertical * 0.5,
+          //           ),
+          //           Padding(
+          //             padding: EdgeInsets.only(
+          //               left: SizeConfig.blockSizeHorizontal * 3,
+          //             ),
+          //             child: Row(
+          //               crossAxisAlignment: CrossAxisAlignment.center,
+          //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //               children: <Widget>[
+          //                 nameWidget(
+          //                     infoClicked,
+          //                     goBackToChewie,
+          //                     isFromPortrait,
+          //                     context,
+          //                     widget.controller,
+          //                     checkIsOnTimeAndPauseTimer,
+          //                     widget.name,
+          //                     widget.video,
+          //                     widget.tips,
+          //                     widget.isReps,
+          //                     widget.index,
+          //                     widget.listLenght),
+          //                 fullscreenButton(
+          //                     context, widget.isReps, rotateScreen),
+          //               ],
+          //             ),
+          //           ),
+          //         ],
+          //       ),
         ));
   }
 
