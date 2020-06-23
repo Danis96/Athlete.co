@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 Widget reviews(String name, review) {
   return Container(
     child: Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         Container(
           padding: EdgeInsets.all(4),

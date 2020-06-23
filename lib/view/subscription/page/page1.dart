@@ -43,23 +43,23 @@ Widget pageOne(PageController pageController) {
       ),
       Container(
           margin: EdgeInsets.only(
-              top: SizeConfig.blockSizeVertical * 38,
+              top: SizeConfig.blockSizeVertical * 36,
               left: SizeConfig.blockSizeHorizontal * 2),
           child: headlineStart()),
       Container(
-          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 54),
+          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 52),
           child: subText('Train with UFC athlete and future champion ',
               'Aleksandar Rakic')),
       Container(
-          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 61),
+          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 59),
           child: subText('Program design by world class performance coach',
               ' Richard Staudner')),
       Container(
-          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 41),
+          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 39),
           child: centerText(ReviewText().text10,
           '')),
       Container(
-          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 74),
+          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 72),
           child: Column(
             children: <Widget>[
               phasesCont(ReviewText().text3, '1.', ' Control your ', 'bodyweight'),

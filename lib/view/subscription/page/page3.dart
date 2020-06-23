@@ -29,7 +29,7 @@ Widget pageThree(Card buildProductList) {
       ),
       Container(
           margin: EdgeInsets.only(
-              top: SizeConfig.blockSizeVertical * 25),
+              top: SizeConfig.blockSizeVertical * 21),
           child: Column(
             children: <Widget>[
               Container(
@@ -63,7 +63,7 @@ Widget pageThree(Card buildProductList) {
           Container(
               padding: EdgeInsets.all(5),
               margin: EdgeInsets.only(
-                  top: SizeConfig.blockSizeVertical * 49),
+                  top: SizeConfig.blockSizeVertical * 48),
               child: centerText(ReviewText().text7, '')),
           centerText('ready to ','compete and win'),
           textCont(ReviewText().text8),
