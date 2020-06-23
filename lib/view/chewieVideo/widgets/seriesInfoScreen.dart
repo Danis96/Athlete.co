@@ -1,7 +1,9 @@
 import 'package:attt/utils/colors.dart';
+import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view_model/chewieVideoViewModel.dart';
+import 'package:attt/view_model/workoutViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -56,59 +58,108 @@ class _SeriesInfoScreenState extends State<SeriesInfoScreen> {
     }
   }
 
+  String name;
+  final Source source =
+      hasActiveConnection ? Source.serverAndCache : Source.cache;
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
       backgroundColor: MyColors().lightBlack,
-      body: Padding(
-        padding: EdgeInsets.only(
-            left: MediaQuery.of(context).orientation == Orientation.portrait
-                ? SizeConfig.blockSizeHorizontal * 5
-                : SizeConfig.blockSizeHorizontal * 2,
-            right: MediaQuery.of(context).orientation == Orientation.portrait
-                ? SizeConfig.blockSizeHorizontal * 5
-                : SizeConfig.blockSizeHorizontal * 2),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
+      body: Container(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 0),
+              child: Text(
                 seriesName,
                 style: TextStyle(
                   fontSize: MediaQuery.of(context).orientation ==
-                          Orientation.landscape
+                      Orientation.landscape
                       ? SizeConfig.safeBlockHorizontal * 5
                       : SizeConfig.safeBlockHorizontal * 9.5,
                   color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontStyle: FontStyle.italic,
+                  fontWeight: FontWeight.w500,
+                  fontStyle: FontStyle.normal,
                 ),
                 textAlign: TextAlign.center,
               ),
-            ],
-          ),
-        ),
-      ),
-      bottomNavigationBar: Container(
-        width: MediaQuery.of(context).size.width,
-        child: RaisedButton(
-          elevation: 0,
-          onPressed: () => overlayEntry.remove(),
-          child: Padding(
-            padding: EdgeInsets.all(22.0),
-            child: Text(
-              'START CIRCUIT',
-              style: TextStyle(
-                fontStyle: FontStyle.italic,
-                fontSize: SizeConfig.blockSizeHorizontal * 4,
-                fontWeight: FontWeight.w700,
-              ),
             ),
-          ),
-          color: Colors.white,
+            FutureBuilder(
+                future: WorkoutViewModel().getExercises(
+                    widget.trainerID,
+                    widget.weekID,
+                    widget.workoutID,
+                    widget.seriesID,
+                    source),
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          print('EXERCISES : ' +
+                              snapshot.data[index].data['name']);
+                          String exer = snapshot.data[index].data['name'];
+                          return exerciseName(exer);
+                        });
+                  } else {
+                    return EmptyContainer();
+                  }
+                }),
+
+          ]
         ),
       ),
+      bottomNavigationBar: btnCustom()
     );
   }
+}
+
+Widget btnCustom() {
+  return Container(
+    margin: EdgeInsets.only(
+      left: SizeConfig.blockSizeHorizontal * 2.5,
+        right: SizeConfig.blockSizeHorizontal * 2.5,
+        bottom: SizeConfig.blockSizeVertical * 3,
+        top: SizeConfig.blockSizeVertical * 0),
+    height: SizeConfig.blockSizeVertical * 5,
+    width: SizeConfig.blockSizeHorizontal * 90,
+    child: RaisedButton(
+      elevation: 0,
+      onPressed: () => overlayEntry.remove(),
+      child: Center(
+        child: Text(
+          'BEGIN' ,
+//              + seriesName.toUpperCase(),
+          style: TextStyle(
+            fontStyle: FontStyle.italic,
+            fontSize: SizeConfig.blockSizeHorizontal * 4,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ),
+      color: Colors.white,
+    ),
+  );
+}
+
+Widget exerciseName(String exer) {
+  return Container(
+  width: SizeConfig.blockSizeHorizontal * 100,
+    alignment: Alignment.center,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Text(
+          exer,
+          style: TextStyle(
+              color: Colors.white, fontSize: SizeConfig.safeBlockHorizontal * 4),
+        ),
+      ],
+    ),
+  );
 }

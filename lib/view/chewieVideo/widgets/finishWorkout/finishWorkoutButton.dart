@@ -13,7 +13,13 @@ Widget finishWorkoutButton(
     String workoutID,
     bool finishedWorkout) {
   return Container(
-    width: MediaQuery.of(context).size.width,
+    margin: EdgeInsets.only(
+        left: SizeConfig.blockSizeHorizontal * 2.5,
+        right: SizeConfig.blockSizeHorizontal * 2.5,
+        bottom: SizeConfig.blockSizeVertical * 3,
+        top: SizeConfig.blockSizeVertical * 0),
+    height: SizeConfig.blockSizeVertical * 5,
+    width: SizeConfig.blockSizeHorizontal * 90,
     child: RaisedButton(
       elevation: 0,
       onPressed: () => ChewieVideoViewModel().finishPressed(
@@ -25,8 +31,7 @@ Widget finishWorkoutButton(
           workoutID,
           notes,
           finishedWorkout),
-      child: Padding(
-        padding: EdgeInsets.all(22.0),
+
         child: Text(
           'FINISH',
           style: TextStyle(
@@ -34,7 +39,6 @@ Widget finishWorkoutButton(
             fontSize: SizeConfig.blockSizeHorizontal * 4,
             fontWeight: FontWeight.w700,
           ),
-        ),
       ),
       color: Colors.white,
     ),

@@ -12,7 +12,9 @@ Widget repsWidget(
       style: TextStyle(
           color: MyColors().lightBlack,
           fontWeight: FontWeight.w400,
-          fontSize: reps.toString().length < 13 ? SizeConfig.safeBlockHorizontal * 10 : SizeConfig.safeBlockHorizontal * 7),
+          fontSize: reps.toString().length < 13
+              ? SizeConfig.safeBlockHorizontal * 12
+              : SizeConfig.safeBlockHorizontal * 9),
     ),
   );
 }

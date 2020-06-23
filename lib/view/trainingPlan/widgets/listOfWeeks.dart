@@ -7,6 +7,7 @@ import 'package:attt/utils/size_config.dart';
 
 Widget listOfWeeks(DocumentSnapshot userDocument,
     DocumentSnapshot userTrainerDocument, BuildContext context) {
+
   SizeConfig().init(context);
   String trainerID = userTrainerDocument.data['trainerID'];
   String emailOfUser = userDocument.data['email'];
@@ -21,10 +22,12 @@ Widget listOfWeeks(DocumentSnapshot userDocument,
   weeksToKeep =
       TrainingPlanViewModel().getWeeksToKeep(weeksFinished, trainerID);
   finishedWeeks = [];
+
   final Source source =
       hasActiveConnection ? Source.serverAndCache : Source.cache;
 
   return FutureBuilder(
+
     future: TrainingPlanViewModel()
         .getWeeks(userTrainerDocument.data['trainerID'], source),
     builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -39,6 +42,8 @@ Widget listOfWeeks(DocumentSnapshot userDocument,
           shrinkWrap: true,
           itemCount: snapshot.data.length,
           itemBuilder: (BuildContext context, int index) {
+
+
             TrainingPlanViewModel().getFinishedWeeks(weekIDs, snapshot, index);
             TrainingPlanViewModel().deleteUserProgressAndShowAlertDialog(
                 snapshot,

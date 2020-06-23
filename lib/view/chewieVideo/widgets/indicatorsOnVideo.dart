@@ -6,8 +6,7 @@ import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/sound.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/asManyReps.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/clearButton.dart';
-import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/colorProgress.dart';
-import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/fullscreenButton.dart';
+import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/customTextAnimation.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/infoIcon.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/nameWidget.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/nextbutton.dart';
@@ -15,8 +14,6 @@ import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/noteButton.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/previousButton.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/repsWidget.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/setsWidget.dart';
-import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/stopwatchIcon.dart';
-import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/timeCont.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/timerWidget.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +26,12 @@ class IndicatorsOnVideo extends StatefulWidget {
   final VideoController controller;
   final DocumentSnapshot userDocument, userTrainerDocument;
   final int index, listLenght;
-  final Function showAddNote, playNext, playPrevious, onWill, showTimerDialog;
+  final Function showAddNote,
+      playNext,
+      playPrevious,
+      onWill,
+      showTimerDialog,
+      checkTime;
   final int isReps, sets;
   final reps;
   final String name,
@@ -38,7 +40,9 @@ class IndicatorsOnVideo extends StatefulWidget {
       currentSet,
       repsDescription,
       video,
-      exerciseTime;
+      exerciseTime,
+      exSecs,
+      exMinutes;
   final bool ctrl;
   final List<dynamic> tips;
 
@@ -64,7 +68,10 @@ class IndicatorsOnVideo extends StatefulWidget {
       this.ctrl,
       this.onWill,
       this.exerciseTime,
-      this.showTimerDialog});
+      this.showTimerDialog,
+      this.checkTime,
+      this.exSecs,
+      this.exMinutes});
 
   @override
   _IndicatorsOnVideoState createState() => _IndicatorsOnVideoState();
@@ -183,10 +190,11 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
     var sub = countDownTimer.listen(null);
     sub.onData((duration) {
       setState(() {
-        _current =
-            Duration(seconds: dur.inSeconds - duration.elapsed.inSeconds);
+        _current = Duration(seconds: int.parse(widget.exSecs));
       });
     });
+
+//    : dur.inSeconds - duration.elapsed.inSeconds
 
     /// when timer is done activate this
     sub.onDone(() {
@@ -209,6 +217,8 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   void didUpdateWidget(IndicatorsOnVideo oldWidget) {
     print('DOLAZIM IZ DIDUPDATEWIDGET ');
     super.didUpdateWidget(oldWidget);
+
+    widget.checkTime();
 
     /// if time is choosed  set the minutes and seconds that user choosed
     /// into duration [d1] variable
@@ -282,99 +292,106 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                         )
                       ],
                     ),
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical * 15,
+                    Container(
+                      margin: EdgeInsets.only(
+                          top: SizeConfig.blockSizeVertical * 22),
+                      child:
+                      MarqueeWidget(child:
+                      nameWidget(
+                        infoClicked,
+                        goBackToChewie,
+                        isFromPortrait,
+                        context,
+                        widget.controller,
+                        checkIsOnTimeAndPauseTimer,
+                        widget.name,
+                        widget.video,
+                        widget.tips,
+                        widget.isReps,
+                        widget.index,
+                        widget.listLenght,
+                      ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        nameWidget(
-                          infoClicked,
-                          goBackToChewie,
-                          isFromPortrait,
-                          context,
-                          widget.controller,
-                          checkIsOnTimeAndPauseTimer,
-                          widget.name,
-                          widget.video,
-                          widget.tips,
-                          widget.isReps,
-                          widget.index,
-                          widget.listLenght,
-                        ),
-                      ],
                     ),
-                    SizedBox(
-                      height: SizeConfig.blockSizeVertical * 8,
-                    ),
-                    Column(
-                      children: <Widget>[
-                        widget.repsDescription != null ||
-                                widget.repsDescription != ''
-                            ? Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(5.0),
-                                      topLeft: Radius.circular(5.0)),
-                                  color: Colors.grey,
-                                ),
-                                width: SizeConfig.blockSizeHorizontal * 85,
-                                height: SizeConfig.blockSizeVertical * 7,
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: <Widget>[
-                                    asManyReps(
-                                      context,
-                                      widget.repsDescription,
-                                    ),
-                                  ],
-                                ),
-                              )
-                            : EmptyContainer(),
-                        Container(
-                          width: SizeConfig.blockSizeHorizontal * 85,
-                          height: SizeConfig.blockSizeVertical * 22,
-                          decoration: BoxDecoration(
-                            borderRadius: widget.repsDescription != null ||
-                                    widget.repsDescription != ''
-                                ? BorderRadius.only(
-                                    bottomLeft: Radius.circular(5.0),
-                                    bottomRight: Radius.circular(5.0))
-                                : BorderRadius.all(Radius.circular(5.0)),
-                            color: Colors.white,
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: <Widget>[
-                              Container(
-                                height: SizeConfig.blockSizeVertical * 10,
-                                child: repsWidget(
-                                  context,
-                                  widget.isReps,
-                                  widget.reps,
-                                  widget.exerciseTime,
-                                ),
-                              ),
-                              Container(
-                                width: SizeConfig.blockSizeHorizontal * 60,
-                                child: RaisedButton(
-                                  color: MyColors().lightBlack,
-                                  child: Text(
-                                    'DONE',
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontWeight: FontWeight.w600,
-                                        fontSize:
-                                            SizeConfig.safeBlockHorizontal * 4),
+                    Container(
+                      margin: EdgeInsets.only(
+                          top: widget.repsDescription != null &&
+                                  widget.repsDescription != ''
+                              ? SizeConfig.blockSizeVertical * 6
+                              : SizeConfig.blockSizeVertical * 11.5),
+                      child: Column(
+                        children: <Widget>[
+                          widget.repsDescription != null &&
+                                  widget.repsDescription != ''
+                              ? Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(5.0),
+                                        topLeft: Radius.circular(5.0)),
+                                    color: Colors.grey,
                                   ),
-                                  onPressed: () {},
+                                  width: SizeConfig.blockSizeHorizontal * 95,
+                                  height: SizeConfig.blockSizeVertical * 5.5,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: <Widget>[
+                                      asManyReps(
+                                        context,
+                                        widget.repsDescription,
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : EmptyContainer(),
+                          Container(
+                            width: SizeConfig.blockSizeHorizontal * 95,
+                            height: SizeConfig.blockSizeVertical * 20,
+                            decoration: BoxDecoration(
+                              borderRadius: widget.repsDescription != null &&
+                                      widget.repsDescription != ''
+                                  ? BorderRadius.only(
+                                      bottomLeft: Radius.circular(5.0),
+                                      bottomRight: Radius.circular(5.0))
+                                  : BorderRadius.all(Radius.circular(5.0)),
+                              color: Colors.white,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                Container(
+                                  height: SizeConfig.blockSizeVertical * 10,
+                                  child: repsWidget(
+                                    context,
+                                    widget.isReps,
+                                    widget.reps,
+                                    widget.exerciseTime,
+                                  ),
                                 ),
-                              ),
-                            ],
+                                Container(
+                                  width: SizeConfig.blockSizeHorizontal * 60,
+                                  height: SizeConfig.blockSizeVertical * 5,
+                                  child: RaisedButton(
+                                    color: MyColors().lightBlack,
+                                    child: Text(
+                                      widget.index == (widget.listLenght - 1)
+                                          ? 'FINISH'
+                                          : 'DONE',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w600,
+                                          fontSize:
+                                              SizeConfig.safeBlockHorizontal *
+                                                  4),
+                                    ),
+                                    onPressed: () => widget.playNext(),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                     Expanded(
                       child: Align(
@@ -469,6 +486,8 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                     )
                   ],
                 )
+
+              /// ISREPS = 1  - ako su vjezbe na time
               : widget.isReps == 1
                   ? Column(
                       children: <Widget>[
@@ -502,104 +521,135 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                             )
                           ],
                         ),
-                        SizedBox(
-                          height: SizeConfig.blockSizeVertical * 15,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            nameWidget(
-                              infoClicked,
-                              goBackToChewie,
-                              isFromPortrait,
-                              context,
-                              widget.controller,
-                              checkIsOnTimeAndPauseTimer,
-                              widget.name,
-                              widget.video,
-                              widget.tips,
-                              widget.isReps,
-                              widget.index,
-                              widget.listLenght,
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: SizeConfig.blockSizeVertical * 8,
-                        ),
-                        Column(
-                          children: <Widget>[
-                            widget.repsDescription != null ||
-                                    widget.repsDescription != ''
-                                ? Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(5.0),
-                                          topLeft: Radius.circular(5.0)),
-                                      color: Colors.grey,
-                                    ),
-                                    width: SizeConfig.blockSizeHorizontal * 85,
-                                    height: SizeConfig.blockSizeVertical * 7,
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: <Widget>[
-                                        asManyReps(
-                                          context,
-                                          widget.repsDescription,
-                                        ),
-                                      ],
-                                    ),
-                                  )
-                                : EmptyContainer(),
-                            Container(
-                              width: SizeConfig.blockSizeHorizontal * 85,
-                              height: SizeConfig.blockSizeVertical * 22,
-                              decoration: BoxDecoration(
-                                borderRadius: widget.repsDescription != null
-                                    ? BorderRadius.only(
-                                        bottomLeft: Radius.circular(5.0),
-                                        bottomRight: Radius.circular(5.0))
-                                    : BorderRadius.all(Radius.circular(5.0)),
-                                color: Colors.white,
+                        Container(
+                          margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 22),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              nameWidget(
+                                infoClicked,
+                                goBackToChewie,
+                                isFromPortrait,
+                                context,
+                                widget.controller,
+                                checkIsOnTimeAndPauseTimer,
+                                widget.name,
+                                widget.video,
+                                widget.tips,
+                                widget.isReps,
+                                widget.index,
+                                widget.listLenght,
                               ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
-                                children: <Widget>[
-                                  Container(
-                                      height: SizeConfig.blockSizeVertical * 10,
-                                      child: timerWidget(
-                                          context,
-                                          widget.showTimerDialog,
-                                          format,
-                                          widget.controller,
-                                          isTimerPaused,
-                                          _current,
-                                          _pausedOn,
-                                          countDownTimer,
-                                          controllerColor)),
-                                  Container(
-                                    width: SizeConfig.blockSizeHorizontal * 60,
-                                    child: RaisedButton(
-                                      color: MyColors().lightBlack,
-                                      child: Text(
-                                        'DONE',
-                                        style: TextStyle(
-                                            color: Colors.white,
-                                            fontWeight: FontWeight.w600,
-                                            fontSize:
-                                                SizeConfig.safeBlockHorizontal *
-                                                    4),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          margin: EdgeInsets.only(
+                              top: widget.repsDescription != null &&
+                                      widget.repsDescription != ''
+                                  ? SizeConfig.blockSizeVertical * 6
+                                  : SizeConfig.blockSizeVertical * 11.5),
+                          child: Column(
+                            children: <Widget>[
+                              widget.repsDescription != null &&
+                                      widget.repsDescription != ''
+                                  ? Container(
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(5.0),
+                                            topLeft: Radius.circular(5.0)),
+                                        color: Colors.grey,
                                       ),
-                                      onPressed: () {},
+                                      width:
+                                          SizeConfig.blockSizeHorizontal * 95,
+                                      height:
+                                          SizeConfig.blockSizeVertical * 5.5,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: <Widget>[
+                                          asManyReps(
+                                            context,
+                                            widget.repsDescription,
+                                          ),
+                                        ],
+                                      ),
+                                    )
+                                  : EmptyContainer(),
+                              Container(
+                                width: SizeConfig.blockSizeHorizontal * 95,
+                                height: SizeConfig.blockSizeVertical * 20,
+                                decoration: BoxDecoration(
+                                  borderRadius: widget.repsDescription !=
+                                              null &&
+                                          widget.repsDescription != ''
+                                      ? BorderRadius.only(
+                                          bottomLeft: Radius.circular(5.0),
+                                          bottomRight: Radius.circular(5.0),
+                                        )
+                                      : BorderRadius.all(Radius.circular(5.0)),
+                                  color: Colors.white,
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: <Widget>[
+                                    Container(
+                                        height:
+                                            SizeConfig.blockSizeVertical * 10,
+                                        child: timerWidget(
+                                                context,
+                                                widget.showTimerDialog,
+                                                format,
+                                                widget.controller,
+                                                isTimerPaused,
+                                                _current,
+                                                _pausedOn,
+                                                countDownTimer,
+                                                controllerColor,
+                                              )
+                                            ),
+                                    Container(
+                                      width:
+                                          SizeConfig.blockSizeHorizontal * 60,
+                                      height: SizeConfig.blockSizeVertical * 5,
+                                      child: RaisedButton(
+                                        color: MyColors().lightBlack,
+                                        child: Text(
+                                          widget.index ==
+                                                  (widget.listLenght - 1)
+                                              ? 'FINISH'
+                                              : 'Start timer'.toUpperCase(),
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.w600,
+                                              fontSize: SizeConfig
+                                                      .safeBlockHorizontal *
+                                                  4),
+                                        ),
+                                        onPressed: () => {
+                                          widget.index ==
+                                              (widget.listLenght - 1)
+                                              ? widget.playNext() : null
+                                        },
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                    Container(
+                                      child: Text(
+                                        'EDIT TIMER',
+                                        style: TextStyle(
+                                            color: MyColors()
+                                                .lightBlack
+                                                .withOpacity(0.5)),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         Expanded(
                           child: Align(
@@ -698,7 +748,286 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                         )
                       ],
                     )
-                  : EmptyContainer(),
+                  : widget.isReps == 2
+                      ? Column(
+                          children: <Widget>[
+                            Stack(
+                              alignment: Alignment.topRight,
+                              children: <Widget>[
+                                Row(
+                                  children: <Widget>[
+                                    clearIcon(
+                                      context,
+                                      checkIsOnTimeAndPauseTimer,
+                                      widget.onWill,
+                                    ),
+                                  ],
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    if (_counter == 0) {
+                                      pauseAndPlayFunction();
+                                      isTips = false;
+                                      _counter = 1;
+                                    }
+                                    Timer(Duration(seconds: 1), () {
+                                      _counter = 0;
+                                    });
+                                  },
+                                  child: Container(
+                                    width: SizeConfig.blockSizeHorizontal * 83,
+                                    height: SizeConfig.blockSizeVertical * 20,
+                                  ),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: SizeConfig.blockSizeVertical * 22,
+                            ),
+                            Column(children: <Widget>[
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  nameWidget(
+                                    infoClicked,
+                                    goBackToChewie,
+                                    isFromPortrait,
+                                    context,
+                                    widget.controller,
+                                    checkIsOnTimeAndPauseTimer,
+                                    widget.name,
+                                    widget.video,
+                                    widget.tips,
+                                    widget.isReps,
+                                    widget.index,
+                                    widget.listLenght,
+                                  ),
+                                ],
+                              ),
+                              Container(
+                                padding: EdgeInsets.all(3),
+                                child: Text(
+                                  widget.reps,
+                                  style: TextStyle(
+                                    color: MyColors().lightWhite,
+                                    fontSize:
+                                        SizeConfig.safeBlockHorizontal * 4,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ),
+                            ]),
+                            Container(
+                              margin: EdgeInsets.only(
+                                  top: widget.repsDescription != null &&
+                                          widget.repsDescription != ''
+                                      ? SizeConfig.blockSizeVertical * 6
+                                      : SizeConfig.blockSizeVertical * 9),
+                              child: Column(
+                                children: <Widget>[
+                                  widget.repsDescription != null &&
+                                          widget.repsDescription != ''
+                                      ? Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.only(
+                                                topRight: Radius.circular(5.0),
+                                                topLeft: Radius.circular(5.0)),
+                                            color: Colors.grey,
+                                          ),
+                                          width:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  95,
+                                          height: SizeConfig.blockSizeVertical *
+                                              5.5,
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: <Widget>[
+                                              asManyReps(
+                                                context,
+                                                widget.repsDescription,
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                      : EmptyContainer(),
+                                  Container(
+                                    width: SizeConfig.blockSizeHorizontal * 95,
+                                    height: SizeConfig.blockSizeVertical * 20,
+                                    decoration: BoxDecoration(
+                                      borderRadius: widget.repsDescription !=
+                                                  null &&
+                                              widget.repsDescription != ''
+                                          ? BorderRadius.only(
+                                              bottomLeft: Radius.circular(5.0),
+                                              bottomRight: Radius.circular(5.0),
+                                            )
+                                          : BorderRadius.all(
+                                              Radius.circular(5.0)),
+                                      color: Colors.white,
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: <Widget>[
+                                        Container(
+                                            height:
+                                                SizeConfig.blockSizeVertical *
+                                                    10,
+                                            child: timerWidget(
+                                              context,
+                                              widget.showTimerDialog,
+                                              format,
+                                              widget.controller,
+                                              isTimerPaused,
+                                              _current,
+                                              _pausedOn,
+                                              countDownTimer,
+                                              controllerColor,
+                                            )),
+                                        Container(
+                                          width:
+                                              SizeConfig.blockSizeHorizontal *
+                                                  60,
+                                          height:
+                                              SizeConfig.blockSizeVertical * 5,
+                                          child: RaisedButton(
+                                            color: MyColors().lightBlack,
+                                            child: Text(
+                                              widget.index ==
+                                                      (widget.listLenght - 1)
+                                                  ? 'FINISH'
+                                                  : 'start timer'.toUpperCase(),
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: SizeConfig
+                                                          .safeBlockHorizontal *
+                                                      4),
+                                            ),
+                                            onPressed: () {
+                                              widget.index ==
+                                                  (widget.listLenght - 1)
+                                                  ? widget.playNext() : null;
+                                            },
+                                          ),
+                                        ),
+                                        Container(
+                                          child: Text(
+                                            'EDIT TIMER',
+                                            style: TextStyle(
+                                                color: MyColors()
+                                                    .lightBlack
+                                                    .withOpacity(0.5)),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Expanded(
+                              child: Align(
+                                alignment: Alignment.bottomCenter,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: <Widget>[
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: <Widget>[
+                                        setsWidget(
+                                          context,
+                                          widget.currentSet,
+                                          widget.sets,
+                                          widget.isReps,
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: SizeConfig.blockSizeVertical * 2,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: <Widget>[
+                                        widget.index == 0
+                                            ? SizedBox(
+                                                width: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                    10,
+                                              )
+                                            : previousButton(
+                                                context,
+                                                resetTimer,
+                                                widget.playPrevious,
+                                              ),
+                                        Container(
+                                          child: Row(
+                                            children: <Widget>[
+                                              noteButton(
+                                                context,
+                                                noteClicked,
+                                                isFromPortrait,
+                                                widget.controller,
+                                                checkIsOnTimeAndPauseTimer,
+                                                widget.userDocument,
+                                                widget.userTrainerDocument,
+                                                widget.index,
+                                                widget.listLenght,
+                                                widget.isReps,
+                                                widget.sets,
+                                                widget.reps.toString(),
+                                                widget.name,
+                                                widget.workoutID,
+                                                widget.weekID,
+                                              ),
+                                              SizedBox(
+                                                width: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                    3,
+                                              ),
+                                              infoIcon(
+                                                infoClicked,
+                                                goBackToChewie,
+                                                isFromPortrait,
+                                                context,
+                                                widget.controller,
+                                                checkIsOnTimeAndPauseTimer,
+                                                widget.name,
+                                                widget.video,
+                                                widget.tips,
+                                                widget.isReps,
+                                                widget.index,
+                                                widget.listLenght,
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        widget.index == (widget.listLenght - 1)
+                                            ? SizedBox(
+                                                width: SizeConfig
+                                                        .blockSizeHorizontal *
+                                                    10,
+                                              )
+                                            : nextButton(
+                                                context,
+                                                resetTimer,
+                                                widget.playNext,
+                                                widget.controller,
+                                              ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
+                        )
+                      : EmptyContainer(),
 
           // MediaQuery.of(context).orientation == Orientation.portrait
           //     ? Column(

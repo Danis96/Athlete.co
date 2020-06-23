@@ -25,20 +25,19 @@ Widget timerWidget(
   }
 
   return Container(
-    height: MediaQuery.of(context).orientation == Orientation.portrait
-        ? SizeConfig.blockSizeVertical * 5.5 : SizeConfig.blockSizeVertical * 10,
-    width: MediaQuery.of(context).orientation == Orientation.portrait
-        ? SizeConfig.blockSizeHorizontal * 35 :  SizeConfig.blockSizeHorizontal * 19,
+    height: SizeConfig.blockSizeVertical * 5.5 ,
+    width: SizeConfig.blockSizeHorizontal * 40 ,
     child: RaisedButton(
+      elevation: 0,
         color: Colors.white.withOpacity(0.8),
       onPressed: () => pressTimer(),
       child: Text(
         format(_current),
         style: TextStyle(
-            fontSize:
-            MediaQuery.of(context).orientation == Orientation.portrait
-                ? SizeConfig.safeBlockHorizontal * 7 : SizeConfig.safeBlockHorizontal * 4,
-            color: Colors.black),
+            fontSize: SizeConfig.safeBlockHorizontal * 10,
+            color: Colors.black,
+            fontWeight: FontWeight.w400,
+        ),
       ),
     ),
   );
