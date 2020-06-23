@@ -9,7 +9,7 @@ Widget asManyReps(BuildContext context, String repsDescription) {
       style: TextStyle(
           color: Colors.white,
           fontWeight: FontWeight.w600,
-          fontSize: SizeConfig.safeBlockHorizontal * 4),
+          fontSize: SizeConfig.safeBlockHorizontal * 4.5),
       textAlign: TextAlign.center,
     ),
   );

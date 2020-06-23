@@ -17,6 +17,8 @@ import 'dart:async';
 import 'package:attt/utils/size_config.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 
+
+
 class ChewieVideo extends StatefulWidget {
   final DocumentSnapshot userDocument, userTrainerDocument;
   final String workoutID, weekID;
@@ -72,6 +74,21 @@ class _ChewieVideoState extends State<ChewieVideo>
     _index = nv;
   }
 
+  String exSecs;
+  String exMinutes;
+  checkAndArrangeTime() {
+    if(exerciseTime != null) {
+      var exerciseTimeSplit = exerciseTime.split(' ');
+      if(exerciseTimeSplit[1] == 'secs') {
+         exSecs = exerciseTimeSplit[0];
+         print(exSecs.toString() + ' EXERCISE TIME IN SECONDS');
+      } else if(exerciseTimeSplit[1] == 'min') {
+        exMinutes = exerciseTimeSplit[0];
+        print(exMinutes.toString() + ' EXERCISE TIME IN MINUTES');
+      }
+    }
+  }
+
   /// minutes for timer and seconds
   List<dynamic> time = [];
   String timeToSplit;
@@ -86,7 +103,7 @@ class _ChewieVideoState extends State<ChewieVideo>
         ? timeToSplit[5] + (timeToSplit[6] == ']' ? '' : timeToSplit[6])
         : timeToSplit[4] + (timeToSplit[5] == ']' ? '' : timeToSplit[5]);
     setState(() {
-      secondsForIndicators = int.parse(sec);
+      secondsForIndicators = int.parse(exSecs);
       isTimeChoosed = true;
       resetFromChewie = false;
       reseted = false;
@@ -104,6 +121,7 @@ class _ChewieVideoState extends State<ChewieVideo>
                   onFormatValue: (v) {
                     return v < 10 ? "0$v" : "$v";
                   },
+                  initValue: exMinutes == null ? 0 : int.parse(exMinutes),
                   begin: 0,
                   end: 59,
                   suffix: Text(
@@ -115,6 +133,7 @@ class _ChewieVideoState extends State<ChewieVideo>
                             : SizeConfig.safeBlockHorizontal * 2.3),
                   )),
               NumberPickerColumn(
+                 initValue: exSecs == null ? 0 : int.parse(exSecs),
                   onFormatValue: (v) {
                     return v < 10 ? "0$v" : "$v";
                   },
@@ -294,6 +313,7 @@ class _ChewieVideoState extends State<ChewieVideo>
 
   @override
   void initState() {
+
     super.initState();
     source = onlineVideos;
     covers = onlineCovers;
@@ -340,7 +360,9 @@ class _ChewieVideoState extends State<ChewieVideo>
                   weekID: widget.weekID,
                   sets: workoutExercisesWithSets[index + 1].data['sets'],
                   workoutID: widget.workoutID,
-                  seriesID: seriesID)));
+                  seriesID: seriesID,
+
+              )));
       overlayState.insert(overlayEntry);
     }
   }
@@ -360,28 +382,25 @@ class _ChewieVideoState extends State<ChewieVideo>
     initializeVariables();
     return Scaffold(
       backgroundColor: MyColors().lightBlack,
-      bottomNavigationBar: index == source.length - 1
-          ? finishButton(nextPlay, context, index, source.length)
-          : EmptyContainer(),
       body: WillPopScope(
         onWillPop: () => _onWillPop(),
         child: Stack(
           children: <Widget>[
             Column(
               children: <Widget>[
-                VideoBox(
-                  controller: vc,
+                Container(
+                  height: SizeConfig.blockSizeVertical * 40,
+                  child: VideoBox(
+                    controller: vc,
+                  ),
                 ),
               ],
             ),
             Positioned(
               child: Container(
                 height:
-                    MediaQuery.of(context).orientation == Orientation.portrait
-                        ? index == source.length - 1
-                            ? SizeConfig.blockSizeVertical * 92
-                            : SizeConfig.blockSizeVertical * 95
-                        : SizeConfig.blockSizeVertical * 92,
+                    SizeConfig.blockSizeVertical * 95
+                        ,
                 child: IndicatorsOnVideo(
                   controller: vc,
                   listLenght: source.length,
@@ -404,6 +423,9 @@ class _ChewieVideoState extends State<ChewieVideo>
                   tips: exerciseTips,
                   video: source[index],
                   exerciseTime: exerciseTime,
+                  checkTime: checkAndArrangeTime,
+                  exSecs: exSecs,
+                  exMinutes: exMinutes,
                 ),
               ),
             ),

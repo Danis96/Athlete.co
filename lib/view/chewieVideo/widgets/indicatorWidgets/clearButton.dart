@@ -10,7 +10,7 @@ Widget clearIcon(BuildContext context, Function checkIsOnTimeAndPauseTimer, onWi
        top: MediaQuery.of(context).orientation ==
            Orientation.landscape
            ? SizeConfig.blockSizeVertical * 0
-           : SizeConfig.blockSizeVertical * 0 ,
+           : SizeConfig.blockSizeVertical * 2 ,
         right: MediaQuery.of(context).orientation ==
             Orientation.landscape
             ? SizeConfig.blockSizeHorizontal * 0

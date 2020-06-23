@@ -13,6 +13,7 @@ import 'package:flutter/services.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+
 class TrainingPlan extends StatefulWidget {
   final DocumentSnapshot userDocument;
   final DocumentSnapshot userTrainerDocument;
