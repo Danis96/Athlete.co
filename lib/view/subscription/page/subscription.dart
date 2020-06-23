@@ -7,7 +7,7 @@ import 'package:attt/view/chooseAthlete/pages/chooseAthlete.dart';
 import 'package:attt/view/subscription/declinedScreen.dart';
 import 'package:attt/view/subscription/page/page1.dart';
 import 'package:attt/view/subscription/page/page3.dart';
-import 'package:attt/view/subscription/page/widgets/page2.dart';
+import 'package:attt/view/subscription/page/page2.dart';
 import 'package:attt/view/subscription/page/widgets/price.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -49,7 +49,7 @@ class _SubscriptionClassState extends State<SubscriptionClass> {
                   scrollDirection: Axis.vertical,
                   children: [
                     pageOne(widget.pageController),
-                    pageTwo(),
+                    pageTwo(context),
                     pageThree(widget.buildProductList),
                   ],
                 ),
