@@ -9,7 +9,6 @@ Widget noteButton(
     bool noteClicked,
     isFromPortrait,
     VideoController controller,
-    Function checkIsOnTimeAndPauseTimer,
     DocumentSnapshot userDocument,
     userTrainerDocument,
     int index,
@@ -29,7 +28,6 @@ Widget noteButton(
       child: InkWell(
         onTap: () {
           if (noteClicked) {
-            checkIsOnTimeAndPauseTimer();
             noteClicked = false;
             controller.pause();
             if (MediaQuery.of(context).orientation == Orientation.portrait)

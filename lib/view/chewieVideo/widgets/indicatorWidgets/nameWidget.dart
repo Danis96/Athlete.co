@@ -11,7 +11,6 @@ Widget nameWidget(
     isFromPortrait,
     BuildContext context,
     VideoController controller,
-    Function checkIsOnTimeAndPauseTimer,
     String name,
     String video,
     List<dynamic> exTips,
@@ -22,7 +21,6 @@ Widget nameWidget(
   return GestureDetector(
     onTap: () {
       if (infoClicked) {
-        checkIsOnTimeAndPauseTimer();
         goBackToChewie = true;
         infoClicked = false;
         controller.pause();

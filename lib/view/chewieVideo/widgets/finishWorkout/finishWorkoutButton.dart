@@ -13,9 +13,12 @@ Widget finishWorkoutButton(
     String workoutID,
     bool finishedWorkout) {
   return Container(
+    decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(10))
+    ),
     margin: EdgeInsets.only(
-        left: SizeConfig.blockSizeHorizontal * 2.5,
-        right: SizeConfig.blockSizeHorizontal * 2.5,
+        left: SizeConfig.blockSizeHorizontal * 5,
+        right: SizeConfig.blockSizeHorizontal * 5,
         bottom: SizeConfig.blockSizeVertical * 3,
         top: SizeConfig.blockSizeVertical * 0),
     height: SizeConfig.blockSizeVertical * 5,

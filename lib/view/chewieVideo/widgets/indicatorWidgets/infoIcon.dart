@@ -9,7 +9,6 @@ Widget infoIcon(
     isFromPortrait,
     BuildContext context,
     VideoController controller,
-    Function checkIsOnTimeAndPauseTimer,
     String name,
     String video,
     List<dynamic> exTips,
@@ -25,7 +24,6 @@ Widget infoIcon(
       child: InkWell(
         onTap: () {
           if (infoClicked) {
-            checkIsOnTimeAndPauseTimer();
             goBackToChewie = true;
             infoClicked = false;
             controller.pause();

@@ -24,14 +24,16 @@ Widget bottomButtonStart(
   SizeConfig().init(context);
   return Container(
     margin: EdgeInsets.only(
-        left: SizeConfig.blockSizeHorizontal * 2.5,
-        right: SizeConfig.blockSizeHorizontal * 2.5,
+        left: SizeConfig.blockSizeHorizontal * 5,
+        right: SizeConfig.blockSizeHorizontal * 5,
         bottom: SizeConfig.blockSizeVertical * 3,
         top: SizeConfig.blockSizeVertical * 0),
     height: SizeConfig.blockSizeVertical * 5,
     width: SizeConfig.blockSizeHorizontal * 90,
-    child: BottomAppBar(
-      color: MyColors().white,
+    child: Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(10))
+    ),
       child: RaisedButton(
         elevation: 0,
         onPressed: () async {
