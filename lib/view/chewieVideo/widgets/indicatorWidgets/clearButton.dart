@@ -3,7 +3,7 @@
 import 'package:attt/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
-Widget clearIcon(BuildContext context, Function checkIsOnTimeAndPauseTimer, onWill  ) {
+Widget clearIcon(BuildContext context, Function  onWill  ) {
  return Container(
 
     margin: EdgeInsets.only(
@@ -21,7 +21,6 @@ Widget clearIcon(BuildContext context, Function checkIsOnTimeAndPauseTimer, onWi
           ? SizeConfig.blockSizeHorizontal * 4.5
           : SizeConfig.blockSizeHorizontal * 8,
       onPressed: ()  {
-        checkIsOnTimeAndPauseTimer();
         onWill();
       },
       color: Colors.white,

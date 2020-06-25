@@ -18,7 +18,8 @@ import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/timerWidget.dart'
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:quiver/async.dart';
+import 'package:flutter_picker/flutter_picker.dart';
+import 'package:numberpicker/numberpicker.dart';
 import 'package:video_box/video.controller.dart';
 import 'package:attt/utils/size_config.dart';
 
@@ -40,9 +41,8 @@ class IndicatorsOnVideo extends StatefulWidget {
       currentSet,
       repsDescription,
       video,
-      exerciseTime,
-      exSecs,
-      exMinutes;
+      exerciseTime;
+  int exSecs, exMinutes;
   final bool ctrl;
   final List<dynamic> tips;
 
@@ -84,10 +84,226 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   Animation<Offset> _offsetAnimation;
   bool isOrientation = false;
   int _counter = 0;
+  Timer _timer;
+  int _start;
+
+  String exSecs, exMinutes;
+  int minutes, seconds, minutesInSec;
+  bool isMinutes, isSeconds, isPausedTimer = true;
+
+  /// we check is [exerciseTime] different than null
+  /// we get it, and split it by empty space
+  /// than check is [1] secs or min and by that we
+  /// set the time to seconds or minutes
+  ///
+  /// we have booleans that are set to true, based on min or secs
+  checkAndArrangeTime() {
+    if (widget.exerciseTime != null) {
+      var exerciseTimeSplit = widget.exerciseTime.split(' ');
+      if (exerciseTimeSplit[1] == 'secs') {
+        exSecs = exerciseTimeSplit[0];
+        seconds = int.parse(exSecs);
+        isSeconds = true;
+        isMinutes = false;
+        print(seconds.toString() + ' EXERCISE TIME IN SECONDS');
+      } else if (exerciseTimeSplit[1] == 'min') {
+        exMinutes = exerciseTimeSplit[0];
+        minutes = int.parse(exMinutes);
+        minutesInSec = minutes * 60;
+        isMinutes = true;
+        isSeconds = false;
+        print(minutesInSec.toString() + ' EXERCISE TIME IN Seconds converted');
+      }
+    }
+  }
+
+//  List<dynamic> time = [];
+//  String timeToSplit;
+//  var ms;
+//  onConfirm(Picker picker) {
+//    timeToSplit = picker.getSelectedValues().toString();
+//    String min = timeToSplit[1] + (timeToSplit[2] == ',' ? '' : timeToSplit[2]);
+//    setState(() {
+//      minutesForIndicators = int.parse(min);
+//    });
+//    print('Minutes: ' + minutesForIndicators.toString());
+//    String sec = minutesForIndicators > 10
+//        ? timeToSplit[5] + (timeToSplit[6] == ']' ? '' : timeToSplit[6])
+//        : timeToSplit[4] + (timeToSplit[5] == ']' ? '' : timeToSplit[5]);
+//    setState(() {
+//      secondsForIndicators = int.parse(sec);
+//      seconds = secondsForIndicators;
+//    });
+//  }
+
+  void showFancyCustomDialog(BuildContext context) {
+    Dialog fancyDialog = Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12.0),
+      ),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        height: 300.0,
+        width: 300.0,
+        child: Stack(
+          children: <Widget>[
+            Container(
+              width: double.infinity,
+              height: 300,
+              decoration: BoxDecoration(
+                color: Colors.grey[100],
+                borderRadius: BorderRadius.circular(12.0),
+              ),
+            ),
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        child: NumberPicker.integer(
+                            initialValue: minutes != null ? minutes : 0,
+                            minValue: 0,
+                            maxValue: 59,
+                            onChanged: (val) {
+                              setState(() {
+                                min = val;
+                              });
+                            }),
+                      ),
+                      Container(
+                        child: Text('minutes'),
+                      )
+                    ],
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        child: NumberPicker.integer(
+                            initialValue: seconds,
+                            minValue: 0,
+                            maxValue: 59,
+                            onChanged: (val) {
+                              setState(() {
+                                sec = val;
+                              });
+                            }),
+                      ),
+                      Container(
+                        child: Text('seconds'),
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              width: double.infinity,
+              height: 50,
+              alignment: Alignment.bottomCenter,
+              decoration: BoxDecoration(
+                color: MyColors().lightBlack,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(12),
+                  topRight: Radius.circular(12),
+                ),
+              ),
+              child: Align(
+                alignment: Alignment.center,
+                child: Text(
+                  "Choose time!",
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600),
+                ),
+              ),
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: InkWell(
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 50,
+                  decoration: BoxDecoration(
+                    color: MyColors().lightBlack,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(12),
+                      bottomRight: Radius.circular(12),
+                    ),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      RaisedButton(
+                        color: MyColors().error,
+                        onPressed: () {
+                          Navigator.pop(context);
+
+                        },
+                        child: Text(
+                          "Cancel",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                      RaisedButton(
+                        color: Colors.green,
+                        onPressed: () {
+                          setState(() {
+                            timeForTimer = (min * 60) + sec;
+                          if (timeForTimer < 60) {
+                            timeToDisplay = timeForTimer.toString();
+                            timeForTimer = timeForTimer - 1;
+                          } else if (timeForTimer < 3600) {
+                            int m = timeForTimer ~/ 60;
+                            int s = timeForTimer - (60 * m);
+                            timeToDisplay = m.toString() + ':' + s.toString();
+                            timeForTimer = timeForTimer - 1;
+                          }
+                          timePaused = null;
+                          checkTimer = true;
+                          });
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          "Done",
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+    showDialog(
+        context: context, builder: (BuildContext context) => fancyDialog);
+  }
 
   @override
   void initState() {
     super.initState();
+    checkAndArrangeTime();
     WidgetsBinding.instance.addObserver(this);
     _controller = AnimationController(
       duration: const Duration(milliseconds: 1200),
@@ -108,7 +324,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
 
     /// check if countDown is running ,
     /// if it is RESET IT
-    checkIsCountDownRunning();
   }
 
   /// here it is where we check for the state of the app
@@ -133,8 +348,8 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       /// pause the video
       case AppLifecycleState.paused:
         print('Paused');
-        checkIsOnTimeAndPauseTimer();
         if (widget.controller.value.isPlaying) widget.controller.pause();
+        _timer.cancel();
         break;
 
       /// when the app is back into foreground
@@ -142,9 +357,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       /// start the video
       case AppLifecycleState.resumed:
         print('Resumed');
-        if (isTimerPaused) {
-          startTimer(_pausedOn);
-        }
+//        startTimer();
         if (!widget.controller.value.isPlaying) widget.controller.play();
         break;
 
@@ -159,57 +372,101 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     _controller.dispose();
+    _timer.cancel();
     super.dispose();
   }
 
-  /// for displaying the current time
-  Duration _current = Duration();
+  String timeToDisplay = '';
+  int timeForTimer = 1;
+  bool checkTimer = true;
+  int min = 0;
+  int sec = 0;
+  int timePaused;
 
-  /// when we pause video/timer we want to get the current time
-  Duration _pausedOn = Duration();
 
-  /// initial calue of [d1] => before we choose the time in dialog
-  var d1 = Duration();
-
-  /// function for formating duration
-  format(Duration d) => d.toString().substring(2, 7);
-
-  /// instance for [CountDownTimer]
-  CountdownTimer countDownTimer;
-
-  /// here we create new instance of [CountDownTimer],
-  /// and we set the [d1] variable (after we have choose the time)
+  /// pause timer
   ///
-  /// then create listener and add value to [_current] for displaying the time
-  void startTimer(Duration dur) {
-    countDownTimer = new CountdownTimer(
-      new Duration(seconds: dur.inSeconds),
-      new Duration(seconds: 1),
+  /// potrebno je uzeti trenutno vrijeme
+  /// pausedTime = timeForTimer;
+  /// setati bool paused na true
+  /// ako se aktivira opet start timer potrebno mu je proslijediti trenutno vrijeme
+  /// setatu bool paused na false
+  ///
+  /// ako je paused ? startTimer(pausedTime) : pauseTimer()
+  void pauseTimer() {
+    setState(() {
+      isPausedTimer = true;
+      checkTimer = false;
+    });
+    /// variable where we save current time that is paused on
+    timePaused = timeForTimer;
+    print('Timer is paused on ' + timePaused.toString());
+  }
+
+  void startTimer() {
+    timeForTimer = (min * 60) + sec;
+    setState(() {
+      isPausedTimer = false;
+    });
+    Timer.periodic(
+      const Duration(seconds: 1),
+      (Timer timer) => setState(
+        () {
+          if (timeForTimer < 1 || checkTimer == false) {
+            timer.cancel();
+            checkTimer = true;
+            if (timeForTimer == 0) {
+              SoundPlayer().playSound();
+            }
+          } else if (timeForTimer < 60) {
+            timeToDisplay = timeForTimer.toString().length < 2
+                ? '0' + timeForTimer.toString()
+                : timeForTimer.toString();
+            timeForTimer = timeForTimer - 1;
+          } else if (timeForTimer < 3600) {
+            int m = timeForTimer ~/ 60;
+            int s = timeForTimer - (60 * m);
+            timeToDisplay = s.toString().length < 2
+                ? m.toString() + ':' + '0' + s.toString()
+                : m.toString() + ':' + s.toString();
+            timeForTimer = timeForTimer - 1;
+          }
+        },
+      ),
     );
+  }
 
-    var sub = countDownTimer.listen(null);
-    sub.onData((duration) {
-      setState(() {
-        _current = Duration(seconds: int.parse(widget.exSecs));
-      });
+  void startPausedTimer() {
+    timeForTimer = timePaused;
+    setState(() {
+      isPausedTimer = false;
     });
-
-//    : dur.inSeconds - duration.elapsed.inSeconds
-
-    /// when timer is done activate this
-    sub.onDone(() {
-      print("Done");
-      countDownTimer.cancel();
-      sub.cancel();
-      if (_current.inSeconds != 0) {
-        print('Nece biti zvuka');
-      } else {
-        SoundPlayer().playSound();
-      }
-    });
-
-    isTimeChoosed = false;
-    isTimerPaused = false;
+    Timer.periodic(
+      const Duration(seconds: 1),
+          (Timer timer) => setState(
+            () {
+          if (timeForTimer < 1 || checkTimer == false) {
+            timer.cancel();
+            checkTimer = true;
+            if (timeForTimer == 0) {
+              SoundPlayer().playSound();
+            }
+          } else if (timeForTimer < 60) {
+            timeToDisplay = timeForTimer.toString().length < 2
+                ? '0' + timeForTimer.toString()
+                : timeForTimer.toString();
+            timeForTimer = timeForTimer - 1;
+          } else if (timeForTimer < 3600) {
+            int m = timeForTimer ~/ 60;
+            int s = timeForTimer - (60 * m);
+            timeToDisplay = s.toString().length < 2
+                ? m.toString() + ':' + '0' + s.toString()
+                : m.toString() + ':' + s.toString();
+            timeForTimer = timeForTimer - 1;
+          }
+        },
+      ),
+    );
   }
 
   /// activates every time the widget is changed
@@ -217,36 +474,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   void didUpdateWidget(IndicatorsOnVideo oldWidget) {
     print('DOLAZIM IZ DIDUPDATEWIDGET ');
     super.didUpdateWidget(oldWidget);
-
-    widget.checkTime();
-
-    /// if time is choosed  set the minutes and seconds that user choosed
-    /// into duration [d1] variable
-    if (isTimeChoosed) {
-      d1 = Duration(
-          minutes: minutesForIndicators, seconds: secondsForIndicators);
-      controllerColor = AnimationController(
-        vsync: this,
-        duration: Duration(
-            minutes: minutesForIndicators, seconds: secondsForIndicators),
-      );
-      Timer(Duration(milliseconds: 100), () {
-        widget.controller.play();
-        startTimer(d1);
-        controllerColor.reverse(
-            from: controllerColor.value == 0.0 ? 1.0 : controllerColor.value);
-        showTime = true;
-      });
-    }
-    if (activatePause) {
-      checkIsOnTimeAndPauseTimer();
-    }
-    if (resetFromChewie) {
-      resetTimer();
-    }
-
-    resetFromChewie = false;
-    activatePause = false;
+    checkAndArrangeTime();
   }
 
   @override
@@ -269,7 +497,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                           children: <Widget>[
                             clearIcon(
                               context,
-                              checkIsOnTimeAndPauseTimer,
                               widget.onWill,
                             ),
                           ],
@@ -295,23 +522,21 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                     Container(
                       margin: EdgeInsets.only(
                           top: SizeConfig.blockSizeVertical * 22),
-                      child:
-                      MarqueeWidget(child:
-                      nameWidget(
-                        infoClicked,
-                        goBackToChewie,
-                        isFromPortrait,
-                        context,
-                        widget.controller,
-                        checkIsOnTimeAndPauseTimer,
-                        widget.name,
-                        widget.video,
-                        widget.tips,
-                        widget.isReps,
-                        widget.index,
-                        widget.listLenght,
+                      child: MarqueeWidget(
+                        child: nameWidget(
+                          infoClicked,
+                          goBackToChewie,
+                          isFromPortrait,
+                          context,
+                          widget.controller,
+                          widget.name,
+                          widget.video,
+                          widget.tips,
+                          widget.isReps,
+                          widget.index,
+                          widget.listLenght,
+                        ),
                       ),
-                    ),
                     ),
                     Container(
                       margin: EdgeInsets.only(
@@ -423,7 +648,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                       )
                                     : previousButton(
                                         context,
-                                        resetTimer,
                                         widget.playPrevious,
                                       ),
                                 Container(
@@ -434,7 +658,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                         noteClicked,
                                         isFromPortrait,
                                         widget.controller,
-                                        checkIsOnTimeAndPauseTimer,
                                         widget.userDocument,
                                         widget.userTrainerDocument,
                                         widget.index,
@@ -456,7 +679,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                         isFromPortrait,
                                         context,
                                         widget.controller,
-                                        checkIsOnTimeAndPauseTimer,
                                         widget.name,
                                         widget.video,
                                         widget.tips,
@@ -474,9 +696,9 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                       )
                                     : nextButton(
                                         context,
-                                        resetTimer,
                                         widget.playNext,
                                         widget.controller,
+                                        _timer,
                                       ),
                               ],
                             ),
@@ -498,7 +720,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                               children: <Widget>[
                                 clearIcon(
                                   context,
-                                  checkIsOnTimeAndPauseTimer,
                                   widget.onWill,
                                 ),
                               ],
@@ -524,24 +745,20 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                         Container(
                           margin: EdgeInsets.only(
                               top: SizeConfig.blockSizeVertical * 22),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              nameWidget(
-                                infoClicked,
-                                goBackToChewie,
-                                isFromPortrait,
-                                context,
-                                widget.controller,
-                                checkIsOnTimeAndPauseTimer,
-                                widget.name,
-                                widget.video,
-                                widget.tips,
-                                widget.isReps,
-                                widget.index,
-                                widget.listLenght,
-                              ),
-                            ],
+                          child: MarqueeWidget(
+                            child: nameWidget(
+                              infoClicked,
+                              goBackToChewie,
+                              isFromPortrait,
+                              context,
+                              widget.controller,
+                              widget.name,
+                              widget.video,
+                              widget.tips,
+                              widget.isReps,
+                              widget.index,
+                              widget.listLenght,
+                            ),
                           ),
                         ),
                         Container(
@@ -600,28 +817,23 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                         height:
                                             SizeConfig.blockSizeVertical * 10,
                                         child: timerWidget(
-                                                context,
-                                                widget.showTimerDialog,
-                                                format,
-                                                widget.controller,
-                                                isTimerPaused,
-                                                _current,
-                                                _pausedOn,
-                                                countDownTimer,
-                                                controllerColor,
-                                              )
-                                            ),
+                                          context,
+                                          widget.showTimerDialog,
+                                          widget.controller,
+                                          timeToDisplay,
+                                        )),
                                     Container(
                                       width:
                                           SizeConfig.blockSizeHorizontal * 60,
                                       height: SizeConfig.blockSizeVertical * 5,
                                       child: RaisedButton(
-                                        color: MyColors().lightBlack,
+                                        color:  MyColors().lightBlack,
                                         child: Text(
                                           widget.index ==
                                                   (widget.listLenght - 1)
                                               ? 'FINISH'
-                                              : 'Start timer'.toUpperCase(),
+                                              : 'Start timer'
+                                                          .toUpperCase(),
                                           style: TextStyle(
                                               color: Colors.white,
                                               fontWeight: FontWeight.w600,
@@ -629,20 +841,31 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                                       .safeBlockHorizontal *
                                                   4),
                                         ),
-                                        onPressed: () => {
+                                        onPressed: () {
                                           widget.index ==
                                               (widget.listLenght - 1)
-                                              ? widget.playNext() : null
+                                              ? widget.playNext()  :
+                                          isPausedTimer
+                                              ? timePaused != null ?  startPausedTimer() :  startTimer()
+                                              : pauseTimer();
                                         },
                                       ),
                                     ),
                                     Container(
-                                      child: Text(
-                                        'EDIT TIMER',
-                                        style: TextStyle(
-                                            color: MyColors()
-                                                .lightBlack
-                                                .withOpacity(0.5)),
+                                      alignment: Alignment.center,
+                                      height: SizeConfig.blockSizeVertical * 5,
+                                      child: FlatButton(
+                                        onPressed: () {
+                                          pauseTimer();
+                                          showFancyCustomDialog(context);
+                                        },
+                                        child: Text(
+                                          'EDIT TIMER',
+                                          style: TextStyle(
+                                              color: MyColors()
+                                                  .lightBlack
+                                                  .withOpacity(0.5)),
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -683,7 +906,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                           )
                                         : previousButton(
                                             context,
-                                            resetTimer,
                                             widget.playPrevious,
                                           ),
                                     Container(
@@ -694,7 +916,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                             noteClicked,
                                             isFromPortrait,
                                             widget.controller,
-                                            checkIsOnTimeAndPauseTimer,
                                             widget.userDocument,
                                             widget.userTrainerDocument,
                                             widget.index,
@@ -717,7 +938,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                             isFromPortrait,
                                             context,
                                             widget.controller,
-                                            checkIsOnTimeAndPauseTimer,
                                             widget.name,
                                             widget.video,
                                             widget.tips,
@@ -736,9 +956,9 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                           )
                                         : nextButton(
                                             context,
-                                            resetTimer,
                                             widget.playNext,
                                             widget.controller,
+                                            _timer,
                                           ),
                                   ],
                                 ),
@@ -748,6 +968,8 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                         )
                       ],
                     )
+
+                  /// isReps == 2
                   : widget.isReps == 2
                       ? Column(
                           children: <Widget>[
@@ -758,7 +980,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                   children: <Widget>[
                                     clearIcon(
                                       context,
-                                      checkIsOnTimeAndPauseTimer,
                                       widget.onWill,
                                     ),
                                   ],
@@ -781,20 +1002,17 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                 )
                               ],
                             ),
-                            SizedBox(
-                              height: SizeConfig.blockSizeVertical * 22,
-                            ),
                             Column(children: <Widget>[
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  nameWidget(
+                              Container(
+                                margin: EdgeInsets.only(
+                                    top: SizeConfig.blockSizeVertical * 22),
+                                child: MarqueeWidget(
+                                  child: nameWidget(
                                     infoClicked,
                                     goBackToChewie,
                                     isFromPortrait,
                                     context,
                                     widget.controller,
-                                    checkIsOnTimeAndPauseTimer,
                                     widget.name,
                                     widget.video,
                                     widget.tips,
@@ -802,7 +1020,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                     widget.index,
                                     widget.listLenght,
                                   ),
-                                ],
+                                ),
                               ),
                               Container(
                                 padding: EdgeInsets.all(3),
@@ -879,13 +1097,8 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                             child: timerWidget(
                                               context,
                                               widget.showTimerDialog,
-                                              format,
                                               widget.controller,
-                                              isTimerPaused,
-                                              _current,
-                                              _pausedOn,
-                                              countDownTimer,
-                                              controllerColor,
+                                              timeToDisplay,
                                             )),
                                         Container(
                                           width:
@@ -896,10 +1109,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                           child: RaisedButton(
                                             color: MyColors().lightBlack,
                                             child: Text(
-                                              widget.index ==
-                                                      (widget.listLenght - 1)
-                                                  ? 'FINISH'
-                                                  : 'start timer'.toUpperCase(),
+                                              'start timer'.toUpperCase(),
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.w600,
@@ -907,20 +1117,23 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                                           .safeBlockHorizontal *
                                                       4),
                                             ),
-                                            onPressed: () {
-                                              widget.index ==
-                                                  (widget.listLenght - 1)
-                                                  ? widget.playNext() : null;
-                                            },
+                                            onPressed: () => startTimer(),
                                           ),
                                         ),
                                         Container(
-                                          child: Text(
-                                            'EDIT TIMER',
-                                            style: TextStyle(
-                                                color: MyColors()
-                                                    .lightBlack
-                                                    .withOpacity(0.5)),
+                                          alignment: Alignment.center,
+                                          height:
+                                              SizeConfig.blockSizeVertical * 5,
+                                          child: FlatButton(
+                                            onPressed: () =>
+                                                showFancyCustomDialog(context),
+                                            child: Text(
+                                              'EDIT TIMER',
+                                              style: TextStyle(
+                                                  color: MyColors()
+                                                      .lightBlack
+                                                      .withOpacity(0.5)),
+                                            ),
                                           ),
                                         ),
                                       ],
@@ -962,7 +1175,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                               )
                                             : previousButton(
                                                 context,
-                                                resetTimer,
                                                 widget.playPrevious,
                                               ),
                                         Container(
@@ -973,7 +1185,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                                 noteClicked,
                                                 isFromPortrait,
                                                 widget.controller,
-                                                checkIsOnTimeAndPauseTimer,
                                                 widget.userDocument,
                                                 widget.userTrainerDocument,
                                                 widget.index,
@@ -996,7 +1207,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                                 isFromPortrait,
                                                 context,
                                                 widget.controller,
-                                                checkIsOnTimeAndPauseTimer,
                                                 widget.name,
                                                 widget.video,
                                                 widget.tips,
@@ -1015,10 +1225,9 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                               )
                                             : nextButton(
                                                 context,
-                                                resetTimer,
                                                 widget.playNext,
                                                 widget.controller,
-                                              ),
+                                                _timer),
                                       ],
                                     ),
                                   ],
@@ -1334,62 +1543,15 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
     /// if controller is playing - pause it, else play it
     if (widget.controller.value.isPlaying) {
       widget.controller.pause();
-      checkIsOnTimeAndPauseTimer();
     } else {
       widget.controller.play();
-
       if (isTimeChoosed) {
-        startTimer(d1);
         controllerColor.reverse(
             from: controllerColor.value == 0.0 ? 1.0 : controllerColor.value);
       }
       if (isTimerPaused) {
-        startTimer(_pausedOn);
         controllerColor.reverse(
             from: controllerColor.value == 0.0 ? 1.0 : controllerColor.value);
-      }
-    }
-  }
-
-  pressTimer() {
-    widget.showTimerDialog(context);
-    widget.controller.pause();
-    _pausedOn = _current;
-    if (countDownTimer != null) {
-      countDownTimer.cancel();
-    }
-    isTimerPaused = true;
-  }
-
-  resetTimer() {
-    if (countDownTimer != null) {
-      countDownTimer.cancel();
-      setState(() {
-        _current = Duration();
-        _pausedOn = Duration();
-        controllerColor.value = 0.0;
-      });
-      showTime = false;
-    }
-  }
-
-  /// if exercise is on time, het the paused time,
-  /// cancel the timer, set [isTimerPaused] on true
-  checkIsOnTimeAndPauseTimer() {
-    if (countDownTimer != null) {
-      if (widget.isReps == 1) {
-        _pausedOn = _current;
-        countDownTimer.cancel();
-        controllerColor.stop();
-        isTimerPaused = true;
-      }
-    }
-  }
-
-  checkIsCountDownRunning() {
-    if (countDownTimer != null) {
-      if (countDownTimer.isRunning) {
-        resetTimer();
       }
     }
   }

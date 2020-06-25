@@ -17,8 +17,6 @@ import 'dart:async';
 import 'package:attt/utils/size_config.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 
-
-
 class ChewieVideo extends StatefulWidget {
   final DocumentSnapshot userDocument, userTrainerDocument;
   final String workoutID, weekID;
@@ -42,7 +40,12 @@ class _ChewieVideoState extends State<ChewieVideo>
   VideoController vc;
   VideoPlayerController controller;
   List<dynamic> exerciseTips = [];
-  int exerciseDuration, exerciseIsReps, exerciseSets, exerciseRest;
+  int exerciseDuration,
+      exerciseIsReps,
+      exerciseSets,
+      exerciseRest,
+      seconds,
+      minutes;
   var exerciseReps;
   String exerciseName, exerciseRepsDescription;
   String exerciseSet, exerciseTime;
@@ -74,128 +77,115 @@ class _ChewieVideoState extends State<ChewieVideo>
     _index = nv;
   }
 
-  String exSecs;
-  String exMinutes;
-  checkAndArrangeTime() {
-    if(exerciseTime != null) {
-      var exerciseTimeSplit = exerciseTime.split(' ');
-      if(exerciseTimeSplit[1] == 'secs') {
-         exSecs = exerciseTimeSplit[0];
-         print(exSecs.toString() + ' EXERCISE TIME IN SECONDS');
-      } else if(exerciseTimeSplit[1] == 'min') {
-        exMinutes = exerciseTimeSplit[0];
-        print(exMinutes.toString() + ' EXERCISE TIME IN MINUTES');
-      }
-    }
-  }
 
-  /// minutes for timer and seconds
-  List<dynamic> time = [];
-  String timeToSplit;
-  var ms;
 
-  onConfirm(Picker picker) {
-    timeToSplit = picker.getSelectedValues().toString();
-    String min = timeToSplit[1] + (timeToSplit[2] == ',' ? '' : timeToSplit[2]);
-    setState(() => minutesForIndicators = int.parse(min));
-    print('Minutes: ' + minutesForIndicators.toString());
-    String sec = minutesForIndicators > 10
-        ? timeToSplit[5] + (timeToSplit[6] == ']' ? '' : timeToSplit[6])
-        : timeToSplit[4] + (timeToSplit[5] == ']' ? '' : timeToSplit[5]);
-    setState(() {
-      secondsForIndicators = int.parse(exSecs);
-      isTimeChoosed = true;
-      resetFromChewie = false;
-      reseted = false;
-    });
-  }
+//  /// minutes for timer and seconds
+//  List<dynamic> time = [];
+//  String timeToSplit;
+//  var ms;
+//
+//  onConfirm(Picker picker) {
+//    timeToSplit = picker.getSelectedValues().toString();
+//    String min = timeToSplit[1] + (timeToSplit[2] == ',' ? '' : timeToSplit[2]);
+//    setState(() => minutesForIndicators = int.parse(min));
+//    print('Minutes: ' + minutesForIndicators.toString());
+//    String sec = minutesForIndicators > 10
+//        ? timeToSplit[5] + (timeToSplit[6] == ']' ? '' : timeToSplit[6])
+//        : timeToSplit[4] + (timeToSplit[5] == ']' ? '' : timeToSplit[5]);
+//    setState(() {
+//      secondsForIndicators = int.parse(exSecs);
+//      isTimeChoosed = true;
+//      resetFromChewie = false;
+//      reseted = false;
+//    });
+//  }
 
-  showPickerNumber(BuildContext context) {
-    new Picker(
-            height: MediaQuery.of(context).orientation == Orientation.landscape
-                ? SizeConfig.blockSizeVertical * 35
-                : SizeConfig.blockSizeVertical * 15,
-            textStyle: TextStyle(color: Colors.black),
-            adapter: NumberPickerAdapter(data: [
-              NumberPickerColumn(
-                  onFormatValue: (v) {
-                    return v < 10 ? "0$v" : "$v";
-                  },
-                  initValue: exMinutes == null ? 0 : int.parse(exMinutes),
-                  begin: 0,
-                  end: 59,
-                  suffix: Text(
-                    'min',
-                    style: TextStyle(
-                        fontSize: MediaQuery.of(context).orientation ==
-                                Orientation.landscape
-                            ? SizeConfig.safeBlockHorizontal * 1.5
-                            : SizeConfig.safeBlockHorizontal * 2.3),
-                  )),
-              NumberPickerColumn(
-                 initValue: exSecs == null ? 0 : int.parse(exSecs),
-                  onFormatValue: (v) {
-                    return v < 10 ? "0$v" : "$v";
-                  },
-                  begin: 1,
-                  end: 60,
-                  suffix: Text(
-                    'sec',
-                    style: TextStyle(
-                        fontSize: MediaQuery.of(context).orientation ==
-                                Orientation.landscape
-                            ? SizeConfig.safeBlockHorizontal * 1.5
-                            : SizeConfig.safeBlockHorizontal * 3),
-                  )),
-            ]),
-            delimiter: [
-              PickerDelimiter(
-                  child: Container(
-                color: MyColors().white,
-                width: 30.0,
-                alignment: Alignment.center,
-                child: Icon(Icons.watch),
-              ))
-            ],
-            cancelText: 'Reset',
-            cancelTextStyle: TextStyle(
-                color: Colors.red,
-                fontSize:
-                    MediaQuery.of(context).orientation == Orientation.landscape
-                        ? SizeConfig.safeBlockHorizontal * 3
-                        : SizeConfig.safeBlockHorizontal * 4),
-            confirmText: 'Done',
-            confirmTextStyle: TextStyle(
-                color: Colors.green,
-                fontSize:
-                    MediaQuery.of(context).orientation == Orientation.landscape
-                        ? SizeConfig.safeBlockHorizontal * 3
-                        : SizeConfig.safeBlockHorizontal * 4),
-            hideHeader: true,
-            title: new Text(
-              "Choose your time",
-              style: TextStyle(
-                  color: MyColors().lightBlack,
-                  fontSize: MediaQuery.of(context).orientation ==
-                          Orientation.landscape
-                      ? SizeConfig.safeBlockHorizontal * 3
-                      : SizeConfig.safeBlockHorizontal * 5),
-            ),
-            onSelect: (Picker picker, int index, List<int> selecteds) {
-              this.setState(() {
-                resetFromChewie = false;
-              });
-            },
-            onConfirm: (Picker picker, List<int> value) {
-              onConfirm(picker);
-              print('Seconds: ' + secondsForIndicators.toString());
-            },
-            onCancel: () {
-              setState(() => resetFromChewie = true);
-            },
-            magnification: 1.2)
-        .showDialog(context);
-  }
+//  showPickerNumber(BuildContext context) {
+//    new Picker(
+//            height: MediaQuery.of(context).orientation == Orientation.landscape
+//                ? SizeConfig.blockSizeVertical * 35
+//                : SizeConfig.blockSizeVertical * 15,
+//            textStyle: TextStyle(color: Colors.black),
+//            adapter: NumberPickerAdapter(data: [
+//              NumberPickerColumn(
+//                  onFormatValue: (v) {
+//                    return v < 10 ? "0$v" : "$v";
+//                  },
+//                  initValue: exMinutes == null ? 0 : int.parse(exMinutes),
+//                  begin: 0,
+//                  end: 59,
+//                  suffix: Text(
+//                    'min',
+//                    style: TextStyle(
+//                        fontSize: MediaQuery.of(context).orientation ==
+//                                Orientation.landscape
+//                            ? SizeConfig.safeBlockHorizontal * 1.5
+//                            : SizeConfig.safeBlockHorizontal * 2.3),
+//                  )),
+//              NumberPickerColumn(
+//                 initValue: exSecs == null ? 0 : int.parse(exSecs),
+//                  onFormatValue: (v) {
+//                    return v < 10 ? "0$v" : "$v";
+//                  },
+//                  begin: 1,
+//                  end: 60,
+//                  suffix: Text(
+//                    'sec',
+//                    style: TextStyle(
+//                        fontSize: MediaQuery.of(context).orientation ==
+//                                Orientation.landscape
+//                            ? SizeConfig.safeBlockHorizontal * 1.5
+//                            : SizeConfig.safeBlockHorizontal * 3),
+//                  )),
+//            ]),
+//            delimiter: [
+//              PickerDelimiter(
+//                  child: Container(
+//                color: MyColors().white,
+//                width: 30.0,
+//                alignment: Alignment.center,
+//                child: Icon(Icons.watch),
+//              ))
+//            ],
+//            cancelText: 'Reset',
+//            cancelTextStyle: TextStyle(
+//                color: Colors.red,
+//                fontSize:
+//                    MediaQuery.of(context).orientation == Orientation.landscape
+//                        ? SizeConfig.safeBlockHorizontal * 3
+//                        : SizeConfig.safeBlockHorizontal * 4),
+//            confirmText: 'Done',
+//            confirmTextStyle: TextStyle(
+//                color: Colors.green,
+//                fontSize:
+//                    MediaQuery.of(context).orientation == Orientation.landscape
+//                        ? SizeConfig.safeBlockHorizontal * 3
+//                        : SizeConfig.safeBlockHorizontal * 4),
+//            hideHeader: true,
+//            title: new Text(
+//              "Choose your time",
+//              style: TextStyle(
+//                  color: MyColors().lightBlack,
+//                  fontSize: MediaQuery.of(context).orientation ==
+//                          Orientation.landscape
+//                      ? SizeConfig.safeBlockHorizontal * 3
+//                      : SizeConfig.safeBlockHorizontal * 5),
+//            ),
+//            onSelect: (Picker picker, int index, List<int> selecteds) {
+//              this.setState(() {
+//                resetFromChewie = false;
+//              });
+//            },
+//            onConfirm: (Picker picker, List<int> value) {
+//              onConfirm(picker);
+//              print('Seconds: ' + secondsForIndicators.toString());
+//            },
+//            onCancel: () {
+//              setState(() => resetFromChewie = true);
+//            },
+//            magnification: 1.2)
+//        .showDialog(context);
+//  }
 
   /// [_onWillPop]
   ///
@@ -313,7 +303,6 @@ class _ChewieVideoState extends State<ChewieVideo>
 
   @override
   void initState() {
-
     super.initState();
     source = onlineVideos;
     covers = onlineCovers;
@@ -339,8 +328,6 @@ class _ChewieVideoState extends State<ChewieVideo>
     vc.isFullScreen = false;
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight
     ]);
     WidgetsBinding.instance
         .addPostFrameCallback((callback) => insertOverlayOnWarmup());
@@ -356,12 +343,11 @@ class _ChewieVideoState extends State<ChewieVideo>
           builder: (BuildContext context) => Visibility(
               visible: true,
               child: SeriesInfoScreen(
-                  trainerID: widget.userTrainerDocument.data['trainerID'],
-                  weekID: widget.weekID,
-                  sets: workoutExercisesWithSets[index + 1].data['sets'],
-                  workoutID: widget.workoutID,
-                  seriesID: seriesID,
-
+                trainerID: widget.userTrainerDocument.data['trainerID'],
+                weekID: widget.weekID,
+                sets: workoutExercisesWithSets[index + 1].data['sets'],
+                workoutID: widget.workoutID,
+                seriesID: seriesID,
               )));
       overlayState.insert(overlayEntry);
     }
@@ -398,9 +384,7 @@ class _ChewieVideoState extends State<ChewieVideo>
             ),
             Positioned(
               child: Container(
-                height:
-                    SizeConfig.blockSizeVertical * 95
-                        ,
+                height: SizeConfig.blockSizeVertical * 95,
                 child: IndicatorsOnVideo(
                   controller: vc,
                   listLenght: source.length,
@@ -419,13 +403,12 @@ class _ChewieVideoState extends State<ChewieVideo>
                   playPrevious: previousPlay,
                   repsDescription: exerciseRepsDescription,
                   onWill: _onWillPop,
-                  showTimerDialog: showPickerNumber,
                   tips: exerciseTips,
                   video: source[index],
                   exerciseTime: exerciseTime,
-                  checkTime: checkAndArrangeTime,
-                  exSecs: exSecs,
-                  exMinutes: exMinutes,
+//                  checkTime: checkAndArrangeTime,
+                  exSecs: seconds,
+                  exMinutes: minutes,
                 ),
               ),
             ),
