@@ -171,9 +171,9 @@ class SignInViewModel implements SignInInterface {
     final AuthResult authResult =
         await _firebaseAuth.signInWithCredential(credential);
     /// close dialog
-    Timer(Duration(seconds: 2), () {
-      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
-    });
+//    Timer(Duration(seconds: 2), () {
+//      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+//    });
     final FirebaseUser user = authResult.user;
 
     assert(!user.isAnonymous);
