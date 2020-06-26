@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:video_box/video.controller.dart';
 
 Widget nextButton(
-    BuildContext context, Function  playNext, VideoController vc, Timer timer) {
+    BuildContext context, Function  playNext, resetTimer, VideoController vc) {
   return Container(
     height: SizeConfig.blockSizeHorizontal * 10,
     width: SizeConfig.blockSizeHorizontal * 10,
@@ -14,13 +14,8 @@ Widget nextButton(
       color: Colors.white,
       child: InkWell(
         onTap: () {
-          if(timer == null) {
-            print('Timer je null');
             playNext();
-          } else {
-            timer.cancel();
-            playNext();
-          }
+            resetTimer();
         },
         child: Icon(
           Icons.arrow_forward,

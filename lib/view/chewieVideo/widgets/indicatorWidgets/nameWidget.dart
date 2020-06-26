@@ -40,19 +40,17 @@ Widget nameWidget(
         print('NE MOZE VIŠE PAŠA');
       }
     },
-    child: Flexible(
-      child: Container(
-        alignment: Alignment.center,
-        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 1),
-        child: Text(
-          name,
-          maxLines: 1,
-          overflow: TextOverflow.visible,
-          style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w400,
-              fontSize: SizeConfig.safeBlockHorizontal * 10),
-        ),
+    child: Container(
+      alignment: Alignment.center,
+      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 1),
+      child: Text(
+        name,
+        maxLines: 1,
+        overflow: TextOverflow.visible,
+        style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.w400,
+            fontSize: SizeConfig.safeBlockHorizontal * 10),
       ),
     ),
   );

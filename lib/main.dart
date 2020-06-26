@@ -1,4 +1,5 @@
 import 'package:attt/utils/text.dart';
+import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/notifiers/changeColorNotifier.dart';
 import 'package:attt/view/chewieVideo/widgets/notifiers.dart';
 import 'package:attt/view/chewieVideo/widgets/stopwatch.dart';
 import 'package:attt/view/home/pages/splashScreen.dart';
@@ -28,8 +29,8 @@ class Athlete extends StatelessWidget  {
       title: MyText().mainTitle,
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light(),
-      home: ListenableProvider<Notifiers>(
-         create: (_) => Notifiers(false),
+      home: ListenableProvider<ChangeBtnColor>(
+         create: (_) => ChangeBtnColor('red'),
         child: CustomSplashScreen(),
       ),
     );

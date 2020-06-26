@@ -5,18 +5,12 @@ import 'package:video_box/video.controller.dart';
 import 'package:quiver/async.dart';
 
 Widget timerWidget(
-  BuildContext context,
-  Function showTimerDialog,
-  VideoController controller,
-  String timeToDisplay,
-) {
-  pressTimer() {
-    showTimerDialog(context);
-    controller.pause();
-    isTimerPaused = true;
-    reseted = false;
-  }
-
+    BuildContext context,
+    Function showTimerDialog,
+    VideoController controller,
+    String timerText,
+    timerTextPaused,
+    bool isPausedT) {
   return Container(
     height: SizeConfig.blockSizeVertical * 5.5,
     width: SizeConfig.blockSizeHorizontal * 40,
@@ -26,7 +20,7 @@ Widget timerWidget(
       color: Colors.white.withOpacity(0.8),
       onPressed: null,
       child: Text(
-        timeToDisplay,
+        isPaused ? timerTextPaused : timerText,
         style: TextStyle(
           fontSize: SizeConfig.safeBlockHorizontal * 10,
           color: Colors.black,
