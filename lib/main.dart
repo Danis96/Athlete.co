@@ -1,13 +1,9 @@
 import 'package:attt/utils/text.dart';
-import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/notifiers/changeColorNotifier.dart';
-import 'package:attt/view/chewieVideo/widgets/notifiers.dart';
 import 'package:attt/view/chewieVideo/widgets/stopwatch.dart';
 import 'package:attt/view/home/pages/splashScreen.dart';
-// import 'file:///C:/Users/danis.dev/Desktop/Athlete.co/lib/view/subscription/page/subscription.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
-import 'package:provider/provider.dart';
 
 void main() {
   final timerService = TimerService();
@@ -29,10 +25,8 @@ class Athlete extends StatelessWidget  {
       title: MyText().mainTitle,
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light(),
-      home: ListenableProvider<ChangeBtnColor>(
-         create: (_) => ChangeBtnColor('red'),
-        child: CustomSplashScreen(),
-      ),
+      home: CustomSplashScreen(),
+
     );
   }
 }

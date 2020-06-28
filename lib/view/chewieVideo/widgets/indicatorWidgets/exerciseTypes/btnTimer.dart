@@ -43,10 +43,7 @@ class _BtnTimerState extends State<BtnTimer> {
                     ? MyColors().error
                     : MyColors().lightBlack
             : MyColors().lightBlack,
-        child: Text(
-          widget.index == (widget.listLenght - 1)
-              ? 'FINISH'
-              : widget.timer != null
+        child: Text( widget.timer != null
                   ? !widget.timer.isActive
                       ? widget.colorStatePaused == 'green' ? done : start
                       : widget.colorStatePaused == 'red' ? pause : start

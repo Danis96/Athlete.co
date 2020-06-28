@@ -4,13 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:video_box/video.controller.dart';
 import 'package:quiver/async.dart';
 
-Widget timerWidget(
-    BuildContext context,
-    Function showTimerDialog,
-    VideoController controller,
-    String timerText,
-    timerTextPaused,
-    bool isPausedT) {
+Widget timerWidget(BuildContext context, VideoController controller,
+    String timerText) {
   return Container(
     height: SizeConfig.blockSizeVertical * 5.5,
     width: SizeConfig.blockSizeHorizontal * 40,
@@ -20,7 +15,7 @@ Widget timerWidget(
       color: Colors.white.withOpacity(0.8),
       onPressed: null,
       child: Text(
-        isPaused ? timerTextPaused : timerText,
+        timerText,
         style: TextStyle(
           fontSize: SizeConfig.safeBlockHorizontal * 10,
           color: Colors.black,

@@ -27,7 +27,7 @@ Widget infoIcon(
       color: Colors.white,
       child: InkWell(
         onTap: () {
-          pauseTimer();
+         pauseTimer();
           if (infoClicked) {
             Timer(Duration(milliseconds: 800), () {
               goBackToChewie = true;

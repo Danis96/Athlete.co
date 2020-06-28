@@ -18,15 +18,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:video_box/video.controller.dart';
 
-
-
 Widget timeType(
   BuildContext context,
   Function onWill,
   pauseAndPlayFunction,
   playNext,
   playPrevious,
-  showTimerDialog,
+  showFancyCustomDialog,
   playTimer,
   pauseTimer,
   resetTimer,
@@ -44,14 +42,12 @@ Widget timeType(
   weekID,
   currentSet,
   timerText,
-  timerTextPaused,
   colorStatePaused,
   bool isTips,
   infoClicked,
   goBackToChewie,
   isFromPortrait,
   noteClicked,
-  isPausedT,
   VideoController controller,
   List<dynamic> tips,
   DocumentSnapshot userDocument,
@@ -59,6 +55,7 @@ Widget timeType(
   Timer timer,
 ) {
   return Column(
+    mainAxisSize: MainAxisSize.min,
     children: <Widget>[
       Stack(
         alignment: Alignment.topRight,
@@ -84,7 +81,9 @@ Widget timeType(
             },
             child: Container(
               width: SizeConfig.blockSizeHorizontal * 83,
-              height: SizeConfig.blockSizeVertical * 20,
+              height:  MediaQuery.of(context).orientation == Orientation.landscape
+                  ? SizeConfig.blockSizeHorizontal * 0
+                  :  SizeConfig.blockSizeVertical * 20,
             ),
           )
         ],
@@ -104,10 +103,14 @@ Widget timeType(
             isReps,
             index,
             listLenght,
+            pauseTimer,
           ),
         ),
       ),
       Container(
+        width: MediaQuery.of(context).orientation == Orientation.landscape
+            ? SizeConfig.blockSizeHorizontal * 1
+            : SizeConfig.blockSizeHorizontal * 100,
         margin: EdgeInsets.only(
             top: repsDescription != null && repsDescription != ''
                 ? SizeConfig.blockSizeVertical * 6
@@ -137,7 +140,9 @@ Widget timeType(
                 : EmptyContainer(),
             Container(
               width: SizeConfig.blockSizeHorizontal * 95,
-              height: SizeConfig.blockSizeVertical * 20,
+              height:  MediaQuery.of(context).orientation == Orientation.landscape
+                  ? SizeConfig.blockSizeHorizontal * 0
+                  :  SizeConfig.blockSizeVertical * 20,
               decoration: BoxDecoration(
                 borderRadius: repsDescription != null && repsDescription != ''
                     ? BorderRadius.only(
@@ -154,11 +159,8 @@ Widget timeType(
                   Container(
                       height: SizeConfig.blockSizeVertical * 10,
                       child:
-
                           /// 2 gettera za vrijeme i display
-                          timerWidget(context, showTimerDialog, controller,
-                              timerText, timerTextPaused, isPausedT)),
-
+                          timerWidget(context, controller, timerText)),
                   BtnTimer(
                     colorStatePaused: colorStatePaused,
                     index: index,
@@ -168,12 +170,11 @@ Widget timeType(
                     timer: timer,
                     playNext: playNext,
                   ),
-
                   Container(
                     alignment: Alignment.center,
                     height: SizeConfig.blockSizeVertical * 5,
                     child: FlatButton(
-                      onPressed: () {},
+                      onPressed: () => showFancyCustomDialog(context),
                       child: Text(
                         'EDIT TIMER',
                         style: TextStyle(
@@ -193,7 +194,14 @@ Widget timeType(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
+              width: MediaQuery.of(context).orientation == Orientation.landscape
+                  ? SizeConfig.blockSizeHorizontal * 1
+                  : SizeConfig.blockSizeHorizontal * 100,
+              margin: EdgeInsets.only(top:
+              MediaQuery.of(context).orientation == Orientation.landscape
+                  ? SizeConfig.blockSizeHorizontal * 0
+                  :
+              SizeConfig.blockSizeVertical * 1.2),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -217,7 +225,6 @@ Widget timeType(
                         width: SizeConfig.blockSizeHorizontal * 10,
                       )
                     :
-
                     /// treba da resetuje timer
                     previousButton(
                         context,
@@ -242,6 +249,7 @@ Widget timeType(
                         name,
                         workoutID,
                         weekID,
+                        pauseTimer,
                       ),
                       SizedBox(
                         width: SizeConfig.blockSizeHorizontal * 3,
@@ -268,7 +276,6 @@ Widget timeType(
                         width: SizeConfig.blockSizeHorizontal * 10,
                       )
                     :
-
                     /// treba da resetuje timer kad se prebaci
                     nextButton(
                         context,

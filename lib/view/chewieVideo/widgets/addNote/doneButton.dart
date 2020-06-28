@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view_model/chewieVideoViewModel.dart';
@@ -29,15 +31,16 @@ class _DoneButtonState extends State<DoneButton> {
       child: new RaisedButton(
         elevation: 0,
         onPressed: () {
-          ChewieVideoViewModel().donePressed(
-              widget.newNote,
-              widget.notes,
-              widget.userUID,
-              widget.trainerID,
-              widget.weekID,
-              widget.workoutID,
-              context);
-          setState(() {
+          FocusScope.of(context).requestFocus(FocusNode());
+          Timer(Duration(milliseconds: 500), () {
+            ChewieVideoViewModel().donePressed(
+                widget.newNote,
+                widget.notes,
+                widget.userUID,
+                widget.trainerID,
+                widget.weekID,
+                widget.workoutID,
+                context);
             noteClicked = true;
           });
         },

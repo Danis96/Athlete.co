@@ -13,9 +13,7 @@ Widget stopIcon(Function pressTimer, BuildContext context, var isReps) {
         child: Icon(
           Icons.timer,
           color: MyColors().lightWhite,
-          size: MediaQuery.of(context).orientation == Orientation.portrait
-              ? SizeConfig.safeBlockHorizontal * 13
-              : SizeConfig.safeBlockHorizontal * 6,
+          size: SizeConfig.safeBlockHorizontal * 13,
         ),
       ),
     ),

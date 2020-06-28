@@ -16,10 +16,13 @@ Widget nameWidget(
     List<dynamic> exTips,
     int isReps,
     index,
-    listLenght) {
+    listLenght,
+    Function pauseTimer,
+    ) {
   SizeConfig().init(context);
   return GestureDetector(
     onTap: () {
+      pauseTimer();
       if (infoClicked) {
         goBackToChewie = true;
         infoClicked = false;
@@ -50,7 +53,10 @@ Widget nameWidget(
         style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.w400,
-            fontSize: SizeConfig.safeBlockHorizontal * 10),
+            fontSize:
+                MediaQuery.of(context).orientation == Orientation.landscape
+                    ? SizeConfig.safeBlockHorizontal * 2
+                    : SizeConfig.safeBlockHorizontal * 10),
       ),
     ),
   );
