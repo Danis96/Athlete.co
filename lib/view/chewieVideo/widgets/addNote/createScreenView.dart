@@ -64,9 +64,7 @@ class _CreateScreenViewState extends State<CreateScreenView> {
     FocusScope.of(context).requestFocus(new FocusNode());
     Navigator.of(context).pop();
     ChewieVideoViewModel().checkForOrientationOnBack();
-    setState(() {
       noteClicked = true;
-    });
   }
 
   updateNewNote(String note) {

@@ -50,6 +50,7 @@ Widget repsType(
   Timer timer,
 ) {
   return Column(
+    mainAxisSize: MainAxisSize.min,
     children: <Widget>[
       Stack(
         alignment: Alignment.topRight,
@@ -75,7 +76,9 @@ Widget repsType(
             },
             child: Container(
               width: SizeConfig.blockSizeHorizontal * 83,
-              height: SizeConfig.blockSizeVertical * 20,
+              height:  MediaQuery.of(context).orientation == Orientation.landscape
+                  ? SizeConfig.blockSizeHorizontal * 0
+                  :  SizeConfig.blockSizeVertical * 20,
             ),
           )
         ],
@@ -95,10 +98,14 @@ Widget repsType(
             isReps,
             index,
             listLenght,
+            pauseTimer,
           ),
         ),
       ),
       Container(
+        width: MediaQuery.of(context).orientation == Orientation.landscape
+            ? SizeConfig.blockSizeHorizontal * 1
+            : SizeConfig.blockSizeHorizontal * 100,
         margin: EdgeInsets.only(
             top: repsDescription != null && repsDescription != ''
                 ? SizeConfig.blockSizeVertical * 6
@@ -128,7 +135,9 @@ Widget repsType(
                 : EmptyContainer(),
             Container(
               width: SizeConfig.blockSizeHorizontal * 95,
-              height: SizeConfig.blockSizeVertical * 20,
+              height:  MediaQuery.of(context).orientation == Orientation.landscape
+                  ? SizeConfig.blockSizeHorizontal * 0
+                  :  SizeConfig.blockSizeVertical * 20,
               decoration: BoxDecoration(
                 borderRadius: repsDescription != null && repsDescription != ''
                     ? BorderRadius.only(
@@ -142,7 +151,9 @@ Widget repsType(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Container(
-                    height: SizeConfig.blockSizeVertical * 10,
+                    height:  MediaQuery.of(context).orientation == Orientation.landscape
+                        ? SizeConfig.blockSizeHorizontal * 0
+                        :  SizeConfig.blockSizeVertical * 10,
                     child: repsWidget(
                       context,
                       isReps,
@@ -151,8 +162,12 @@ Widget repsType(
                     ),
                   ),
                   Container(
-                    width: SizeConfig.blockSizeHorizontal * 60,
-                    height: SizeConfig.blockSizeVertical * 5,
+                    width:  MediaQuery.of(context).orientation == Orientation.landscape
+                        ? SizeConfig.blockSizeHorizontal * 1
+                        :  SizeConfig.blockSizeHorizontal * 60,
+                    height:  MediaQuery.of(context).orientation == Orientation.landscape
+                        ? SizeConfig.blockSizeHorizontal * 1
+                        :  SizeConfig.blockSizeVertical * 5,
                     child: RaisedButton(
                       color: MyColors().lightBlack,
                       child: Text(
@@ -177,7 +192,14 @@ Widget repsType(
           mainAxisAlignment: MainAxisAlignment.end,
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
+              width: MediaQuery.of(context).orientation == Orientation.landscape
+                  ? SizeConfig.blockSizeHorizontal * 1
+                  : SizeConfig.blockSizeHorizontal * 100,
+              margin: EdgeInsets.only(top:
+              MediaQuery.of(context).orientation == Orientation.landscape
+                  ? SizeConfig.blockSizeHorizontal * 0
+                  :
+              SizeConfig.blockSizeVertical * 1.2),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -223,6 +245,7 @@ Widget repsType(
                         name,
                         workoutID,
                         weekID,
+                        pauseTimer,
                       ),
                       SizedBox(
                         width: SizeConfig.blockSizeHorizontal * 3,

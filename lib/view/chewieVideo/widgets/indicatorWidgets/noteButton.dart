@@ -18,7 +18,9 @@ Widget noteButton(
     var reps,
     String name,
     workoutID,
-    weekID) {
+    weekID,
+    Function pauseTimer,
+    ) {
   return Container(
     height: SizeConfig.blockSizeHorizontal * 10,
     width: SizeConfig.blockSizeHorizontal * 10,
@@ -27,6 +29,7 @@ Widget noteButton(
       color: Colors.white,
       child: InkWell(
         onTap: () {
+          pauseTimer();
           if (noteClicked) {
             noteClicked = false;
             controller.pause();

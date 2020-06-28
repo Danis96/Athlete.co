@@ -1,7 +1,9 @@
+import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/view_model/historyViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:attt/view/history/widgets/finishedWeekContainer.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 Widget futureWeekContainer(List<dynamic> finishedWeeksWithAthlete, int index,
     String weekName, String trainerName, List<dynamic> workoutsList) {
@@ -17,7 +19,7 @@ Widget futureWeekContainer(List<dynamic> finishedWeeksWithAthlete, int index,
         return finishedWeekContainer(weekName, trainerName, workoutsList,
             finishedWeeksWithAthlete, index);
       } else {
-        return EmptyContainer();
+        return SpinKitFadingCircle(color: MyColors().lightWhite,);
       }
     },
   );
