@@ -1,3 +1,4 @@
+import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/text.dart';
 import 'package:attt/view/trainingPlan/widgets/boldText.dart';
 import 'package:attt/view/trainingPlan/widgets/normalText.dart';
@@ -13,6 +14,8 @@ Widget trainingPlanGuides(
       ' - ' +
       userTrainerDocument.data['description'];
   String performanceCoach = userTrainerDocument.data['performance_coach'];
+
+  print('Training phases: ' + trainingPhases);
   return Container(
     width: double.infinity,
     child: Column(
@@ -21,13 +24,16 @@ Widget trainingPlanGuides(
         normalText(MyText().youTraining, context),
         boldText(trainingPlan, context),
         normalText('\n' + MyText().trDuration, context),
-        boldText(
-            trainingDuration +
-                MyText().trWeeks +
-                ' - ' +
-                trainingPhases +
-                ' Phases',
-            context),
+        Row(
+          children: <Widget>[
+            trainingDuration == 'null' || trainingDuration == null
+                ? EmptyContainer()
+                : boldText(trainingDuration + MyText().trWeeks, context),
+            trainingPhases == 'null'
+                ? EmptyContainer()
+                : boldText(' - ' + trainingPhases + ' Phases', context),
+          ],
+        ),
         normalText('\n' + MyText().trAthlete, context),
         boldText(athlete, context),
         normalText('\n' + MyText().trPerfomancec, context),

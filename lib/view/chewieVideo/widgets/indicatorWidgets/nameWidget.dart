@@ -45,7 +45,7 @@ Widget nameWidget(
     },
     child: Container(
       alignment: Alignment.center,
-      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 1),
+      margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5),
       child: Text(
         name,
         maxLines: 1,

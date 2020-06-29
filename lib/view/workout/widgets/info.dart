@@ -1,4 +1,5 @@
 import 'package:attt/utils/colors.dart';
+import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +51,7 @@ class _InfoExerciseState extends State<InfoExercise> {
       backgroundColor: MyColors().black,
       body: WillPopScope(
         onWillPop: () => _onWillPop(),
-        child: ListView(
+        child: MediaQuery.of(context).orientation == Orientation.portrait ?  ListView(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           children: <Widget>[
@@ -100,7 +101,7 @@ class _InfoExerciseState extends State<InfoExercise> {
                                   child: IconButton(
                                     color: MyColors().white,
                                     iconSize:
-                                        SizeConfig.blockSizeHorizontal * 6,
+                                    SizeConfig.blockSizeHorizontal * 6,
                                     icon: Icon(Icons.clear),
                                     onPressed: () => onDone(),
                                   ),
@@ -109,15 +110,15 @@ class _InfoExerciseState extends State<InfoExercise> {
                                   child: Container(
                                     margin: EdgeInsets.only(
                                         left:
-                                            SizeConfig.blockSizeHorizontal * 2),
+                                        SizeConfig.blockSizeHorizontal * 2),
                                     child: Text(
                                       widget.exerciseNameForInfo,
                                       overflow: TextOverflow.clip,
                                       style: TextStyle(
                                           color: MyColors().white,
                                           fontSize:
-                                              SizeConfig.safeBlockHorizontal *
-                                                  5,
+                                          SizeConfig.safeBlockHorizontal *
+                                              5,
                                           fontWeight: FontWeight.bold,
                                           fontStyle: FontStyle.italic),
                                     ),
@@ -144,8 +145,8 @@ class _InfoExerciseState extends State<InfoExercise> {
                                     style: TextStyle(
                                         color: MyColors().white,
                                         fontSize:
-                                            SizeConfig.safeBlockHorizontal *
-                                                3.5),
+                                        SizeConfig.safeBlockHorizontal *
+                                            3.5),
                                   ),
                                 );
                               },
@@ -176,29 +177,30 @@ class _InfoExerciseState extends State<InfoExercise> {
               ),
             ),
           ],
-        ),
+        ) : EmptyContainer(),
       ),
     );
   }
+
 
   /// [onDone] here we check doues ur android back button is going to video, or exercise screen
   /// if true  then set our portrait to landscapeRight
   /// same goes for tips
   onDone() {
     setState(
-      () {
+          () {
         goBackToChewie
             ? isFromPortrait
-                ? SystemChrome.setPreferredOrientations(
-                    [DeviceOrientation.portraitUp])
-                : SystemChrome.setPreferredOrientations(
-                    [DeviceOrientation.landscapeRight])
+            ? SystemChrome.setPreferredOrientations(
+            [DeviceOrientation.portraitUp])
+            : SystemChrome.setPreferredOrientations(
+            [DeviceOrientation.landscapeRight])
             : print('NIJE SA VIDEA');
       },
     );
     goBackToChewie ? isTips = true : isTips = false;
     setState(
-      () {
+          () {
         infoClicked = true;
       },
     );
@@ -211,25 +213,7 @@ class _InfoExerciseState extends State<InfoExercise> {
   }
 
   Future<bool> _onWillPop() async {
-    if (goBackToChewie) {
-      isFromPortrait
-          ? SystemChrome.setPreferredOrientations(
-              [DeviceOrientation.portraitUp])
-          : SystemChrome.setPreferredOrientations(
-              [DeviceOrientation.landscapeRight]);
-    }
-    setState(
-      () {
-        infoClicked = true;
-      },
-    );
     Navigator.of(context).pop();
   }
-}
 
-checkForOrientationOnBack() {
-  isFromPortrait
-      ? SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
-      : SystemChrome.setPreferredOrientations(
-          [DeviceOrientation.landscapeRight]);
 }

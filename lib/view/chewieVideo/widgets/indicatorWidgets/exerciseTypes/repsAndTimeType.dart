@@ -55,7 +55,7 @@ Widget repsAndTimeType(
   userTrainerDocument,
   Timer timer,
 ) {
-  return Column(
+  return MediaQuery.of(context).orientation == Orientation.portrait ? Column(
     children: <Widget>[
       Stack(
         alignment: Alignment.topRight,
@@ -88,8 +88,10 @@ Widget repsAndTimeType(
       ),
       Column(children: <Widget>[
         Container(
-          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 22),
-          child: MarqueeWidget(
+          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 18),
+          child: name.length > 17 ?
+          MarqueeWidget(
+
             child: nameWidget(
               infoClicked,
               goBackToChewie,
@@ -104,6 +106,19 @@ Widget repsAndTimeType(
               listLenght,
               pauseTimer,
             ),
+          ) :  nameWidget(
+            infoClicked,
+            goBackToChewie,
+            isFromPortrait,
+            context,
+            controller,
+            name,
+            video,
+            tips,
+            isReps,
+            index,
+            listLenght,
+            pauseTimer,
           ),
         ),
         Container(
@@ -122,7 +137,7 @@ Widget repsAndTimeType(
         margin: EdgeInsets.only(
             top: repsDescription != null && repsDescription != ''
                 ? SizeConfig.blockSizeVertical * 6
-                : SizeConfig.blockSizeVertical * 9),
+                : SizeConfig.blockSizeVertical * 4),
         child: Column(
           children: <Widget>[
             repsDescription != null && repsDescription != ''
@@ -147,8 +162,9 @@ Widget repsAndTimeType(
                   )
                 : EmptyContainer(),
             Container(
-              width: SizeConfig.blockSizeHorizontal * 95,
-              height: SizeConfig.blockSizeVertical * 20,
+              width:  SizeConfig.blockSizeHorizontal * 95,
+              height: repsDescription != null && repsDescription != ''
+                  ? SizeConfig.blockSizeVertical * 17 : SizeConfig.blockSizeVertical * 20,
               decoration: BoxDecoration(
                 borderRadius: repsDescription != null && repsDescription != ''
                     ? BorderRadius.only(
@@ -275,6 +291,7 @@ Widget repsAndTimeType(
                         playNext,
                         resetTimer,
                         controller,
+
                       ),
               ],
             ),
@@ -282,5 +299,5 @@ Widget repsAndTimeType(
         ),
       )
     ],
-  );
+  ) : EmptyContainer();
 }

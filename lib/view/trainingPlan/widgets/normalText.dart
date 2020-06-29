@@ -8,8 +8,8 @@ Widget normalText(String text, BuildContext context) {
         color: Color.fromRGBO(255, 255, 255, 0.8),
         fontFamily: 'Roboto',
         fontSize: MediaQuery.of(context).orientation == Orientation.portrait
-            ? SizeConfig.blockSizeVertical * 1.7
-            : SizeConfig.safeBlockHorizontal * 1.8,
+            ? SizeConfig.safeBlockHorizontal * 4
+            : SizeConfig.safeBlockHorizontal * 4,
         fontWeight: FontWeight.w400),
   );
 }

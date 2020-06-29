@@ -27,3 +27,4 @@ class SizeConfig {
     safeBlockVertical = (screenHeight - _safeAreaVertical) / 100;
   }
 }
+

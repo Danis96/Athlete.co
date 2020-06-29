@@ -78,30 +78,6 @@ class _ChewieVideoState extends State<ChewieVideo>
     _index = nv;
   }
 
-  /// [_onWillPop]
-  ///
-  /// async funstion that creates an exit dialog for our screen
-  /// CONTINUE / CANCEL
-  Future<bool> _onWillPop() async {
-      isOrientationFull = true;
-    vc.pause();
-    return showDialog(
-          context: context,
-          builder: (context) => MyAlertDialog(
-            no: 'Cancel',
-            yes: 'Continue',
-            title: 'Back to Training plan?',
-            content: 'If you go back all your progress will be lost',
-            userDocument: widget.userDocument,
-            userTrainerDocument: widget.userTrainerDocument,
-            vc: vc,
-            close: dispose,
-            isReps: exerciseIsReps,
-          ),
-        ) ??
-        true;
-  }
-
   /// populate variables with exercise info
   initializeVariables() {
     String exerciseNameAndSet = namesWithSet[index];
@@ -257,52 +233,48 @@ class _ChewieVideoState extends State<ChewieVideo>
     initializeVariables();
     return Scaffold(
       backgroundColor: MyColors().lightBlack,
-      body: WillPopScope(
-        onWillPop: () => _onWillPop(),
-        child: Stack(
-          children: <Widget>[
-            Column(
-              children: <Widget>[
-                Container(
-                  height: SizeConfig.blockSizeVertical * 40,
-                  child: VideoBox(
-                    controller: vc,
-                  ),
+      body: Stack(
+        children: <Widget>[
+          Column(
+            children: <Widget>[
+              Container(
+                height: SizeConfig.blockSizeVertical * 40,
+                child: VideoBox(
+                  controller: vc,
                 ),
-              ],
-            ),
-            Positioned(
-              child: Container(
-                height: SizeConfig.blockSizeVertical * 95,
-                child: IndicatorsOnVideo(
-                    controller: vc,
-                    listLenght: source.length,
-                    userDocument: widget.userDocument,
-                    userTrainerDocument: widget.userTrainerDocument,
-                    index: _index,
-                    isReps: exerciseIsReps,
-                    reps: exerciseReps,
-                    sets: exerciseSets,
-                    name: exerciseName,
-                    workoutID: widget.workoutID,
-                    weekID: widget.weekID,
-                    ctrl: true,
-                    currentSet: exerciseSet,
-                    playNext: nextPlay,
-                    playPrevious: previousPlay,
-                    repsDescription: exerciseRepsDescription,
-                    onWill: _onWillPop,
-                    tips: exerciseTips,
-                    video: source[index],
-                    exerciseTime: exerciseTime,
-//                  checkTime: checkAndArrangeTime,
-                    exSecs: seconds,
-                    exMinutes: minutes,
-                    isOrientationFull: isOrientationFull),
               ),
+            ],
+          ),
+          Positioned(
+            child: Container(
+              height: SizeConfig.blockSizeVertical * 95,
+              child: IndicatorsOnVideo(
+                  controller: vc,
+                  listLenght: source.length,
+                  userDocument: widget.userDocument,
+                  userTrainerDocument: widget.userTrainerDocument,
+                  index: _index,
+                  isReps: exerciseIsReps,
+                  reps: exerciseReps,
+                  sets: exerciseSets,
+                  name: exerciseName,
+                  workoutID: widget.workoutID,
+                  weekID: widget.weekID,
+                  ctrl: true,
+                  currentSet: exerciseSet,
+                  playNext: nextPlay,
+                  playPrevious: previousPlay,
+                  repsDescription: exerciseRepsDescription,
+                  tips: exerciseTips,
+                  video: source[index],
+                  exerciseTime: exerciseTime,
+//                  checkTime: checkAndArrangeTime,
+                  exSecs: seconds,
+                  exMinutes: minutes,
+                  isOrientationFull: isOrientationFull),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

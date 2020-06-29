@@ -55,7 +55,7 @@ Widget timeType(
   userTrainerDocument,
   Timer timer,
 ) {
-  return Column(
+  return MediaQuery.of(context).orientation == Orientation.portrait ? Column(
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
       Stack(
@@ -91,8 +91,9 @@ Widget timeType(
         ],
       ),
       Container(
-        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 22),
-        child: MarqueeWidget(
+        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 18),
+        child:  name.length > 17 ?
+        MarqueeWidget(
           child: nameWidget(
             infoClicked,
             goBackToChewie,
@@ -107,16 +108,27 @@ Widget timeType(
             listLenght,
             pauseTimer,
           ),
+        ) : nameWidget(
+          infoClicked,
+          goBackToChewie,
+          isFromPortrait,
+          context,
+          controller,
+          name,
+          video,
+          tips,
+          isReps,
+          index,
+          listLenght,
+          pauseTimer,
         ),
       ),
       Container(
-        width: MediaQuery.of(context).orientation == Orientation.landscape
-            ? SizeConfig.blockSizeHorizontal * 1
-            : SizeConfig.blockSizeHorizontal * 100,
+        width: SizeConfig.blockSizeHorizontal * 100,
         margin: EdgeInsets.only(
             top: repsDescription != null && repsDescription != ''
-                ? SizeConfig.blockSizeVertical * 6
-                : SizeConfig.blockSizeVertical * 11.5),
+                ? SizeConfig.blockSizeVertical * 5
+                : SizeConfig.blockSizeVertical * 7.5),
         child: Column(
           children: <Widget>[
             repsDescription != null && repsDescription != ''
@@ -128,7 +140,7 @@ Widget timeType(
                       color: Colors.grey,
                     ),
                     width: SizeConfig.blockSizeHorizontal * 95,
-                    height: SizeConfig.blockSizeVertical * 5.5,
+                    height: SizeConfig.blockSizeVertical * 5.3,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
@@ -142,10 +154,7 @@ Widget timeType(
                 : EmptyContainer(),
             Container(
               width: SizeConfig.blockSizeHorizontal * 95,
-              height:
-                  MediaQuery.of(context).orientation == Orientation.landscape
-                      ? SizeConfig.blockSizeHorizontal * 0
-                      : SizeConfig.blockSizeVertical * 20,
+              height:SizeConfig.blockSizeVertical * 20,
               decoration: BoxDecoration(
                 borderRadius: repsDescription != null && repsDescription != ''
                     ? BorderRadius.only(
@@ -283,13 +292,13 @@ Widget timeType(
                         width: SizeConfig.blockSizeHorizontal * 10,
                       )
                     :
-
                     /// treba da resetuje timer kad se prebaci
                     nextButton(
                         context,
                         playNext,
                         resetTimer,
                         controller,
+
                       ),
               ],
             ),
@@ -297,5 +306,5 @@ Widget timeType(
         ),
       )
     ],
-  );
+  ) : EmptyContainer();
 }

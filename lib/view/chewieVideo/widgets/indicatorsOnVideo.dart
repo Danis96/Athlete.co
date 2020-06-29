@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:ui';
+import 'package:attt/utils/alertDialog.dart';
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
@@ -33,7 +34,6 @@ class IndicatorsOnVideo extends StatefulWidget {
   final Function showAddNote,
       playNext,
       playPrevious,
-      onWill,
       showTimerDialog,
       checkTime;
   final int isReps, sets;
@@ -69,7 +69,6 @@ class IndicatorsOnVideo extends StatefulWidget {
     this.userTrainerDocument,
     this.userDocument,
     this.ctrl,
-    this.onWill,
     this.exerciseTime,
     this.showTimerDialog,
     this.checkTime,
@@ -85,8 +84,8 @@ class IndicatorsOnVideo extends StatefulWidget {
 class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
     with TickerProviderStateMixin, WidgetsBindingObserver {
   AnimationController _controller;
-  AnimationController controllerColor;
   Animation<Offset> _offsetAnimation;
+  ScrollController scrollController;
   bool isOrientation = false;
   int _counter = 0;
 
@@ -316,10 +315,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       parent: _controller,
       curve: Curves.easeInOut,
     ));
-    controllerColor = AnimationController(
-      vsync: this,
-      duration: Duration(minutes: 0, seconds: 0),
-    );
   }
 
   /// here it is where we check for the state of the app
@@ -417,6 +412,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
     print('Timer ====>  play: ' + timerMaxSeconds.toString());
   }
 
+
   /// function for pausing the timer
   ///
   /// running to false
@@ -475,7 +471,9 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return SlideTransition(
-        position: _offsetAnimation,
+      position: _offsetAnimation,
+      child: WillPopScope(
+        onWillPop: () => _onWillPop(),
         child: Padding(
           padding: EdgeInsets.only(
               top: SizeConfig.blockSizeVertical * 3,
@@ -484,7 +482,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
           child: widget.isReps == 0
               ? repsType(
                   context,
-                  widget.onWill,
+                  _onWillPop,
                   pauseAndPlayFunction,
                   widget.playNext,
                   widget.playPrevious,
@@ -513,13 +511,14 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                   widget.tips,
                   widget.userDocument,
                   widget.userTrainerDocument,
-                  _timer)
+                  _timer,
+                )
 
               /// isREPS = 1  - ako su vjezbe na time
               : widget.isReps == 1
                   ? timeType(
                       context,
-                      widget.onWill,
+                      _onWillPop,
                       pauseAndPlayFunction,
                       widget.playNext,
                       widget.playPrevious,
@@ -552,12 +551,14 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                       widget.tips,
                       widget.userDocument,
                       widget.userTrainerDocument,
-                      _timer)
+                      _timer,
+          )
+
                   /// ako su vjezbe na time i reps
                   : widget.isReps == 2
                       ? repsAndTimeType(
                           context,
-                          widget.onWill,
+                          _onWillPop,
                           pauseAndPlayFunction,
                           widget.playNext,
                           widget.playPrevious,
@@ -590,9 +591,12 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                           widget.tips,
                           widget.userDocument,
                           widget.userTrainerDocument,
-                          _timer)
+                          _timer,
+                        )
                       : EmptyContainer(),
-        ));
+        ),
+      ),
+    );
   }
 
   pauseAndPlayFunction() {
@@ -602,5 +606,30 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
     } else {
       widget.controller.play();
     }
+  }
+
+  /// [_onWillPop]
+  ///
+  /// async funstion that creates an exit dialog for our screen
+  /// CONTINUE / CANCEL
+  Future<bool> _onWillPop() async {
+    _timer != null ? pauseTimer() : print('Timer nije aktivan');
+    setState(() {});
+    return showDialog(
+          context: context,
+          builder: (context) => MyAlertDialog(
+            no: 'Cancel',
+            yes: 'Continue',
+            title: 'Back to Training plan?',
+            content: 'If you go back all your progress will be lost',
+            userDocument: widget.userDocument,
+            userTrainerDocument: widget.userTrainerDocument,
+            vc: widget.controller,
+            isReps: widget.isReps,
+            resetTimer: resetTimer,
+            timer: _timer,
+          ),
+        ) ??
+        true;
   }
 }

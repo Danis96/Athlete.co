@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/fullTrainingStopwatch/fullTrainingStopwatch.dart';
 import 'package:attt/utils/globals.dart';
@@ -10,10 +12,11 @@ import 'package:attt/utils/customScreenAnimation.dart';
 class MyAlertDialog extends StatefulWidget {
   final String title, content, yes, no;
   final DocumentSnapshot userDocument, userTrainerDocument;
-  final Function onExit, close;
+  final Function onExit, close, resetTimer;
   final VideoController vc;
   final int isReps;
   final bool ctrl;
+  final Timer timer;
 
   MyAlertDialog({
     Key key,
@@ -28,6 +31,8 @@ class MyAlertDialog extends StatefulWidget {
     this.vc,
     this.close,
     this.isReps,
+    this.resetTimer,
+    this.timer,
   }) : super(key: key);
 
   @override
@@ -62,6 +67,9 @@ class _MyAlertDialogState extends State<MyAlertDialog> {
             isTimeChoosed = false;
             userNotes = '';
             alertQuit = true;
+            widget.timer != null
+                ? widget.resetTimer()
+                : print('Timer nije aktivan');
             FullTrainingStopwatch().stopStopwtach();
             FullTrainingStopwatch().resetStopwtach();
             Navigator.of(context).pushReplacement(CardAnimationTween(
