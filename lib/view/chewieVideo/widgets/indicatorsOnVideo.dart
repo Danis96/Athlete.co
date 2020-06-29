@@ -49,34 +49,34 @@ class IndicatorsOnVideo extends StatefulWidget {
   final bool ctrl, isOrientationFull;
   final List<dynamic> tips;
 
-  IndicatorsOnVideo(
-      {this.controller,
-      this.tips,
-      this.currentSet,
-      this.video,
-      this.repsDescription,
-      this.showAddNote,
-      this.workoutID,
-      this.playPrevious,
-      this.playNext,
-      this.listLenght,
-      this.weekID,
-      this.name,
-      this.sets,
-      this.reps,
-      this.isReps,
-      this.index,
-      this.userTrainerDocument,
-      this.userDocument,
-      this.ctrl,
-      this.onWill,
-      this.exerciseTime,
-      this.showTimerDialog,
-      this.checkTime,
-      this.exSecs,
-      this.exMinutes,
-      this.isOrientationFull,
-      });
+  IndicatorsOnVideo({
+    this.controller,
+    this.tips,
+    this.currentSet,
+    this.video,
+    this.repsDescription,
+    this.showAddNote,
+    this.workoutID,
+    this.playPrevious,
+    this.playNext,
+    this.listLenght,
+    this.weekID,
+    this.name,
+    this.sets,
+    this.reps,
+    this.isReps,
+    this.index,
+    this.userTrainerDocument,
+    this.userDocument,
+    this.ctrl,
+    this.onWill,
+    this.exerciseTime,
+    this.showTimerDialog,
+    this.checkTime,
+    this.exSecs,
+    this.exMinutes,
+    this.isOrientationFull,
+  });
 
   @override
   _IndicatorsOnVideoState createState() => _IndicatorsOnVideoState();
@@ -141,6 +141,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
     print('TIMER SECONDS: ' + timerMaxSeconds.toString());
   }
 
+  /// dialog number picker
   void showFancyCustomDialog(BuildContext context) {
     Dialog fancyDialog = Dialog(
       shape: RoundedRectangleBorder(
@@ -267,11 +268,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                       RaisedButton(
                         color: Colors.green,
                         onPressed: () {
-                          ///  check for timer value
-                          ///  if it is null dont reset it,
-                          ///  if it has a value, reset it
                           ///  then convert time that is choosen to seconds in [timerMaxSeconds]
-                          ///  and set [isPausedT] to false, so that we show timerText in timerWidget
                           setState(() {
                             timerMaxSeconds = min != null || min != 0
                                 ? (min * 60) + sec
@@ -376,9 +373,12 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
 
   /// function for starting the timer,
   /// it gets interval as an duration
-  /// then we create an isnstance of [_timer] and assing to it [Timer.perodic]
-  /// then in periodic we will setState to add [timer.tick] into our currentSeconds variable
-  /// and then just check is timer.tick bigger or equal to timerMaxSeconds, and cancel it
+  /// then we create an isnstance of [_timer] and assing the periodic f
+  /// then color the btn to red
+  /// in periodic f, I check is running true,
+  /// if it is I decrease the timerMaxSeconds
+  /// I am also checking is timerMaxSeconds is equal to 0
+  /// if it is color the button and cancel the timer
   startTimeout([int milliseconds]) {
     var duration = interval;
     _timer = Timer.periodic(duration, (timer) {
@@ -388,6 +388,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
           if (timerMaxSeconds == 0) {
             colorStatePaused = 'green';
             _timer.cancel();
+            SoundPlayer().playSound();
           }
         });
         print(timerMaxSeconds);
@@ -418,15 +419,11 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
 
   /// function for pausing the timer
   ///
-  /// here I set [pausedTime] to
-  /// (if isPaused true then I do pausedTime - currentSeconds,
-  /// if it is false then I do timerMaxSeconds - currentSeconds)
-  /// and I do this only if it is [_timer.isActive] true
-  /// then set isPaused to true,
-  /// then I activate the methods
-  /// if _timer is not equal to null is true, then check is _timer active,
-  /// if it is true then do _timer.cancel() if it is not then print something
-  /// if _timer is equal to null just print something
+  /// running to false
+  /// notRunning to true
+  /// then check if the timer is not null
+  /// if timer is active, then cancel the timer
+  /// then color the button
   void pauseTimer() {
     running = false;
     notRunning = true;
@@ -441,10 +438,13 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   /// function for reset timer
   ///
   /// here I am just setting the state
-  /// isPaused to false,
-  /// currentSeconds to zero
-  /// and pausedTime to zero
+  /// running to false
+  /// notRunning to true
+  /// min to 0
+  /// sec to 0
   /// then canceling the _timer
+  /// then arrange the time again for the initial value
+  /// then color the timer
   void resetTimer() {
     setState(() {
       running = false;
@@ -464,7 +464,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   void didUpdateWidget(IndicatorsOnVideo oldWidget) {
     print('DOLAZIM IZ DIDUPDATEWIDGET ');
     super.didUpdateWidget(oldWidget);
-    if(widget.isOrientationFull) {
+    if (widget.isOrientationFull) {
       pauseTimer();
     } else {
       checkAndArrangeTime();
@@ -508,13 +508,14 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                   goBackToChewie,
                   isFromPortrait,
                   noteClicked,
+                  widget.isOrientationFull,
                   widget.controller,
                   widget.tips,
                   widget.userDocument,
                   widget.userTrainerDocument,
                   _timer)
 
-              /// ISREPS = 1  - ako su vjezbe na time
+              /// isREPS = 1  - ako su vjezbe na time
               : widget.isReps == 1
                   ? timeType(
                       context,
@@ -546,13 +547,13 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                       goBackToChewie,
                       isFromPortrait,
                       noteClicked,
+                      widget.isOrientationFull,
                       widget.controller,
                       widget.tips,
                       widget.userDocument,
                       widget.userTrainerDocument,
                       _timer)
-
-                  /// isReps == 2
+                  /// ako su vjezbe na time i reps
                   : widget.isReps == 2
                       ? repsAndTimeType(
                           context,
@@ -560,7 +561,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                           pauseAndPlayFunction,
                           widget.playNext,
                           widget.playPrevious,
-                          widget.showTimerDialog,
+                          showFancyCustomDialog,
                           playTimer,
                           pauseTimer,
                           resetTimer,
@@ -584,6 +585,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                           goBackToChewie,
                           isFromPortrait,
                           noteClicked,
+                          widget.isOrientationFull,
                           widget.controller,
                           widget.tips,
                           widget.userDocument,
@@ -599,26 +601,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       widget.controller.pause();
     } else {
       widget.controller.play();
-      if (isTimeChoosed) {
-        controllerColor.reverse(
-            from: controllerColor.value == 0.0 ? 1.0 : controllerColor.value);
-      }
-      if (isTimerPaused) {
-        controllerColor.reverse(
-            from: controllerColor.value == 0.0 ? 1.0 : controllerColor.value);
-      }
     }
-  }
-
-  rotateScreen() {
-    Future.delayed(Duration(milliseconds: 400)).then((value) => {
-          MediaQuery.of(context).orientation == Orientation.landscape
-              ? SystemChrome.setPreferredOrientations(
-                  [DeviceOrientation.portraitUp])
-              : SystemChrome.setPreferredOrientations([
-                  DeviceOrientation.landscapeRight,
-                  DeviceOrientation.landscapeLeft,
-                ]),
-        });
   }
 }

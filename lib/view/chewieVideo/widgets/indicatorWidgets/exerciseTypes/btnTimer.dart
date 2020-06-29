@@ -5,13 +5,13 @@ import 'package:attt/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
 int _counter = 0;
-String pause = 'PAUSE TIMER', done = 'DONE', start = 'START TIMER';
+String pause = 'PAUSE TIMER', done = 'DONE', start = 'START TIMER', green = 'green', red = 'red';
 
 class BtnTimer extends StatefulWidget {
   final Timer timer;
   final String colorStatePaused;
   final int index, listLenght;
-  final Function pauseTimer, playTimer, playNext;
+  final Function pauseTimer, playTimer, playNext, resetTimer;
 
   BtnTimer({
     this.colorStatePaused,
@@ -21,6 +21,7 @@ class BtnTimer extends StatefulWidget {
     this.index,
     this.listLenght,
     this.playNext,
+    this.resetTimer,
   });
 
   @override
@@ -36,18 +37,19 @@ class _BtnTimerState extends State<BtnTimer> {
       child: RaisedButton(
         color: widget.timer != null
             ? !widget.timer.isActive
-                ? widget.colorStatePaused == 'green'
+                ? widget.colorStatePaused == green
                     ? Colors.green
                     : MyColors().lightBlack
-                : widget.colorStatePaused == 'red'
+                : widget.colorStatePaused == red
                     ? MyColors().error
                     : MyColors().lightBlack
             : MyColors().lightBlack,
-        child: Text( widget.timer != null
-                  ? !widget.timer.isActive
-                      ? widget.colorStatePaused == 'green' ? done : start
-                      : widget.colorStatePaused == 'red' ? pause : start
-                  : start,
+        child: Text(
+          widget.timer != null
+              ? !widget.timer.isActive
+                  ? widget.colorStatePaused == green ? done : start
+                  : widget.colorStatePaused == red ? pause : start
+              : start,
           style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w600,
@@ -55,10 +57,15 @@ class _BtnTimerState extends State<BtnTimer> {
         ),
         onPressed: () {
           setState(() {});
-          widget.colorStatePaused == 'green' ? widget.playNext() : playBtn();
+          widget.colorStatePaused == green ? doneAfterTime() : playBtn();
         },
       ),
     );
+  }
+
+  doneAfterTime() {
+    widget.playNext();
+    widget.resetTimer();
   }
 
   playBtn() {

@@ -48,6 +48,7 @@ Widget timeType(
   goBackToChewie,
   isFromPortrait,
   noteClicked,
+  isOrientationFull,
   VideoController controller,
   List<dynamic> tips,
   DocumentSnapshot userDocument,
@@ -81,9 +82,10 @@ Widget timeType(
             },
             child: Container(
               width: SizeConfig.blockSizeHorizontal * 83,
-              height:  MediaQuery.of(context).orientation == Orientation.landscape
-                  ? SizeConfig.blockSizeHorizontal * 0
-                  :  SizeConfig.blockSizeVertical * 20,
+              height:
+                  MediaQuery.of(context).orientation == Orientation.landscape
+                      ? SizeConfig.blockSizeHorizontal * 0
+                      : SizeConfig.blockSizeVertical * 20,
             ),
           )
         ],
@@ -140,9 +142,10 @@ Widget timeType(
                 : EmptyContainer(),
             Container(
               width: SizeConfig.blockSizeHorizontal * 95,
-              height:  MediaQuery.of(context).orientation == Orientation.landscape
-                  ? SizeConfig.blockSizeHorizontal * 0
-                  :  SizeConfig.blockSizeVertical * 20,
+              height:
+                  MediaQuery.of(context).orientation == Orientation.landscape
+                      ? SizeConfig.blockSizeHorizontal * 0
+                      : SizeConfig.blockSizeVertical * 20,
               decoration: BoxDecoration(
                 borderRadius: repsDescription != null && repsDescription != ''
                     ? BorderRadius.only(
@@ -159,6 +162,7 @@ Widget timeType(
                   Container(
                       height: SizeConfig.blockSizeVertical * 10,
                       child:
+
                           /// 2 gettera za vrijeme i display
                           timerWidget(context, controller, timerText)),
                   BtnTimer(
@@ -169,6 +173,7 @@ Widget timeType(
                     playTimer: playTimer,
                     timer: timer,
                     playNext: playNext,
+                    resetTimer: resetTimer,
                   ),
                   Container(
                     alignment: Alignment.center,
@@ -197,11 +202,11 @@ Widget timeType(
               width: MediaQuery.of(context).orientation == Orientation.landscape
                   ? SizeConfig.blockSizeHorizontal * 1
                   : SizeConfig.blockSizeHorizontal * 100,
-              margin: EdgeInsets.only(top:
-              MediaQuery.of(context).orientation == Orientation.landscape
-                  ? SizeConfig.blockSizeHorizontal * 0
-                  :
-              SizeConfig.blockSizeVertical * 1.2),
+              margin: EdgeInsets.only(
+                  top: MediaQuery.of(context).orientation ==
+                          Orientation.landscape
+                      ? SizeConfig.blockSizeHorizontal * 0
+                      : SizeConfig.blockSizeVertical * 1.2),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -225,6 +230,7 @@ Widget timeType(
                         width: SizeConfig.blockSizeHorizontal * 10,
                       )
                     :
+
                     /// treba da resetuje timer
                     previousButton(
                         context,
@@ -238,6 +244,7 @@ Widget timeType(
                         context,
                         noteClicked,
                         isFromPortrait,
+                        isOrientationFull,
                         controller,
                         userDocument,
                         userTrainerDocument,
@@ -276,6 +283,7 @@ Widget timeType(
                         width: SizeConfig.blockSizeHorizontal * 10,
                       )
                     :
+
                     /// treba da resetuje timer kad se prebaci
                     nextButton(
                         context,

@@ -67,9 +67,7 @@ class ChewieVideoViewModel {
       ChewieVideoViewModel()
           .updateWorkoutWithNote(trainerID, weekID, workoutID, notes);
     }
-    FocusScope.of(context).requestFocus(new FocusNode());
     Navigator.of(context).pop();
-    ChewieVideoViewModel().checkForOrientationOnBack();
   }
 
   updateUserWithFinishedWorkout(
@@ -183,7 +181,8 @@ class ChewieVideoViewModel {
     );
   }
 
-  Future<List<DocumentSnapshot>> getSeriesName(String trainerID, String weekID, String workoutID, String seriesID) async {
+  Future<List<DocumentSnapshot>> getSeriesName(String trainerID, String weekID,
+      String workoutID, String seriesID) async {
     var firestore = Firestore.instance;
     QuerySnapshot qn = await firestore
         .collection('Trainers')

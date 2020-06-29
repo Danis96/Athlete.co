@@ -12,20 +12,22 @@ class AddNote extends StatefulWidget {
   final int isReps, sets;
   final String name, reps;
   final String workoutID, weekID;
-  AddNote(
-      {Key key,
-      this.weekID,
-      this.workoutID,
-      this.controller,
-      this.userDocument,
-      this.userTrainerDocument,
-      this.index,
-      this.listLenght,
-      this.isReps,
-      this.sets,
-      this.name,
-      this.reps})
-      : super(key: key);
+  bool isOrientationFull;
+  AddNote({
+    Key key,
+    this.weekID,
+    this.workoutID,
+    this.controller,
+    this.userDocument,
+    this.userTrainerDocument,
+    this.index,
+    this.listLenght,
+    this.isReps,
+    this.sets,
+    this.name,
+    this.reps,
+    this.isOrientationFull,
+  }) : super(key: key);
 
   @override
   _AddNoteState createState() => _AddNoteState();
@@ -49,6 +51,7 @@ class _AddNoteState extends State<AddNote> {
         weekID: widget.weekID,
         userDocument: widget.userDocument,
         userTrainerDocument: widget.userTrainerDocument,
+        isOrientationFull: widget.isOrientationFull,
       );
     }
     return _screenView;

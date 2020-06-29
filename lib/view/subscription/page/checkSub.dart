@@ -203,13 +203,6 @@ class _CheckSubscriptionState extends State<CheckSubscription>
   }
 
   Card _buildProductList() {
-//    if (_loading) {
-//      return Card(
-//          color: Colors.transparent,
-//          child: ListTile(
-//              leading: CircularProgressIndicator(),
-//              title: Text('Fetching products...')));
-//    }
     if (!_isAvailable) {
       /// ako nije store available prikazati ovo
       return Card();
@@ -243,9 +236,12 @@ class _CheckSubscriptionState extends State<CheckSubscription>
         previousPurchase != null ? _isPurchased = true : _isPurchased = false;
 
         print(_isPurchased.toString() + 'IS PURCHASE');
+        
+        var names = productDetails.title.split(' ');
 
         return priceContainer(
           '7 DAY FREE TRIAL',
+          names,
           productDetails.price,
           context,
           subscribePressed,

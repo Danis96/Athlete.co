@@ -12,13 +12,15 @@ import 'appBarTitle.dart';
 class CreateScreenView extends StatefulWidget {
   final DocumentSnapshot userDocument, userTrainerDocument;
   final String weekID, workoutID;
-  CreateScreenView(
-      {Key key,
-      this.workoutID,
-      this.weekID,
-      this.userDocument,
-      this.userTrainerDocument})
-      : super(key: key);
+  bool isOrientationFull;
+  CreateScreenView({
+    Key key,
+    this.workoutID,
+    this.weekID,
+    this.userDocument,
+    this.userTrainerDocument,
+    this.isOrientationFull,
+  }) : super(key: key);
 
   @override
   _CreateScreenViewState createState() => _CreateScreenViewState();
@@ -48,12 +50,14 @@ class _CreateScreenViewState extends State<CreateScreenView> {
               finishScreen: false,
             ),
             DoneButton(
-                newNote: newNote,
-                notes: notes,
-                userUID: widget.userDocument.data['userUID'],
-                trainerID: widget.userTrainerDocument.data['trainerID'],
-                weekID: widget.weekID,
-                workoutID: widget.workoutID),
+              newNote: newNote,
+              notes: notes,
+              userUID: widget.userDocument.data['userUID'],
+              trainerID: widget.userTrainerDocument.data['trainerID'],
+              weekID: widget.weekID,
+              workoutID: widget.workoutID,
+              isOrientationFull: widget.isOrientationFull,
+            ),
           ],
         ),
       ),
@@ -64,7 +68,7 @@ class _CreateScreenViewState extends State<CreateScreenView> {
     FocusScope.of(context).requestFocus(new FocusNode());
     Navigator.of(context).pop();
     ChewieVideoViewModel().checkForOrientationOnBack();
-      noteClicked = true;
+    noteClicked = true;
   }
 
   updateNewNote(String note) {

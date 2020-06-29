@@ -8,15 +8,17 @@ import 'package:flutter/material.dart';
 class DoneButton extends StatefulWidget {
   final String newNote, userUID, trainerID, weekID, workoutID;
   final List<dynamic> notes;
-  DoneButton(
-      {Key key,
-      this.newNote,
-      this.notes,
-      this.trainerID,
-      this.userUID,
-      this.weekID,
-      this.workoutID})
-      : super(key: key);
+  bool isOrientationFull;
+  DoneButton({
+    Key key,
+    this.newNote,
+    this.notes,
+    this.trainerID,
+    this.userUID,
+    this.weekID,
+    this.workoutID,
+    this.isOrientationFull,
+  }) : super(key: key);
 
   @override
   _DoneButtonState createState() => _DoneButtonState();
@@ -42,6 +44,7 @@ class _DoneButtonState extends State<DoneButton> {
                 widget.workoutID,
                 context);
             noteClicked = true;
+            widget.isOrientationFull = true;
           });
         },
         child: new Padding(

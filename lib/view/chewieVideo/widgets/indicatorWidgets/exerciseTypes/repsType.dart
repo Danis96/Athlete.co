@@ -43,6 +43,7 @@ Widget repsType(
   goBackToChewie,
   isFromPortrait,
   noteClicked,
+  isOrientationFull,
   VideoController controller,
   List<dynamic> tips,
   DocumentSnapshot userDocument,
@@ -76,9 +77,10 @@ Widget repsType(
             },
             child: Container(
               width: SizeConfig.blockSizeHorizontal * 83,
-              height:  MediaQuery.of(context).orientation == Orientation.landscape
-                  ? SizeConfig.blockSizeHorizontal * 0
-                  :  SizeConfig.blockSizeVertical * 20,
+              height:
+                  MediaQuery.of(context).orientation == Orientation.landscape
+                      ? SizeConfig.blockSizeHorizontal * 0
+                      : SizeConfig.blockSizeVertical * 20,
             ),
           )
         ],
@@ -135,9 +137,10 @@ Widget repsType(
                 : EmptyContainer(),
             Container(
               width: SizeConfig.blockSizeHorizontal * 95,
-              height:  MediaQuery.of(context).orientation == Orientation.landscape
-                  ? SizeConfig.blockSizeHorizontal * 0
-                  :  SizeConfig.blockSizeVertical * 20,
+              height:
+                  MediaQuery.of(context).orientation == Orientation.landscape
+                      ? SizeConfig.blockSizeHorizontal * 0
+                      : SizeConfig.blockSizeVertical * 20,
               decoration: BoxDecoration(
                 borderRadius: repsDescription != null && repsDescription != ''
                     ? BorderRadius.only(
@@ -151,9 +154,10 @@ Widget repsType(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   Container(
-                    height:  MediaQuery.of(context).orientation == Orientation.landscape
+                    height: MediaQuery.of(context).orientation ==
+                            Orientation.landscape
                         ? SizeConfig.blockSizeHorizontal * 0
-                        :  SizeConfig.blockSizeVertical * 10,
+                        : SizeConfig.blockSizeVertical * 10,
                     child: repsWidget(
                       context,
                       isReps,
@@ -162,12 +166,14 @@ Widget repsType(
                     ),
                   ),
                   Container(
-                    width:  MediaQuery.of(context).orientation == Orientation.landscape
+                    width: MediaQuery.of(context).orientation ==
+                            Orientation.landscape
                         ? SizeConfig.blockSizeHorizontal * 1
-                        :  SizeConfig.blockSizeHorizontal * 60,
-                    height:  MediaQuery.of(context).orientation == Orientation.landscape
+                        : SizeConfig.blockSizeHorizontal * 60,
+                    height: MediaQuery.of(context).orientation ==
+                            Orientation.landscape
                         ? SizeConfig.blockSizeHorizontal * 1
-                        :  SizeConfig.blockSizeVertical * 5,
+                        : SizeConfig.blockSizeVertical * 5,
                     child: RaisedButton(
                       color: MyColors().lightBlack,
                       child: Text(
@@ -195,11 +201,11 @@ Widget repsType(
               width: MediaQuery.of(context).orientation == Orientation.landscape
                   ? SizeConfig.blockSizeHorizontal * 1
                   : SizeConfig.blockSizeHorizontal * 100,
-              margin: EdgeInsets.only(top:
-              MediaQuery.of(context).orientation == Orientation.landscape
-                  ? SizeConfig.blockSizeHorizontal * 0
-                  :
-              SizeConfig.blockSizeVertical * 1.2),
+              margin: EdgeInsets.only(
+                  top: MediaQuery.of(context).orientation ==
+                          Orientation.landscape
+                      ? SizeConfig.blockSizeHorizontal * 0
+                      : SizeConfig.blockSizeVertical * 1.2),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
@@ -234,6 +240,7 @@ Widget repsType(
                         context,
                         noteClicked,
                         isFromPortrait,
+                        isOrientationFull,
                         controller,
                         userDocument,
                         userTrainerDocument,

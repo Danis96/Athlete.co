@@ -1,10 +1,9 @@
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/size_config.dart';
-import 'package:attt/view/subscription/page/widgets/freeTrial.dart';
 import 'package:flutter/material.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
-Widget priceContainer(String type, price, BuildContext context,
+Widget priceContainer(String type, var names, price, BuildContext context,
     Function onSubscribe, ProductDetails productDetails) {
   return GestureDetector(
     onTap: () => onSubscribe(productDetails),
@@ -38,7 +37,12 @@ Widget priceContainer(String type, price, BuildContext context,
               alignment: Alignment.centerLeft,
               width: SizeConfig.blockSizeHorizontal * 100,
               child: Text(
-                'then only '.toUpperCase() + price,
+                'then only '.toUpperCase() +
+                    price +
+                    ' for ' +
+                    names[0] +
+                    ' ' +
+                    names[1],
                 style: TextStyle(
                     color: MyColors().lightWhite,
                     fontWeight: FontWeight.w500,
