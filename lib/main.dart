@@ -26,7 +26,6 @@ class Athlete extends StatelessWidget  {
       debugShowCheckedModeBanner: false,
       theme: ThemeData.light(),
       home: CustomSplashScreen(),
-
     );
   }
 }

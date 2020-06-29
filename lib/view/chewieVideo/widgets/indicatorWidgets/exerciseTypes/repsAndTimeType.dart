@@ -6,6 +6,7 @@ import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/asManyReps.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/clearButton.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/customTextAnimation.dart';
+import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/exerciseTypes/btnTimer.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/infoIcon.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/nameWidget.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/nextbutton.dart';
@@ -23,7 +24,7 @@ Widget repsAndTimeType(
   pauseAndPlayFunction,
   playNext,
   playPrevious,
-  showTimerDialog,
+  showFancyCustomDialog,
   playTimer,
   pauseTimer,
   resetTimer,
@@ -47,6 +48,7 @@ Widget repsAndTimeType(
   goBackToChewie,
   isFromPortrait,
   noteClicked,
+  isOrientationFull,
   VideoController controller,
   List<dynamic> tips,
   DocumentSnapshot userDocument,
@@ -160,35 +162,23 @@ Widget repsAndTimeType(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-//                  Container(
-//                      height: SizeConfig.blockSizeVertical * 10,
-//                      child: timerWidget(
-//                        context,
-//                        showTimerDialog,
-//                        controller,
-//
-//                      )),
                   Container(
-                    width: SizeConfig.blockSizeHorizontal * 60,
-                    height: SizeConfig.blockSizeVertical * 5,
-                    child: RaisedButton(
-                      color: MyColors().lightBlack,
-                      child: Text(
-                        'start timer'.toUpperCase(),
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                            fontSize: SizeConfig.safeBlockHorizontal * 4),
-                      ),
-                      onPressed: () => null,
-                    ),
+                      height: SizeConfig.blockSizeVertical * 10,
+                      child: timerWidget(context, controller, timerText)),
+                  BtnTimer(
+                    colorStatePaused: colorStatePaused,
+                    index: index,
+                    listLenght: listLenght,
+                    pauseTimer: pauseTimer,
+                    playTimer: playTimer,
+                    timer: timer,
+                    playNext: playNext,
                   ),
                   Container(
                     alignment: Alignment.center,
                     height: SizeConfig.blockSizeVertical * 5,
                     child: FlatButton(
-                      onPressed: () => null,
-//                          showFancyCustomDialog(context),
+                      onPressed: () => showFancyCustomDialog(context),
                       child: Text(
                         'EDIT TIMER',
                         style: TextStyle(
@@ -242,6 +232,7 @@ Widget repsAndTimeType(
                         context,
                         noteClicked,
                         isFromPortrait,
+                        isOrientationFull,
                         controller,
                         userDocument,
                         userTrainerDocument,
