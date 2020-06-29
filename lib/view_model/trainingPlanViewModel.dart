@@ -304,4 +304,5 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
       );
     }
   }
+
 }

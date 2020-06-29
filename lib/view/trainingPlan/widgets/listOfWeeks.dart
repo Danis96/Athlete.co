@@ -42,8 +42,6 @@ Widget listOfWeeks(DocumentSnapshot userDocument,
           shrinkWrap: true,
           itemCount: snapshot.data.length,
           itemBuilder: (BuildContext context, int index) {
-
-
             TrainingPlanViewModel().getFinishedWeeks(weekIDs, snapshot, index);
             TrainingPlanViewModel().deleteUserProgressAndShowAlertDialog(
                 snapshot,

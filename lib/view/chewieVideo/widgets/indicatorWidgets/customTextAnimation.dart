@@ -19,12 +19,12 @@ class MarqueeWidget extends StatefulWidget {
   _MarqueeWidgetState createState() => _MarqueeWidgetState();
 }
 
-class _MarqueeWidgetState extends State<MarqueeWidget> {
+class _MarqueeWidgetState extends State<MarqueeWidget>  {
   ScrollController scrollController;
 
   @override
   void initState() {
-    scrollController = ScrollController(initialScrollOffset: 00.0);
+    scrollController = ScrollController(initialScrollOffset: 00.0, keepScrollOffset: false,);
     WidgetsBinding.instance.addPostFrameCallback(scroll);
     super.initState();
   }
@@ -38,6 +38,7 @@ class _MarqueeWidgetState extends State<MarqueeWidget> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
+//      reverse: ,
       child: widget.child,
       scrollDirection: widget.direction,
       controller: scrollController,

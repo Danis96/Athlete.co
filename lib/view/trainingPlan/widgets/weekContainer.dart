@@ -12,6 +12,13 @@ Widget weekContainer(
     BuildContext context,
     DocumentSnapshot userDocument) {
   SizeConfig().init(context);
+
+  String trainerName = userTrainerDocument.data['trainer_name'];
+  String phase = snapshot.data[index]['phase'].toString();
+  String name1 =
+      snapshot.data[index]['name'].toString().substring(0, 1).toUpperCase();
+  String name2 = snapshot.data[index]['name'].toString().substring(1);
+
   return GestureDetector(
     onTap: () {
       String weekName = snapshot.data[index]['name'];
@@ -40,24 +47,44 @@ Widget weekContainer(
         contentPadding: EdgeInsets.symmetric(
             vertical: SizeConfig.blockSizeVertical * 0.5,
             horizontal: SizeConfig.blockSizeHorizontal * 4),
-        title: Text(
-          userTrainerDocument.data['trainer_name'] +
-              ' ' +
-              'Phase ' +
-              snapshot.data[index]['phase'].toString() +
-              ' ' +
-              snapshot.data[index]['name']
-                  .toString()
-                  .substring(0, 1)
-                  .toUpperCase() +
-              snapshot.data[index]['name'].toString().substring(1),
-          style: TextStyle(
-              color: Colors.white,
-              fontFamily: 'Roboto',
-              fontSize: SizeConfig.blockSizeVertical * 2.5,
-              fontStyle: FontStyle.italic,
-              fontWeight: FontWeight.w500),
-        ),
+        title: RichText(
+            text: TextSpan(
+                text: trainerName,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Roboto',
+                    fontSize: SizeConfig.safeBlockHorizontal * 6,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.w500),
+                children: <TextSpan>[
+              TextSpan(
+                text: phase == null || phase == 'null' ? '' : ' Phase ' + phase,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Roboto',
+                    fontSize: SizeConfig.safeBlockHorizontal * 6,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.w500),
+              ),
+              TextSpan(
+                text: name1 == null || name1 == 'null' ? '\n' : '\n' + name1,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Roboto',
+                    fontSize: SizeConfig.safeBlockHorizontal * 6,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.w500),
+              ),
+              TextSpan(
+                text: name2 == null || name2 == 'null' ? '' : name2,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Roboto',
+                    fontSize: SizeConfig.safeBlockHorizontal * 6,
+                    fontStyle: FontStyle.italic,
+                    fontWeight: FontWeight.w500),
+              )
+            ])),
         subtitle: Text(
           snapshot.data[index].data['numberOfWorkouts'].toString() +
               ' Workouts',

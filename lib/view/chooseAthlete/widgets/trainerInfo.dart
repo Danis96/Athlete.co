@@ -48,7 +48,7 @@ Widget trainerInfo(BuildContext context, String tName, String tPD, String tPN) {
           width: SizeConfig.blockSizeHorizontal * 67,
           padding: EdgeInsets.all(3),
           child: Text(
-            _trainingPlanName.toUpperCase(),
+            _trainingPlanName.replaceAll('\\n', '\n').toUpperCase(),
             style: TextStyle(
                 color: MyColors().white,
                 fontWeight: FontWeight.w500,

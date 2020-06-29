@@ -23,13 +23,28 @@ class SeriesInfoScreen extends StatefulWidget {
   _SeriesInfoScreenState createState() => _SeriesInfoScreenState();
 }
 
-class _SeriesInfoScreenState extends State<SeriesInfoScreen> {
+class _SeriesInfoScreenState extends State<SeriesInfoScreen> with TickerProviderStateMixin {
   List<DocumentSnapshot> seriesDocuments = [];
   DocumentSnapshot seriesDocument;
   String seriesName = '';
+  AnimationController _controller;
+  AnimationController controllerColor;
+  Animation<Offset> _offsetAnimation;
 
   @override
   void initState() {
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 1),
+      vsync: this,
+    )..forward();
+
+    _offsetAnimation = Tween<Offset>(
+      begin: const Offset(0.8, 0.0),
+      end: const Offset(0.0, 0.0),
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeInOut,
+    ));
     super.initState();
     getSeriesName();
   }
@@ -65,56 +80,37 @@ class _SeriesInfoScreenState extends State<SeriesInfoScreen> {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return Scaffold(
-      backgroundColor: MyColors().lightBlack,
-      body: Container(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 0),
-              child: Text(
-                seriesName,
-                style: TextStyle(
-                  fontSize: MediaQuery.of(context).orientation ==
-                      Orientation.landscape
-                      ? SizeConfig.safeBlockHorizontal * 5
-                      : SizeConfig.safeBlockHorizontal * 9.5,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                  fontStyle: FontStyle.normal,
+    return SlideTransition(
+      position: _offsetAnimation,
+      child: Scaffold(
+        backgroundColor: MyColors().lightBlack,
+        body: Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: SizeConfig.blockSizeVertical * 100,
+                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 0),
+                child: Text(
+                  seriesName,
+                  style: TextStyle(
+                    fontSize: MediaQuery.of(context).orientation ==
+                        Orientation.landscape
+                        ? SizeConfig.safeBlockHorizontal * 5
+                        : SizeConfig.safeBlockHorizontal * 9.5,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                    fontStyle: FontStyle.normal,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
               ),
-            ),
-            FutureBuilder(
-                future: WorkoutViewModel().getExercises(
-                    widget.trainerID,
-                    widget.weekID,
-                    widget.workoutID,
-                    widget.seriesID,
-                    source),
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView.builder(
-                        shrinkWrap: true,
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          print('EXERCISES : ' +
-                              snapshot.data[index].data['name']);
-                          String exer = snapshot.data[index].data['name'];
-                          return exerciseName(exer);
-                        });
-                  } else {
-                    return EmptyContainer();
-                  }
-                }),
-
-          ]
+            ]
+          ),
         ),
+        bottomNavigationBar: btnCustom()
       ),
-      bottomNavigationBar: btnCustom()
     );
   }
 }
@@ -145,23 +141,6 @@ Widget btnCustom() {
         ),
       ),
       color: Colors.white,
-    ),
-  );
-}
-
-Widget exerciseName(String exer) {
-  return Container(
-  width: SizeConfig.blockSizeHorizontal * 100,
-    alignment: Alignment.center,
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Text(
-          exer,
-          style: TextStyle(
-              color: Colors.white, fontSize: SizeConfig.safeBlockHorizontal * 4),
-        ),
-      ],
     ),
   );
 }

@@ -7,9 +7,9 @@ Widget setsWidget(BuildContext context, String currentSet, int sets, isReps) {
       currentSet + '/' + sets.toString() + ' Sets',
       style: TextStyle(
           color: Colors.white,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.bold,
           fontStyle: FontStyle.italic,
-          fontSize: SizeConfig.safeBlockHorizontal * 4),
+          fontSize: SizeConfig.safeBlockHorizontal * 5),
     ),
   );
 }

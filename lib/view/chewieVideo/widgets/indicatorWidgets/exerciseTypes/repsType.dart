@@ -50,7 +50,7 @@ Widget repsType(
   userTrainerDocument,
   Timer timer,
 ) {
-  return Column(
+  return MediaQuery.of(context).orientation == Orientation.portrait ?  Column(
     mainAxisSize: MainAxisSize.min,
     children: <Widget>[
       Stack(
@@ -86,8 +86,13 @@ Widget repsType(
         ],
       ),
       Container(
-        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 22),
-        child: MarqueeWidget(
+        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 18),
+        child: name.length > 17 ?
+        MarqueeWidget(
+          direction: Axis.horizontal,
+          animationDuration: Duration(seconds: 1),
+          backDuration: Duration(milliseconds: 500),
+          pauseDuration: Duration(milliseconds: 200),
           child: nameWidget(
             infoClicked,
             goBackToChewie,
@@ -102,6 +107,19 @@ Widget repsType(
             listLenght,
             pauseTimer,
           ),
+        ) :  nameWidget(
+          infoClicked,
+          goBackToChewie,
+          isFromPortrait,
+          context,
+          controller,
+          name,
+          video,
+          tips,
+          isReps,
+          index,
+          listLenght,
+          pauseTimer,
         ),
       ),
       Container(
@@ -111,7 +129,7 @@ Widget repsType(
         margin: EdgeInsets.only(
             top: repsDescription != null && repsDescription != ''
                 ? SizeConfig.blockSizeVertical * 6
-                : SizeConfig.blockSizeVertical * 11.5),
+                : SizeConfig.blockSizeVertical * 7.5),
         child: Column(
           children: <Widget>[
             repsDescription != null && repsDescription != ''
@@ -137,10 +155,8 @@ Widget repsType(
                 : EmptyContainer(),
             Container(
               width: SizeConfig.blockSizeHorizontal * 95,
-              height:
-                  MediaQuery.of(context).orientation == Orientation.landscape
-                      ? SizeConfig.blockSizeHorizontal * 0
-                      : SizeConfig.blockSizeVertical * 20,
+              height: repsDescription != null && repsDescription != ''
+                  ? SizeConfig.blockSizeVertical * 17 : SizeConfig.blockSizeVertical * 20,
               decoration: BoxDecoration(
                 borderRadius: repsDescription != null && repsDescription != ''
                     ? BorderRadius.only(
@@ -170,10 +186,9 @@ Widget repsType(
                             Orientation.landscape
                         ? SizeConfig.blockSizeHorizontal * 1
                         : SizeConfig.blockSizeHorizontal * 60,
-                    height: MediaQuery.of(context).orientation ==
-                            Orientation.landscape
-                        ? SizeConfig.blockSizeHorizontal * 1
-                        : SizeConfig.blockSizeVertical * 5,
+                    height: SizeConfig.blockSizeVertical * 5,
+                    margin: EdgeInsets.only(bottom: repsDescription != null && repsDescription != ''
+                        ? SizeConfig.blockSizeVertical * 1.2 : SizeConfig.blockSizeVertical * 0,),
                     child: RaisedButton(
                       color: MyColors().lightBlack,
                       child: Text(
@@ -290,5 +305,5 @@ Widget repsType(
         ),
       )
     ],
-  );
+  ) : EmptyContainer();
 }
