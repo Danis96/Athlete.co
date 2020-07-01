@@ -6,6 +6,7 @@ import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/sound.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/asManyReps.dart';
+import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/borderUpDown.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/clearButton.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/customTextAnimation.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/exerciseTypes/repsAndTimeType.dart';
@@ -150,13 +151,17 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20.0),
         ),
-        height: 300.0,
-        width: 300.0,
+        height: MediaQuery.of(context).size.width < 400
+            ? SizeConfig.blockSizeVertical * 50
+            : SizeConfig.blockSizeVertical * 40,
+        width: SizeConfig.blockSizeHorizontal * 80,
         child: Stack(
           children: <Widget>[
             Container(
               width: double.infinity,
-              height: 300,
+              height: MediaQuery.of(context).size.width < 400
+                  ? SizeConfig.blockSizeVertical * 50
+                  : SizeConfig.blockSizeHorizontal * 80,
               decoration: BoxDecoration(
                 color: Colors.grey[100],
                 borderRadius: BorderRadius.circular(12.0),
@@ -171,16 +176,23 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Container(
-                        child: NumberPicker.integer(
-                            initialValue: minutes != null ? minutes : 0,
-                            minValue: 0,
-                            maxValue: 59,
-                            onChanged: (val) {
-                              setState(() {
-                                min = val;
-                              });
-                            }),
+                      Stack(
+                        children: <Widget>[
+                          BorderUpDown().focusTimeBorderUp(context),
+                          BorderUpDown().focusTimeBorderDown(context),
+                          Container(
+                            child: NumberPicker.integer(
+                                initialValue: minutes != null ? minutes : 0,
+                                minValue: 0,
+                                maxValue: 59,
+                                highlightSelectedValue: false,
+                                onChanged: (val) {
+                                  setState(() {
+                                    min = val;
+                                  });
+                                }),
+                          ),
+                        ],
                       ),
                       Container(
                         child: Text('minutes'),
@@ -191,16 +203,23 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      Container(
-                        child: NumberPicker.integer(
-                            initialValue: seconds,
-                            minValue: 0,
-                            maxValue: 59,
-                            onChanged: (val) {
-                              setState(() {
-                                sec = val;
-                              });
-                            }),
+                      Stack(
+                        children: <Widget>[
+                          BorderUpDown().focusTimeBorderUp(context),
+                          BorderUpDown().focusTimeBorderDown(context),
+                          Container(
+                            child: NumberPicker.integer(
+                                initialValue: seconds,
+                                minValue: 0,
+                                maxValue: 59,
+                                highlightSelectedValue: false,
+                                onChanged: (val) {
+                                  setState(() {
+                                    sec = val;
+                                  });
+                                }),
+                          ),
+                        ],
                       ),
                       Container(
                         child: Text('seconds'),
@@ -412,7 +431,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
     print('Timer ====>  play: ' + timerMaxSeconds.toString());
   }
 
-
   /// function for pausing the timer
   ///
   /// running to false
@@ -552,8 +570,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                       widget.userDocument,
                       widget.userTrainerDocument,
                       _timer,
-          )
-
+                    )
                   /// ako su vjezbe na time i reps
                   : widget.isReps == 2
                       ? repsAndTimeType(
