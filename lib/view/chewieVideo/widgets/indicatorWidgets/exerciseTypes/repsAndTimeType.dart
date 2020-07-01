@@ -282,16 +282,13 @@ Widget repsAndTimeType(
                     ],
                   ),
                 ),
-                index == (listLenght - 1)
-                    ? SizedBox(
-                        width: SizeConfig.blockSizeHorizontal * 10,
-                      )
-                    : nextButton(
+                nextButton(
                         context,
                         playNext,
                         resetTimer,
                         controller,
-
+                        index,
+                        listLenght,
                       ),
               ],
             ),

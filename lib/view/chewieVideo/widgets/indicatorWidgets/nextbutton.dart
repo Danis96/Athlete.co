@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:video_box/video.controller.dart';
 
 Widget nextButton(
-    BuildContext context, Function  playNext, resetTimer, VideoController vc) {
+    BuildContext context, Function  playNext, resetTimer, VideoController vc, int index, listLenght) {
   return Container(
     height: SizeConfig.blockSizeHorizontal * 12,
     width: SizeConfig.blockSizeHorizontal * 12,
@@ -16,7 +16,8 @@ Widget nextButton(
             resetTimer();
         },
         child: Icon(
-          Icons.arrow_forward,
+          index == (listLenght - 1)
+              ? Icons.check  :  Icons.arrow_forward,
           size: SizeConfig.blockSizeHorizontal * 6,
         ),
       ),

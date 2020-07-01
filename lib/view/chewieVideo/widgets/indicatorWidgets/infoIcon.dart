@@ -1,10 +1,10 @@
 import 'dart:async';
-
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/workout/widgets/info.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:video_box/video.controller.dart';
+
 
 Widget infoIcon(
     bool infoClicked,
@@ -53,13 +53,9 @@ Widget infoIcon(
         },
         child: Center(
           child: FaIcon(FontAwesomeIcons.info,
-          size: SizeConfig.blockSizeHorizontal * 5,
+          size: SizeConfig.blockSizeHorizontal * 4.5,
           ),
         ),
-//        child: Icon(
-//          Icons.info,
-//          size: SizeConfig.blockSizeHorizontal * 10,
-//        ),
       ),
     )),
   );

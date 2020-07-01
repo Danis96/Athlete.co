@@ -128,18 +128,26 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       var exerciseTimeSplit = widget.exerciseTime.split(' ');
       if (exerciseTimeSplit[1] == 'secs') {
         exSecs = exerciseTimeSplit[0];
+        print('EX SECS: ' + exSecs);
         seconds = int.parse(exSecs);
+        minutes = 0;
         print(seconds.toString() + ' EXERCISE TIME IN SECONDS');
-      } else if (exerciseTimeSplit[1] == 'min') {
+      }
+
+      if (exerciseTimeSplit[1] == 'min') {
         exMinutes = exerciseTimeSplit[0];
+        print('EX MINUTES: ' + exMinutes);
         minutes = int.parse(exMinutes);
+        seconds = 0;
         minutesInSec = minutes * 60;
         print(minutesInSec.toString() + ' EXERCISE TIME IN Seconds converted');
       }
     }
-    timerMaxSeconds = minutes != null ? minutesInSec + seconds : seconds;
+    timerMaxSeconds = minutesInSec == null ? seconds : minutesInSec + seconds;
     print('TIMER SECONDS: ' + timerMaxSeconds.toString());
   }
+
+
 
   /// dialog number picker
   void showFancyCustomDialog(BuildContext context) {
@@ -460,13 +468,16 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   /// then arrange the time again for the initial value
   /// then color the timer
   void resetTimer() {
+    print(timerMaxSeconds.toString() + ' TIMER MAX SECONDS before reset');
     setState(() {
       running = false;
       notRunning = true;
       min = 0;
       sec = 0;
-      _timer.cancel();
+      timerMaxSeconds = 0;
+      _timer != null ? _timer.cancel() : print('timer nije aktivan - reset f');
     });
+    print(timerMaxSeconds.toString() + ' TIMER MAX SECONDS after reset');
     checkAndArrangeTime();
     print('Timer ====>  restart');
     colorStatePaused = 'black';
@@ -531,7 +542,6 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                   widget.userTrainerDocument,
                   _timer,
                 )
-
               /// isREPS = 1  - ako su vjezbe na time
               : widget.isReps == 1
                   ? timeType(
@@ -571,6 +581,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                       widget.userTrainerDocument,
                       _timer,
                     )
+
                   /// ako su vjezbe na time i reps
                   : widget.isReps == 2
                       ? repsAndTimeType(
@@ -624,7 +635,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       widget.controller.play();
     }
   }
-
+  
   /// [_onWillPop]
   ///
   /// async funstion that creates an exit dialog for our screen
