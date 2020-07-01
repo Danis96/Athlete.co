@@ -11,11 +11,19 @@ import 'package:flutter/material.dart';
 import 'package:attt/view_model/historyViewModel.dart';
 
 class History extends StatefulWidget {
+  final List<dynamic> finishedWorkouts;
+  final List<dynamic> finishedWeeksWithAthlete;
   final DocumentSnapshot userDocument;
   final DocumentSnapshot userTrainerDocument;
   final String userUID;
+
   const History(
-      {Key key, this.userTrainerDocument, this.userDocument, this.userUID})
+      {Key key,
+      this.finishedWorkouts,
+      this.userDocument,
+      this.userUID,
+      this.finishedWeeksWithAthlete,
+      this.userTrainerDocument})
       : super(key: key);
 
   @override
@@ -23,16 +31,9 @@ class History extends StatefulWidget {
 }
 
 class _HistoryState extends State<History> {
-  List<dynamic> finishedWeeksWithAthlete = [];
-  List<dynamic> finishedWorkouts = [];
-  bool gettingDone = false;
-  DocumentSnapshot currentUserDocument;
-
   @override
   void initState() {
     super.initState();
-    InternetConnectivity().checkForConnectivity();
-    newMethod();
   }
 
   @override
@@ -42,51 +43,36 @@ class _HistoryState extends State<History> {
       backgroundColor: MyColors().lightBlack,
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.only(
-            top: SizeConfig.blockSizeVertical * 8,
-            left: SizeConfig.blockSizeHorizontal * 4.5,
-            right: SizeConfig.blockSizeHorizontal * 4.5,
-          ),
-          child: Column(
+            padding: EdgeInsets.only(
+              top: SizeConfig.blockSizeVertical * 8,
+              left: SizeConfig.blockSizeHorizontal * 4.5,
+              right: SizeConfig.blockSizeHorizontal * 4.5,
+            ),
+            child: Column(
+              children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        SizedBox(
-                          height: 90.0,
-                          width: MediaQuery.of(context).orientation ==
-                                  Orientation.portrait
-                              ? SizeConfig.blockSizeHorizontal * 4.3
-                              : SizeConfig.blockSizeHorizontal * 3.5,
-                        ),
-                        settingsIcon(
-                            widget.userDocument, widget.userUID, context)
-                      ],
+                    SizedBox(
+                      height: 90.0,
+                      width: MediaQuery.of(context).orientation ==
+                              Orientation.portrait
+                          ? SizeConfig.blockSizeHorizontal * 4.3
+                          : SizeConfig.blockSizeHorizontal * 3.5,
                     ),
-                    finishedWorkouts.isEmpty
-                        ? historyEmptyState()
-                        : historyList(
-                            finishedWeeksWithAthlete, finishedWorkouts),
+                    settingsIcon(widget.userDocument, widget.userUID, context)
                   ],
-                )
-        ),
+                ),
+                widget.finishedWorkouts.isEmpty
+                    ? historyEmptyState()
+                    : historyList(widget.finishedWeeksWithAthlete,
+                        widget.finishedWorkouts),
+              ],
+            )),
       ),
       bottomNavigationBar: historyCustomBottomNavigationBar(
           context, widget.userDocument, widget.userTrainerDocument),
     );
-  }
-
-  newMethod() async {
-    List<dynamic> currentUserDocuments = [];
-    currentUserDocuments = await SignInViewModel()
-        .getCurrentUserDocument(widget.userDocument.data['userUID']);
-    setState(() {
-      currentUserDocument = currentUserDocuments[0];
-      finishedWorkouts = currentUserDocument.data['workouts_finished_history'];
-      finishedWeeksWithAthlete =
-          HistoryViewModel().getfinishedWeeksWithAthlete(finishedWorkouts);
-      gettingDone = true;
-    });
   }
 }

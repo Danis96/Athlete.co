@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:attt/view/history/page/checkForState.dart';
 import 'package:attt/view/trainingPlan/widgets/alertDialogTrainingPlanFinished.dart';
 import 'package:attt/interface/trainingPlanInterface.dart';
 import 'package:attt/utils/customScreenAnimation.dart';
@@ -171,7 +172,7 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
     Navigator.push(
         context,
         CardAnimationTween(
-          widget: History(
+          widget: CheckForHistoryState(
             userTrainerDocument: userTrainerDocument,
             userDocument: userDocument,
             userUID: userUIDPref,
