@@ -7,7 +7,7 @@ Widget descriptionText(String description) {
     style: TextStyle(
       color: Color.fromRGBO(255, 255, 255, 0.8),
       fontFamily: 'Roboto',
-      fontSize: SizeConfig.blockSizeVertical * 1.7,
+      fontSize: SizeConfig.safeBlockHorizontal * 4.5,
       fontWeight: FontWeight.w400,
     ),
   );
