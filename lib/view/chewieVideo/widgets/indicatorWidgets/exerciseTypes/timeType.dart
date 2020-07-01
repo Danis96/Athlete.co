@@ -171,8 +171,6 @@ Widget timeType(
                   Container(
                       height: SizeConfig.blockSizeVertical * 10,
                       child:
-
-                          /// 2 gettera za vrijeme i display
                           timerWidget(context, controller, timerText)),
                   BtnTimer(
                     colorStatePaused: colorStatePaused,
@@ -235,12 +233,11 @@ Widget timeType(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 index == 0
-                    ? SizedBox(
+                    ?
+                    SizedBox(
                         width: SizeConfig.blockSizeHorizontal * 10,
                       )
-                    :
-
-                    /// treba da resetuje timer
+                    : /// treba da resetuje timer
                     previousButton(
                         context,
                         playPrevious,
@@ -287,18 +284,14 @@ Widget timeType(
                     ],
                   ),
                 ),
-                index == (listLenght - 1)
-                    ? SizedBox(
-                        width: SizeConfig.blockSizeHorizontal * 10,
-                      )
-                    :
                     /// treba da resetuje timer kad se prebaci
                     nextButton(
                         context,
                         playNext,
                         resetTimer,
                         controller,
-
+                        index,
+                        listLenght
                       ),
               ],
             ),
