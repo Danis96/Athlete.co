@@ -1,12 +1,24 @@
 import 'package:attt/utils/size_config.dart';
+import 'package:attt/view/chooseAthlete/pages/chooseAthlete.dart';
 import 'package:attt/view/subscription/page/widgets/centerText.dart';
 import 'package:attt/view/subscription/page/widgets/headlineCont.dart';
 import 'package:attt/view/subscription/page/widgets/phasesCont.dart';
 import 'package:attt/view/subscription/page/widgets/subText.dart';
 import 'package:attt/view/subscription/page/widgets/textReviews.dart';
+import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-Widget pageOne(PageController pageController) {
+Widget pageOne(
+    PageController pageController,
+    BuildContext context,
+    DocumentSnapshot currentUserDocument,
+    currentUserTrainerDocument,
+    String userName,
+    userPhoto,
+    userUID,
+    userEmail,
+    bool userExist) {
   return Stack(
     children: <Widget>[
       Container(
@@ -24,6 +36,33 @@ Widget pageOne(PageController pageController) {
         width: SizeConfig.blockSizeHorizontal * 100,
         height: SizeConfig.blockSizeVertical * 100,
         color: Colors.indigo.withOpacity(0.7),
+      ),
+      Container(
+        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5),
+        child: RaisedButton(
+            child: Text('GO IN'),
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => userExist
+                    ? currentUserDocument.data['trainer'] != null &&
+                            currentUserDocument.data['trainer'] != ''
+                        ? TrainingPlan(
+                            userTrainerDocument: currentUserTrainerDocument,
+                            userDocument: currentUserDocument,
+                          )
+                        : ChooseAthlete(
+                            userDocument: currentUserDocument,
+                            name: userName,
+                            email: userEmail,
+                            photo: userPhoto,
+                            userUID: userUID,
+                          )
+                    : ChooseAthlete(
+                        userDocument: currentUserDocument,
+                        name: userName,
+                        email: userEmail,
+                        photo: userPhoto,
+                        userUID: userUID,
+                      )))),
       ),
       Container(
         width: SizeConfig.blockSizeHorizontal * 100,
@@ -56,13 +95,13 @@ Widget pageOne(PageController pageController) {
               ' Richard Staudner')),
       Container(
           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 39),
-          child: centerText(ReviewText().text10,
-          '')),
+          child: centerText(ReviewText().text10, '')),
       Container(
           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 72),
           child: Column(
             children: <Widget>[
-              phasesCont(ReviewText().text3, '1.', ' Control your ', 'bodyweight'),
+              phasesCont(
+                  ReviewText().text3, '1.', ' Control your ', 'bodyweight'),
               phasesCont('', '2.', ' Control external ', 'weight'),
               phasesCont('', '3.', ' Control your ', 'opponent'),
             ],

@@ -236,7 +236,7 @@ class _CheckSubscriptionState extends State<CheckSubscription>
         previousPurchase != null ? _isPurchased = true : _isPurchased = false;
 
         print(_isPurchased.toString() + 'IS PURCHASE');
-        
+
         var names = productDetails.title.split(' ');
 
         return priceContainer(
@@ -377,8 +377,15 @@ class _CheckSubscriptionState extends State<CheckSubscription>
                     userUID: widget.userUID,
                   )
             : SubscriptionClass(
+                currentUserDocument: widget.currentUserDocument,
+                currentUserTrainerDocument: widget.currentUserTrainerDocument,
                 buildProductList: _buildProductList(),
                 pageController: _pageController,
+                userName: widget.userName,
+                userEmail: widget.userEmail,
+                userPhoto: widget.userPhoto,
+                userUID: widget.userUID,
+                userExist: widget.userExist,
               )));
   }
 
