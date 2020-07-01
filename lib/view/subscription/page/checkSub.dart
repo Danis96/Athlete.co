@@ -19,6 +19,10 @@ import 'package:in_app_purchase/in_app_purchase.dart';
 
 const bool kAutoConsume = true;
 const String _kConsumableId = 'consumable';
+const String oneMonthID = 'onemonthathlete';
+const String yearID = 'lifetimeathlete';
+String purchaseExist = '';
+List<String> _productIDs = [];
 
 /// id's from Google Play Console
 const List<String> _kProductIds = <String>[
@@ -60,6 +64,8 @@ class _CheckSubscriptionState extends State<CheckSubscription>
   String _queryProductError,
       priceMonthly = '\$19.99',
       priceLifetime = '\$99.99';
+
+  PurchaseDetails previousPurchase;
 
   @override
   void initState() {
@@ -232,10 +238,15 @@ class _CheckSubscriptionState extends State<CheckSubscription>
         /// get previous purchases
         /// then check is that purchases active and
         /// set the [_isPurchased] to accurate value
-        PurchaseDetails previousPurchase = purchases[productDetails.id];
-        previousPurchase != null ? _isPurchased = true : _isPurchased = false;
+        previousPurchase = purchases[productDetails.id];
 
-        print(_isPurchased.toString() + 'IS PURCHASE');
+        purchaseExist = previousPurchase != null
+            ? previousPurchase.productID.toString()
+            : 'annual';
+        print(purchaseExist + ' PURCHASE EXIST');
+
+        _productIDs.add(purchaseExist);
+        print('PRODUCT IDS: ' + _productIDs.toString());
 
         var names = productDetails.title.split(' ');
 
@@ -352,9 +363,12 @@ class _CheckSubscriptionState extends State<CheckSubscription>
   }
 
   onDoneLoading() {
-    print(_isPurchased.toString() + ' IS PURCHASED FROM on done loading');
+    print(purchaseExist + ' IS PURCHASED FROM on done loading');
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (_) => _isPurchased
+        builder: (_) => _productIDs[0].toString() == oneMonthID ||
+                _productIDs[0].toString() == yearID ||
+                _productIDs[1].toString() == oneMonthID ||
+                _productIDs[1].toString() == yearID
             ? widget.userExist
                 ? widget.currentUserDocument.data['trainer'] != null &&
                         widget.currentUserDocument.data['trainer'] != ''
