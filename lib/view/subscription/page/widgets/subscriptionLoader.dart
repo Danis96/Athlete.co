@@ -8,6 +8,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 
 class SubLoader {
+
   Widget subLoaderText() {
     return  Container(
       margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 2),
@@ -19,6 +20,7 @@ class SubLoader {
       ),
     );
   }
+
   Widget subLoader() {
     return  Center(
       child: SpinKitFadingCircle(

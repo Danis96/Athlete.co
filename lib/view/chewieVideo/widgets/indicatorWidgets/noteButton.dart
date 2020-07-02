@@ -58,12 +58,16 @@ Widget noteButton(
               ),
             );
           } else {
-            print('NE MOZE VIŠE PAŠA 2');
+            print('');
           }
         },
-        child: Icon(
-          Icons.comment,
-          size: SizeConfig.blockSizeHorizontal * 5,
+        child: Container(
+          child: Center(
+            child: Icon(
+              Icons.insert_comment,
+              size: SizeConfig.safeBlockHorizontal * 5.5,
+            ),
+          ),
         ),
       ),
     )),

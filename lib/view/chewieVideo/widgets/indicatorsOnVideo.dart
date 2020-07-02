@@ -87,7 +87,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   AnimationController _controller;
   Animation<Offset> _offsetAnimation;
   ScrollController scrollController;
-  bool isOrientation = false;
+  bool isOrientation = false, isInitial = true;
   int _counter = 0;
 
   String exSecs, exMinutes;
@@ -124,6 +124,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
   /// than check is [1] secs or min and by that we
   /// set the time to seconds or minutes
   checkAndArrangeTime() {
+    print('CHECK AND ARRANGE TIME FUNCTION: ');
     if (widget.exerciseTime != null) {
       var exerciseTimeSplit = widget.exerciseTime.split(' ');
       if (exerciseTimeSplit[1] == 'secs') {
@@ -131,10 +132,11 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
         print('EX SECS: ' + exSecs);
         seconds = int.parse(exSecs);
         minutes = 0;
+        minutesInSec = 0;
         print(seconds.toString() + ' EXERCISE TIME IN SECONDS');
       }
 
-      if (exerciseTimeSplit[1] == 'min') {
+      if(exerciseTimeSplit[1] == 'min')  {
         exMinutes = exerciseTimeSplit[0];
         print('EX MINUTES: ' + exMinutes);
         minutes = int.parse(exMinutes);
@@ -144,10 +146,8 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       }
     }
     timerMaxSeconds = minutesInSec == null ? seconds : minutesInSec + seconds;
-    print('TIMER SECONDS: ' + timerMaxSeconds.toString());
+    print('TIMER SECONDS from arrange f:  ' + timerMaxSeconds.toString());
   }
-
-
 
   /// dialog number picker
   void showFancyCustomDialog(BuildContext context) {
@@ -196,6 +196,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                                 highlightSelectedValue: false,
                                 onChanged: (val) {
                                   setState(() {
+                                    isInitial = false;
                                     min = val;
                                   });
                                 }),
@@ -217,12 +218,13 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                           BorderUpDown().focusTimeBorderDown(context),
                           Container(
                             child: NumberPicker.integer(
-                                initialValue: seconds,
+                                initialValue: seconds != null ? seconds : 0,
                                 minValue: 0,
                                 maxValue: 59,
                                 highlightSelectedValue: false,
                                 onChanged: (val) {
                                   setState(() {
+                                    isInitial = false;
                                     sec = val;
                                   });
                                 }),
@@ -296,9 +298,13 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                         onPressed: () {
                           ///  then convert time that is choosen to seconds in [timerMaxSeconds]
                           setState(() {
-                            timerMaxSeconds = min != null || min != 0
-                                ? (min * 60) + sec
-                                : sec;
+                            timerMaxSeconds = isInitial
+                                ? minutes != null || minutes != 0
+                                    ? (minutes * 60) + seconds
+                                    : seconds
+                                : min != null || min != 0
+                                    ? (min * 60) + sec
+                                    : sec;
                           });
                           print(
                               'From DONE: time ' + timerMaxSeconds.toString());
@@ -492,7 +498,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
     if (widget.isOrientationFull) {
       pauseTimer();
     } else {
-      checkAndArrangeTime();
+      isDone ? print('isDone: ' + isDone.toString()) : checkAndArrangeTime();
     }
   }
 
@@ -542,6 +548,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                   widget.userTrainerDocument,
                   _timer,
                 )
+
               /// isREPS = 1  - ako su vjezbe na time
               : widget.isReps == 1
                   ? timeType(
@@ -635,7 +642,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       widget.controller.play();
     }
   }
-  
+
   /// [_onWillPop]
   ///
   /// async funstion that creates an exit dialog for our screen

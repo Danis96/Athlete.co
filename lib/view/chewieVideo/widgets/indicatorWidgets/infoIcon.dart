@@ -39,7 +39,8 @@ Widget infoIcon(
               else
                 isFromPortrait = false;
               Navigator.of(context).push(MaterialPageRoute(
-                builder: (_) => InfoExercise(
+                builder: (_) =>
+                    InfoExercise(
                   vc: controller,
                   exerciseNameForInfo: name,
                   exerciseTips: exTips,
@@ -48,12 +49,14 @@ Widget infoIcon(
               ));
             });
           } else {
-            print('NE MOZE VIŠE PAŠA');
+            print('');
           }
         },
-        child: Center(
-          child: FaIcon(FontAwesomeIcons.info,
-          size: SizeConfig.blockSizeHorizontal * 4.5,
+        child: Container(
+          child: Center(
+            child: FaIcon(FontAwesomeIcons.infoCircle,
+            size: SizeConfig.safeBlockHorizontal * 5.5,
+            ),
           ),
         ),
       ),

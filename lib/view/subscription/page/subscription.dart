@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:attt/utils/colors.dart';
+import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/subscription/page/page1.dart';
 import 'package:attt/view/subscription/page/page3.dart';
@@ -39,32 +42,75 @@ class _SubscriptionClassState extends State<SubscriptionClass> {
 
     SizeConfig().init(context);
 
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Container(
-          decoration: BoxDecoration(color: MyColors().lightBlack),
-          child: PageView(
-            controller: widget.pageController,
-            scrollDirection: Axis.vertical,
-            children: [
-              pageOne(
-                  widget.pageController,
-                  context,
-                  widget.currentUserDocument,
-                  widget.currentUserTrainerDocument,
-                  widget.userName,
-                  widget.userPhoto,
-                  widget.userUID,
-                  widget.userEmail,
-                  widget.userExist),
-              pageTwo(context),
-              pageThree(widget.buildProductList),
-            ],
+    return WillPopScope(
+      onWillPop: () => _onWillPop(),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Container(
+            decoration: BoxDecoration(color: MyColors().lightBlack),
+            child: PageView(
+              controller: widget.pageController,
+              scrollDirection: Axis.vertical,
+              children: [
+                pageOne(
+                    widget.pageController,
+                    context,
+                    widget.currentUserDocument,
+                    widget.currentUserTrainerDocument,
+                    widget.userName,
+                    widget.userPhoto,
+                    widget.userUID,
+                    widget.userEmail,
+                    widget.userExist),
+                pageTwo(context),
+                pageThree(widget.buildProductList),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
+
+  Future<bool> _onWillPop() {
+     return showDialog(
+         context: context,
+       builder: (context) => AlertDialog(
+         backgroundColor: MyColors().lightBlack,
+         title: Text(
+           'Are you sure?',
+           style: TextStyle(color: MyColors().lightWhite),
+         ),
+         content: new Text(
+           'If you press yes, you will exit Athlete.co',
+           style: TextStyle(color: MyColors().lightWhite),
+         ),
+         actions: <Widget>[
+           new FlatButton(
+             onPressed: () {
+               Navigator.pop(context);
+             },
+             child: new Text(
+               'No',
+               style: TextStyle(color: MyColors().lightWhite),
+             ),
+           ),
+           new FlatButton(
+             onPressed: () => exit(0),
+             child: new Text(
+               'Yes',
+               style: TextStyle(color: MyColors().error),
+             ),
+           ),
+         ],
+       )
+     ) ?? true;
+
+
+  }
+
 }
+
+
