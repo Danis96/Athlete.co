@@ -28,6 +28,7 @@ class ChewieVideoViewModel {
 
   updateWorkoutWithNote(String trainerID, String weekID, String workoutID,
       List<String> note) async {
+    isDone = true;
     await Firestore.instance
         .collection('Trainers')
         .document(trainerID)

@@ -1,3 +1,4 @@
+import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:flutter/material.dart';
 import 'package:video_box/video.controller.dart';

@@ -72,8 +72,6 @@ class _CreateScreenViewState extends State<CreateScreenView> {
   }
 
   updateNewNote(String note) {
-    setState(() {
       newNote = note;
-    });
   }
 }

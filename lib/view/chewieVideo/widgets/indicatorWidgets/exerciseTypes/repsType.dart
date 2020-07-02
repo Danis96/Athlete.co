@@ -88,10 +88,10 @@ Widget repsType(
             ),
             Container(
               margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 18),
-              child: name.length > 17
+              child: name.length >= 17
                   ? MarqueeWidget(
                       direction: Axis.horizontal,
-                      animationDuration: Duration(seconds: 1),
+                      animationDuration: Duration(milliseconds: 1500),
                       backDuration: Duration(milliseconds: 500),
                       pauseDuration: Duration(milliseconds: 200),
                       child: nameWidget(
