@@ -211,19 +211,19 @@ class _InfoExerciseState extends State<InfoExercise> {
   /// same goes for tips
   onDone() {
     setState(
-          () {
+      () {
         goBackToChewie
             ? isFromPortrait
-            ? SystemChrome.setPreferredOrientations(
-            [DeviceOrientation.portraitUp])
-            : SystemChrome.setPreferredOrientations(
-            [DeviceOrientation.landscapeRight])
+                ? SystemChrome.setPreferredOrientations(
+                    [DeviceOrientation.portraitUp])
+                : SystemChrome.setPreferredOrientations(
+                    [DeviceOrientation.landscapeRight])
             : print('NIJE SA VIDEA');
       },
     );
     goBackToChewie ? isTips = true : isTips = false;
     setState(
-          () {
+      () {
         infoClicked = true;
       },
     );

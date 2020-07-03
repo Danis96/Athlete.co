@@ -75,7 +75,7 @@ class _WorkoutState extends State<Workout> {
         title: Text(
           widget.weekName + ' ' + widget.workoutName + ' ' + widget.tag,
           style: TextStyle(
-            fontSize: SizeConfig.blockSizeHorizontal * 5,
+            fontSize: SizeConfig.safeBlockHorizontal * 5,
           ),
         ),
         backgroundColor: MyColors().lightBlack,
