@@ -1,5 +1,3 @@
-
-
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/subscription/page/widgets/centerText.dart';
 import 'package:attt/view/subscription/page/widgets/resultCont.dart';
@@ -9,7 +7,7 @@ import 'package:attt/view/subscription/page/widgets/textReviews.dart';
 import 'package:flutter/material.dart';
 
 Widget pageThree(Card buildProductList) {
-   return Stack(
+  return Stack(
     children: <Widget>[
       Container(
         width: SizeConfig.blockSizeHorizontal * 100,
@@ -28,16 +26,16 @@ Widget pageThree(Card buildProductList) {
         color: Colors.indigo.withOpacity(0.7),
       ),
       Container(
-          margin: EdgeInsets.only(
-              top: SizeConfig.blockSizeVertical * 21),
+          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 15),
           child: Column(
             children: <Widget>[
               Container(
-                child: Text(ReviewText().text5, style: TextStyle(
-                    color: Colors.white,
-                    fontSize: SizeConfig.safeBlockHorizontal * 6.0,
-                    fontStyle: FontStyle.normal,
-                    fontWeight: FontWeight.w400) ),
+                child: Text(ReviewText().text5,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: SizeConfig.safeBlockHorizontal * 6.0,
+                        fontStyle: FontStyle.normal,
+                        fontWeight: FontWeight.w400)),
               ),
               Container(
                 alignment: Alignment.centerLeft,
@@ -48,11 +46,9 @@ Widget pageThree(Card buildProductList) {
                 ),
               ),
               Container(
-                child: resultCont(
-                    '', '-', ' Be Stronger, fitter, faster'),
+                child: resultCont('', '-', ' Be Stronger, fitter, faster'),
               ),
-              resultCont(
-                  '', '-', ' Improve power & conditioning'),
+              resultCont('', '-', ' Improve power & conditioning'),
               resultCont('', '-', ' Reduce body fat'),
               resultCont('', '-', ' Increase muscle mass'),
               resultCont('', '-', ' Improve mobility'),
@@ -62,29 +58,24 @@ Widget pageThree(Card buildProductList) {
         children: <Widget>[
           Container(
               padding: EdgeInsets.all(5),
-              margin: EdgeInsets.only(
-                  top: SizeConfig.blockSizeVertical * 48),
+              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 45),
               child: centerText(ReviewText().text7, '')),
-          centerText('ready to ','compete and win'),
+          centerText('ready to ', 'compete and win'),
           textCont(ReviewText().text8),
         ],
       ),
       Container(
-          margin: EdgeInsets.only(
-              bottom: SizeConfig.blockSizeVertical * 1),
+          margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 1),
           alignment: Alignment.bottomCenter,
-          child: buildProductList
-      ),
+          child: buildProductList),
       Container(
-        margin: EdgeInsets.only(
-            top: SizeConfig.blockSizeVertical * 61),
+        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 60),
         child: Column(
           children: <Widget>[
             centerText(ReviewText().text9, ''),
             starsRow(),
             Container(
-                margin: EdgeInsets.only(
-                    top: SizeConfig.blockSizeVertical * 1),
+                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 1),
                 child: centerText('Average Rating 4.7 / 5', '')),
           ],
         ),

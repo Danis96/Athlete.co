@@ -44,25 +44,25 @@ Widget pageOne(
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (_) => userExist
                     ? currentUserDocument.data['trainer'] != null &&
-                            currentUserDocument.data['trainer'] != ''
-                        ? TrainingPlan(
-                            userTrainerDocument: currentUserTrainerDocument,
-                            userDocument: currentUserDocument,
-                          )
-                        : ChooseAthlete(
-                            userDocument: currentUserDocument,
-                            name: userName,
-                            email: userEmail,
-                            photo: userPhoto,
-                            userUID: userUID,
-                          )
+                    currentUserDocument.data['trainer'] != ''
+                    ? TrainingPlan(
+                  userTrainerDocument: currentUserTrainerDocument,
+                  userDocument: currentUserDocument,
+                )
                     : ChooseAthlete(
-                        userDocument: currentUserDocument,
-                        name: userName,
-                        email: userEmail,
-                        photo: userPhoto,
-                        userUID: userUID,
-                      )))),
+                  userDocument: currentUserDocument,
+                  name: userName,
+                  email: userEmail,
+                  photo: userPhoto,
+                  userUID: userUID,
+                )
+                    : ChooseAthlete(
+                  userDocument: currentUserDocument,
+                  name: userName,
+                  email: userEmail,
+                  photo: userPhoto,
+                  userUID: userUID,
+                )))),
       ),
       Container(
         width: SizeConfig.blockSizeHorizontal * 100,
@@ -82,22 +82,22 @@ Widget pageOne(
       ),
       Container(
           margin: EdgeInsets.only(
-              top: SizeConfig.blockSizeVertical * 36,
+              top: SizeConfig.blockSizeVertical * 34,
               left: SizeConfig.blockSizeHorizontal * 2),
           child: headlineStart()),
       Container(
-          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 52),
+          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 48),
           child: subText('Train with UFC athlete and future champion ',
               'Aleksandar Rakic')),
       Container(
-          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 59),
+          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 55),
           child: subText('Program design by world class performance coach',
               ' Richard Staudner')),
       Container(
-          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 39),
+          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 34),
           child: centerText(ReviewText().text10, '')),
       Container(
-          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 72),
+          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 70),
           child: Column(
             children: <Widget>[
               phasesCont(
@@ -109,3 +109,4 @@ Widget pageOne(
     ],
   );
 }
+

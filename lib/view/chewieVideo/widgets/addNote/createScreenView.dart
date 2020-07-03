@@ -1,5 +1,6 @@
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/globals.dart';
+import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/chewieVideo/widgets/addNote/appBarIcon.dart';
 import 'package:attt/view/chewieVideo/widgets/addNote/doneButton.dart';
 import 'package:attt/view/chewieVideo/widgets/addNote/noteTextField.dart';
@@ -33,6 +34,9 @@ class _CreateScreenViewState extends State<CreateScreenView> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
+      resizeToAvoidBottomPadding: false,
+      resizeToAvoidBottomInset: false,
+      backgroundColor: MyColors().lightBlack,
       appBar: new AppBar(
         backgroundColor: MyColors().lightBlack,
         leading: AppBarIcon(
@@ -43,20 +47,26 @@ class _CreateScreenViewState extends State<CreateScreenView> {
       body: new WillPopScope(
         onWillPop: () => _onWillPop(),
         child: new Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             NoteTextField(
               updateNewNote: updateNewNote,
               finishScreen: false,
             ),
-            DoneButton(
-              newNote: newNote,
-              notes: notes,
-              userUID: widget.userDocument.data['userUID'],
-              trainerID: widget.userTrainerDocument.data['trainerID'],
-              weekID: widget.weekID,
-              workoutID: widget.workoutID,
-              isOrientationFull: widget.isOrientationFull,
+            SizedBox(
+              height: SizeConfig.blockSizeVertical * 70,
+            ),
+            Container(
+              width: SizeConfig.blockSizeHorizontal * 90,
+              height: SizeConfig.blockSizeVertical * 5,
+              child: DoneButton(
+                newNote: newNote,
+                notes: notes,
+                userUID: widget.userDocument.data['userUID'],
+                trainerID: widget.userTrainerDocument.data['trainerID'],
+                weekID: widget.weekID,
+                workoutID: widget.workoutID,
+                isOrientationFull: widget.isOrientationFull,
+              ),
             ),
           ],
         ),
