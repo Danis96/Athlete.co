@@ -1,11 +1,8 @@
-
-
-
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:flutter/material.dart';
 
-Widget reviews(String name, review) {
+Widget reviews(String name, review, BuildContext context) {
   return Container(
     child: Column(
       mainAxisSize: MainAxisSize.min,
@@ -16,15 +13,22 @@ Widget reviews(String name, review) {
           child: Text(
             name,
             style: TextStyle(
-                color: Colors.amber,
-                fontSize: SizeConfig.safeBlockHorizontal * 6),
+              color: Colors.amber,
+              fontSize: MediaQuery.of(context).size.width > 600
+                  ? SizeConfig.safeBlockHorizontal * 5.0
+                  : SizeConfig.safeBlockHorizontal * 6.0,
+            ),
           ),
         ),
         Container(
           padding: EdgeInsets.all(4),
-          child: Text(
-              review,
-              style: TextStyle(color: MyColors().lightWhite, fontSize: SizeConfig.safeBlockHorizontal * 4)),
+          child: Text(review,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: MediaQuery.of(context).size.width > 600
+                    ? SizeConfig.safeBlockHorizontal * 3.5
+                    : SizeConfig.safeBlockHorizontal * 4.0,
+              )),
         ),
       ],
     ),

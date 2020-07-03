@@ -50,9 +50,11 @@ class _InfoExerciseState extends State<InfoExercise> {
     return Scaffold(
       backgroundColor: MyColors().black,
       body: WillPopScope(
-        onWillPop: () => _onWillPop(),
-        child: MediaQuery.of(context).orientation == Orientation.portrait
-            ? ListView(
+          onWillPop: () => _onWillPop(),
+          child: MediaQuery.of(context).orientation == Orientation.portrait
+              ? Column(
+            children: <Widget>[
+              ListView(
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
                 children: <Widget>[
@@ -99,14 +101,14 @@ class _InfoExerciseState extends State<InfoExercise> {
                                     children: <Widget>[
                                       Container(
                                         margin: EdgeInsets.only(
-                                            left:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    2),
+                                            left: SizeConfig
+                                                .blockSizeHorizontal *
+                                                2),
                                         child: IconButton(
                                           color: MyColors().white,
-                                          iconSize:
-                                              SizeConfig.blockSizeHorizontal *
-                                                  6,
+                                          iconSize: SizeConfig
+                                              .blockSizeHorizontal *
+                                              6,
                                           icon: Icon(Icons.clear),
                                           onPressed: () => onDone(),
                                         ),
@@ -115,7 +117,7 @@ class _InfoExerciseState extends State<InfoExercise> {
                                         child: Container(
                                           margin: EdgeInsets.only(
                                               left: SizeConfig
-                                                      .blockSizeHorizontal *
+                                                  .blockSizeHorizontal *
                                                   2),
                                           child: Text(
                                             widget.exerciseNameForInfo,
@@ -123,10 +125,12 @@ class _InfoExerciseState extends State<InfoExercise> {
                                             style: TextStyle(
                                                 color: MyColors().white,
                                                 fontSize: SizeConfig
-                                                        .safeBlockHorizontal *
+                                                    .safeBlockHorizontal *
                                                     6.5,
-                                                fontWeight: FontWeight.bold,
-                                                fontStyle: FontStyle.italic),
+                                                fontWeight:
+                                                FontWeight.bold,
+                                                fontStyle:
+                                                FontStyle.italic),
                                           ),
                                         ),
                                       )
@@ -134,51 +138,36 @@ class _InfoExerciseState extends State<InfoExercise> {
                                   ),
                                 ),
                                 Container(
-                                  height: SizeConfig.blockSizeVertical * 22,
+                                  height:
+                                  SizeConfig.blockSizeVertical * 42,
                                   padding: EdgeInsets.only(
-                                      top: SizeConfig.blockSizeVertical * 2.5),
+                                      top: SizeConfig.blockSizeVertical *
+                                          2.5),
                                   child: ListView.builder(
                                     shrinkWrap: true,
                                     itemCount: widget.exerciseTips.length,
-                                    itemBuilder:
-                                        (BuildContext context, int index) {
+                                    itemBuilder: (BuildContext context,
+                                        int index) {
                                       return Container(
                                         padding: EdgeInsets.all(5),
                                         margin: EdgeInsets.only(
-                                            bottom:
-                                                SizeConfig.blockSizeVertical *
-                                                    1,
-                                            left:
-                                                SizeConfig.blockSizeHorizontal *
-                                                    5),
+                                            bottom: SizeConfig
+                                                .blockSizeVertical *
+                                                1,
+                                            left: SizeConfig
+                                                .blockSizeHorizontal *
+                                                5),
                                         child: Text(
-                                          widget.exerciseTips[index].toString(),
+                                          widget.exerciseTips[index]
+                                              .toString(),
                                           style: TextStyle(
                                               color: MyColors().white,
                                               fontSize: SizeConfig
-                                                      .safeBlockHorizontal *
+                                                  .safeBlockHorizontal *
                                                   4.5),
                                         ),
                                       );
                                     },
-                                  ),
-                                ),
-                                Container(
-                                  alignment: Alignment.bottomRight,
-                                  margin: EdgeInsets.only(
-                                    top: SizeConfig.blockSizeVertical * 6,
-                                  ),
-                                  child: FlatButton(
-                                    color: MyColors().black,
-                                    onPressed: () => onDone(),
-                                    child: Text(
-                                      'DONE',
-                                      style: TextStyle(
-                                        fontSize:
-                                            SizeConfig.safeBlockHorizontal * 4,
-                                        color: MyColors().white,
-                                      ),
-                                    ),
                                   ),
                                 ),
                               ],
@@ -189,9 +178,31 @@ class _InfoExerciseState extends State<InfoExercise> {
                     ),
                   ),
                 ],
+              ),
+              Expanded(
+                child: Container(
+                  alignment: Alignment.bottomRight,
+                  margin: EdgeInsets.only(
+                    top: SizeConfig.blockSizeVertical * 6,
+                    bottom: SizeConfig.blockSizeVertical * 2,
+                    right: SizeConfig.blockSizeHorizontal * 2,
+                  ),
+                  child: FlatButton(
+                    color: MyColors().black,
+                    onPressed: () => onDone(),
+                    child: Text(
+                      'DONE',
+                      style: TextStyle(
+                        fontSize: SizeConfig.safeBlockHorizontal * 5,
+                        color: MyColors().white,
+                      ),
+                    ),
+                  ),
+                ),
               )
-            : EmptyContainer(),
-      ),
+            ],
+          )
+              : EmptyContainer()),
     );
   }
 

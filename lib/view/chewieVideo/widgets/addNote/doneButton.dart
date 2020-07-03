@@ -47,18 +47,15 @@ class _DoneButtonState extends State<DoneButton> {
             widget.isOrientationFull = true;
           });
         },
-        child: new Padding(
-          padding: EdgeInsets.all(22.0),
-          child: new Text(
-            'DONE',
-            style: new TextStyle(
-                fontStyle: FontStyle.italic,
-                fontSize:
-                    MediaQuery.of(context).orientation == Orientation.portrait
-                        ? SizeConfig.safeBlockHorizontal * 4
-                        : SizeConfig.safeBlockHorizontal * 2.5,
-                fontWeight: FontWeight.w700),
-          ),
+        child: new Text(
+          'DONE',
+          style: new TextStyle(
+              fontStyle: FontStyle.italic,
+              fontSize:
+                  MediaQuery.of(context).orientation == Orientation.portrait
+                      ? SizeConfig.safeBlockHorizontal * 4
+                      : SizeConfig.safeBlockHorizontal * 2.5,
+              fontWeight: FontWeight.w700),
         ),
         color: Colors.white,
       ),
