@@ -151,6 +151,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
 
   /// dialog number picker
   void showFancyCustomDialog(BuildContext context) {
+    isInitial = true;
     Dialog fancyDialog = Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),

@@ -1,3 +1,4 @@
+import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/subscription/page/widgets/resultCont.dart';
@@ -13,20 +14,9 @@ Widget pageTwo(BuildContext context) {
   return Stack(
     children: <Widget>[
       Container(
-        margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 55),
         width: SizeConfig.blockSizeHorizontal * 100,
         height: SizeConfig.blockSizeVertical * 100,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/athlete-logo.png"),
-          ),
-        ),
-        child: Text(''),
-      ),
-      Container(
-        width: SizeConfig.blockSizeHorizontal * 100,
-        height: SizeConfig.blockSizeVertical * 100,
-        color: Colors.indigo.withOpacity(0.7),
+        color: MyColors().lightBlack.withOpacity(0.5),
       ),
       Container(
         margin: EdgeInsets.only(

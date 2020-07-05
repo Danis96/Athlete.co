@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/size_config.dart';
+import 'package:attt/view/subscription/page/page1-2.dart';
 import 'package:attt/view/subscription/page/page1.dart';
 import 'package:attt/view/subscription/page/page3.dart';
 import 'package:attt/view/subscription/page/page2.dart';
