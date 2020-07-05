@@ -1,3 +1,4 @@
+import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/chooseAthlete/pages/chooseAthlete.dart';
 import 'package:attt/view/subscription/page/widgets/centerText.dart';
@@ -35,8 +36,9 @@ Widget pageOne(
       Container(
         width: SizeConfig.blockSizeHorizontal * 100,
         height: SizeConfig.blockSizeVertical * 100,
-        color: Colors.indigo.withOpacity(0.7),
+        color: MyColors().lightBlack.withOpacity(0.5),
       ),
+/// GO IN BUTTON (comment for apks and release)
       Container(
         margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5),
         child: RaisedButton(
@@ -76,37 +78,40 @@ Widget pageOne(
             onPressed: () => pageController.animateToPage(2,
                 duration: Duration(milliseconds: 1500),
                 curve: Curves.easeInOut),
-            child: Text('Become Athlete'),
+            child: Text('Start Today'),
           ),
         ),
       ),
       Container(
           margin: EdgeInsets.only(
-              top: SizeConfig.blockSizeVertical * 34,
+              top: SizeConfig.blockSizeVertical * 15,
               left: SizeConfig.blockSizeHorizontal * 2),
           child: headlineStart()),
       Container(
-          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 48),
+          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 26),
           child: subText('Train with UFC athlete and future champion ',
               'Aleksandar Rakic')),
       Container(
-          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 55),
-          child: subText('Program design by world class performance coach',
+          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 32),
+          child: subText('Program design by his world class performance coach',
               ' Richard Staudner')),
       Container(
-          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 34),
-          child: centerText(ReviewText().text10, '')),
-      Container(
-          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 70),
-          child: Column(
-            children: <Widget>[
-              phasesCont(
-                  ReviewText().text3, '1.', ' Control your ', 'bodyweight'),
-              phasesCont('', '2.', ' Control external ', 'weight'),
-              phasesCont('', '3.', ' Control your ', 'opponent'),
-            ],
-          )),
+          margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 17),
+          child: centerText('This program include: ', '')),
+      Center(
+        child: Container(
+            margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 41),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                phasesCont(
+                    '', 'Full Program', 'Strength and conditioning for MMA', ''),
+                phasesCont('', 'Bodyweight Only', ' At home, no equipment ', ''),
+                phasesCont('', 'Tabata', 'Intense HIIT Conditioning', ''),
+                phasesCont('', 'Fighter Pull Up Program', '', '+ more...'),
+              ],
+            )),
+      ),
     ],
   );
 }
-

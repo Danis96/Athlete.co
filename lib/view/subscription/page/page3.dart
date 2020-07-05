@@ -1,3 +1,4 @@
+import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/subscription/page/widgets/centerText.dart';
 import 'package:attt/view/subscription/page/widgets/resultCont.dart';
@@ -12,18 +13,7 @@ Widget pageThree(Card buildProductList) {
       Container(
         width: SizeConfig.blockSizeHorizontal * 100,
         height: SizeConfig.blockSizeVertical * 100,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/rakic2.jpg"),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Text(''),
-      ),
-      Container(
-        width: SizeConfig.blockSizeHorizontal * 100,
-        height: SizeConfig.blockSizeVertical * 100,
-        color: Colors.indigo.withOpacity(0.7),
+        color: MyColors().lightBlack.withOpacity(0.5),
       ),
       Container(
           margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 15),

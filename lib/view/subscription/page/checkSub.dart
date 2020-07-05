@@ -210,16 +210,31 @@ class _CheckSubscriptionState extends State<CheckSubscription>
 
   Card _buildProductList() {
     if (!_isAvailable) {
+      _productIDs.add('Not available');
       /// ako nije store available prikazati ovo
-      return Card();
+      return Card(
+        color: Colors.transparent,
+        child: Container(
+          height: SizeConfig.blockSizeVertical * 10,
+          child: Center(
+              child: Text(
+                'Not available at the moment',
+                style: TextStyle(
+                    color: MyColors().lightWhite,
+                    fontSize: SizeConfig.safeBlockHorizontal * 6),
+              )),
+        ),
+      );
     }
     List<Widget> productList = <Widget>[];
     if (_notFoundIds.isNotEmpty) {
-      productList.add(ListTile(
-          title: Text('[${_notFoundIds.join(", ")}] not found',
-              style: TextStyle(color: ThemeData.light().errorColor)),
-          subtitle: Text(
-              'This app needs special configuration to run. Please see example/README.md for instructions.')));
+      _productIDs.add('Not available');
+      productList.add(SizedBox(
+        child: Container(
+          child: Text('Not available at the moment'),
+        ),
+        width: 200,
+      ));
     }
 
     // This loading previous purchases code is just a demo. Please do not use this as it is.
@@ -366,7 +381,6 @@ class _CheckSubscriptionState extends State<CheckSubscription>
     print(purchaseExist + ' IS PURCHASED FROM on done loading');
     Navigator.of(context).push(MaterialPageRoute(
         builder: (_) =>
-
                 _productIDs[0].toString() == oneMonthID ||
                 _productIDs[0].toString() == yearID ||
                 _productIDs[1].toString() == oneMonthID ||

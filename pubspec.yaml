@@ -99,7 +99,7 @@ flutter:
     - assets/audio/bel.mp3
     - assets/audio/boxbel.mp3
     - assets/images/rakic.jpg
-    - assets/images/rakic2.jpg
+    - assets/images/splash.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
