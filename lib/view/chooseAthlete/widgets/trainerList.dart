@@ -1,5 +1,6 @@
 import 'package:attt/models/trainerModel.dart';
 import 'package:attt/utils/size_config.dart';
+import 'package:attt/view/subscription/page/widgets/subscriptionLoader.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:attt/view/chooseAthlete/widgets/trainerContainer.dart';
@@ -48,7 +49,7 @@ Widget trainersList(BuildContext context, String name, String photo,
                 });
           } else {
             return Center(
-              child: CircularProgressIndicator(),
+              child: SubLoader().subLoader(),
             );
           }
         }),

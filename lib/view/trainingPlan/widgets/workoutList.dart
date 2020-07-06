@@ -1,3 +1,4 @@
+import 'package:attt/view/subscription/page/widgets/subscriptionLoader.dart';
 import 'package:attt/view/trainingPlan/widgets/workoutContainer.dart';
 import 'package:attt/view_model/trainingPlanViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -47,7 +48,7 @@ Widget listOfWorkouts(
         );
       } else {
         return Center(
-          child: CircularProgressIndicator(),
+          child: SubLoader().subLoader(),
         );
       }
     },
