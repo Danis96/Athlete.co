@@ -1,4 +1,5 @@
 import 'package:attt/utils/globals.dart';
+import 'package:attt/view/subscription/page/widgets/subscriptionLoader.dart';
 import 'package:attt/view/trainingPlan/widgets/weekContainer.dart';
 import 'package:attt/view_model/trainingPlanViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -59,7 +60,7 @@ Widget listOfWeeks(DocumentSnapshot userDocument,
         );
       } else {
         return Center(
-          child: CircularProgressIndicator(),
+          child: SubLoader().subLoader(),
         );
       }
     },

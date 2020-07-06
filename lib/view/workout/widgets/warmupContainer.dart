@@ -4,6 +4,7 @@ import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
+import 'package:attt/view/subscription/page/widgets/subscriptionLoader.dart';
 import 'package:attt/view/workout/widgets/exerciseCard.dart';
 import 'package:attt/view_model/workoutViewModel.dart';
 import 'package:flutter/material.dart';
@@ -148,7 +149,7 @@ class _WarmupContainerState extends State<WarmupContainer> {
                           });
                     } else {
                       return Center(
-                        child: CircularProgressIndicator(),
+                        child: SubLoader().subLoader(),
                       );
                     }
                   }),
