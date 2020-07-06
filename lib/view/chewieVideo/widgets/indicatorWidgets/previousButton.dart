@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:attt/utils/size_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-Widget previousButton(BuildContext context, Function  playPrevious, resetTimer) {
+int _counter = 0;
+
+Widget previousButton(BuildContext context, Function playPrevious, resetTimer) {
   return Container(
     height: SizeConfig.blockSizeHorizontal * 12,
     width: SizeConfig.blockSizeHorizontal * 12,
@@ -11,8 +15,15 @@ Widget previousButton(BuildContext context, Function  playPrevious, resetTimer) 
       color: Colors.white,
       child: InkWell(
         onTap: () {
-          playPrevious();
-          resetTimer();
+          if (_counter == 0) {
+            playPrevious();
+            resetTimer();
+            _counter = 1;
+            Timer(Duration(seconds: 1), () {
+              _counter = 0;
+              print('_counter je opet $_counter');
+            });
+          }
         },
         child: Icon(
           Icons.arrow_back,

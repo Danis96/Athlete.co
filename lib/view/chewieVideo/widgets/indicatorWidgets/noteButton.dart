@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/chewieVideo/widgets/addNote.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:video_box/video.controller.dart';
+
+int _counter = 0;
 
 Widget noteButton(
   BuildContext context,
@@ -30,36 +34,44 @@ Widget noteButton(
       color: Colors.white,
       child: InkWell(
         onTap: () {
-          pauseTimer();
-          if (noteClicked) {
-            noteClicked = false;
-            controller.pause();
-            if (MediaQuery.of(context).orientation == Orientation.portrait)
-              isFromPortrait = true;
-            else
-              isFromPortrait = false;
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                maintainState: true,
-                builder: (_) => AddNote(
-                  controller: controller,
-                  listLenght: listLenght,
-                  userDocument: userDocument,
-                  userTrainerDocument: userTrainerDocument,
-                  index: index,
-                  isReps: isReps,
-                  reps: reps,
-                  sets: sets,
-                  name: name,
-                  workoutID: workoutID,
-                  weekID: weekID,
-                  isOrientationFull: isOrientationFull,
+          if(_counter == 0) {
+            pauseTimer();
+            if (noteClicked) {
+              noteClicked = false;
+              controller.pause();
+              if (MediaQuery.of(context).orientation == Orientation.portrait)
+                isFromPortrait = true;
+              else
+                isFromPortrait = false;
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  maintainState: true,
+                  builder: (_) => AddNote(
+                    controller: controller,
+                    listLenght: listLenght,
+                    userDocument: userDocument,
+                    userTrainerDocument: userTrainerDocument,
+                    index: index,
+                    isReps: isReps,
+                    reps: reps,
+                    sets: sets,
+                    name: name,
+                    workoutID: workoutID,
+                    weekID: weekID,
+                    isOrientationFull: isOrientationFull,
+                  ),
                 ),
-              ),
-            );
-          } else {
-            print('');
+              );
+            } else {
+              print('');
+            }
+            _counter = 1;
+            Timer(Duration(seconds: 1), () {
+               _counter = 0;
+               print('Counter je opet $_counter');
+            });
           }
+
         },
         child: Container(
           child: Center(
