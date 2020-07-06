@@ -69,7 +69,7 @@ class _SigninState extends State<Signin> {
                     }),
               ),
               SizedBox(
-                height: SizeConfig.blockSizeVertical * 19,
+                height: SizeConfig.blockSizeVertical * 16,
               ),
               logo(context),
               SizedBox(
