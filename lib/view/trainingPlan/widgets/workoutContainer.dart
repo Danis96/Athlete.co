@@ -5,6 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 
+import '../../../utils/size_config.dart';
+
 Widget workoutContainer(
     DocumentSnapshot userDocument,
     AsyncSnapshot snapshot2,
@@ -35,7 +37,7 @@ Widget workoutContainer(
       );
     },
     child: Container(
-      margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 1.25),
+      margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 1),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.all(
             Radius.circular(4),
@@ -104,6 +106,7 @@ Widget workoutContainer(
         ),
         enabled: false,
         leading: Container(
+          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 1),
           child: Icon(
             Icons.fitness_center,
             size: SizeConfig.blockSizeVertical * 5,
@@ -115,6 +118,7 @@ Widget workoutContainer(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
+                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 1),
                     child: Icon(
                       Icons.check,
                       size: SizeConfig.blockSizeVertical * 2.5,
@@ -136,10 +140,13 @@ Widget workoutContainer(
             : Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    size: SizeConfig.blockSizeHorizontal * 5,
-                    color: MyColors().white,
+                  Container(
+                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 1),
+                    child: Icon(
+                      Icons.arrow_forward_ios,
+                      size: SizeConfig.blockSizeHorizontal * 5,
+                      color: MyColors().white,
+                    ),
                   ),
                 ],
               ),

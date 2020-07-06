@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:video_box/video.controller.dart';
 
+int _counter = 0;
 
 Widget infoIcon(
     bool infoClicked,
@@ -28,29 +29,37 @@ Widget infoIcon(
       color: Colors.white,
       child: InkWell(
         onTap: () {
-         pauseTimer();
-          if (infoClicked) {
-            Timer(Duration(milliseconds: 800), () {
-              goBackToChewie = true;
-              infoClicked = false;
-              controller.pause();
-              if (MediaQuery.of(context).orientation == Orientation.portrait)
-                isFromPortrait = true;
-              else
-                isFromPortrait = false;
-              Navigator.of(context).push(MaterialPageRoute(
-                builder: (_) =>
-                    InfoExercise(
-                  vc: controller,
-                  exerciseNameForInfo: name,
-                  exerciseTips: exTips,
-                  exerciseVideoForInfo: video,
-                ),
-              ));
+          if(_counter == 0) {
+            pauseTimer();
+            if (infoClicked) {
+              Timer(Duration(milliseconds: 800), () {
+                goBackToChewie = true;
+                infoClicked = false;
+                controller.pause();
+                if (MediaQuery.of(context).orientation == Orientation.portrait)
+                  isFromPortrait = true;
+                else
+                  isFromPortrait = false;
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (_) =>
+                      InfoExercise(
+                        vc: controller,
+                        exerciseNameForInfo: name,
+                        exerciseTips: exTips,
+                        exerciseVideoForInfo: video,
+                      ),
+                ));
+              });
+            } else {
+              print('');
+            }
+            _counter = 1;
+            Timer(Duration(seconds: 1), () {
+               _counter = 0;
+               print('Counter je opet $_counter');
             });
-          } else {
-            print('');
           }
+
         },
         child: Container(
           child: Center(
