@@ -19,6 +19,7 @@ Widget nameWidget(
     VideoController controller,
     String name,
     String video,
+    colorStatePaused,
     List<dynamic> exTips,
     int isReps,
     index,
@@ -29,7 +30,12 @@ Widget nameWidget(
   return GestureDetector(
     onTap: () {
       if(_counter == 0) {
-        pauseTimer();
+        /// ukoliko je timer zavrsen nemoj ga pauzirati
+        if(colorStatePaused == 'green') {
+          print('colorStatePaused = $colorStatePaused');
+        } else {
+          pauseTimer();
+        }
         if (infoClicked) {
           goBackToChewie = true;
           infoClicked = false;

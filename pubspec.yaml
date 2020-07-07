@@ -74,10 +74,10 @@ dev_dependencies:
 flutter_icons:
   ios: true
   android: true
-  image_path_ios: "assets/images/athlete-logo.png"
-  image_path_android: "assets/images/athlete-logo.png"
-  adaptive_icon_background: "assets/images/athlete-logo.png"
-  adaptive_icon_foreground: "assets/images/athlete-logo.png"
+  image_path_ios: "assets/images/splash.png"
+  image_path_android: "assets/images/splash.png"
+  adaptive_icon_background: "assets/images/splash.png"
+  adaptive_icon_foreground: "assets/images/splash.png"
 
 
 # For information on the generic Dart part of this file, see the
@@ -100,7 +100,7 @@ flutter:
     - assets/audio/bel.mp3
     - assets/audio/boxbel.mp3
     - assets/images/rakic.jpg
-    - assets/images/splash.jpg
+    - assets/images/splash.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

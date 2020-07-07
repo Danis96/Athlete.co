@@ -15,12 +15,12 @@ Widget infoIcon(
     VideoController controller,
     String name,
     String video,
+    colorStatePaused,
     List<dynamic> exTips,
     var isReps,
     index,
     listLenght,
-    Function pauseTimer
-    ) {
+    Function pauseTimer) {
   return Container(
     height: SizeConfig.blockSizeHorizontal * 10,
     width: SizeConfig.blockSizeHorizontal * 10,
@@ -29,8 +29,13 @@ Widget infoIcon(
       color: Colors.white,
       child: InkWell(
         onTap: () {
-          if(_counter == 0) {
-            pauseTimer();
+          if (_counter == 0) {
+            /// ukoliko je timer zavrsen nemoj ga pauzirati
+            if(colorStatePaused == 'green') {
+              print('colorStatePaused = $colorStatePaused');
+            } else {
+              pauseTimer();
+            }
             if (infoClicked) {
               Timer(Duration(milliseconds: 800), () {
                 goBackToChewie = true;
@@ -41,13 +46,12 @@ Widget infoIcon(
                 else
                   isFromPortrait = false;
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (_) =>
-                      InfoExercise(
-                        vc: controller,
-                        exerciseNameForInfo: name,
-                        exerciseTips: exTips,
-                        exerciseVideoForInfo: video,
-                      ),
+                  builder: (_) => InfoExercise(
+                    vc: controller,
+                    exerciseNameForInfo: name,
+                    exerciseTips: exTips,
+                    exerciseVideoForInfo: video,
+                  ),
                 ));
               });
             } else {
@@ -55,16 +59,16 @@ Widget infoIcon(
             }
             _counter = 1;
             Timer(Duration(seconds: 1), () {
-               _counter = 0;
-               print('Counter je opet $_counter');
+              _counter = 0;
+              print('Counter je opet $_counter');
             });
           }
-
         },
         child: Container(
           child: Center(
-            child: FaIcon(FontAwesomeIcons.infoCircle,
-            size: SizeConfig.safeBlockHorizontal * 5.5,
+            child: FaIcon(
+              FontAwesomeIcons.infoCircle,
+              size: SizeConfig.safeBlockHorizontal * 5.5,
             ),
           ),
         ),
