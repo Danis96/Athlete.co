@@ -108,6 +108,7 @@ class _ChewieVideoState extends State<ChewieVideo>
         index++;
         isPrevious = true;
       });
+      isFromRepsOnly = false;
       if (listOfBoundarySets.contains(index) && index != source.length - 1) {
         overlayState = Overlay.of(context);
         overlayEntry = OverlayEntry(
@@ -268,7 +269,6 @@ class _ChewieVideoState extends State<ChewieVideo>
                   tips: exerciseTips,
                   video: source[index],
                   exerciseTime: exerciseTime,
-//                  checkTime: checkAndArrangeTime,
                   exSecs: seconds,
                   exMinutes: minutes,
                   isOrientationFull: isOrientationFull),

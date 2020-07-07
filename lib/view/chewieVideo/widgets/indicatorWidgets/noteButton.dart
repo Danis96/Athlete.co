@@ -24,6 +24,7 @@ Widget noteButton(
   String name,
   workoutID,
   weekID,
+  colorStatePaused,
   Function pauseTimer,
 ) {
   return Container(
@@ -35,7 +36,12 @@ Widget noteButton(
       child: InkWell(
         onTap: () {
           if(_counter == 0) {
-            pauseTimer();
+            /// ukoliko je timer zavrsen nemoj ga pauzirati
+            if(colorStatePaused == 'green') {
+              print('colorStatePaused = $colorStatePaused');
+            } else {
+              pauseTimer();
+            }
             if (noteClicked) {
               noteClicked = false;
               controller.pause();

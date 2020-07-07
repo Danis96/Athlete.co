@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/emptyContainer.dart';
+import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/asManyReps.dart';
 import 'package:attt/view/chewieVideo/widgets/indicatorWidgets/clearButton.dart';
@@ -50,6 +51,8 @@ Widget repsType(
   userTrainerDocument,
   Timer timer,
 ) {
+
+  isFromRepsOnly = true;
   return MediaQuery.of(context).orientation == Orientation.portrait
       ? Column(
           mainAxisSize: MainAxisSize.min,
@@ -102,6 +105,7 @@ Widget repsType(
                         controller,
                         name,
                         video,
+                        '',
                         tips,
                         isReps,
                         index,
@@ -117,6 +121,7 @@ Widget repsType(
                       controller,
                       name,
                       video,
+                      '',
                       tips,
                       isReps,
                       index,
@@ -276,6 +281,7 @@ Widget repsType(
                               name,
                               workoutID,
                               weekID,
+                              '',
                               pauseTimer,
                             ),
                             SizedBox(
@@ -289,6 +295,7 @@ Widget repsType(
                               controller,
                               name,
                               video,
+                              '',
                               tips,
                               isReps,
                               index,

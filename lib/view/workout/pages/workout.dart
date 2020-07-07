@@ -157,8 +157,11 @@ class _WorkoutState extends State<Workout> {
                 return EmptyContainer();
               });
         } else {
-          return Center(
-            child: SubLoader().subLoader(),
+          return Container(
+            margin:EdgeInsets.only(top: SizeConfig.blockSizeVertical * 40),
+            child: Center(
+              child: SubLoader().subLoader(),
+            ),
           );
         }
       },

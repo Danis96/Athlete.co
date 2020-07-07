@@ -82,11 +82,6 @@ class _CheckSubscriptionState extends State<CheckSubscription>
     _pageController = PageController();
     print(_isPurchased.toString() + 'IS PURCHASE');
     loading();
-
-    /// not a good choice, but deadline is here
-    Timer(Duration(milliseconds: 800), () {
-      setState(() {});
-    });
     super.initState();
   }
 
@@ -381,10 +376,10 @@ class _CheckSubscriptionState extends State<CheckSubscription>
     print(purchaseExist + ' IS PURCHASED FROM on done loading');
     Navigator.of(context).push(MaterialPageRoute(
         builder: (_) =>
-                _productIDs[0].toString() == oneMonthID ||
-                _productIDs[0].toString() == yearID ||
                 _productIDs[1].toString() == oneMonthID ||
-                _productIDs[1].toString() == yearID
+                _productIDs[1].toString() == yearID ||
+                _productIDs[2].toString() == oneMonthID ||
+                _productIDs[2].toString() == yearID
             ? widget.userExist
                 ? widget.currentUserDocument.data['trainer'] != null &&
                         widget.currentUserDocument.data['trainer'] != ''

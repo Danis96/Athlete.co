@@ -28,7 +28,12 @@ class ChewieVideoViewModel {
 
   updateWorkoutWithNote(String trainerID, String weekID, String workoutID,
       List<String> note) async {
-    isDone = true;
+    if(isFromRepsOnly) {
+      isDone = false;
+      print('Dolazi sa reps type pa je isDone = $isDone');
+    } else {
+      isDone = true;
+    }
     await Firestore.instance
         .collection('Trainers')
         .document(trainerID)

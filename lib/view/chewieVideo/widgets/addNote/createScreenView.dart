@@ -46,26 +46,28 @@ class _CreateScreenViewState extends State<CreateScreenView> {
       ),
       body: new WillPopScope(
         onWillPop: () => _onWillPop(),
-        child: new Column(
+        child: new Stack(
           children: <Widget>[
             NoteTextField(
               updateNewNote: updateNewNote,
               finishScreen: false,
             ),
-            SizedBox(
-              height: SizeConfig.blockSizeVertical * 70,
-            ),
             Container(
-              width: SizeConfig.blockSizeHorizontal * 90,
-              height: SizeConfig.blockSizeVertical * 5,
-              child: DoneButton(
-                newNote: newNote,
-                notes: notes,
-                userUID: widget.userDocument.data['userUID'],
-                trainerID: widget.userTrainerDocument.data['trainerID'],
-                weekID: widget.weekID,
-                workoutID: widget.workoutID,
-                isOrientationFull: widget.isOrientationFull,
+              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 80),
+              width: SizeConfig.blockSizeHorizontal * 100,
+              alignment: Alignment.center,
+              child: Container(
+                width: SizeConfig.blockSizeHorizontal * 90,
+                height: SizeConfig.blockSizeVertical * 5,
+                child: DoneButton(
+                  newNote: newNote,
+                  notes: notes,
+                  userUID: widget.userDocument.data['userUID'],
+                  trainerID: widget.userTrainerDocument.data['trainerID'],
+                  weekID: widget.weekID,
+                  workoutID: widget.workoutID,
+                  isOrientationFull: widget.isOrientationFull,
+                ),
               ),
             ),
           ],

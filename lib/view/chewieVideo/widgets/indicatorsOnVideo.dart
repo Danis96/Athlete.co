@@ -136,7 +136,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
         print(seconds.toString() + ' EXERCISE TIME IN SECONDS');
       }
 
-      if(exerciseTimeSplit[1] == 'min')  {
+      if (exerciseTimeSplit[1] == 'min') {
         exMinutes = exerciseTimeSplit[0];
         print('EX MINUTES: ' + exMinutes);
         minutes = int.parse(exMinutes);
@@ -367,7 +367,11 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
       case AppLifecycleState.inactive:
         print('Inactive');
         setState(() {});
-        pauseTimer();
+        if (colorStatePaused == 'green') {
+          print('colorStatePaused = $colorStatePaused');
+        } else {
+          pauseTimer();
+        }
         break;
 
       /// if app is in background we want to
@@ -497,7 +501,12 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
     print('DOLAZIM IZ DIDUPDATEWIDGET ');
     super.didUpdateWidget(oldWidget);
     if (widget.isOrientationFull) {
-      pauseTimer();
+      /// ukoliko je timer zavrsen nemoj ga pauzirati
+      if(colorStatePaused == 'green') {
+        print('colorStatePaused = $colorStatePaused');
+      } else {
+        pauseTimer();
+      }
     } else {
       isDone ? print('isDone: ' + isDone.toString()) : checkAndArrangeTime();
     }
