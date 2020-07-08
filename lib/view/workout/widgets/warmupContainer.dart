@@ -124,7 +124,6 @@ class _WarmupContainerState extends State<WarmupContainer> {
                       exercises = snapshot.data
                           .map((e) => Exercise.fromDocument(e))
                           .toList();
-
                       return ListView.builder(
                           shrinkWrap: true,
                           physics: NeverScrollableScrollPhysics(),

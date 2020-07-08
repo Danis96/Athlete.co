@@ -97,7 +97,7 @@ Widget pageOneToTwo(BuildContext context, PageController pageController) {
           top: SizeConfig.blockSizeVertical * 52,
           left: SizeConfig.blockSizeHorizontal * 3,
         ),
-        child: resultCont('', '-', ' Fighter Pull Up Program: Increase pull'),
+        child: resultCont('', '-', ' Fighter Pull Up Program: Increase pull\n ups, fast'),
       ),
       Container(
         margin: EdgeInsets.only(
