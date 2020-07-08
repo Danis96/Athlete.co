@@ -6,26 +6,18 @@ import 'package:flutter/material.dart';
 
 Widget headlineStart() {
   return Container(
-    alignment: Alignment.centerLeft,
+    alignment: Alignment.center,
     width: SizeConfig.blockSizeHorizontal * 100,
     child: Column(
       children: <Widget>[
         Text(
-          'Welcome to your new\npersonal best'.toUpperCase(),
+          'Welcome to your\nnew personal best',
+          textAlign: TextAlign.center,
           style: TextStyle(
               color: MyColors().white,
-              fontSize: SizeConfig.safeBlockHorizontal * 6.5,
-              fontStyle: FontStyle.italic,
-              fontWeight: FontWeight.bold),
+              fontSize: SizeConfig.safeBlockHorizontal * 9,
+              fontWeight: FontWeight.w300),
         ),
-        Container(
-          alignment: Alignment.centerLeft,
-          width: SizeConfig.blockSizeHorizontal * 80,
-          child: Divider(
-            thickness: 3.0,
-            color: Colors.amber.withOpacity(0.7),
-          ),
-        )
       ],
     ),
   );

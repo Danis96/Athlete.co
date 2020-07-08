@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 Widget resultCont(String text, number, desc) {
   return Container(
+
     child: Column(
       children: <Widget>[
         text == ''
@@ -19,7 +20,7 @@ Widget resultCont(String text, number, desc) {
           ),
         ),
         Container(
-          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 0.5),
+          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 1.0),
           child: Row(
             children: <Widget>[
               Container(
@@ -30,14 +31,14 @@ Widget resultCont(String text, number, desc) {
                       : Icon(
                     Icons.check,
                     color: Colors.amber,
-                    size: SizeConfig.safeBlockHorizontal * 5,
+                    size: SizeConfig.safeBlockHorizontal * 7,
                   )),
               Container(
                 child: Text(
                   desc,
                   style: TextStyle(
                     color: MyColors().white,
-                    fontSize: SizeConfig.safeBlockHorizontal * 5,
+                    fontSize: SizeConfig.safeBlockHorizontal * 4,
                   ),
                 ),
               ),

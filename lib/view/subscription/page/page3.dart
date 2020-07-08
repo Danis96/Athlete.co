@@ -1,9 +1,6 @@
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/size_config.dart';
-import 'package:attt/view/subscription/page/widgets/centerText.dart';
 import 'package:attt/view/subscription/page/widgets/resultCont.dart';
-import 'package:attt/view/subscription/page/widgets/starRow.dart';
-import 'package:attt/view/subscription/page/widgets/textCont.dart';
 import 'package:attt/view/subscription/page/widgets/textReviews.dart';
 import 'package:flutter/material.dart';
 
@@ -16,24 +13,44 @@ Widget pageThree(Card buildProductList) {
         color: MyColors().lightBlack.withOpacity(0.5),
       ),
       Container(
-          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 15),
+        margin: EdgeInsets.only(
+            top: SizeConfig.blockSizeVertical * 15,
+            left: SizeConfig.blockSizeHorizontal * 3,
+        ),
+        width: SizeConfig.blockSizeHorizontal * 100,
+        child: RichText(
+          text: TextSpan(
+            text: 'Become a well balanced athlete who is ',
+            style: TextStyle(
+                color: MyColors().white,
+                fontSize: SizeConfig.safeBlockHorizontal * 8,
+                fontStyle: FontStyle.normal,
+                fontWeight: FontWeight.w400),
+            children: <TextSpan>[
+              TextSpan(
+                  text: 'ready to compete and win',
+                  style: TextStyle(
+                      fontSize: SizeConfig.safeBlockHorizontal * 8,
+                      fontWeight: FontWeight.bold, color: Colors.white)),
+            ],
+          ),
+        ),
+      ),
+      Container(
+          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 32,
+            left: SizeConfig.blockSizeHorizontal * 3,
+          ),
           child: Column(
             children: <Widget>[
               Container(
+
+                alignment: Alignment.centerLeft,
                 child: Text(ReviewText().text5,
                     style: TextStyle(
                         color: Colors.white,
-                        fontSize: SizeConfig.safeBlockHorizontal * 6.0,
+                        fontSize: SizeConfig.safeBlockHorizontal * 8.0,
                         fontStyle: FontStyle.normal,
                         fontWeight: FontWeight.w400)),
-              ),
-              Container(
-                alignment: Alignment.centerLeft,
-                width: SizeConfig.blockSizeHorizontal * 80,
-                child: Divider(
-                  thickness: 3.0,
-                  color: Colors.amber.withOpacity(0.7),
-                ),
               ),
               Container(
                 child: resultCont('', '-', ' Be Stronger, fitter, faster'),
@@ -44,32 +61,10 @@ Widget pageThree(Card buildProductList) {
               resultCont('', '-', ' Improve mobility'),
             ],
           )),
-      Column(
-        children: <Widget>[
-          Container(
-              padding: EdgeInsets.all(5),
-              margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 45),
-              child: centerText(ReviewText().text7, '')),
-          centerText('ready to ', 'compete and win'),
-          textCont(ReviewText().text8),
-        ],
-      ),
       Container(
           margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 1),
           alignment: Alignment.bottomCenter,
           child: buildProductList),
-      Container(
-        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 60),
-        child: Column(
-          children: <Widget>[
-            centerText(ReviewText().text9, ''),
-            starsRow(),
-            Container(
-                margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 1),
-                child: centerText('Average Rating 4.7 / 5', '')),
-          ],
-        ),
-      ),
     ],
   );
 }
