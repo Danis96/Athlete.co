@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 Widget starIcon() {
   return Container(
     child: Icon(
-      Icons.star_border,
+      Icons.star,
       color: Colors.yellow,
       size: SizeConfig.safeBlockHorizontal * 8,
     ),

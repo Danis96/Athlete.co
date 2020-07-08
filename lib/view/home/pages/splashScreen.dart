@@ -1,6 +1,4 @@
-import 'dart:async';
 import 'package:attt/utils/colors.dart';
-import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/home/pages/signin.dart';
 import 'package:attt/view_model/signInViewModel.dart';

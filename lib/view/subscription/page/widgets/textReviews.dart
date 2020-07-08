@@ -21,7 +21,7 @@ class ReviewText {
   String text3 = 'Expect 3 phases: ';
   String text4 =
       '1. Control your bodyweight\n2. Control external weight\n3. Control your opponent';
-  String text5 = 'Expected results: ';
+  String text5 = 'Results ';
   String text6 =
       '-Be Stronger, fitter, faster\n-Improve power & conditioning\n-Reduce body fat\n-Increase muscle mass\n-Improve mobility';
   String text7 = 'Become a well-balanced athlete who is ';

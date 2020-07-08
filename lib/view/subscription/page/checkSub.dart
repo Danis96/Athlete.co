@@ -206,6 +206,7 @@ class _CheckSubscriptionState extends State<CheckSubscription>
   Card _buildProductList() {
     if (!_isAvailable) {
       _productIDs.add('Not available');
+
       /// ako nije store available prikazati ovo
       return Card(
         color: Colors.transparent,
@@ -213,11 +214,11 @@ class _CheckSubscriptionState extends State<CheckSubscription>
           height: SizeConfig.blockSizeVertical * 10,
           child: Center(
               child: Text(
-                'Not available at the moment',
-                style: TextStyle(
-                    color: MyColors().lightWhite,
-                    fontSize: SizeConfig.safeBlockHorizontal * 6),
-              )),
+            'Not available at the moment',
+            style: TextStyle(
+                color: MyColors().lightWhite,
+                fontSize: SizeConfig.safeBlockHorizontal * 6),
+          )),
         ),
       );
     }
@@ -261,15 +262,15 @@ class _CheckSubscriptionState extends State<CheckSubscription>
         var names = productDetails.title.split(' ');
 
         return priceContainer(
-          '7 DAY FREE TRIAL',
+          '7 Days Free Trial',
           names,
-          productDetails.price,
+          productDetails.price.substring(1),
           context,
           subscribePressed,
           productDetails,
         );
       },
-    ));
+    ).toList().reversed);
 
     return Card(
         color: Colors.transparent,
@@ -375,8 +376,7 @@ class _CheckSubscriptionState extends State<CheckSubscription>
   onDoneLoading() {
     print(purchaseExist + ' IS PURCHASED FROM on done loading');
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (_) =>
-                _productIDs[1].toString() == oneMonthID ||
+        builder: (_) => _productIDs[1].toString() == oneMonthID ||
                 _productIDs[1].toString() == yearID ||
                 _productIDs[2].toString() == oneMonthID ||
                 _productIDs[2].toString() == yearID

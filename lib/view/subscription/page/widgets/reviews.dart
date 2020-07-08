@@ -27,7 +27,7 @@ Widget reviews(String name, review, BuildContext context) {
                 color: Colors.white,
                 fontSize: MediaQuery.of(context).size.width > 600
                     ? SizeConfig.safeBlockHorizontal * 3.5
-                    : SizeConfig.safeBlockHorizontal * 4.0,
+                    : MediaQuery.of(context).size.width < 400 ? SizeConfig.safeBlockHorizontal * 3.5 : SizeConfig.safeBlockHorizontal * 4.0,
               )),
         ),
       ],

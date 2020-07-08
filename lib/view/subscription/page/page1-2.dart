@@ -1,13 +1,10 @@
 import 'package:attt/utils/colors.dart';
-import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/subscription/page/widgets/centerText.dart';
-import 'package:attt/view/subscription/page/widgets/phasesCont.dart';
-import 'package:attt/view/subscription/page/widgets/reviews.dart';
-import 'package:attt/view/subscription/page/widgets/textReviews.dart';
+import 'package:attt/view/subscription/page/widgets/resultCont.dart';
 import 'package:flutter/material.dart';
 
-Widget pageOneToTwo(BuildContext context) {
+Widget pageOneToTwo(BuildContext context, PageController pageController) {
   return Stack(
     children: <Widget>[
       Container(
@@ -16,62 +13,191 @@ Widget pageOneToTwo(BuildContext context) {
         color: MyColors().lightBlack.withOpacity(0.5),
       ),
       Container(
-        margin: EdgeInsets.only(
-          top: SizeConfig.blockSizeVertical * 10,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            Center(
-                child: Container(
-                  child: phasesCont(
-                      '', '', 'New content released every month including: ', ''),
-                )),
-            Center(
-                child: Container(
-                    margin: EdgeInsets.only(
-                      top: SizeConfig.blockSizeVertical * 10,
-                    ),
-                    child: centerText('', 'Kettlebell Workouts'))
+        width: SizeConfig.blockSizeHorizontal * 100,
+        alignment: Alignment.bottomCenter,
+        child: Container(
+          margin: EdgeInsets.only(bottom: SizeConfig.blockSizeVertical * 1),
+          height: SizeConfig.blockSizeHorizontal * 12,
+          width: SizeConfig.blockSizeHorizontal * 90,
+          child: RaisedButton(
+            color: Color.fromRGBO(255, 198, 7, 1.0),
+            onPressed: () => pageController.animateToPage(4,
+                duration: Duration(milliseconds: 1500),
+                curve: Curves.easeInOut),
+            child: Text(
+              'Start Today'.toUpperCase(),
+              style: TextStyle(fontSize: SizeConfig.safeBlockHorizontal * 4),
             ),
-            Center(
-                child: Container(
-                    margin: EdgeInsets.only(
-                      top: SizeConfig.blockSizeVertical * 3,
-                    ),
-                    child: centerText('', 'Barbell Workouts'))),
-            Center(
-                child: Container(
-                    margin: EdgeInsets.only(
-                      top: SizeConfig.blockSizeVertical * 3,
-                    ),
-                    child: centerText('', 'Strong Human'))),
-            Center(
-                child: Container(
-                    margin: EdgeInsets.only(
-                      top: SizeConfig.blockSizeVertical * 3,
-                    ),
-                    child: centerText('', 'Mobility'))),
-            Center(
-                child: Container(
-                    margin: EdgeInsets.only(
-                      top: SizeConfig.blockSizeVertical * 3,
-                    ),child: centerText('', 'Rowing Machine'))),
-            Center(
-                child: Container(
-                    margin: EdgeInsets.only(
-                      top: SizeConfig.blockSizeVertical * 3,
-                    ),child: centerText('', ' Treadmill'))),
-            Center(
-                child: Container(
-                    margin: EdgeInsets.only(
-                      top: SizeConfig.blockSizeVertical * 3,
-                    ),child: centerText('', 'Air Bike / Stationary Bike'))),
-
+          ),
+        ),
+      ),
+      Container(
+        margin: EdgeInsets.only(
+          top: SizeConfig.blockSizeVertical * 16,
+          left: SizeConfig.blockSizeHorizontal * 3,
+        ),
+        child: Text(
+          'What to Expect?',
+          style: TextStyle(
+              color: Colors.white,
+              fontSize: SizeConfig.safeBlockHorizontal * 9),
+        ),
+      ),
+      Column(
+        children: <Widget>[
+          Container(
+              margin: EdgeInsets.only(
+                top: SizeConfig.blockSizeVertical * 23,
+                left: SizeConfig.blockSizeHorizontal * 3,
+              ),
+              child: centerText('Program designed by ', "Aleksandar's", ' world')),
+          Container(
+              margin: EdgeInsets.only(
+                top: SizeConfig.blockSizeVertical * 0,
+                left: SizeConfig.blockSizeHorizontal * 3,
+              ),
+              child: centerText('class performance coach ', "Richard Staudner", '')),
+        ],
+      ),
+      Container(
+        margin: EdgeInsets.only(
+          top: SizeConfig.blockSizeVertical * 31,
+          left: SizeConfig.blockSizeHorizontal * 3,
+        ),
+        child: Text(
+          'Training programs include:',
+          style: TextStyle(color: Colors.white,
+              fontSize: SizeConfig.safeBlockHorizontal * 6
+          ),
+        ),
+      ),
+      Container(
+        margin: EdgeInsets.only(
+          top: SizeConfig.blockSizeVertical * 37,
+          left: SizeConfig.blockSizeHorizontal * 3,
+        ),
+        child: resultCont('', '-', ' Full Program: Strength and Conditioning'),
+      ),
+      Container(
+        margin: EdgeInsets.only(
+          top: SizeConfig.blockSizeVertical * 42,
+          left: SizeConfig.blockSizeHorizontal * 3,
+        ),
+        child: resultCont('', '-', ' Bodyweight only: At home, no equipment'),
+      ),
+      Container(
+        margin: EdgeInsets.only(
+          top: SizeConfig.blockSizeVertical * 47,
+          left: SizeConfig.blockSizeHorizontal * 3,
+        ),
+        child: resultCont('', '-', ' Tabata: Intense HIIT Conditioning'),
+      ),
+      Container(
+        margin: EdgeInsets.only(
+          top: SizeConfig.blockSizeVertical * 52,
+          left: SizeConfig.blockSizeHorizontal * 3,
+        ),
+        child: resultCont('', '-', ' Fighter Pull Up Program: Increase pull'),
+      ),
+      Container(
+        margin: EdgeInsets.only(
+          top: SizeConfig.blockSizeVertical * 57,
+          left: SizeConfig.blockSizeHorizontal * 3,
+        ),
+        child: resultCont('', '-', ' + more...'),
+      ),
+      Container(
+        margin: EdgeInsets.only(
+          top: SizeConfig.blockSizeVertical * 67,
+          left: SizeConfig.blockSizeHorizontal * 3,
+        ),
+        child: Text(
+          'New content released every month including: ',
+          style: TextStyle(color: Colors.white,
+              fontSize: SizeConfig.safeBlockHorizontal * 6
+          ),
+        ),
+      ),
+      Container(
+        margin: EdgeInsets.only(
+          top: SizeConfig.blockSizeVertical * 77,
+          left: SizeConfig.blockSizeHorizontal * 3,
+        ),
+        child: Row(
+          children: <Widget>[
+            Text('Kettlebell ',  style: TextStyle(color: Colors.white,
+                fontSize: SizeConfig.safeBlockHorizontal * 4
+            ),),
+            Text('| Barbell ',  style: TextStyle(color: Colors.white,
+                fontSize: SizeConfig.safeBlockHorizontal * 4
+            ),),
+            Text(' | Cardio ',  style: TextStyle(color: Colors.white,
+                fontSize: SizeConfig.safeBlockHorizontal * 4
+            ),),
+            Text(' | Mobility ',  style: TextStyle(color: Colors.white,
+                fontSize: SizeConfig.safeBlockHorizontal * 4
+            ),),
           ],
         ),
       )
+
+//      Container(
+//        margin: EdgeInsets.only(
+//          top: SizeConfig.blockSizeVertical * 10,
+//        ),
+//        child: Column(
+//          crossAxisAlignment: CrossAxisAlignment.center,
+//          mainAxisSize: MainAxisSize.min,
+//          children: <Widget>[
+//            Center(
+//                child: Container(
+//                  child: phasesCont(
+//                      '', '', 'New content released every month including: ', ''),
+//                )),
+//            Center(
+//                child: Container(
+//                    margin: EdgeInsets.only(
+//                      top: SizeConfig.blockSizeVertical * 10,
+//                    ),
+//                    child: centerText('', 'Kettlebell Workouts'))
+//            ),
+//            Center(
+//                child: Container(
+//                    margin: EdgeInsets.only(
+//                      top: SizeConfig.blockSizeVertical * 3,
+//                    ),
+//                    child: centerText('', 'Barbell Workouts'))),
+//            Center(
+//                child: Container(
+//                    margin: EdgeInsets.only(
+//                      top: SizeConfig.blockSizeVertical * 3,
+//                    ),
+//                    child: centerText('', 'Strong Human'))),
+//            Center(
+//                child: Container(
+//                    margin: EdgeInsets.only(
+//                      top: SizeConfig.blockSizeVertical * 3,
+//                    ),
+//                    child: centerText('', 'Mobility'))),
+//            Center(
+//                child: Container(
+//                    margin: EdgeInsets.only(
+//                      top: SizeConfig.blockSizeVertical * 3,
+//                    ),child: centerText('', 'Rowing Machine'))),
+//            Center(
+//                child: Container(
+//                    margin: EdgeInsets.only(
+//                      top: SizeConfig.blockSizeVertical * 3,
+//                    ),child: centerText('', ' Treadmill'))),
+//            Center(
+//                child: Container(
+//                    margin: EdgeInsets.only(
+//                      top: SizeConfig.blockSizeVertical * 3,
+//                    ),child: centerText('', 'Air Bike / Stationary Bike'))),
+//
+//          ],
+//        ),
+//      )
     ],
   );
 }
