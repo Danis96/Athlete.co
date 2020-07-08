@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:io';
-
 import 'package:attt/interface/subscriptionInterface.dart';
 import 'package:attt/utils/colors.dart';
-import 'package:attt/utils/customScreenAnimation.dart';
 import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/chooseAthlete/pages/chooseAthlete.dart';
@@ -14,7 +12,6 @@ import 'package:attt/view/subscription/page/widgets/subscriptionLoader.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:in_app_purchase/in_app_purchase.dart';
 
 const bool kAutoConsume = true;
@@ -161,6 +158,7 @@ class _CheckSubscriptionState extends State<CheckSubscription>
     final List<Widget> children = <Widget>[storeHeader];
 
     if (!_isAvailable) {
+      _productIDs.add('Not available');
       children.addAll([
         Divider(),
         ListTile(
@@ -376,10 +374,10 @@ class _CheckSubscriptionState extends State<CheckSubscription>
   onDoneLoading() {
     print(purchaseExist + ' IS PURCHASED FROM on done loading');
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (_) => _productIDs[1].toString() == oneMonthID ||
-                _productIDs[1].toString() == yearID ||
-                _productIDs[2].toString() == oneMonthID ||
-                _productIDs[2].toString() == yearID
+        builder: (_) => _productIDs[0].toString() == oneMonthID ||
+                _productIDs[0].toString() == yearID ||
+                _productIDs[1].toString() == oneMonthID ||
+                _productIDs[1].toString() == yearID
             ? widget.userExist
                 ? widget.currentUserDocument.data['trainer'] != null &&
                         widget.currentUserDocument.data['trainer'] != ''
