@@ -101,7 +101,7 @@ Widget pageOneToTwo(BuildContext context, PageController pageController) {
       ),
       Container(
         margin: EdgeInsets.only(
-          top: SizeConfig.blockSizeVertical * 57,
+          top: SizeConfig.blockSizeVertical * 59,
           left: SizeConfig.blockSizeHorizontal * 3,
         ),
         child: resultCont('', '-', ' + more...'),
