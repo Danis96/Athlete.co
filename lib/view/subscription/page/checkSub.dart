@@ -374,10 +374,10 @@ class _CheckSubscriptionState extends State<CheckSubscription>
   onDoneLoading() {
     print(purchaseExist + ' IS PURCHASED FROM on done loading');
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (_) => _productIDs[0].toString() == oneMonthID ||
-                _productIDs[0].toString() == yearID ||
-                _productIDs[1].toString() == oneMonthID ||
-                _productIDs[1].toString() == yearID
+        builder: (_) => _productIDs[1].toString() == oneMonthID ||
+                _productIDs[1].toString() == yearID ||
+                _productIDs[2].toString() == oneMonthID ||
+                _productIDs[2].toString() == yearID
             ? widget.userExist
                 ? widget.currentUserDocument.data['trainer'] != null &&
                         widget.currentUserDocument.data['trainer'] != ''
