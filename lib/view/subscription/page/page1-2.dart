@@ -73,10 +73,10 @@ Widget pageOneToTwo(BuildContext context, PageController pageController) {
       ),
       Container(
         margin: EdgeInsets.only(
-          top: SizeConfig.blockSizeVertical * 37,
+          top: SizeConfig.blockSizeVertical * 36,
           left: SizeConfig.blockSizeHorizontal * 3,
         ),
-        child: resultCont('', '-', ' Full Program: Strength and Conditioning'),
+        child: resultCont('', '-', ' Full Program: Strength and Conditioning\n for MMA'),
       ),
       Container(
         margin: EdgeInsets.only(
@@ -139,65 +139,7 @@ Widget pageOneToTwo(BuildContext context, PageController pageController) {
             ),),
           ],
         ),
-      )
-
-//      Container(
-//        margin: EdgeInsets.only(
-//          top: SizeConfig.blockSizeVertical * 10,
-//        ),
-//        child: Column(
-//          crossAxisAlignment: CrossAxisAlignment.center,
-//          mainAxisSize: MainAxisSize.min,
-//          children: <Widget>[
-//            Center(
-//                child: Container(
-//                  child: phasesCont(
-//                      '', '', 'New content released every month including: ', ''),
-//                )),
-//            Center(
-//                child: Container(
-//                    margin: EdgeInsets.only(
-//                      top: SizeConfig.blockSizeVertical * 10,
-//                    ),
-//                    child: centerText('', 'Kettlebell Workouts'))
-//            ),
-//            Center(
-//                child: Container(
-//                    margin: EdgeInsets.only(
-//                      top: SizeConfig.blockSizeVertical * 3,
-//                    ),
-//                    child: centerText('', 'Barbell Workouts'))),
-//            Center(
-//                child: Container(
-//                    margin: EdgeInsets.only(
-//                      top: SizeConfig.blockSizeVertical * 3,
-//                    ),
-//                    child: centerText('', 'Strong Human'))),
-//            Center(
-//                child: Container(
-//                    margin: EdgeInsets.only(
-//                      top: SizeConfig.blockSizeVertical * 3,
-//                    ),
-//                    child: centerText('', 'Mobility'))),
-//            Center(
-//                child: Container(
-//                    margin: EdgeInsets.only(
-//                      top: SizeConfig.blockSizeVertical * 3,
-//                    ),child: centerText('', 'Rowing Machine'))),
-//            Center(
-//                child: Container(
-//                    margin: EdgeInsets.only(
-//                      top: SizeConfig.blockSizeVertical * 3,
-//                    ),child: centerText('', ' Treadmill'))),
-//            Center(
-//                child: Container(
-//                    margin: EdgeInsets.only(
-//                      top: SizeConfig.blockSizeVertical * 3,
-//                    ),child: centerText('', 'Air Bike / Stationary Bike'))),
-//
-//          ],
-//        ),
-//      )
+      ),
     ],
   );
 }
