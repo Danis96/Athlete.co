@@ -18,11 +18,14 @@ Widget priceContainer(String type, var names, price, BuildContext context,
         ),
         height: SizeConfig.blockSizeVertical * 15,
         child: Padding(
-          padding: EdgeInsets.all(MediaQuery.of(context).size.width < 400 ? 4.0 : 10.0),
+          padding: EdgeInsets.all(
+              MediaQuery.of(context).size.width < 400 ? 4.0 : 10.0),
           child: Column(
             children: [
               Container(
-                padding: EdgeInsets.only(left: 10.0, top: 10.0),
+                padding: EdgeInsets.only(
+                    left: 10.0,
+                    top: checkForTablet(context) ? 5.0 : 10.0),
                 alignment: Alignment.centerLeft,
                 width: SizeConfig.blockSizeHorizontal * 100,
                 child: Text(
@@ -35,7 +38,7 @@ Widget priceContainer(String type, var names, price, BuildContext context,
                 ),
               ),
               Container(
-                padding: EdgeInsets.only(left: 10.0, top: 5),
+                padding: EdgeInsets.only(left: 10.0, top: checkForTablet(context) ? 3 : 5),
                 alignment: Alignment.centerLeft,
                 width: SizeConfig.blockSizeHorizontal * 100,
                 child: Text(
@@ -48,12 +51,11 @@ Widget priceContainer(String type, var names, price, BuildContext context,
                 ),
               ),
               Container(
-                padding: EdgeInsets.only(left: 10.0, top: 1),
+                padding: EdgeInsets.only(left: 10.0, top: 0),
                 alignment: Alignment.centerLeft,
                 width: SizeConfig.blockSizeHorizontal * 100,
                 child: Text(
-                  'then only '.toUpperCase() +
-                     '£' + price,
+                  'then only '.toUpperCase() + '£' + price,
                   style: TextStyle(
                       color: Colors.black,
                       fontWeight: FontWeight.w500,
@@ -66,4 +68,12 @@ Widget priceContainer(String type, var names, price, BuildContext context,
       ),
     ]),
   );
+}
+
+bool checkForTablet(BuildContext context) {
+  if (MediaQuery.of(context).size.width > 600) {
+    return true;
+  } else {
+    return false;
+  }
 }

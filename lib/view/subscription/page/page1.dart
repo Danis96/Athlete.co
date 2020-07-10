@@ -1,7 +1,9 @@
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/size_config.dart';
+import 'package:attt/view/chooseAthlete/pages/chooseAthlete.dart';
 import 'package:attt/view/subscription/page/widgets/headlineCont.dart';
 import 'package:attt/view/subscription/page/widgets/subText.dart';
+import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -35,33 +37,33 @@ Widget pageOne(
       ),
 
       /// GO IN BUTTON (comment for apks and release)
-//      Container(
-//        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5),
-//        child: RaisedButton(
-//            child: Text('GO IN'),
-//            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-//                builder: (_) => userExist
-//                    ? currentUserDocument.data['trainer'] != null &&
-//                    currentUserDocument.data['trainer'] != ''
-//                    ? TrainingPlan(
-//                  userTrainerDocument: currentUserTrainerDocument,
-//                  userDocument: currentUserDocument,
-//                )
-//                    : ChooseAthlete(
-//                  userDocument: currentUserDocument,
-//                  name: userName,
-//                  email: userEmail,
-//                  photo: userPhoto,
-//                  userUID: userUID,
-//                )
-//                    : ChooseAthlete(
-//                  userDocument: currentUserDocument,
-//                  name: userName,
-//                  email: userEmail,
-//                  photo: userPhoto,
-//                  userUID: userUID,
-//                )))),
-//      ),
+      Container(
+        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5),
+        child: RaisedButton(
+            child: Text('GO IN'),
+            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+                builder: (_) => userExist
+                    ? currentUserDocument.data['trainer'] != null &&
+                    currentUserDocument.data['trainer'] != ''
+                    ? TrainingPlan(
+                  userTrainerDocument: currentUserTrainerDocument,
+                  userDocument: currentUserDocument,
+                )
+                    : ChooseAthlete(
+                  userDocument: currentUserDocument,
+                  name: userName,
+                  email: userEmail,
+                  photo: userPhoto,
+                  userUID: userUID,
+                )
+                    : ChooseAthlete(
+                  userDocument: currentUserDocument,
+                  name: userName,
+                  email: userEmail,
+                  photo: userPhoto,
+                  userUID: userUID,
+                )))),
+      ),
       Container(
         width: SizeConfig.blockSizeHorizontal * 100,
         alignment: Alignment.bottomCenter,
