@@ -14,7 +14,7 @@ Widget pageThree(Card buildProductList) {
       ),
       Container(
         margin: EdgeInsets.only(
-            top: SizeConfig.blockSizeVertical * 15,
+            top: SizeConfig.blockSizeVertical * 11,
             left: SizeConfig.blockSizeHorizontal * 3,
         ),
         width: SizeConfig.blockSizeHorizontal * 100,
@@ -37,7 +37,7 @@ Widget pageThree(Card buildProductList) {
         ),
       ),
       Container(
-          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 32,
+          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 30,
             left: SizeConfig.blockSizeHorizontal * 3,
           ),
           child: Column(
