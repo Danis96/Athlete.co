@@ -99,7 +99,7 @@ List<dynamic> finishedWeeks = [];
 ///for manual finishing workout
 bool checked = false;
 
-/// isDone for  handling timer reset after done has update db
+/// isDone for handling timer reset after done has update db
 bool isDone = false;
 
 /// isFromRepsOnly checking from which type of exercise is user coming

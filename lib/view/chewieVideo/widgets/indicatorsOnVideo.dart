@@ -297,6 +297,10 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                       RaisedButton(
                         color: Colors.green,
                         onPressed: () {
+                          if(colorStatePaused == 'green') {
+                             colorStatePaused = 'red';
+                             print(colorStatePaused + 'CSP');
+                          }
                           ///  then convert time that is choosen to seconds in [timerMaxSeconds]
                           setState(() {
                             timerMaxSeconds = isInitial
@@ -531,8 +535,9 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                   pauseAndPlayFunction,
                   widget.playNext,
                   widget.playPrevious,
-                  resetTimer,
                   pauseTimer,
+            resetTimer,
+            checkAndArrangeTime,
                   _counter,
                   widget.index,
                   widget.isReps,
@@ -571,6 +576,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                       playTimer,
                       pauseTimer,
                       resetTimer,
+                      checkAndArrangeTime,
                       _counter,
                       widget.index,
                       widget.isReps,
@@ -611,6 +617,7 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
                           playTimer,
                           pauseTimer,
                           resetTimer,
+            checkAndArrangeTime,
                           _counter,
                           widget.index,
                           widget.isReps,
