@@ -685,3 +685,13 @@ class _IndicatorsOnVideoState extends State<IndicatorsOnVideo>
         true;
   }
 }
+
+/// checking responsive
+bool checkIsIosTablet(BuildContext context) {
+  if (MediaQuery.of(context).size.width > 1000) {
+    return true;
+  } else {
+    return false;
+  }
+}
+

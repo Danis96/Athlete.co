@@ -249,7 +249,7 @@ Widget repsType(
                     ),
                   ),
                   SizedBox(
-                    height: SizeConfig.blockSizeVertical * 2,
+                    height: checkIsIosTablet(context) ? SizeConfig.blockSizeVertical * 1  : SizeConfig.blockSizeVertical * 2,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -324,4 +324,13 @@ Widget repsType(
           ],
         )
       : EmptyContainer();
+}
+
+/// checking responsive
+bool checkIsIosTablet(BuildContext context) {
+  if (MediaQuery.of(context).size.width > 1000) {
+    return true;
+  } else {
+    return false;
+  }
 }

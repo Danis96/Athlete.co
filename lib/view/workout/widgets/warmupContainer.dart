@@ -99,6 +99,7 @@ class _WarmupContainerState extends State<WarmupContainer> {
               }
             }),
         Container(
+          margin: EdgeInsets.only(top: checkIsIosTablet(context) ? SizeConfig.blockSizeVertical * 3 : SizeConfig.blockSizeVertical * 0),
           color: MyColors().black,
           child: custom.ExpansionTile(
             title: Text(
@@ -178,5 +179,14 @@ class _WarmupContainerState extends State<WarmupContainer> {
         });
       }
     }
+  }
+}
+
+/// checking responsive
+bool checkIsIosTablet(BuildContext context) {
+  if (MediaQuery.of(context).size.width > 1000) {
+    return true;
+  } else {
+    return false;
   }
 }

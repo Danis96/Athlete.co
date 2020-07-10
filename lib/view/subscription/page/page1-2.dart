@@ -4,7 +4,7 @@ import 'package:attt/view/subscription/page/widgets/centerText.dart';
 import 'package:attt/view/subscription/page/widgets/resultCont.dart';
 import 'package:flutter/material.dart';
 
-Widget pageOneToTwo(BuildContext context, PageController pageController) {
+Widget pageOneToTwo(BuildContext context, PageController pageController, Function checkIsIosTablet) {
   return Stack(
     children: <Widget>[
       Container(
@@ -33,7 +33,7 @@ Widget pageOneToTwo(BuildContext context, PageController pageController) {
       ),
       Container(
         margin: EdgeInsets.only(
-          top: SizeConfig.blockSizeVertical * 16,
+          top: checkIsIosTablet(context) ? SizeConfig.blockSizeVertical * 11 : SizeConfig.blockSizeVertical * 16,
           left: SizeConfig.blockSizeHorizontal * 3,
         ),
         child: Text(
@@ -47,7 +47,7 @@ Widget pageOneToTwo(BuildContext context, PageController pageController) {
         children: <Widget>[
           Container(
               margin: EdgeInsets.only(
-                top: SizeConfig.blockSizeVertical * 23,
+                top: checkIsIosTablet(context) ? SizeConfig.blockSizeVertical * 20 : SizeConfig.blockSizeVertical * 23,
                 left: SizeConfig.blockSizeHorizontal * 3,
               ),
               child: centerText('Program designed by ', "Aleksandar's", ' world')),
@@ -120,7 +120,7 @@ Widget pageOneToTwo(BuildContext context, PageController pageController) {
       ),
       Container(
         margin: EdgeInsets.only(
-          top: SizeConfig.blockSizeVertical * 77,
+          top: checkIsIosTablet(context) ? SizeConfig.blockSizeVertical * 79 : SizeConfig.blockSizeVertical * 77,
           left: SizeConfig.blockSizeHorizontal * 3,
         ),
         child: Row(

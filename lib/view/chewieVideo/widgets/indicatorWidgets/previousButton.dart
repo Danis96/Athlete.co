@@ -9,8 +9,8 @@ int _counter = 0;
 
 Widget previousButton(BuildContext context, Function playPrevious, resetTimer,  checkAndArrangeTime,) {
   return Container(
-    height: SizeConfig.blockSizeHorizontal * 12,
-    width: SizeConfig.blockSizeHorizontal * 12,
+    height: checkIsIosTablet(context) ? SizeConfig.blockSizeHorizontal * 10  :  SizeConfig.blockSizeHorizontal * 12,
+    width: checkIsIosTablet(context) ? SizeConfig.blockSizeHorizontal * 10  : SizeConfig.blockSizeHorizontal * 12,
     child: ClipOval(
         child: Material(
       color: Colors.white,
@@ -35,4 +35,12 @@ Widget previousButton(BuildContext context, Function playPrevious, resetTimer,  
       ),
     )),
   );
+}
+/// checking responsive
+bool checkIsIosTablet(BuildContext context) {
+  if (MediaQuery.of(context).size.width > 1000) {
+    return true;
+  } else {
+    return false;
+  }
 }

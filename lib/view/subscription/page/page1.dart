@@ -16,7 +16,9 @@ Widget pageOne(
     userPhoto,
     userUID,
     userEmail,
-    bool userExist) {
+    bool userExist,
+    Function checkIsIosTablet,
+    ) {
   return Stack(
     children: <Widget>[
       Container(
@@ -85,15 +87,15 @@ Widget pageOne(
       ),
       Container(
           margin: EdgeInsets.only(
-              top: SizeConfig.blockSizeVertical * 60,
+              top: checkIsIosTablet(context) ? SizeConfig.blockSizeVertical * 50  : SizeConfig.blockSizeVertical * 60,
               left: SizeConfig.blockSizeHorizontal * 2),
           child: headlineStart()),
       Container(
-          margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 74),
+          margin: EdgeInsets.only(top: checkIsIosTablet(context) ? SizeConfig.blockSizeVertical * 68 : SizeConfig.blockSizeVertical * 74),
           child: subText('Train with UFC athlete and future champion\n',
               'Aleksandar Rakic')),
       Container(
-        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 71),
+        margin: EdgeInsets.only(top: checkIsIosTablet(context) ? SizeConfig.blockSizeVertical * 68  : SizeConfig.blockSizeVertical * 71),
         alignment: Alignment.center,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -121,3 +123,5 @@ Widget pageOne(
     ],
   );
 }
+
+

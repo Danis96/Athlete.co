@@ -19,10 +19,19 @@ Widget secondTab(BuildContext context) {
           'History',
           style: TextStyle(
             color: MyColors().white,
-            fontSize: SizeConfig.safeBlockHorizontal * 3.5
+            fontSize: checkIsIosTablet(context) ?  SizeConfig.safeBlockHorizontal * 3  :  SizeConfig.safeBlockHorizontal * 3.5
           ),
         ),
       ],
     ),
   );
+}
+
+/// checking responsive
+bool checkIsIosTablet(BuildContext context) {
+  if (MediaQuery.of(context).size.width > 1000) {
+    return true;
+  } else {
+    return false;
+  }
 }
