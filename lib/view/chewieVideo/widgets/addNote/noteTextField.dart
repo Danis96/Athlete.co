@@ -22,7 +22,7 @@ class _NoteTextFieldState extends State<NoteTextField> {
     return widget.finishScreen == false
         ? Material(
           color: MyColors().lightBlack,
-          child: new TextFormField(
+          child: TextFormField(
             onTap: () => isDone = true,
             enableInteractiveSelection: false,
             onChanged: (input) => widget.updateNewNote(input),

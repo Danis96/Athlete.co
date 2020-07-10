@@ -1,12 +1,13 @@
 import 'dart:async';
 
+import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 int _counter = 0;
 
-Widget previousButton(BuildContext context, Function playPrevious, resetTimer) {
+Widget previousButton(BuildContext context, Function playPrevious, resetTimer,  checkAndArrangeTime,) {
   return Container(
     height: SizeConfig.blockSizeHorizontal * 12,
     width: SizeConfig.blockSizeHorizontal * 12,
@@ -18,6 +19,8 @@ Widget previousButton(BuildContext context, Function playPrevious, resetTimer) {
           if (_counter == 0) {
             playPrevious();
             resetTimer();
+            isDone = false;
+//            checkAndArrangeTime();
             _counter = 1;
             Timer(Duration(seconds: 1), () {
               _counter = 0;

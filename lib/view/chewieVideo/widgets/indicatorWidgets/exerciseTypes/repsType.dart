@@ -26,6 +26,7 @@ Widget repsType(
   playPrevious,
   resetTimer,
   pauseTimer,
+  checkAndArrangeTime,
   int counter,
   index,
   isReps,
@@ -261,6 +262,7 @@ Widget repsType(
                               context,
                               playPrevious,
                               resetTimer,
+                        checkAndArrangeTime,
                             ),
                       Container(
                         child: Row(
@@ -309,6 +311,7 @@ Widget repsType(
                         context,
                         playNext,
                         resetTimer,
+                        checkAndArrangeTime,
                         controller,
                         index,
                         listLenght,

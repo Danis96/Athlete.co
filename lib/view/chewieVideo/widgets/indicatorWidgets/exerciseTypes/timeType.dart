@@ -28,6 +28,7 @@ Widget timeType(
   playTimer,
   pauseTimer,
   resetTimer,
+  checkAndArrangeTime,
   int counter,
   index,
   isReps,
@@ -244,6 +245,7 @@ Widget timeType(
                         context,
                         playPrevious,
                         resetTimer,
+                      checkAndArrangeTime,
                       ),
                 Container(
                   child: Row(
@@ -293,9 +295,10 @@ Widget timeType(
                         context,
                         playNext,
                         resetTimer,
+                        checkAndArrangeTime,
                         controller,
                         index,
-                        listLenght
+                        listLenght,
                       ),
               ],
             ),

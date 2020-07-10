@@ -8,7 +8,7 @@ import 'package:video_box/video.controller.dart';
 int _counter = 0;
 
 Widget nextButton(
-    BuildContext context, Function  playNext, resetTimer, VideoController vc, int index, listLenght) {
+    BuildContext context, Function  playNext, resetTimer, checkAndArrangeTime, VideoController vc, int index, listLenght) {
   return Container(
     height: SizeConfig.blockSizeHorizontal * 12,
     width: SizeConfig.blockSizeHorizontal * 12,
@@ -20,6 +20,8 @@ Widget nextButton(
           if(_counter == 0) {
             playNext();
             resetTimer();
+            isDone = false;
+//            checkAndArrangeTime();
             _counter = 1;
             Timer(Duration(seconds: 1), () {
               _counter = 0;
