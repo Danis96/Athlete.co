@@ -38,34 +38,34 @@ Widget pageOne(
         color: MyColors().lightBlack.withOpacity(0.5),
       ),
 
-      /// GO IN BUTTON (comment for apks and release)
-      Container(
-        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5),
-        child: RaisedButton(
-            child: Text('GO IN'),
-            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (_) => userExist
-                    ? currentUserDocument.data['trainer'] != null &&
-                    currentUserDocument.data['trainer'] != ''
-                    ? TrainingPlan(
-                  userTrainerDocument: currentUserTrainerDocument,
-                  userDocument: currentUserDocument,
-                )
-                    : ChooseAthlete(
-                  userDocument: currentUserDocument,
-                  name: userName,
-                  email: userEmail,
-                  photo: userPhoto,
-                  userUID: userUID,
-                )
-                    : ChooseAthlete(
-                  userDocument: currentUserDocument,
-                  name: userName,
-                  email: userEmail,
-                  photo: userPhoto,
-                  userUID: userUID,
-                )))),
-      ),
+//      /// GO IN BUTTON (comment for apks and release)
+//      Container(
+//        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5),
+//        child: RaisedButton(
+//            child: Text('GO IN'),
+//            onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+//                builder: (_) => userExist
+//                    ? currentUserDocument.data['trainer'] != null &&
+//                    currentUserDocument.data['trainer'] != ''
+//                    ? TrainingPlan(
+//                  userTrainerDocument: currentUserTrainerDocument,
+//                  userDocument: currentUserDocument,
+//                )
+//                    : ChooseAthlete(
+//                  userDocument: currentUserDocument,
+//                  name: userName,
+//                  email: userEmail,
+//                  photo: userPhoto,
+//                  userUID: userUID,
+//                )
+//                    : ChooseAthlete(
+//                  userDocument: currentUserDocument,
+//                  name: userName,
+//                  email: userEmail,
+//                  photo: userPhoto,
+//                  userUID: userUID,
+//                )))),
+//      ),
       Container(
         width: SizeConfig.blockSizeHorizontal * 100,
         alignment: Alignment.bottomCenter,
