@@ -141,10 +141,10 @@ Widget workoutContainer(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 1),
+                    margin: EdgeInsets.only(top:  SizeConfig.blockSizeVertical * 1),
                     child: Icon(
                       Icons.arrow_forward_ios,
-                      size: SizeConfig.blockSizeHorizontal * 5,
+                      size: checkIsIosTablet(context) ? SizeConfig.blockSizeHorizontal * 3 : SizeConfig.blockSizeHorizontal * 5,
                       color: MyColors().white,
                     ),
                   ),
@@ -153,4 +153,13 @@ Widget workoutContainer(
       ),
     ),
   );
+}
+
+/// checking responsive
+bool checkIsIosTablet(BuildContext context) {
+  if (MediaQuery.of(context).size.width > 1000) {
+    return true;
+  } else {
+    return false;
+  }
 }

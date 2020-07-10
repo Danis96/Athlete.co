@@ -33,3 +33,13 @@ Widget trainingCustomBottomNavigationBar(DocumentSnapshot userDocument,
     ),
   );
 }
+
+/// checking responsive
+bool checkIsIosTablet(BuildContext context) {
+  if (MediaQuery.of(context).size.width > 1000) {
+    return true;
+  } else {
+    return false;
+  }
+}
+

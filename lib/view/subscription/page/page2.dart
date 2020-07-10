@@ -1,16 +1,12 @@
 import 'package:attt/utils/colors.dart';
-import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/size_config.dart';
-import 'package:attt/view/subscription/page/widgets/resultCont.dart';
 import 'package:attt/view/subscription/page/widgets/reviews.dart';
 import 'package:attt/view/subscription/page/widgets/starRow.dart';
-import 'package:attt/view/subscription/page/widgets/textCont.dart';
 import 'package:attt/view/subscription/page/widgets/textReviews.dart';
 import 'package:flutter/material.dart';
 
-import 'widgets/centerText.dart';
 
-Widget pageTwo(BuildContext context, PageController pageController) {
+Widget pageTwo(BuildContext context, PageController pageController, Function checkIsIosTablet) {
   return Stack(
     children: <Widget>[
       Container(
@@ -38,7 +34,7 @@ Widget pageTwo(BuildContext context, PageController pageController) {
         ),
       ),
             Container(
-        margin: EdgeInsets.only(top: SizeConfig.blockSizeVertical * 5),
+        margin: EdgeInsets.only(top: checkIsIosTablet(context) ?  SizeConfig.blockSizeVertical * 1 : SizeConfig.blockSizeVertical * 5),
         child: Column(
           children: <Widget>[
             Container(

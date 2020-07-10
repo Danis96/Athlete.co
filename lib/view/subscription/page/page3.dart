@@ -4,7 +4,7 @@ import 'package:attt/view/subscription/page/widgets/resultCont.dart';
 import 'package:attt/view/subscription/page/widgets/textReviews.dart';
 import 'package:flutter/material.dart';
 
-Widget pageThree(Card buildProductList) {
+Widget pageThree(Card buildProductList, BuildContext context ,Function checkIsIosTablet) {
   return Stack(
     children: <Widget>[
       Container(
@@ -14,7 +14,7 @@ Widget pageThree(Card buildProductList) {
       ),
       Container(
         margin: EdgeInsets.only(
-            top: SizeConfig.blockSizeVertical * 11,
+            top: checkIsIosTablet(context) ?  SizeConfig.blockSizeVertical * 7 :  SizeConfig.blockSizeVertical * 11,
             left: SizeConfig.blockSizeHorizontal * 3,
         ),
         width: SizeConfig.blockSizeHorizontal * 100,

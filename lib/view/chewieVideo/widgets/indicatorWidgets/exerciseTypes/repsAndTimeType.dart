@@ -230,7 +230,7 @@ checkAndArrangeTime,
                   ],
                 )),
             SizedBox(
-              height: SizeConfig.blockSizeVertical * 1,
+              height: checkIsIosTablet(context) ? SizeConfig.blockSizeVertical * 0  : SizeConfig.blockSizeVertical * 2,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -304,4 +304,13 @@ checkAndArrangeTime,
       )
     ],
   ) : EmptyContainer();
+}
+
+/// checking responsive
+bool checkIsIosTablet(BuildContext context) {
+  if (MediaQuery.of(context).size.width > 1000) {
+    return true;
+  } else {
+    return false;
+  }
 }

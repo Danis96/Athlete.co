@@ -25,10 +25,23 @@ Widget firstTab(BuildContext context) {
               color: MyColors().white,
               fontSize:
                   MediaQuery.of(context).orientation == Orientation.portrait
-                      ? SizeConfig.safeBlockHorizontal * 3.5
-                      : SizeConfig.safeBlockHorizontal * 2),
+                      ? checkIsIosTablet(context)
+                          ? SizeConfig.safeBlockHorizontal * 3
+                          : SizeConfig.safeBlockHorizontal * 3.5
+                      : checkIsIosTablet(context)
+                          ? SizeConfig.safeBlockHorizontal * 1.5
+                          : SizeConfig.safeBlockHorizontal * 2),
         ),
       ],
     ),
   );
+}
+
+/// checking responsive
+bool checkIsIosTablet(BuildContext context) {
+  if (MediaQuery.of(context).size.width > 1000) {
+    return true;
+  } else {
+    return false;
+  }
 }

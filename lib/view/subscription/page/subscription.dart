@@ -40,7 +40,6 @@ class SubscriptionClass extends StatefulWidget {
 class _SubscriptionClassState extends State<SubscriptionClass> {
   @override
   Widget build(BuildContext context) {
-
     SizeConfig().init(context);
 
     return WillPopScope(
@@ -56,18 +55,20 @@ class _SubscriptionClassState extends State<SubscriptionClass> {
               scrollDirection: Axis.vertical,
               children: [
                 pageOne(
-                    widget.pageController,
-                    context,
-                    widget.currentUserDocument,
-                    widget.currentUserTrainerDocument,
-                    widget.userName,
-                    widget.userPhoto,
-                    widget.userUID,
-                    widget.userEmail,
-                    widget.userExist),
-                pageOneToTwo(context, widget.pageController),
-                pageTwo(context, widget.pageController),
-                pageThree(widget.buildProductList),
+                  widget.pageController,
+                  context,
+                  widget.currentUserDocument,
+                  widget.currentUserTrainerDocument,
+                  widget.userName,
+                  widget.userPhoto,
+                  widget.userUID,
+                  widget.userEmail,
+                  widget.userExist,
+                  checkIsIosTablet,
+                ),
+                pageOneToTwo(context, widget.pageController, checkIsIosTablet),
+                pageTwo(context, widget.pageController, checkIsIosTablet),
+                pageThree(widget.buildProductList, context ,checkIsIosTablet),
               ],
             ),
           ),
@@ -76,43 +77,46 @@ class _SubscriptionClassState extends State<SubscriptionClass> {
     );
   }
 
-  Future<bool> _onWillPop() {
-     return showDialog(
-         context: context,
-       builder: (context) => AlertDialog(
-         backgroundColor: MyColors().lightBlack,
-         title: Text(
-           'Are you sure?',
-           style: TextStyle(color: MyColors().lightWhite),
-         ),
-         content: new Text(
-           'If you press yes, you will exit Athlete.co',
-           style: TextStyle(color: MyColors().lightWhite),
-         ),
-         actions: <Widget>[
-           new FlatButton(
-             onPressed: () {
-               Navigator.pop(context);
-             },
-             child: new Text(
-               'No',
-               style: TextStyle(color: MyColors().lightWhite),
-             ),
-           ),
-           new FlatButton(
-             onPressed: () => exit(0),
-             child: new Text(
-               'Yes',
-               style: TextStyle(color: MyColors().error),
-             ),
-           ),
-         ],
-       )
-     ) ?? true;
-
-
+  bool checkIsIosTablet(BuildContext context) {
+    if (MediaQuery.of(context).size.width > 1000) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
+  Future<bool> _onWillPop() {
+    return showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                  backgroundColor: MyColors().lightBlack,
+                  title: Text(
+                    'Are you sure?',
+                    style: TextStyle(color: MyColors().lightWhite),
+                  ),
+                  content: new Text(
+                    'If you press yes, you will exit Athlete.co',
+                    style: TextStyle(color: MyColors().lightWhite),
+                  ),
+                  actions: <Widget>[
+                    new FlatButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: new Text(
+                        'No',
+                        style: TextStyle(color: MyColors().lightWhite),
+                      ),
+                    ),
+                    new FlatButton(
+                      onPressed: () => exit(0),
+                      child: new Text(
+                        'Yes',
+                        style: TextStyle(color: MyColors().error),
+                      ),
+                    ),
+                  ],
+                )) ??
+        true;
+  }
 }
-
-
