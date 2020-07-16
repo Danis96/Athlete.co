@@ -311,6 +311,7 @@ PODS:
     - Flutter
   - flutter_twitter_login (0.0.1):
     - Flutter
+    - TwitterKit
   - flutter_webview_plugin (0.0.1):
     - Flutter
   - google_sign_in (0.0.1):
@@ -409,6 +410,9 @@ PODS:
     - Flutter
   - shared_preferences_web (0.0.1):
     - Flutter
+  - TwitterCore (3.2.0)
+  - TwitterKit (3.4.2):
+    - TwitterCore (>= 3.2.0)
   - url_launcher (0.0.1):
     - Flutter
   - url_launcher_macos (0.0.1):
@@ -482,6 +486,8 @@ SPEC REPOS:
     - PromisesObjC
     - Purchases
     - Reachability
+    - TwitterCore
+    - TwitterKit
 
 EXTERNAL SOURCES:
   audioplayers:
@@ -570,7 +576,7 @@ SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_appavailability: ebf8f85abea44436d1262fcde8a4e64b2534b01a
   flutter_downloader: 058b9c41564a90500f67f3e432e3524613a7fd83
-  flutter_twitter_login: 5575c03b97b1c030c2c2ad1ffbcb377db08a7177
+  flutter_twitter_login: 0e31138dbb9bc13f33444a27f129bb268bb44121
   flutter_webview_plugin: ed9e8a6a96baf0c867e90e1bce2673913eeac694
   google_sign_in: f32920a589fdf4ab2918ec6dc5e5b0d5b8040ff5
   google_sign_in_web: 52deb24929ac0992baff65c57956031c44ed44c3
@@ -596,6 +602,8 @@ SPEC CHECKSUMS:
   shared_preferences: 430726339841afefe5142b9c1f50cb6bd7793e01
   shared_preferences_macos: f3f29b71ccbb56bf40c9dd6396c9acf15e214087
   shared_preferences_web: 141cce0c3ed1a1c5bf2a0e44f52d31eeb66e5ea9
+  TwitterCore: 8cbc9ad34d91c63a0035ea05bfbfc0d7ca72a28c
+  TwitterKit: 5e4f41d70b9abdb41df5467f52d7aa2c0fd26ebb
   url_launcher: a1c0cc845906122c4784c542523d8cacbded5626
   url_launcher_macos: fd7894421cd39320dce5f292fc99ea9270b2a313
   url_launcher_web: e5527357f037c87560776e36436bf2b0288b965c
