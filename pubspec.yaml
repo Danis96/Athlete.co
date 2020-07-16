@@ -24,7 +24,7 @@ dependencies:
   firebase_auth: 
   cloud_firestore:
   flutter_twitter_login: 
-    git: git://github.com/vudvhitech/flutter_twitter_login.git
+#    git: git://github.com/vudvhitech/flutter_twitter_login.git
   google_sign_in:
   splashscreen:
   flutter_signin_button:

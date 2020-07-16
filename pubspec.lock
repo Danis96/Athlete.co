@@ -261,11 +261,9 @@ packages:
   flutter_twitter_login:
     dependency: "direct main"
     description:
-      path: "."
-      ref: HEAD
-      resolved-ref: af88340d7c4c847bbad62c21d0ddee220709309b
-      url: "git://github.com/vudvhitech/flutter_twitter_login.git"
-    source: git
+      name: flutter_twitter_login
+      url: "https://pub.dartlang.org"
+    source: hosted
     version: "1.1.0"
   flutter_web_plugins:
     dependency: transitive

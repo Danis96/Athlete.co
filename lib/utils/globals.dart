@@ -105,3 +105,5 @@ bool isDone = false;
 /// isFromRepsOnly checking from which type of exercise is user coming
 bool isFromRepsOnly = false;
 
+int numOfSeries;
+

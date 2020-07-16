@@ -117,11 +117,15 @@ class _ChewieVideoState extends State<ChewieVideo>
                 child: SeriesInfoScreen(
                     trainerID: widget.userTrainerDocument.data['trainerID'],
                     weekID: widget.weekID,
-                    sets: workoutExercisesWithSets[index + 1].data['sets'],
+                    sets: workoutExercisesWithSets[
+                            index + 1]
+                        .data['sets'],
                     workoutID: widget.workoutID,
                     seriesID: seriesID)));
         overlayState.insert(overlayEntry);
-      } else if (index == source.length - 1) {
+      } else if ( index == source.length - 1) {
+        print('U DRUGOM IFU CHEWIA ZA OVERLAY' + numOfSeries.toString());
+
         overlayState = Overlay.of(context);
         overlayEntry = OverlayEntry(
             builder: (BuildContext context) => Visibility(
@@ -132,7 +136,7 @@ class _ChewieVideoState extends State<ChewieVideo>
                     sets: workoutExercisesWithSets[index].data['sets'],
                     workoutID: widget.workoutID,
                     seriesID: seriesID)));
-        overlayState.insert(overlayEntry);
+        numOfSeries.toString() == 'null' || numOfSeries > 1 ? overlayState.insert(overlayEntry) : print('Nije veci od 1');
       }
     }
   }

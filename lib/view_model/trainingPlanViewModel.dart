@@ -7,7 +7,6 @@ import 'package:attt/utils/customScreenAnimation.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/utils/colors.dart';
 import 'package:attt/view/chooseAthlete/pages/chooseAthlete.dart';
-import 'package:attt/view/history/page/history.dart';
 import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:attt/view/workout/pages/workout.dart';
 import 'package:attt/view_model/signInViewModel.dart';
