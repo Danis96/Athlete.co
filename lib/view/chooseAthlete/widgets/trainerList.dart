@@ -1,4 +1,5 @@
 import 'package:attt/models/trainerModel.dart';
+import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/subscription/page/widgets/subscriptionLoader.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -32,20 +33,27 @@ Widget trainersList(BuildContext context, String name, String photo,
                   _trainingPlanDuration =
                       _trainerData[index].trainingPlanDuration;
                   _trainerImage = _trainerData[index].trainerImage;
+
+                  if(_trainerID != null || _trainingPlanName != null || _trainerName != null || _trainingPlanDuration != null || _trainerImage != null ) {
                     return Center(
                         child: trainerContainer(
-                            context,
-                            _trainerID,
-                            _trainerName,
-                            _trainingPlanDuration,
-                            _trainingPlanName,
-                            _trainerImage,
-                            name,
-                            photo,
-                            email,
-                            userDocument, 
-                            userUID,
-                            ));
+                          context,
+                          _trainerID,
+                          _trainerName,
+                          _trainingPlanDuration,
+                          _trainingPlanName,
+                          _trainerImage,
+                          name,
+                          photo,
+                          email,
+                          userDocument,
+                          userUID,
+                        ));
+                  } else {
+                     return EmptyContainer();
+                  }
+
+
                 });
           } else {
             return Center(

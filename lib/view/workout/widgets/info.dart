@@ -148,7 +148,7 @@ class _InfoExerciseState extends State<InfoExercise> {
                                       bottom: SizeConfig.blockSizeVertical * 1,
                                       left: SizeConfig.blockSizeHorizontal * 5),
                                   child: Text(
-                                    widget.exerciseTips[index].toString(),
+                                    widget.exerciseTips[index].toString().replaceAll('\\n', '\n'),
                                     style: TextStyle(
                                         color: MyColors().white,
                                         fontSize:
