@@ -46,6 +46,7 @@ dependencies:
   intl:
   purchases_flutter: ^1.1.1
   in_app_purchase: ^0.3.4
+  flutter_inapp_purchase: ^2.2.0
   provider: ^4.1.2
   connectivity: ^0.4.8+6
   overlay_container: ^0.0.4+1

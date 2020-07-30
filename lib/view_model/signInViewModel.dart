@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:attt/interface/signinInterface.dart';
 import 'package:attt/utils/custoWeb.dart';
@@ -6,7 +7,7 @@ import 'package:attt/utils/customScreenAnimation.dart';
 import 'package:attt/utils/dialog.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/view/subscription/page/checkSub.dart';
-import 'package:attt/view/subscription/page/subscription.dart';
+import 'package:attt/view/subscription/page/checkSubscriptionAndroid.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -129,7 +130,16 @@ class SignInViewModel implements SignInInterface {
 
     Navigator.of(context).pushAndRemoveUntil(
         CardAnimationTween(
-          widget: CheckSubscription(
+          widget: Platform.isIOS ?
+          CheckSubscription(
+            currentUserDocument: currentUserDocument,
+            currentUserTrainerDocument: currentUserTrainerDocument,
+            userName: userName,
+            userEmail: userEmail,
+            userExist: userExist,
+            userPhoto: userPhoto,
+            userUID: userUIDTwitter,
+          ) : CheckSubscriptionAndroid(
             currentUserDocument: currentUserDocument,
             currentUserTrainerDocument: currentUserTrainerDocument,
             userName: userName,
@@ -223,7 +233,15 @@ class SignInViewModel implements SignInInterface {
 
     Navigator.of(context).pushAndRemoveUntil(
         CardAnimationTween(
-          widget: CheckSubscription(
+          widget: Platform.isIOS ? CheckSubscription(
+            currentUserDocument: currentUserDocument,
+            currentUserTrainerDocument: currentUserTrainerDocument,
+            userName: userName,
+            userEmail: userEmail,
+            userExist: userExist,
+            userPhoto: userPhoto,
+            userUID: userUIDPref,
+          ) : CheckSubscriptionAndroid(
             currentUserDocument: currentUserDocument,
             currentUserTrainerDocument: currentUserTrainerDocument,
             userName: userName,
@@ -293,7 +311,15 @@ class SignInViewModel implements SignInInterface {
       isLoggedIn = true;
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
-            builder: (_) => CheckSubscription(
+            builder: (_) => Platform.isIOS ? CheckSubscription(
+              currentUserDocument: currentUserDocument,
+              currentUserTrainerDocument: currentUserTrainerDocument,
+              userName: userName,
+              userEmail: userEmail,
+              userExist: true,
+              userPhoto: userPhoto,
+              userUID: userUIDP,
+            ) : CheckSubscriptionAndroid(
               currentUserDocument: currentUserDocument,
               currentUserTrainerDocument: currentUserTrainerDocument,
               userName: userName,
@@ -517,7 +543,7 @@ class SignInViewModel implements SignInInterface {
         ///Navigating logged user into application
         Navigator.of(context).pushAndRemoveUntil(
             CardAnimationTween(
-              widget: CheckSubscription(
+              widget: Platform.isIOS ? CheckSubscription(
                 currentUserDocument: currentUserDocument,
                 currentUserTrainerDocument: currentUserTrainerDocument,
                 userName: userName,
@@ -525,7 +551,15 @@ class SignInViewModel implements SignInInterface {
                 userExist: userExist,
                 userPhoto: userPhoto,
                 userUID: userUIDFacebook,
-              ),
+              ) : CheckSubscriptionAndroid(
+                currentUserDocument: currentUserDocument,
+                currentUserTrainerDocument: currentUserTrainerDocument,
+                userName: userName,
+                userEmail: userEmail,
+                userExist: userExist,
+                userPhoto: userPhoto,
+                userUID: userUIDFacebook,
+              ) ,
             ),
             (Route<dynamic> route) => false);
 

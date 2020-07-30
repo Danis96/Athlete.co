@@ -309,6 +309,8 @@ PODS:
     - Flutter
   - flutter_downloader (0.0.1):
     - Flutter
+  - flutter_inapp_purchase (0.0.1):
+    - Flutter
   - flutter_twitter_login (0.0.1):
     - Flutter
     - TwitterKit
@@ -439,6 +441,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_appavailability (from `.symlinks/plugins/flutter_appavailability/ios`)
   - flutter_downloader (from `.symlinks/plugins/flutter_downloader/ios`)
+  - flutter_inapp_purchase (from `.symlinks/plugins/flutter_inapp_purchase/ios`)
   - flutter_twitter_login (from `.symlinks/plugins/flutter_twitter_login/ios`)
   - flutter_webview_plugin (from `.symlinks/plugins/flutter_webview_plugin/ios`)
   - google_sign_in (from `.symlinks/plugins/google_sign_in/ios`)
@@ -514,6 +517,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_appavailability/ios"
   flutter_downloader:
     :path: ".symlinks/plugins/flutter_downloader/ios"
+  flutter_inapp_purchase:
+    :path: ".symlinks/plugins/flutter_inapp_purchase/ios"
   flutter_twitter_login:
     :path: ".symlinks/plugins/flutter_twitter_login/ios"
   flutter_webview_plugin:
@@ -576,6 +581,7 @@ SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_appavailability: ebf8f85abea44436d1262fcde8a4e64b2534b01a
   flutter_downloader: 058b9c41564a90500f67f3e432e3524613a7fd83
+  flutter_inapp_purchase: 5c6a1ac3f11b11d0c8c0321c0c41c1f05805e4c8
   flutter_twitter_login: 0e31138dbb9bc13f33444a27f129bb268bb44121
   flutter_webview_plugin: ed9e8a6a96baf0c867e90e1bce2673913eeac694
   google_sign_in: f32920a589fdf4ab2918ec6dc5e5b0d5b8040ff5

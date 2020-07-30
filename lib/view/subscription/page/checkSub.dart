@@ -1,31 +1,29 @@
-import 'dart:async';
-import 'dart:io';
-import 'package:attt/interface/subscriptionInterface.dart';
-import 'package:attt/utils/colors.dart';
-import 'package:attt/utils/emptyContainer.dart';
-import 'package:attt/utils/size_config.dart';
-import 'package:attt/view/chooseAthlete/pages/chooseAthlete.dart';
-import 'package:attt/view/subscription/declinedScreen.dart';
-import 'package:attt/view/subscription/page/subscription.dart';
-import 'package:attt/view/subscription/page/widgets/price.dart';
-import 'package:attt/view/subscription/page/widgets/subscriptionLoader.dart';
-import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
+import 'dart:convert';
+
+import 'package:attt/view/subscription/recieptModels/recieptModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:in_app_purchase/in_app_purchase.dart';
+import 'dart:async';
+import 'dart:io';
 
-const bool kAutoConsume = true;
-const String _kConsumableId = 'consumable';
-const String oneMonthID = 'onemonthathlete';
-const String yearID = 'lifetimeathlete';
-String purchaseExist = '';
-List<String> _productIDs = [];
+import 'package:flutter/services.dart';
+import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
+import 'package:attt/utils/size_config.dart';
+import 'package:flutter_inapp_purchase/modules.dart';
 
-/// id's from Google Play Console
-const List<String> _kProductIds = <String>[
-  'onemonthathlete',
-  'lifetimeathlete'
-];
+import '../../../utils/colors.dart';
+import '../../../utils/emptyContainer.dart';
+import '../../../utils/size_config.dart';
+import '../../chooseAthlete/pages/chooseAthlete.dart';
+import '../../trainingPlan/pages/trainingPlan.dart';
+import '../declinedScreen.dart';
+import 'page1.dart';
+import 'widgets/resultCont.dart';
+import 'package:attt/view/subscription/page/page1-2.dart';
+import 'package:attt/view/subscription/page/page1.dart';
+import 'package:attt/view/subscription/page/page2.dart';
+
+import 'widgets/textReviews.dart';
 
 class CheckSubscription extends StatefulWidget {
   final bool userExist;
@@ -43,391 +41,516 @@ class CheckSubscription extends StatefulWidget {
   });
 
   @override
-  _CheckSubscriptionState createState() => _CheckSubscriptionState();
+  _CheckSubscriptionState createState() => new _CheckSubscriptionState();
 }
 
-class _CheckSubscriptionState extends State<CheckSubscription>
-    implements SubscriptionInterface {
+class _CheckSubscriptionState extends State<CheckSubscription> {
   PageController _pageController;
-  final InAppPurchaseConnection _connection = InAppPurchaseConnection.instance;
-  StreamSubscription<List<PurchaseDetails>> _subscription;
-  List<String> _notFoundIds = [];
-  List<ProductDetails> _products = [];
-  List<PurchaseDetails> _purchases = [];
-  bool _isAvailable = false,
-      _isPurchased = false,
-      _purchasePending = false,
-      _loading = true;
-  String _queryProductError,
-      priceMonthly = '\$19.99',
-      priceLifetime = '\$99.99';
+  StreamSubscription _purchaseUpdatedSubscription;
+  StreamSubscription _purchaseErrorSubscription;
+  StreamSubscription _conectionSubscription;
+  final List<String> _productLists = [
+    'com.tech.ios.Athlete.Monthly.subscription',
+    'com.tech.ios.Athlete.Annual.subscription',
+  ];
 
-  PurchaseDetails previousPurchase;
+  String _platformVersion = 'Unknown';
+  List<IAPItem> _items = [];
+  List<PurchasedItem> _purchases = [];
+  var secretToken = '97c854b72ef64868bd6efe8fab6a1ef0';
 
   @override
   void initState() {
-    Stream purchaseUpdated =
-        InAppPurchaseConnection.instance.purchaseUpdatedStream;
-    _subscription = purchaseUpdated.listen((purchaseDetailsList) {
-      _listenToPurchaseUpdate(purchaseDetailsList);
-    }, onDone: () {
-      _subscription.cancel();
-    }, onError: (error) {
-      // handle error here.
-    });
-    initStoreInfo();
-    _pageController = PageController();
-    print(_isPurchased.toString() + 'IS PURCHASE');
-    loading();
     super.initState();
-  }
-
-  Future<void> initStoreInfo() async {
-    final bool isAvailable = await _connection.isAvailable();
-    if (!isAvailable) {
-      setState(() {
-        _isAvailable = isAvailable;
-        _products = [];
-        _purchases = [];
-        _notFoundIds = [];
-        _purchasePending = false;
-        _loading = false;
-      });
-      return;
-    }
-
-    ProductDetailsResponse productDetailResponse =
-        await _connection.queryProductDetails(_kProductIds.toSet());
-    if (productDetailResponse.error != null) {
-      setState(() {
-        _queryProductError = productDetailResponse.error.message;
-        _isAvailable = isAvailable;
-        _products = productDetailResponse.productDetails;
-        _purchases = [];
-        _notFoundIds = productDetailResponse.notFoundIDs;
-        _purchasePending = false;
-        _loading = false;
-      });
-      return;
-    }
-
-    if (productDetailResponse.productDetails.isEmpty) {
-      setState(() {
-        _queryProductError = null;
-        _isAvailable = isAvailable;
-        _products = productDetailResponse.productDetails;
-        _purchases = [];
-        _notFoundIds = productDetailResponse.notFoundIDs;
-        _purchasePending = false;
-        _loading = false;
-      });
-      return;
-    }
-
-    final QueryPurchaseDetailsResponse purchaseResponse =
-        await _connection.queryPastPurchases();
-    if (purchaseResponse.error != null) {
-      // handle query past purchase error..
-    }
-    final List<PurchaseDetails> verifiedPurchases = [];
-    for (PurchaseDetails purchase in purchaseResponse.pastPurchases) {
-      if (await verifyPurchase(purchase)) {
-        verifiedPurchases.add(purchase);
-      }
-    }
-    setState(() {
-      _isAvailable = isAvailable;
-      _products = productDetailResponse.productDetails;
-      _purchases = verifiedPurchases;
-      _notFoundIds = productDetailResponse.notFoundIDs;
-      _purchasePending = false;
-      _loading = false;
-    });
-  }
-
-  Card _buildConnectionCheckTile() {
-    if (_loading) {
-      return Card(child: ListTile(title: const Text('Trying to connect...')));
-    }
-    final Widget storeHeader = ListTile(
-      leading: Icon(_isAvailable ? Icons.check : Icons.block,
-          color: _isAvailable ? Colors.green : ThemeData.light().errorColor),
-      title: Text(
-          'The store is ' + (_isAvailable ? 'available' : 'unavailable') + '.'),
-    );
-    final List<Widget> children = <Widget>[storeHeader];
-
-    if (!_isAvailable) {
-      _productIDs.add('Not available');
-      children.addAll([
-        Divider(),
-        ListTile(
-          title: Text('Not connected',
-              style: TextStyle(color: ThemeData.light().errorColor)),
-          subtitle: const Text(
-              'Unable to connect to the payments processor. Has this app been configured correctly?'),
-        ),
-      ]);
-    }
-    return Card(child: Column(children: children));
-  }
-
-  void deliverProduct(PurchaseDetails purchaseDetails) async {
-    // IMPORTANT!! Always verify a purchase purchase details before delivering the product.
-    if (purchaseDetails.productID == _kConsumableId) {
-      setState(() {
-        _purchasePending = false;
-      });
-    } else {
-      setState(() {
-        _purchases.add(purchaseDetails);
-        _purchasePending = false;
-      });
-    }
-  }
-
-//
-  void listenToPurchaseUpdated(List<PurchaseDetails> purchaseDetailsList) {}
-
-  void showPendingUI() {
-    setState(() {
-      _purchasePending = true;
-    });
-  }
-
-  void handleError(IAPError error) {
-    setState(() {
-      _purchasePending = false;
-    });
-  }
-
-  Card _buildProductList() {
-    if (!_isAvailable) {
-      _productIDs.add('Not available');
-
-      /// ako nije store available prikazati ovo
-      return Card(
-        color: Colors.transparent,
-        child: Container(
-          height: SizeConfig.blockSizeVertical * 10,
-          child: Center(
-              child: Text(
-            'Not available at the moment',
-            style: TextStyle(
-                color: MyColors().lightWhite,
-                fontSize: SizeConfig.safeBlockHorizontal * 6),
-          )),
-        ),
-      );
-    }
-    List<Widget> productList = <Widget>[];
-    if (_notFoundIds.isNotEmpty) {
-      _productIDs.add('Not available');
-      productList.add(SizedBox(
-        child: Container(
-          child: Text('Not available at the moment'),
-        ),
-        width: 200,
-      ));
-    }
-
-    // This loading previous purchases code is just a demo. Please do not use this as it is.
-    // In your app you should always verify the purchase data using the `verificationData` inside the [PurchaseDetails] object before trusting it.
-    // We recommend that you use your own server to verity the purchase data.
-    Map<String, PurchaseDetails> purchases =
-        Map.fromEntries(_purchases.map((PurchaseDetails purchase) {
-      if (purchase.pendingCompletePurchase) {
-        InAppPurchaseConnection.instance.completePurchase(purchase);
-      }
-      return MapEntry<String, PurchaseDetails>(purchase.productID, purchase);
-    }));
-
-    productList.addAll(_products.map(
-      (ProductDetails productDetails) {
-        /// get previous purchases
-        /// then check is that purchases active and
-        /// set the [_isPurchased] to accurate value
-        previousPurchase = purchases[productDetails.id];
-
-        purchaseExist = previousPurchase != null
-            ? previousPurchase.productID.toString()
-            : 'annual';
-        print(purchaseExist + ' PURCHASE EXIST');
-
-        _productIDs.add(purchaseExist);
-        print('PRODUCT IDS: ' + _productIDs.toString());
-
-        var names = productDetails.title.split(' ');
-
-        return priceContainer(
-          '7 Days Free Trial',
-          names,
-          productDetails.price.substring(1),
-          context,
-          subscribePressed,
-          productDetails,
-        );
-      },
-    ).toList().reversed);
-
-    return Card(
-        color: Colors.transparent,
-        child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[EmptyContainer(), Divider()] + productList));
+    initPlatformState();
+    _pageController = PageController();
   }
 
   @override
-  void handleInvalidPurchase(PurchaseDetails purchaseDetails) {
-    showDeclinedDialog(context, 'Invalid Purchase',
-        'Purchase you are trying to get is not available at the moment.\n Please try again in a few moments.');
-  }
-
-  _listenToPurchaseUpdate(List<PurchaseDetails> purchaseDetailsList) {
-    purchaseDetailsList.forEach((PurchaseDetails purchaseDetails) async {
-      if (purchaseDetails.status == PurchaseStatus.pending) {
-        showPendingUI();
-      } else {
-        if (purchaseDetails.status == PurchaseStatus.error) {
-          handleError(purchaseDetails.error);
-        } else if (purchaseDetails.status == PurchaseStatus.purchased) {
-          bool valid = await verifyPurchase(purchaseDetails);
-          if (valid) {
-            deliverProduct(purchaseDetails);
-          } else {
-            handleInvalidPurchase(purchaseDetails);
-            return;
-          }
-        }
-        if (Platform.isAndroid) {
-          if (!kAutoConsume && purchaseDetails.productID == _kConsumableId) {
-            await InAppPurchaseConnection.instance
-                .consumePurchase(purchaseDetails);
-          }
-        }
-        if (purchaseDetails.pendingCompletePurchase) {
-          await InAppPurchaseConnection.instance
-              .completePurchase(purchaseDetails)
-              .then((value) => Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                      builder: (_) => widget.userExist
-                          ? widget.currentUserDocument.data['trainer'] !=
-                                      null &&
-                                  widget.currentUserDocument.data['trainer'] !=
-                                      ''
-                              ? TrainingPlan(
-                                  userTrainerDocument:
-                                      widget.currentUserTrainerDocument,
-                                  userDocument: widget.currentUserDocument,
-                                )
-                              : ChooseAthlete(
-                                  userDocument: widget.currentUserDocument,
-                                  name: widget.userName,
-                                  email: widget.userEmail,
-                                  photo: widget.userPhoto,
-                                  userUID: widget.userUID,
-                                )
-                          : ChooseAthlete(
-                              userDocument: widget.currentUserDocument,
-                              name: widget.userName,
-                              email: widget.userEmail,
-                              photo: widget.userPhoto,
-                              userUID: widget.userUID,
-                            ))));
-        } else {
-          showDeclinedDialog(context, 'Not approved',
-              'Please check your payments method, card validation or internet access.');
-        }
-      }
-    });
-  }
-
-  /// function that is called on button pressed
-  ///  in [priceContainer]
-  ///  here we showPaywall and our connection with Google Play Subscriptions
-  @override
-  subscribePressed(ProductDetails productDetails) {
-    PurchaseParam purchaseParam = PurchaseParam(
-        productDetails: productDetails,
-        applicationUserName: null,
-        sandboxTesting: true);
-
-    if (productDetails.id == _kConsumableId) {
-      _connection.buyConsumable(
-        purchaseParam: purchaseParam,
-        autoConsume: kAutoConsume || Platform.isIOS,
-      );
-    } else {
-      _connection.buyNonConsumable(purchaseParam: purchaseParam);
+  void dispose() {
+    super.dispose();
+    if (_conectionSubscription != null) {
+      _conectionSubscription.cancel();
+      _conectionSubscription = null;
     }
   }
 
-  @override
-  Future<bool> verifyPurchase(PurchaseDetails purchaseDetails) {
-    return Future<bool>.value(true);
+  // Platform messages are asynchronous, so we initialize in an async method.
+  Future<void> initPlatformState() async {
+    FlutterInappPurchase.instance.clearTransactionIOS();
+    String platformVersion;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      platformVersion = await FlutterInappPurchase.instance.platformVersion;
+    } on PlatformException {
+      platformVersion = 'Failed to get platform version.';
+    }
+
+    // prepare
+    var result = await FlutterInappPurchase.instance.initConnection;
+    print('result: $result');
+
+    // If the widget was removed from the tree while the asynchronous platform
+    // message was in flight, we want to discard the reply rather than calling
+    // setState to update our non-existent appearance.
+    if (!mounted) return;
+
+    setState(() {
+      _platformVersion = platformVersion;
+    });
+
+    // refresh items for android
+    try {
+      String msg = await FlutterInappPurchase.instance.consumeAllItems;
+      print('consumeAllItems: $msg');
+    } catch (err) {
+      print('consumeAllItems error: $err');
+    }
+
+    _conectionSubscription =
+        FlutterInappPurchase.connectionUpdated.listen((connected) {
+      print('connected: $connected');
+    });
+
+    _purchaseUpdatedSubscription =
+        FlutterInappPurchase.purchaseUpdated.listen((productItem) {
+      print('purchase-updated: $productItem');
+      print('Transaction ID: ' + productItem.transactionId.toString());
+      print('Transaction Date: ' + productItem.transactionDate.toString());
+      print('Original transaction identifier: ' +
+          productItem.originalTransactionIdentifierIOS.toString());
+      print('Transaction state: ' + productItem.transactionStateIOS.toString());
+
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (_) => widget.userExist
+              ? widget.currentUserDocument.data['trainer'] != null &&
+                      widget.currentUserDocument.data['trainer'] != ''
+                  ? TrainingPlan(
+                      userTrainerDocument: widget.currentUserTrainerDocument,
+                      userDocument: widget.currentUserDocument,
+                    )
+                  : ChooseAthlete(
+                      userDocument: widget.currentUserDocument,
+                      name: widget.userName,
+                      email: widget.userEmail,
+                      photo: widget.userPhoto,
+                      userUID: widget.userUID,
+                    )
+              : ChooseAthlete(
+                  userDocument: widget.currentUserDocument,
+                  name: widget.userName,
+                  email: widget.userEmail,
+                  photo: widget.userPhoto,
+                  userUID: widget.userUID,
+                )));
+    });
+
+    _purchaseErrorSubscription =
+        FlutterInappPurchase.purchaseError.listen((purchaseError) {
+      print('purchase-error: $purchaseError');
+      if (purchaseError.code == 'E_USER_CANCELLED') {
+        showDeclinedDialog(
+            context, 'Purchase cancelled', 'User has cancel the purhase');
+      }
+      if (purchaseError.code == 'E_UNKNOWN') {
+        showDeclinedDialog(context, 'No internet',
+            'There is no internet connection.Please try again later.');
+      }
+    });
+
+    await FlutterInappPurchase.instance.initConnection
+        .then((value) => print('BILLING CONNECTED'));
+    this._getProduct();
+    this._getPurchaseHistory();
   }
 
-  Future<Timer> loading() async {
-    return Timer(Duration(seconds: 3), onDoneLoading);
+  void _requestPurchase(IAPItem item) {
+    FlutterInappPurchase.instance.requestPurchase(item.productId);
   }
 
-  onDoneLoading() {
-    print(purchaseExist + ' IS PURCHASED FROM on done loading');
-    Navigator.of(context).push(MaterialPageRoute(
-        builder: (_) => _productIDs[1].toString() == oneMonthID ||
-                _productIDs[1].toString() == yearID ||
-                _productIDs[2].toString() == oneMonthID ||
-                _productIDs[2].toString() == yearID
-            ? widget.userExist
-                ? widget.currentUserDocument.data['trainer'] != null &&
-                        widget.currentUserDocument.data['trainer'] != ''
-                    ? TrainingPlan(
-                        userTrainerDocument: widget.currentUserTrainerDocument,
-                        userDocument: widget.currentUserDocument,
-                      )
-                    : ChooseAthlete(
-                        userDocument: widget.currentUserDocument,
-                        name: widget.userName,
-                        email: widget.userEmail,
-                        photo: widget.userPhoto,
-                        userUID: widget.userUID,
-                      )
-                : ChooseAthlete(
-                    userDocument: widget.currentUserDocument,
-                    name: widget.userName,
-                    email: widget.userEmail,
-                    photo: widget.userPhoto,
-                    userUID: widget.userUID,
-                  )
-            : SubscriptionClass(
-                currentUserDocument: widget.currentUserDocument,
-                currentUserTrainerDocument: widget.currentUserTrainerDocument,
-                buildProductList: _buildProductList(),
-                pageController: _pageController,
-                userName: widget.userName,
-                userEmail: widget.userEmail,
-                userPhoto: widget.userPhoto,
-                userUID: widget.userUID,
-                userExist: widget.userExist,
-              )));
+  Future _getProduct() async {
+    List<IAPItem> items =
+        await FlutterInappPurchase.instance.getProducts(_productLists);
+    for (var item in items) {
+      print('${item.toString()}');
+      this._items.add(item);
+    }
+
+    setState(() {
+      this._items = items;
+      this._purchases = [];
+    });
+  }
+
+  Future _getPurchases() async {
+    List<PurchasedItem> items =
+        await FlutterInappPurchase.instance.getAvailablePurchases();
+    for (var item in items) {
+      print('${item.toString()}');
+      this._purchases.add(item);
+    }
+
+    setState(() {
+      this._items = [];
+      this._purchases = items;
+    });
+  }
+
+  Future _getPurchaseHistory() async {
+    List<PurchasedItem> items =
+        await FlutterInappPurchase.instance.getPurchaseHistory();
+    var receiptBody = {
+      'receipt-data': items.last.transactionReceipt,
+      'password': secretToken
+    };
+    var result = await FlutterInappPurchase.instance
+        .validateReceiptIos(receiptBody: receiptBody, isTest: true);
+    Map resultMap = jsonDecode(result.body);
+    var reciept = RecieptModel.fromJson(resultMap);
+    print(reciept.receipt.inApp.last['expires_date_ms']);
+    var expirationDateMS = reciept.receipt.inApp.last['expires_date_ms'];
+    var thisMoment = DateTime.now().toUtc().millisecondsSinceEpoch;
+    print(thisMoment);
+    print('expirationDateMS ' +
+        expirationDateMS.toString() +
+        '\n' +
+        '          thisMoment ' +
+        thisMoment.toString()); 
+
+        int comparedResult = expirationDateMS.toString().compareTo(thisMoment.toString());
+        print(comparedResult);
+        if(comparedResult == 1) {
+         Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (_) => widget.userExist
+              ? widget.currentUserDocument.data['trainer'] != null &&
+                      widget.currentUserDocument.data['trainer'] != ''
+                  ? TrainingPlan(
+                      userTrainerDocument: widget.currentUserTrainerDocument,
+                      userDocument: widget.currentUserDocument,
+                    )
+                  : ChooseAthlete(
+                      userDocument: widget.currentUserDocument,
+                      name: widget.userName,
+                      email: widget.userEmail,
+                      photo: widget.userPhoto,
+                      userUID: widget.userUID,
+                    )
+              : ChooseAthlete(
+                  userDocument: widget.currentUserDocument,
+                  name: widget.userName,
+                  email: widget.userEmail,
+                  photo: widget.userPhoto,
+                  userUID: widget.userUID,
+                )));
+        } else print('nije');
+    
+  }
+
+  List<Widget> _renderInApps() {
+    List<Widget> widgets = this
+        ._items
+        .map((item) => GestureDetector(
+              onTap: () => this._requestPurchase(item),
+              child: Stack(children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: Color.fromRGBO(255, 198, 7, 1.0),
+                    borderRadius: BorderRadius.all(Radius.circular(4)),
+                  ),
+                  margin: EdgeInsets.only(
+                    top: SizeConfig.blockSizeVertical * 1,
+                  ),
+                  height: Platform.isIOS
+                      ? SizeConfig.blockSizeVertical * 13.5
+                      : SizeConfig.blockSizeVertical * 15,
+                  child: Padding(
+                    padding: EdgeInsets.all(
+                        MediaQuery.of(context).size.width < 400 ? 4.0 : 10.0),
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.only(
+                              left: 10.0,
+                              top: checkForTablet(context)
+                                  ? 5.0
+                                  : Platform.isIOS ? 1 : 10.0),
+                          alignment: Alignment.centerLeft,
+                          width: SizeConfig.blockSizeHorizontal * 100,
+                          child: Text(
+                            '7 Days Free Trial',
+                            style: TextStyle(
+                                color: Colors.black.withOpacity(0.6),
+                                fontWeight: FontWeight.bold,
+                                fontStyle: FontStyle.normal,
+                                fontSize: checkIsIosTablet(context)
+                                    ? SizeConfig.safeBlockHorizontal * 3
+                                    : SizeConfig.safeBlockHorizontal * 3),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(
+                              left: 10.0,
+                              top: checkForTablet(context)
+                                  ? 3
+                                  : Platform.isIOS ? 1 : 5),
+                          alignment: Alignment.centerLeft,
+                          width: SizeConfig.blockSizeHorizontal * 100,
+                          child: Text(
+                            item.title,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontStyle: FontStyle.italic,
+                                fontSize: checkIsIosTablet(context)
+                                    ? SizeConfig.safeBlockHorizontal * 4
+                                    : Platform.isIOS
+                                        ? SizeConfig.safeBlockHorizontal * 4
+                                        : SizeConfig.safeBlockHorizontal * 6.5),
+                          ),
+                        ),
+                        Container(
+                          padding: EdgeInsets.only(left: 10.0, top: 0),
+                          alignment: Alignment.centerLeft,
+                          width: SizeConfig.blockSizeHorizontal * 100,
+                          child: Text(
+                            'then only '.toUpperCase() + '£' + item.price,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                                fontSize: checkIsIosTablet(context)
+                                    ? SizeConfig.safeBlockHorizontal * 5
+                                    : Platform.isIOS
+                                        ? SizeConfig.safeBlockHorizontal * 5
+                                        : SizeConfig.safeBlockHorizontal * 4),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ]),
+            ))
+        .toList();
+    return widgets;
+  }
+
+  List<Widget> _renderPurchases() {
+    List<Widget> widgets = this
+        ._purchases
+        .map((item) => Container(
+              margin: EdgeInsets.symmetric(vertical: 10.0),
+              child: Container(
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      margin: EdgeInsets.only(bottom: 5.0),
+                      child: Text(
+                        item.toString(),
+                        style: TextStyle(
+                          fontSize: 18.0,
+                          color: Colors.black,
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ))
+        .toList();
+    return widgets;
   }
 
   @override
   Widget build(BuildContext context) {
+    print(MediaQuery.of(context).size.width);
+    double screenWidth = MediaQuery.of(context).size.width - 20;
+    double buttonWidth = (screenWidth / 3) - 20;
     return Scaffold(
-      backgroundColor: MyColors().lightBlack,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          SubLoader().subLoader(),
-          SubLoader().subLoaderText(),
-          Container(
-            height: 0,
-            width: 0,
-            child: _buildProductList(),
+      backgroundColor: Colors.transparent,
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Container(
+          decoration: BoxDecoration(color: MyColors().lightBlack),
+          child: PageView(
+            controller: _pageController,
+            scrollDirection: Axis.vertical,
+            children: [
+              pageOne(
+                _pageController,
+                context,
+                widget.currentUserDocument,
+                widget.currentUserTrainerDocument,
+                widget.userName,
+                widget.userPhoto,
+                widget.userUID,
+                widget.userEmail,
+                widget.userExist,
+                checkIsIosTablet,
+              ),
+              pageOneToTwo(context, _pageController, checkIsIosTablet),
+              pageTwo(context, _pageController, checkIsIosTablet),
+              Stack(
+                children: <Widget>[
+                  Container(
+                    width: SizeConfig.blockSizeHorizontal * 100,
+                    height: SizeConfig.blockSizeVertical * 100,
+                    color: MyColors().lightBlack.withOpacity(0.5),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(
+                      top: Platform.isIOS
+                          ? checkIsIosTablet(context)
+                              ? SizeConfig.blockSizeVertical * 1
+                              : SizeConfig.blockSizeVertical * 2
+                          : SizeConfig.blockSizeVertical * 11,
+                      left: SizeConfig.blockSizeHorizontal * 3,
+                    ),
+                    width: SizeConfig.blockSizeHorizontal * 100,
+                    child: RichText(
+                      text: TextSpan(
+                        text: 'Become a well balanced athlete who is ',
+                        style: TextStyle(
+                            color: MyColors().white,
+                            fontSize: checkIsIosTablet(context)
+                                ? SizeConfig.safeBlockHorizontal * 5
+                                : Platform.isIOS
+                                    ? SizeConfig.safeBlockHorizontal * 6
+                                    : SizeConfig.safeBlockHorizontal * 8,
+                            fontStyle: FontStyle.normal,
+                            fontWeight: FontWeight.w400),
+                        children: <TextSpan>[
+                          TextSpan(
+                              text: 'ready to compete and win',
+                              style: TextStyle(
+                                  fontSize: checkIsIosTablet(context)
+                                      ? SizeConfig.safeBlockHorizontal * 5
+                                      : Platform.isIOS
+                                          ? SizeConfig.safeBlockHorizontal * 6
+                                          : SizeConfig.safeBlockHorizontal * 8,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white)),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Container(
+                      margin: EdgeInsets.only(
+                        top: Platform.isIOS
+                            ? checkIsIosTablet(context)
+                                ? SizeConfig.blockSizeVertical * 10
+                                : SizeConfig.blockSizeVertical * 12.5
+                            : SizeConfig.blockSizeVertical * 30,
+                        left: SizeConfig.blockSizeHorizontal * 3,
+                      ),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            child: Text(ReviewText().text5,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: checkIsIosTablet(context)
+                                        ? SizeConfig.safeBlockHorizontal * 5
+                                        : Platform.isIOS
+                                            ? SizeConfig.safeBlockHorizontal *
+                                                6.0
+                                            : SizeConfig.safeBlockHorizontal *
+                                                8.0,
+                                    fontStyle: FontStyle.normal,
+                                    fontWeight: FontWeight.w400)),
+                          ),
+                          resultCont('', '-', ' Be Stronger, fitter, faster'),
+                          resultCont('', '-', ' Improve power & conditioning'),
+                          resultCont('', '-', ' Reduce body fat'),
+                          resultCont('', '-', ' Increase muscle mass'),
+                          resultCont('', '-', ' Improve mobility'),
+                        ],
+                      )),
+                  Platform.isIOS
+                      ? Container(
+                          margin: EdgeInsets.only(
+                              top: SizeConfig.blockSizeVertical * 48),
+                          child: Text(
+                              'App payments made through iTunes are controlled and managed by Apple.\nYour payment will be charged to your iTunes account at confirmation of purchase.Your subscription automatically renews unless auto-renew is turned off at least 24 hours before the end of the current period.Your Account will be charged for renewal within 24 hours prior to the end of the current, period, and the cost of the renewal will be stated.You may managed your subscription and may turn off auto-renewal by going to your iTunes Account Settings after purchase.You may cancel your purchase anytime during the 7-day trial period withouth cost,where applicable.Any unused portion of a free trial period, if offered, will be forfeited if you purchase subscription to that app, where applicable.',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                color: Colors.white,
+                              )),
+                        )
+                      : EmptyContainer(),
+                  Platform.isIOS
+                      ? Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Container(
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.white)),
+                              width: SizeConfig.blockSizeHorizontal * 20,
+                              margin: EdgeInsets.only(
+                                top: checkIsIosTablet(context)
+                                    ? SizeConfig.blockSizeVertical * 62
+                                    : Platform.isIOS
+                                        ? SizeConfig.blockSizeVertical * 62.5
+                                        : SizeConfig.blockSizeVertical * 78,
+//                            left: SizeConfig.blockSizeHorizontal * 20,
+//                            right: SizeConfig.blockSizeHorizontal * 20
+                              ),
+                              child: FlatButton(
+                                  onPressed: () => FlutterInappPurchase.instance
+                                      .getAvailablePurchases()
+                                      .then((value) => print('restored')),
+                                  child: Text(
+                                    'Restore purchase',
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                    ),
+                                  )),
+                            ),
+//                          Container(
+//                            width: SizeConfig.blockSizeHorizontal * 20,
+//                            decoration: BoxDecoration(
+//                                border: Border.all(color: Colors.white)
+//                            ),
+//                            margin: EdgeInsets.only(
+//                              top: checkIsIosTablet(context)
+//                                  ? SizeConfig.blockSizeVertical * 62
+//                                  : Platform.isIOS ?  SizeConfig.blockSizeVertical * 62.5: SizeConfig.blockSizeVertical * 78,),
+//                            child: FlatButton(onPressed: () =>  this._getProduct(), child: Text('Get subscriptions', style: TextStyle(
+//                              color: Colors.white,
+//                            ),)),
+//                          )
+                          ],
+                        )
+                      : EmptyContainer(),
+                  Container(
+                    margin:
+                        EdgeInsets.only(top: SizeConfig.blockSizeVertical * 67),
+                    child: Column(
+                      children: this._renderInApps(),
+                    ),
+                  ),
+                ],
+              )
+            ],
           ),
-        ],
+        ),
       ),
     );
+  }
+
+  bool checkIsIosTablet(BuildContext context) {
+    if (MediaQuery.of(context).size.width > 800) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool checkForTablet(BuildContext context) {
+    if (MediaQuery.of(context).size.width > 600) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

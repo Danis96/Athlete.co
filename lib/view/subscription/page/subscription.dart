@@ -11,8 +11,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import 'widgets/resultCont.dart';
+import 'widgets/textReviews.dart';
+
 class SubscriptionClass extends StatefulWidget {
   final Card buildProductList;
+  final List<Widget> Function() iosBuildProducts;
   final Function listenToUpdates;
   final PageController pageController;
   final DocumentSnapshot currentUserDocument;
@@ -31,6 +35,7 @@ class SubscriptionClass extends StatefulWidget {
     this.userUID,
     this.userEmail,
     this.userExist,
+    this.iosBuildProducts,
   });
 
   @override
