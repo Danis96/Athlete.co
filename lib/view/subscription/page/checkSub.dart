@@ -57,6 +57,7 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
   String _platformVersion = 'Unknown';
   List<IAPItem> _items = [];
   List<PurchasedItem> _purchases = [];
+
   var secretToken = '97c854b72ef64868bd6efe8fab6a1ef0';
 
   @override
@@ -261,7 +262,7 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
                     top: SizeConfig.blockSizeVertical * 1,
                   ),
                   height: Platform.isIOS
-                      ? SizeConfig.blockSizeVertical * 13.5
+                      ? checkIsIosTablet(context) ?  SizeConfig.blockSizeVertical * 13.5 : SizeConfig.blockSizeVertical * 11.5
                       : SizeConfig.blockSizeVertical * 15,
                   child: Padding(
                     padding: EdgeInsets.all(
@@ -469,7 +470,7 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
                   Platform.isIOS
                       ? Container(
                           margin: EdgeInsets.only(
-                              top: SizeConfig.blockSizeVertical * 48),
+                              top: checkIsIosTablet(context) ?  SizeConfig.blockSizeVertical * 48 : SizeConfig.blockSizeVertical * 38),
                           child: Text(
                               'App payments made through iTunes are controlled and managed by Apple.\nYour payment will be charged to your iTunes account at confirmation of purchase.Your subscription automatically renews unless auto-renew is turned off at least 24 hours before the end of the current period.Your Account will be charged for renewal within 24 hours prior to the end of the current, period, and the cost of the renewal will be stated.You may managed your subscription and may turn off auto-renewal by going to your iTunes Account Settings after purchase.You may cancel your purchase anytime during the 7-day trial period withouth cost,where applicable.Any unused portion of a free trial period, if offered, will be forfeited if you purchase subscription to that app, where applicable.',
                               textAlign: TextAlign.center,
@@ -485,15 +486,13 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
                             Container(
                               decoration: BoxDecoration(
                                   border: Border.all(color: Colors.white)),
-                              width: SizeConfig.blockSizeHorizontal * 20,
+                              width: checkIsIosTablet(context) ?  SizeConfig.blockSizeHorizontal * 20 : SizeConfig.blockSizeHorizontal * 50,
                               margin: EdgeInsets.only(
                                 top: checkIsIosTablet(context)
                                     ? SizeConfig.blockSizeVertical * 62
                                     : Platform.isIOS
-                                        ? SizeConfig.blockSizeVertical * 62.5
+                                        ? SizeConfig.blockSizeVertical * 66.5
                                         : SizeConfig.blockSizeVertical * 78,
-//                            left: SizeConfig.blockSizeHorizontal * 20,
-//                            right: SizeConfig.blockSizeHorizontal * 20
                               ),
                               child: FlatButton(
                                   onPressed: () => FlutterInappPurchase.instance
@@ -506,25 +505,12 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
                                     ),
                                   )),
                             ),
-//                          Container(
-//                            width: SizeConfig.blockSizeHorizontal * 20,
-//                            decoration: BoxDecoration(
-//                                border: Border.all(color: Colors.white)
-//                            ),
-//                            margin: EdgeInsets.only(
-//                              top: checkIsIosTablet(context)
-//                                  ? SizeConfig.blockSizeVertical * 62
-//                                  : Platform.isIOS ?  SizeConfig.blockSizeVertical * 62.5: SizeConfig.blockSizeVertical * 78,),
-//                            child: FlatButton(onPressed: () =>  this._getProduct(), child: Text('Get subscriptions', style: TextStyle(
-//                              color: Colors.white,
-//                            ),)),
-//                          )
                           ],
                         )
                       : EmptyContainer(),
                   Container(
                     margin:
-                        EdgeInsets.only(top: SizeConfig.blockSizeVertical * 67),
+                        EdgeInsets.only(top: checkIsIosTablet(context) ?  SizeConfig.blockSizeVertical * 67 : SizeConfig.blockSizeVertical * 72),
                     child: Column(
                       children: this._renderInApps(),
                     ),
