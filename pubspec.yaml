@@ -56,6 +56,8 @@ dependencies:
   numberpicker: ^1.2.0
   animated_overflow: ^1.0.1
   rounded_loading_button: ^1.0.0
+  apple_sign_in: ^0.1.0
+  random_string: ^2.1.0
   flutter_picker:
     git: git://github.com/yangyxd/flutter_picker.git
 

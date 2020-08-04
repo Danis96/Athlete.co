@@ -1,7 +1,11 @@
 import 'dart:convert';
 
+import 'package:attt/utils/text.dart';
+import 'package:attt/view/home/widgets/privacyTerms.dart';
 import 'package:attt/view/subscription/recieptModels/recieptModel.dart';
+import 'package:attt/view_model/settingsViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'dart:io';
@@ -10,6 +14,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:flutter_inapp_purchase/modules.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../utils/colors.dart';
 import '../../../utils/emptyContainer.dart';
@@ -58,12 +63,16 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
   List<IAPItem> _items = [];
   List<PurchasedItem> _purchases = [];
 
+  List<String> price;
+  List<String> currency;
+
   var secretToken = '97c854b72ef64868bd6efe8fab6a1ef0';
 
   @override
   void initState() {
     super.initState();
     initPlatformState();
+
     _pageController = PageController();
   }
 
@@ -155,7 +164,7 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
       }
       if (purchaseError.code == 'E_UNKNOWN') {
         showDeclinedDialog(context, 'No internet',
-            'There is no internet connection.Please try again later.');
+            'There is no internet connection. Please try again later.');
       }
     });
 
@@ -216,12 +225,13 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
         expirationDateMS.toString() +
         '\n' +
         '          thisMoment ' +
-        thisMoment.toString()); 
+        thisMoment.toString());
 
-        int comparedResult = expirationDateMS.toString().compareTo(thisMoment.toString());
-        print(comparedResult);
-        if(comparedResult == 1) {
-         Navigator.of(context).pushReplacement(MaterialPageRoute(
+    int comparedResult =
+        expirationDateMS.toString().compareTo(thisMoment.toString());
+    print(comparedResult);
+    if (comparedResult == 1) {
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (_) => widget.userExist
               ? widget.currentUserDocument.data['trainer'] != null &&
                       widget.currentUserDocument.data['trainer'] != ''
@@ -243,8 +253,8 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
                   photo: widget.userPhoto,
                   userUID: widget.userUID,
                 )));
-        } else print('nije');
-    
+    } else
+      print('nije');
   }
 
   List<Widget> _renderInApps() {
@@ -262,7 +272,9 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
                     top: SizeConfig.blockSizeVertical * 1,
                   ),
                   height: Platform.isIOS
-                      ? checkIsIosTablet(context) ?  SizeConfig.blockSizeVertical * 13.5 : SizeConfig.blockSizeVertical * 11.5
+                      ? checkIsIosTablet(context)
+                          ? SizeConfig.blockSizeVertical * 13.5
+                          : SizeConfig.blockSizeVertical * 11.5
                       : SizeConfig.blockSizeVertical * 15,
                   child: Padding(
                     padding: EdgeInsets.all(
@@ -270,22 +282,25 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
                     child: Column(
                       children: [
                         Container(
-                          padding: EdgeInsets.only(
-                              left: 10.0,
-                              top: checkForTablet(context)
-                                  ? 5.0
-                                  : Platform.isIOS ? 1 : 10.0),
-                          alignment: Alignment.centerLeft,
+                          padding: EdgeInsets.only(left: 10.0, top: 0),
+                          alignment: Alignment.center,
                           width: SizeConfig.blockSizeHorizontal * 100,
                           child: Text(
-                            '7 Days Free Trial',
+                            item.currency +
+                                ' ' +
+                                item.price +
+                                ' /' +
+                                (item.title == 'Annual   Subscription'
+                                    ? ' 1 Year'
+                                    : ' 1 Month'),
                             style: TextStyle(
-                                color: Colors.black.withOpacity(0.6),
-                                fontWeight: FontWeight.bold,
-                                fontStyle: FontStyle.normal,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
                                 fontSize: checkIsIosTablet(context)
-                                    ? SizeConfig.safeBlockHorizontal * 3
-                                    : SizeConfig.safeBlockHorizontal * 3),
+                                    ? SizeConfig.safeBlockHorizontal * 5
+                                    : Platform.isIOS
+                                        ? SizeConfig.safeBlockHorizontal * 7
+                                        : SizeConfig.safeBlockHorizontal * 4),
                           ),
                         ),
                         Container(
@@ -294,7 +309,7 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
                               top: checkForTablet(context)
                                   ? 3
                                   : Platform.isIOS ? 1 : 5),
-                          alignment: Alignment.centerLeft,
+                          alignment: Alignment.center,
                           width: SizeConfig.blockSizeHorizontal * 100,
                           child: Text(
                             item.title,
@@ -305,24 +320,27 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
                                 fontSize: checkIsIosTablet(context)
                                     ? SizeConfig.safeBlockHorizontal * 4
                                     : Platform.isIOS
-                                        ? SizeConfig.safeBlockHorizontal * 4
+                                        ? SizeConfig.safeBlockHorizontal * 5
                                         : SizeConfig.safeBlockHorizontal * 6.5),
                           ),
                         ),
                         Container(
-                          padding: EdgeInsets.only(left: 10.0, top: 0),
-                          alignment: Alignment.centerLeft,
+                          padding: EdgeInsets.only(
+                              left: 10.0,
+                              top: checkForTablet(context)
+                                  ? 5.0
+                                  : Platform.isIOS ? 1 : 10.0),
+                          alignment: Alignment.center,
                           width: SizeConfig.blockSizeHorizontal * 100,
                           child: Text(
-                            'then only '.toUpperCase() + '£' + item.price,
+                            '7 Days Free Trial',
                             style: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500,
+                                color: Colors.black.withOpacity(0.6),
+                                fontWeight: FontWeight.bold,
+                                fontStyle: FontStyle.normal,
                                 fontSize: checkIsIosTablet(context)
-                                    ? SizeConfig.safeBlockHorizontal * 5
-                                    : Platform.isIOS
-                                        ? SizeConfig.safeBlockHorizontal * 5
-                                        : SizeConfig.safeBlockHorizontal * 4),
+                                    ? SizeConfig.safeBlockHorizontal * 3
+                                    : SizeConfig.safeBlockHorizontal * 4),
                           ),
                         ),
                       ],
@@ -438,7 +456,7 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
                       margin: EdgeInsets.only(
                         top: Platform.isIOS
                             ? checkIsIosTablet(context)
-                                ? SizeConfig.blockSizeVertical * 10
+                                ? SizeConfig.blockSizeVertical * 12
                                 : SizeConfig.blockSizeVertical * 12.5
                             : SizeConfig.blockSizeVertical * 30,
                         left: SizeConfig.blockSizeHorizontal * 3,
@@ -461,56 +479,129 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
                                     fontWeight: FontWeight.w400)),
                           ),
                           resultCont('', '-', ' Be Stronger, fitter, faster'),
-                          resultCont('', '-', ' Improve power & conditioning'),
-                          resultCont('', '-', ' Reduce body fat'),
-                          resultCont('', '-', ' Increase muscle mass'),
-                          resultCont('', '-', ' Improve mobility'),
+                          // resultCont('', '-', ' Improve power & conditioning'),
+                          // resultCont('', '-', ' Reduce body fat'),
                         ],
                       )),
-                  Platform.isIOS
-                      ? Container(
-                          margin: EdgeInsets.only(
-                              top: checkIsIosTablet(context) ?  SizeConfig.blockSizeVertical * 48 : SizeConfig.blockSizeVertical * 38),
-                          child: Text(
-                              'App payments made through iTunes are controlled and managed by Apple.\nYour payment will be charged to your iTunes account at confirmation of purchase.Your subscription automatically renews unless auto-renew is turned off at least 24 hours before the end of the current period.Your Account will be charged for renewal within 24 hours prior to the end of the current, period, and the cost of the renewal will be stated.You may managed your subscription and may turn off auto-renewal by going to your iTunes Account Settings after purchase.You may cancel your purchase anytime during the 7-day trial period withouth cost,where applicable.Any unused portion of a free trial period, if offered, will be forfeited if you purchase subscription to that app, where applicable.',
-                              textAlign: TextAlign.center,
+                  Container(
+                    margin: EdgeInsets.only(
+                        top: checkIsIosTablet(context)
+                            ? SizeConfig.blockSizeVertical * 78
+                            : SizeConfig.blockSizeVertical * 75),
+                    child: Text(
+                        'App payments made through iTunes are controlled and managed by Apple.\nYour payment will be charged to your iTunes account at confirmation of purchase.Your subscription automatically renews unless auto-renew is turned off at least 24 hours before the end of the current period.Your Account will be charged for renewal within 24 hours prior to the end of the current, period, and the cost of the renewal will be stated.You may managed your subscription and may turn off auto-renewal by going to your iTunes Account Settings after purchase.You may cancel your purchase anytime during the 7-day trial period withouth cost,where applicable.Any unused portion of a free trial period, if offered, will be forfeited if you purchase subscription to that app, where applicable.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: checkIsIosTablet(context) ? SizeConfig.safeBlockHorizontal * 2 : SizeConfig.safeBlockHorizontal * 3)),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(
+                        top: checkIsIosTablet(context)
+                            ? SizeConfig.blockSizeVertical * 67
+                            : SizeConfig.blockSizeVertical * 57.5),
+                    child: Text(
+                        '* Cancel your 7 -days Trial any time up until 24 hours before it expires.\nOtherwise, your subscription will extend for another month for \$9.99 or for a year for \$89.99 based on your subscription selection.',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                        )),
+                  ),
+                  Container(
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.only(
+                        top: checkIsIosTablet(context)
+                            ? SizeConfig.blockSizeVertical * 51
+                            : SizeConfig.blockSizeVertical * 45),
+                    child: Text(
+                        'Monthly Subscription - Subscription will auto-renew after 1 Month\nAnnual Subscription - Subscription will auto-renew after 12 Months',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          color: Colors.white,
+                        )),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.white)),
+                        width: checkIsIosTablet(context)
+                            ? SizeConfig.blockSizeHorizontal * 20
+                            : SizeConfig.blockSizeHorizontal * 50,
+                        margin: EdgeInsets.only(
+                          top: checkIsIosTablet(context)
+                              ? SizeConfig.blockSizeVertical * 55
+                              : Platform.isIOS
+                                  ? SizeConfig.blockSizeVertical * 45.5
+                                  : SizeConfig.blockSizeVertical * 78,
+                        ),
+                        child: FlatButton(
+                            onPressed: () => FlutterInappPurchase.instance
+                                .getAvailablePurchases()
+                                .then((value) => print('restored')),
+                            child: Text(
+                              'Restore purchase',
                               style: TextStyle(
                                 color: Colors.white,
-                              )),
-                        )
-                      : EmptyContainer(),
-                  Platform.isIOS
-                      ? Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.white)),
-                              width: checkIsIosTablet(context) ?  SizeConfig.blockSizeHorizontal * 20 : SizeConfig.blockSizeHorizontal * 50,
-                              margin: EdgeInsets.only(
-                                top: checkIsIosTablet(context)
-                                    ? SizeConfig.blockSizeVertical * 62
-                                    : Platform.isIOS
-                                        ? SizeConfig.blockSizeVertical * 66.5
-                                        : SizeConfig.blockSizeVertical * 78,
                               ),
-                              child: FlatButton(
-                                  onPressed: () => FlutterInappPurchase.instance
-                                      .getAvailablePurchases()
-                                      .then((value) => print('restored')),
-                                  child: Text(
-                                    'Restore purchase',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    ),
-                                  )),
-                            ),
-                          ],
-                        )
-                      : EmptyContainer(),
+                            )),
+                      ),
+                    ],
+                  ),
                   Container(
-                    margin:
-                        EdgeInsets.only(top: checkIsIosTablet(context) ?  SizeConfig.blockSizeVertical * 67 : SizeConfig.blockSizeVertical * 72),
+                    margin: EdgeInsets.only(
+                        top: checkIsIosTablet(context)
+                            ? SizeConfig.blockSizeVertical * 61.5
+                            : SizeConfig.blockSizeVertical * 52),
+                    width: SizeConfig.blockSizeHorizontal * 96,
+                    child: RichText(
+                      text: TextSpan(
+                        text: MyText().byContinuing,
+                        style: TextStyle(
+                          color: MyColors().lightWhite,
+                          fontSize: checkIsIosTablet(context) ?  SizeConfig.safeBlockHorizontal * 1.5 : SizeConfig.safeBlockHorizontal * 3.5,
+                          fontFamily: 'Roboto',
+                        ),
+                        children: <TextSpan>[
+                          TextSpan(
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () => launchPrivacy(),
+                            text: MyText().terms,
+                            style: TextStyle(
+                                color: MyColors().lightWhite,
+                                fontSize: checkIsIosTablet(context) ?  SizeConfig.safeBlockHorizontal * 1.5 : SizeConfig.safeBlockHorizontal * 3.5,
+                                fontFamily: 'Roboto',
+                                decoration: TextDecoration.underline),
+                          ),
+                          TextSpan(
+                            text: ' & ',
+                            style: TextStyle(
+                              color: MyColors().lightWhite,
+                              fontSize: checkIsIosTablet(context) ?  SizeConfig.safeBlockHorizontal * 1.5 : SizeConfig.safeBlockHorizontal * 3.5,
+                              fontFamily: 'Roboto',
+                            ),
+                          ),
+                          TextSpan(
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () => launchPrivacy(),
+                            text: MyText().privacy,
+                            style: TextStyle(
+                                color: MyColors().lightWhite,
+                                fontSize: checkIsIosTablet(context) ?  SizeConfig.safeBlockHorizontal * 1.5 : SizeConfig.safeBlockHorizontal * 3.5,
+                                fontFamily: 'Roboto',
+                                decoration: TextDecoration.underline),
+                          ),
+                        ],
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(
+                        top: checkIsIosTablet(context)
+                            ? SizeConfig.blockSizeVertical * 25
+                            : SizeConfig.blockSizeVertical * 20),
                     child: Column(
                       children: this._renderInApps(),
                     ),
@@ -522,6 +613,15 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
         ),
       ),
     );
+  }
+
+  launchPrivacy() async {
+    var privacyUrl = 'https://athlete.co/app-policy/';
+    if (await canLaunch(privacyUrl)) {
+      await launch(privacyUrl);
+    } else {
+      throw 'Could not launch';
+    }
   }
 
   bool checkIsIosTablet(BuildContext context) {

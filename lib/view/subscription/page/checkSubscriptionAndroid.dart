@@ -43,7 +43,8 @@ class CheckSubscriptionAndroid extends StatefulWidget {
   });
 
   @override
-  _CheckSubscriptionAndroidState createState() => _CheckSubscriptionAndroidState();
+  _CheckSubscriptionAndroidState createState() =>
+      _CheckSubscriptionAndroidState();
 }
 
 class _CheckSubscriptionAndroidState extends State<CheckSubscriptionAndroid>
@@ -242,33 +243,36 @@ class _CheckSubscriptionAndroidState extends State<CheckSubscriptionAndroid>
       return MapEntry<String, PurchaseDetails>(purchase.productID, purchase);
     }));
 
-    productList.addAll(_products.map(
-      (ProductDetails productDetails) {
-        /// get previous purchases
-        /// then check is that purchases active and
-        /// set the [_isPurchased] to accurate value
-        previousPurchase = purchases[productDetails.id];
+    productList.addAll(_products
+        .map(
+          (ProductDetails productDetails) {
+            /// get previous purchases
+            /// then check is that purchases active and
+            /// set the [_isPurchased] to accurate value
+            previousPurchase = purchases[productDetails.id];
 
-        purchaseExist = previousPurchase != null
-            ? previousPurchase.productID.toString()
-            : 'annual';
-        print(purchaseExist + ' PURCHASE EXIST');
+            purchaseExist = previousPurchase != null
+                ? previousPurchase.productID.toString()
+                : 'annual';
+            print(purchaseExist + ' PURCHASE EXIST');
 
-        _productIDs.add(purchaseExist);
-        print('PRODUCT IDS: ' + _productIDs.toString());
+            _productIDs.add(purchaseExist);
+            print('PRODUCT IDS: ' + _productIDs.toString());
 
-        var names = productDetails.title.split(' ');
+            var names = productDetails.title.split(' ');
 
-        return priceContainer(
-          '7 Days Free Trial',
-          names,
-          productDetails.price.substring(1),
-          context,
-          subscribePressed,
-          productDetails,
-        );
-      },
-    ).toList().reversed);
+            return priceContainer(
+              '7 Days Free Trial',
+              names,
+              productDetails.price.substring(1),
+              context,
+              subscribePressed,
+              productDetails,
+            );
+          },
+        )
+        .toList()
+        .reversed);
 
     return Card(
         color: Colors.transparent,
@@ -333,10 +337,7 @@ class _CheckSubscriptionAndroidState extends State<CheckSubscriptionAndroid>
                               email: widget.userEmail,
                               photo: widget.userPhoto,
                               userUID: widget.userUID,
-                            )
-                  )
-          )
-          );
+                            ))));
         } else {
           showDeclinedDialog(context, 'Not approved',
               'Please check your payments method, card validation or internet access.');
@@ -377,17 +378,23 @@ class _CheckSubscriptionAndroidState extends State<CheckSubscriptionAndroid>
   onDoneLoading() {
     print(purchaseExist + ' IS PURCHASED FROM on done loading');
     Navigator.of(context).push(MaterialPageRoute(
-        builder: (_) => _productIDs[1].toString() == oneMonthID ||
-                _productIDs[1].toString() == yearID ||
-                _productIDs[2].toString() == oneMonthID ||
-                _productIDs[2].toString() == yearID
-            ? widget.userExist
-                ? widget.currentUserDocument.data['trainer'] != null &&
-                        widget.currentUserDocument.data['trainer'] != ''
-                    ? TrainingPlan(
-                        userTrainerDocument: widget.currentUserTrainerDocument,
-                        userDocument: widget.currentUserDocument,
-                      )
+        builder: (_) =>
+            purchaseExist == oneMonthID || purchaseExist == yearID
+                ? widget.userExist
+                    ? widget.currentUserDocument.data['trainer'] != null &&
+                            widget.currentUserDocument.data['trainer'] != ''
+                        ? TrainingPlan(
+                            userTrainerDocument:
+                                widget.currentUserTrainerDocument,
+                            userDocument: widget.currentUserDocument,
+                          )
+                        : ChooseAthlete(
+                            userDocument: widget.currentUserDocument,
+                            name: widget.userName,
+                            email: widget.userEmail,
+                            photo: widget.userPhoto,
+                            userUID: widget.userUID,
+                          )
                     : ChooseAthlete(
                         userDocument: widget.currentUserDocument,
                         name: widget.userName,
@@ -395,24 +402,18 @@ class _CheckSubscriptionAndroidState extends State<CheckSubscriptionAndroid>
                         photo: widget.userPhoto,
                         userUID: widget.userUID,
                       )
-                : ChooseAthlete(
-                    userDocument: widget.currentUserDocument,
-                    name: widget.userName,
-                    email: widget.userEmail,
-                    photo: widget.userPhoto,
+                : SubscriptionClass(
+                    currentUserDocument: widget.currentUserDocument,
+                    currentUserTrainerDocument:
+                        widget.currentUserTrainerDocument,
+                    buildProductList: _buildProductList(),
+                    pageController: _pageController,
+                    userName: widget.userName,
+                    userEmail: widget.userEmail,
+                    userPhoto: widget.userPhoto,
                     userUID: widget.userUID,
-                  )
-            : SubscriptionClass(
-                currentUserDocument: widget.currentUserDocument,
-                currentUserTrainerDocument: widget.currentUserTrainerDocument,
-                buildProductList: _buildProductList(),
-                pageController: _pageController,
-                userName: widget.userName,
-                userEmail: widget.userEmail,
-                userPhoto: widget.userPhoto,
-                userUID: widget.userUID,
-                userExist: widget.userExist,
-              )));
+                    userExist: widget.userExist,
+                  )));
   }
 
   @override

@@ -59,8 +59,6 @@ class _SigninState extends State<Signin> {
                             itemBuilder: (BuildContext context, int index) {
                               String trainerName =
                                   snapshot.data[index].data['trainer_name'];
-                              print('Trainer ' + trainerName);
-
                               return EmptyContainer();
 
                             });

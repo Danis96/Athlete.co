@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:attt/utils/colors.dart';
+import 'package:attt/utils/emptyContainer.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:attt/view/settings/widgets/textPrivacy.dart';
 import 'package:flutter/material.dart';
@@ -13,8 +16,10 @@ class PrivacyAndTerms extends StatelessWidget {
       backgroundColor: MyColors().lightBlack,
       appBar: AppBar(
         backgroundColor: Colors.black,
-        leading: IconButton(icon: Icon(Icons.clear), onPressed: () => Navigator.pop(context)),
-        title: Text('Privacy and Terms'),),
+        leading: IconButton(
+            icon: Icon(Icons.clear), onPressed: () => Navigator.pop(context)),
+        title: Text('Privacy and Terms'),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Center(
@@ -62,6 +67,10 @@ class PrivacyAndTerms extends StatelessWidget {
               privacyContainer(TextPrivacy().right1, TextPrivacy().right2),
               privacyContainer(TextPrivacy().balance1, TextPrivacy().balance2),
               privacyContainer(TextPrivacy().amad1, TextPrivacy().amad2),
+              Platform.isIOS
+                  ? privacyContainer('App usage info & Subscription details',
+                      'Athlete.co comes with 7 days free trial.After this free trial you must purchase an auto-renewing subscription through an In-App Purchase.  (If you do not maintain a subscription you cannot use the app with all the content)\n\n• Auto-renewable subscription\n• 1 month (\$9.99) and annual/12 month (\$89.99) durations. (Prices may vary by location)\n• Your subscription will be charged to your iTunes account at confirmation of purchase and will automatically renew  (at the duration selected) unless auto-renew is turned off at least 24 hours before the end of the current period.\n• Current subscription may not be cancelled during the active subscription period; however, you can manage your subscription and/or turn off auto-renewal by visiting your iTunes Account Settings after purchase.\n\nThe renewal rate will be according to your subscription \$9.99 or \$89.99\nIn addition, we offer free trial periods on 7 days!')
+                  : EmptyContainer()
             ],
           ),
         ),

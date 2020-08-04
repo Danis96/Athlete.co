@@ -97,7 +97,7 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
         launchEmail(userName);
       }
     }
-  }
+  }                                                                                                                                     
 
   @override
   showAlertDialog(BuildContext context) {

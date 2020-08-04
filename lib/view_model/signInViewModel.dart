@@ -8,16 +8,20 @@ import 'package:attt/utils/dialog.dart';
 import 'package:attt/utils/globals.dart';
 import 'package:attt/view/subscription/page/checkSub.dart';
 import 'package:attt/view/subscription/page/checkSubscriptionAndroid.dart';
+import 'package:attt/view_model/authservice.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_twitter_login/flutter_twitter_login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:provider/provider.dart';
+import 'package:random_string/random_string.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// dialog key
 final GlobalKey<State> _keyLoader = new GlobalKey<State>();
+
 
 class SignInViewModel implements SignInInterface {
   FirebaseUser currentUser;
@@ -30,6 +34,109 @@ class SignInViewModel implements SignInInterface {
   String currentUserTrainerName;
   String currentUserTrainingPlanDuration;
   String currentUserTrainingPlan;
+
+  /// sign in with apple
+  Future<void> signInWithApple(BuildContext context) async {
+    Dialogs.showLoadingDialog(context, _keyLoader);
+    Timer(Duration(seconds: 3), () async {
+      /// close modal dialog
+      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
+      try {
+        final authService = Provider.of<AuthService>(context, listen: false);
+        final user = await authService.signInWithApple();
+        String userAppleEmail =  randomString(4) + '@email.com';
+        print(userAppleEmail);
+        String userAppleUsername = randomString(4) + ' ' + randomString(6);
+        userName = userAppleUsername;
+        print(userName);
+        String userApplePhoto = ''; 
+        String userUIDApple = user.uid;
+        userUIDPref = userUIDApple;
+        print(userUIDApple);
+
+        loginUser();
+
+        ///Checking if user already exists in database
+        ///
+        ///If user exists, users info is collected
+        ///If user does not exist, user is created
+        bool userExist = await doesUserAlreadyExist(userUIDApple);
+        if (!userExist) {
+          createUser(userAppleUsername, userAppleEmail, userApplePhoto,
+              userUIDApple, 'Apple');
+          currentUserDocuments = await getCurrentUserDocument(userUIDApple);
+          currentUserDocument = currentUserDocuments[0];
+        } else {
+          currentUserDocuments = await getCurrentUserDocument(userUIDApple);
+          currentUserDocument = currentUserDocuments[0];
+          if (currentUserDocument.data['trainer'] != null &&
+              currentUserDocument.data['trainer'] != '') {
+            currentUserTrainerDocuments = await getCurrentUserTrainer(
+                currentUserDocument.data['trainer']);
+            currentUserTrainerDocument = currentUserTrainerDocuments[0];
+            totalWeeks = await getCurrentUserTrainerWeeks(
+                currentUserTrainerDocument.data['trainerID']);
+            currentUserTrainerName =
+                currentUserTrainerDocument.data['trainer_name'];
+            currentUserTrainingPlanDuration =
+                currentUserTrainerDocument.data['training_plan_duration'];
+            currentUserTrainingPlan =
+                currentUserTrainerDocument.data['training_plan_name'];
+          }
+        }
+
+        Navigator.of(context).pushAndRemoveUntil(
+            CardAnimationTween(
+              widget: Platform.isIOS
+                  ? CheckSubscription(
+                      currentUserDocument: currentUserDocument,
+                      currentUserTrainerDocument: currentUserTrainerDocument,
+                      userName: userName,
+                      userEmail: userEmail,
+                      userExist: userExist,
+                      userPhoto: userPhoto,
+                      userUID: userUIDApple,
+                    )
+                  : CheckSubscriptionAndroid(
+                      currentUserDocument: currentUserDocument,
+                      currentUserTrainerDocument: currentUserTrainerDocument,
+                      userName: userName,
+                      userEmail: userEmail,
+                      userExist: userExist,
+                      userPhoto: userPhoto,
+                      userUID: userUIDApple,
+                    ),
+            ),
+            (Route<dynamic> route) => false);
+      } catch (e) {
+        print(e);
+        return showDialog<void>(
+          context: context,
+          barrierDismissible: false, // user must tap button!
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Apple Sign In Error'),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    Text('Something is wrong, try againg in a few moments!'),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text('Done'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+    });
+  }
 
   /// twitter sign in classes
   TwitterLoginResult _twitterLoginResult;
@@ -130,24 +237,25 @@ class SignInViewModel implements SignInInterface {
 
     Navigator.of(context).pushAndRemoveUntil(
         CardAnimationTween(
-          widget: Platform.isIOS ?
-          CheckSubscription(
-            currentUserDocument: currentUserDocument,
-            currentUserTrainerDocument: currentUserTrainerDocument,
-            userName: userName,
-            userEmail: userEmail,
-            userExist: userExist,
-            userPhoto: userPhoto,
-            userUID: userUIDTwitter,
-          ) : CheckSubscriptionAndroid(
-            currentUserDocument: currentUserDocument,
-            currentUserTrainerDocument: currentUserTrainerDocument,
-            userName: userName,
-            userEmail: userEmail,
-            userExist: userExist,
-            userPhoto: userPhoto,
-            userUID: userUIDTwitter,
-          ),
+          widget: Platform.isIOS
+              ? CheckSubscription(
+                  currentUserDocument: currentUserDocument,
+                  currentUserTrainerDocument: currentUserTrainerDocument,
+                  userName: userName,
+                  userEmail: userEmail,
+                  userExist: userExist,
+                  userPhoto: userPhoto,
+                  userUID: userUIDTwitter,
+                )
+              : CheckSubscriptionAndroid(
+                  currentUserDocument: currentUserDocument,
+                  currentUserTrainerDocument: currentUserTrainerDocument,
+                  userName: userName,
+                  userEmail: userEmail,
+                  userExist: userExist,
+                  userPhoto: userPhoto,
+                  userUID: userUIDTwitter,
+                ),
         ),
         (Route<dynamic> route) => false);
   }
@@ -161,6 +269,7 @@ class SignInViewModel implements SignInInterface {
   signInWithGoogle(BuildContext context) async {
     /// open dialog
     Dialogs.showLoadingDialog(context, _keyLoader);
+
     /// close dialog
     Timer(Duration(seconds: 2), () {
       Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -169,7 +278,6 @@ class SignInViewModel implements SignInInterface {
     final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
     final GoogleSignInAuthentication googleSignInAuthentication =
         await googleSignInAccount.authentication;
-
 
     /// we get credentials over [GoogleAuthProvider] and get [accessToken & idToken]
     final AuthCredential credential = GoogleAuthProvider.getCredential(
@@ -180,6 +288,7 @@ class SignInViewModel implements SignInInterface {
     /// we collect that result and we collect activeUsers info
     final AuthResult authResult =
         await _firebaseAuth.signInWithCredential(credential);
+
     /// close dialog
 //    Timer(Duration(seconds: 2), () {
 //      Navigator.of(_keyLoader.currentContext, rootNavigator: true).pop();
@@ -228,28 +337,27 @@ class SignInViewModel implements SignInInterface {
       }
     }
 
-
-
-
     Navigator.of(context).pushAndRemoveUntil(
         CardAnimationTween(
-          widget: Platform.isIOS ? CheckSubscription(
-            currentUserDocument: currentUserDocument,
-            currentUserTrainerDocument: currentUserTrainerDocument,
-            userName: userName,
-            userEmail: userEmail,
-            userExist: userExist,
-            userPhoto: userPhoto,
-            userUID: userUIDPref,
-          ) : CheckSubscriptionAndroid(
-            currentUserDocument: currentUserDocument,
-            currentUserTrainerDocument: currentUserTrainerDocument,
-            userName: userName,
-            userEmail: userEmail,
-            userExist: userExist,
-            userPhoto: userPhoto,
-            userUID: userUIDPref,
-          ),
+          widget: Platform.isIOS
+              ? CheckSubscription(
+                  currentUserDocument: currentUserDocument,
+                  currentUserTrainerDocument: currentUserTrainerDocument,
+                  userName: userName,
+                  userEmail: userEmail,
+                  userExist: userExist,
+                  userPhoto: userPhoto,
+                  userUID: userUIDPref,
+                )
+              : CheckSubscriptionAndroid(
+                  currentUserDocument: currentUserDocument,
+                  currentUserTrainerDocument: currentUserTrainerDocument,
+                  userName: userName,
+                  userEmail: userEmail,
+                  userExist: userExist,
+                  userPhoto: userPhoto,
+                  userUID: userUIDPref,
+                ),
         ),
         (Route<dynamic> route) => false);
   }
@@ -285,7 +393,6 @@ class SignInViewModel implements SignInInterface {
     userPhoto = prefs.getString('photoURL');
     String userUIDP = prefs.getString('userUIDPref');
 
-
     currentUserDocuments = await getCurrentUserDocument(userUIDP);
     currentUserDocument = currentUserDocuments[0];
 
@@ -311,30 +418,31 @@ class SignInViewModel implements SignInInterface {
       isLoggedIn = true;
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
-            builder: (_) => Platform.isIOS ? CheckSubscription(
-              currentUserDocument: currentUserDocument,
-              currentUserTrainerDocument: currentUserTrainerDocument,
-              userName: userName,
-              userEmail: userEmail,
-              userExist: true,
-              userPhoto: userPhoto,
-              userUID: userUIDP,
-            ) : CheckSubscriptionAndroid(
-              currentUserDocument: currentUserDocument,
-              currentUserTrainerDocument: currentUserTrainerDocument,
-              userName: userName,
-              userEmail: userEmail,
-              userExist: true,
-              userPhoto: userPhoto,
-              userUID: userUIDP,
-            ),
+            builder: (_) => Platform.isIOS
+                ? CheckSubscription(
+                    currentUserDocument: currentUserDocument,
+                    currentUserTrainerDocument: currentUserTrainerDocument,
+                    userName: userName,
+                    userEmail: userEmail,
+                    userExist: true,
+                    userPhoto: userPhoto,
+                    userUID: userUIDP,
+                  )
+                : CheckSubscriptionAndroid(
+                    currentUserDocument: currentUserDocument,
+                    currentUserTrainerDocument: currentUserTrainerDocument,
+                    userName: userName,
+                    userEmail: userEmail,
+                    userExist: true,
+                    userPhoto: userPhoto,
+                    userUID: userUIDP,
+                  ),
           ),
           (Route<dynamic> route) => false);
     }
   }
 
-  ///Method that deletes a user from cach and sets records to null
-  ///
+  ///Method that deletes a user from cache and sets records to null
   ///in Shared Preference. This method is called when user clicks
   ///on Sign out button
   @override
@@ -347,6 +455,7 @@ class SignInViewModel implements SignInInterface {
     prefs.setString('displayName', null);
     prefs.setString('photoURL', null);
     prefs.setString('userUIDPref', null);
+    /// Setting variable to false, so that we can manage user profile
     isLoggedIn = false;
   }
 
@@ -356,6 +465,7 @@ class SignInViewModel implements SignInInterface {
   ///on any of Sign in buttons
   @override
   loginUser() async {
+    print('start logging prefs');
     ///Creating instance of Shared Preference
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -543,23 +653,25 @@ class SignInViewModel implements SignInInterface {
         ///Navigating logged user into application
         Navigator.of(context).pushAndRemoveUntil(
             CardAnimationTween(
-              widget: Platform.isIOS ? CheckSubscription(
-                currentUserDocument: currentUserDocument,
-                currentUserTrainerDocument: currentUserTrainerDocument,
-                userName: userName,
-                userEmail: userEmail,
-                userExist: userExist,
-                userPhoto: userPhoto,
-                userUID: userUIDFacebook,
-              ) : CheckSubscriptionAndroid(
-                currentUserDocument: currentUserDocument,
-                currentUserTrainerDocument: currentUserTrainerDocument,
-                userName: userName,
-                userEmail: userEmail,
-                userExist: userExist,
-                userPhoto: userPhoto,
-                userUID: userUIDFacebook,
-              ) ,
+              widget: Platform.isIOS
+                  ? CheckSubscription(
+                      currentUserDocument: currentUserDocument,
+                      currentUserTrainerDocument: currentUserTrainerDocument,
+                      userName: userName,
+                      userEmail: userEmail,
+                      userExist: userExist,
+                      userPhoto: userPhoto,
+                      userUID: userUIDFacebook,
+                    )
+                  : CheckSubscriptionAndroid(
+                      currentUserDocument: currentUserDocument,
+                      currentUserTrainerDocument: currentUserTrainerDocument,
+                      userName: userName,
+                      userEmail: userEmail,
+                      userExist: userExist,
+                      userPhoto: userPhoto,
+                      userUID: userUIDFacebook,
+                    ),
             ),
             (Route<dynamic> route) => false);
 
