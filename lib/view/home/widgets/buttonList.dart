@@ -16,27 +16,28 @@ import 'package:provider/provider.dart';
 
 Widget buttonList(BuildContext context) {
   SizeConfig().init(context);
-  final appleSignInAvailable = Provider.of<AppleSignInAvailable>(context, listen: false);
+  final appleSignInAvailable =
+      Provider.of<AppleSignInAvailable>(context, listen: false);
   return Container(
     child: Column(
       children: <Widget>[
         googleButton(context),
         SizedBox(
-          height: SizeConfig.blockSizeVertical + 1.7,
+          height: SizeConfig.blockSizeVertical * 1.3,
         ),
         // facebookButton(context),
         // SizedBox(
         //   height: SizeConfig.blockSizeVertical * 1.7,
         // ),
-        Platform.isIOS ? 
-        appleSignInAvailable.isAvailable ?  
-        appleSignInButton(context) : EmptyContainer() : EmptyContainer(),
-        SizedBox(
-          height: SizeConfig.blockSizeVertical * 1.7,
+        appleSignInAvailable.isAvailable
+                ? appleSignInButton(context)
+                : EmptyContainer(),
+                SizedBox(
+          height: SizeConfig.blockSizeVertical * 1.3,
         ),
         twitterButton(context),
         SizedBox(
-          height: SizeConfig.blockSizeVertical * 1.7,
+          height: SizeConfig.blockSizeVertical * 1.3,
         ),
         privacyTerms(context)
       ],
@@ -47,10 +48,35 @@ Widget buttonList(BuildContext context) {
 Widget appleSignInButton(BuildContext context) {
   SizeConfig().init(context);
   return Container(
-    width: SizeConfig.blockSizeHorizontal * 73,
+    width: SizeConfig.blockSizeHorizontal * 72,
     child: AppleSignInButton(
-       onPressed: () => SignInViewModel().signInWithApple(context),
-       style: ButtonStyle.black,
-    ),
+          cornerRadius: 0.0,
+          style: ButtonStyle.white,
+          type: ButtonType.continueButton,
+       ),
   );
 }
+
+//  Row(
+//         // crossAxisAlignment: CrossAxisAlignment.center,
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         children: <Widget>[
+//           Container(
+//             alignment: Alignment.centerLeft,
+//             child: Icon(FontAwesomeIcons.apple,
+//             size: 24,
+//             ),
+//           ),
+//           Container(
+//             child: Text('Continue with Apple',
+//              style: TextStyle(
+//                 fontSize: 24,
+//                 fontWeight: FontWeight.w500,
+//                 letterSpacing: .3,
+//                 wordSpacing: -.5,
+//                 color: Colors.black,
+//               ),),
+//             alignment: Alignment.center,
+//           )
+//         ],
+//       )

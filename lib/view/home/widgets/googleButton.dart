@@ -3,13 +3,14 @@ import 'package:attt/utils/size_config.dart';
 import 'package:attt/utils/text.dart';
 import 'package:attt/view_model/signInViewModel.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 Widget googleButton(BuildContext context) {
   SizeConfig().init(context);
   return GestureDetector(
     onTap: () => SignInViewModel().signInWithGoogle(context),
     child: Container(
-        height: SizeConfig.blockSizeVertical * 6.25,
+        height: 50,
         width: SizeConfig.blockSizeHorizontal * 72,
         color: MyColors().white,
         child: Row(
@@ -17,34 +18,52 @@ Widget googleButton(BuildContext context) {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(
-                top: SizeConfig.blockSizeVertical * 0.6,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(2),
-                color: Colors.white,
-              ),
-              height: SizeConfig.blockSizeVertical * 3.75,
-              width: SizeConfig.blockSizeHorizontal * 6.667,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: Image.asset(
+                margin:
+                    EdgeInsets.only(left: checkIsIosTablet(context) ? SizeConfig.blockSizeHorizontal * 1.4  : SizeConfig.blockSizeHorizontal * 2.5),
+                // padding: EdgeInsets.only(
+                //   top: SizeConfig.blockSizeVertical * 0.6,
+                // ),
+                // decoration: BoxDecoration(
+                //   borderRadius: BorderRadius.circular(2),
+                //   color: Colors.white,
+                // ),
+                child: 
+                // Icon(
+                //   FontAwesomeIcons.google,
+                //   size: 19,q
+                // )
+                 Image.asset(
                 'assets/images/google-login.png',
+                height: 20,
+                width: 20,
                 fit: BoxFit.contain,
-              ),
-              ),
-            ),
+                ),
+                ),
             SizedBox(
-              width: SizeConfig.blockSizeHorizontal * 4,
+              width: 5,
             ),
-            Text(
-              MyText().gButton,
-              style: TextStyle(
-                  color: MyColors().black,
-                  fontSize: SizeConfig.safeBlockHorizontal * 4,
-                  fontFamily: 'Roboto'),
-            ),
+            Container(
+              margin: EdgeInsets.only(left: 1),
+              child: Text(
+                MyText().gButton,
+                style: TextStyle(
+                  fontSize: 21,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: .3,
+                  wordSpacing: -.5,
+                  color: Colors.black,
+                ),
+              ),
+            )
           ],
         )),
   );
 }
+
+  bool checkIsIosTablet(BuildContext context) {
+    if (MediaQuery.of(context).size.width > 800) {
+      return true;
+    } else {
+      return false;
+    }
+  }

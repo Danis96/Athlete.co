@@ -21,9 +21,9 @@ class MyText {
    final String fbButton = 'Continue with facebook';
   /// googleButton
    final String googleIconUrl = 'assets/logos/google_light.png';
-   final String gButton = 'CONTINUE WITH GOOGLE';
+   final String gButton = 'Continue with Google';
   /// twitterButton
-   final String tButton = 'CONTINUE WITH TWITTER';
+   final String tButton = 'Continue with Twitter';
 
   /// privacyTerms.dart
    final String byContinuing = 'By continuing, you agree to the\n';

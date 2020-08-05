@@ -47,7 +47,7 @@ Widget twitterButton(BuildContext context) {
       });
     },
     child: Container(
-        height: SizeConfig.blockSizeVertical * 6.25,
+        height: 50,
         width: SizeConfig.blockSizeHorizontal * 72,
         color: MyColors().twitterColor,
         child: Row(
@@ -55,35 +55,45 @@ Widget twitterButton(BuildContext context) {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: MyColors().white,
-              ),
-              height: SizeConfig.blockSizeVertical * 3.75,
-              width: SizeConfig.blockSizeHorizontal * 6.667,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: Icon(
-                  FontAwesomeIcons.twitter,
-                  color: MyColors().twitterColor,
-                  size: SizeConfig.blockSizeVertical * 2.3,
-                ),
+              margin: EdgeInsets.only(left:checkIsIosTablet(context) ? SizeConfig.blockSizeHorizontal * 1.4  : SizeConfig.blockSizeHorizontal * 2.5),
+              // decoration: BoxDecoration(
+              //   shape: BoxShape.circle,
+              //   color: MyColors().white,
+              // ),
+              // height: SizeConfig.blockSizeVertical * 3.75,
+              // width: SizeConfig.blockSizeHorizontal * 6.667,
+              child: Icon(
+                FontAwesomeIcons.twitter,
+                color: Colors.white,
+                size: 21,
               ),
             ),
             SizedBox(
-              width: SizeConfig.blockSizeHorizontal * 3,
+              width: 7,
             ),
-            Text(
-              MyText().tButton,
-              style: TextStyle(
-                  color: MyColors().white,
-                  fontSize: SizeConfig.safeBlockHorizontal * 4,
-                  fontFamily: 'Roboto'),
+            Container(
+              child: Text(
+                MyText().tButton,
+                 style: TextStyle(
+                  fontSize: 21,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: .3,
+                  wordSpacing: -.5,
+                  color: Colors.white,),
+                ),
             ),
           ],
         )),
   );
 }
+
+ bool checkIsIosTablet(BuildContext context) {
+    if (MediaQuery.of(context).size.width > 800) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
 showAlertDialog(BuildContext context) {
   // set up the button
