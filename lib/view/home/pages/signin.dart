@@ -42,7 +42,7 @@ class _SigninState extends State<Signin> {
   Widget build(BuildContext context) {
     SizeConfig().init(context);
     return Scaffold(
-      backgroundColor: Color.fromRGBO(28, 28, 28, 1.0),
+      backgroundColor: Colors.black,
       body: Center(
         child: Container(
           child: Column(
@@ -71,7 +71,7 @@ class _SigninState extends State<Signin> {
               ),
               logo(context),
               SizedBox(
-                height: SizeConfig.blockSizeVertical * 40,
+                height: SizeConfig.blockSizeVertical * 35,
               ),
               buttonList(context)
             ],

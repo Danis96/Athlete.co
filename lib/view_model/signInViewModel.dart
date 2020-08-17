@@ -6,8 +6,10 @@ import 'package:attt/utils/custoWeb.dart';
 import 'package:attt/utils/customScreenAnimation.dart';
 import 'package:attt/utils/dialog.dart';
 import 'package:attt/utils/globals.dart';
+import 'package:attt/view/chooseAthlete/pages/chooseAthlete.dart';
 import 'package:attt/view/subscription/page/checkSub.dart';
 import 'package:attt/view/subscription/page/checkSubscriptionAndroid.dart';
+import 'package:attt/view/trainingPlan/pages/trainingPlan.dart';
 import 'package:attt/view_model/authservice.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -44,12 +46,12 @@ class SignInViewModel implements SignInInterface {
       try {
         final authService = Provider.of<AuthService>(context, listen: false);
         final user = await authService.signInWithApple();
-        String userAppleEmail =  randomString(4) + '@email.com';
+        String userAppleEmail = randomString(4) + '@email.com';
         print(userAppleEmail);
         String userAppleUsername = randomString(4) + ' ' + randomString(6);
         userName = userAppleUsername;
         print(userName);
-        String userApplePhoto = ''; 
+        String userApplePhoto = '';
         String userUIDApple = user.uid;
         userUIDPref = userUIDApple;
         print(userUIDApple);
@@ -337,29 +339,68 @@ class SignInViewModel implements SignInInterface {
       }
     }
 
-    Navigator.of(context).pushAndRemoveUntil(
-        CardAnimationTween(
-          widget: Platform.isIOS
-              ? CheckSubscription(
-                  currentUserDocument: currentUserDocument,
-                  currentUserTrainerDocument: currentUserTrainerDocument,
-                  userName: userName,
-                  userEmail: userEmail,
-                  userExist: userExist,
-                  userPhoto: userPhoto,
-                  userUID: userUIDPref,
-                )
-              : CheckSubscriptionAndroid(
-                  currentUserDocument: currentUserDocument,
-                  currentUserTrainerDocument: currentUserTrainerDocument,
-                  userName: userName,
-                  userEmail: userEmail,
-                  userExist: userExist,
-                  userPhoto: userPhoto,
-                  userUID: userUIDPref,
-                ),
-        ),
-        (Route<dynamic> route) => false);
+    /// checking subscription status
+    var expirationDateFromShared;
+    final prefs = await SharedPreferences.getInstance();
+    expirationDateFromShared = prefs.getString('expirationDate') ?? '0';
+    print(expirationDateFromShared.toString() + ' Expiration Date From Shared');
+
+    var thisMoment = DateTime.now().toUtc().millisecondsSinceEpoch;
+
+    int equalityResult =
+        expirationDateFromShared.compareTo(thisMoment.toString());
+    print(equalityResult);
+
+    if (equalityResult == 1) {
+      /// go in app
+      Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (_) => userExist
+              ? currentUserDocument.data['trainer'] != null &&
+                      currentUserDocument.data['trainer'] != ''
+                  ? TrainingPlan(
+                      userTrainerDocument: currentUserTrainerDocument,
+                      userDocument: currentUserDocument,
+                    )
+                  : ChooseAthlete(
+                      userDocument: currentUserDocument,
+                      name: userName,
+                      email: userEmail,
+                      photo: userPhoto,
+                      userUID: userUIDGoogle,
+                    )
+              : ChooseAthlete(
+                  userDocument: currentUserDocument,
+                  name: userName,
+                  email: userEmail,
+                  photo: userPhoto,
+                  userUID: userUIDGoogle,
+                )));
+    } else {
+      /// go to sub
+      Navigator.of(context).pushAndRemoveUntil(
+          CardAnimationTween(
+            widget: Platform.isIOS
+                ? CheckSubscription(
+                    currentUserDocument: currentUserDocument,
+                    currentUserTrainerDocument: currentUserTrainerDocument,
+                    userName: userName,
+                    userEmail: userEmail,
+                    userExist: userExist,
+                    userPhoto: userPhoto,
+                    userUID: userUIDPref,
+                  )
+                : CheckSubscriptionAndroid(
+                    currentUserDocument: currentUserDocument,
+                    currentUserTrainerDocument: currentUserTrainerDocument,
+                    userName: userName,
+                    userEmail: userEmail,
+                    userExist: userExist,
+                    userPhoto: userPhoto,
+                    userUID: userUIDPref,
+                  ),
+          ),
+          (Route<dynamic> route) => false);
+    }
   }
 
   @override
@@ -410,35 +451,66 @@ class SignInViewModel implements SignInInterface {
           currentUserTrainerDocument.data['training_plan_name'];
     }
 
+    /// checking subscription status
+    var expirationDateFromShared;
+    final prefss = await SharedPreferences.getInstance();
+    expirationDateFromShared = prefss.getString('expirationDate') ?? '0';
+    print(expirationDateFromShared.toString() + ' Expiration Date From Shared');
+
+    var thisMoment = DateTime.now().toUtc().millisecondsSinceEpoch;
+
+    int equalityResult =
+        expirationDateFromShared.compareTo(thisMoment.toString());
+    print(equalityResult);
+
     ///Checking if there is a user logged in, only if there are
     ///
     ///records in shared preference, user is directly redirected
     ///to ChooseAthelete Screen
     if (userName != null && userPhoto != null) {
       isLoggedIn = true;
-      Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (_) => Platform.isIOS
-                ? CheckSubscription(
-                    currentUserDocument: currentUserDocument,
-                    currentUserTrainerDocument: currentUserTrainerDocument,
-                    userName: userName,
-                    userEmail: userEmail,
-                    userExist: true,
-                    userPhoto: userPhoto,
-                    userUID: userUIDP,
+      if (equalityResult == 1) {
+        /// go in app
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (_) => currentUserDocument.data['trainer'] != null &&
+                    currentUserDocument.data['trainer'] != ''
+                ? TrainingPlan(
+                    userTrainerDocument: currentUserTrainerDocument,
+                    userDocument: currentUserDocument,
                   )
-                : CheckSubscriptionAndroid(
-                    currentUserDocument: currentUserDocument,
-                    currentUserTrainerDocument: currentUserTrainerDocument,
-                    userName: userName,
-                    userEmail: userEmail,
-                    userExist: true,
-                    userPhoto: userPhoto,
+                : ChooseAthlete(
+                    userDocument: currentUserDocument,
+                    name: userName,
+                    email: userEmail,
+                    photo: userPhoto,
                     userUID: userUIDP,
-                  ),
-          ),
-          (Route<dynamic> route) => false);
+                  )));
+      } else {
+        /// go to sub
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (_) => Platform.isIOS
+                  ? CheckSubscription(
+                      currentUserDocument: currentUserDocument,
+                      currentUserTrainerDocument: currentUserTrainerDocument,
+                      userName: userName,
+                      userEmail: userEmail,
+                      userExist: true,
+                      userPhoto: userPhoto,
+                      userUID: userUIDP,
+                    )
+                  : CheckSubscriptionAndroid(
+                      currentUserDocument: currentUserDocument,
+                      currentUserTrainerDocument: currentUserTrainerDocument,
+                      userName: userName,
+                      userEmail: userEmail,
+                      userExist: true,
+                      userPhoto: userPhoto,
+                      userUID: userUIDP,
+                    ),
+            ),
+            (Route<dynamic> route) => false);
+      }
     }
   }
 
@@ -455,6 +527,7 @@ class SignInViewModel implements SignInInterface {
     prefs.setString('displayName', null);
     prefs.setString('photoURL', null);
     prefs.setString('userUIDPref', null);
+
     /// Setting variable to false, so that we can manage user profile
     isLoggedIn = false;
   }
@@ -466,6 +539,7 @@ class SignInViewModel implements SignInInterface {
   @override
   loginUser() async {
     print('start logging prefs');
+
     ///Creating instance of Shared Preference
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
@@ -591,6 +665,7 @@ class SignInViewModel implements SignInInterface {
 
   @override
   signInWithFacebook(BuildContext context) async {
+    // Dialogs.showLoadingDialog(context, _keyLoader);
     const String your_client_id = "573013163622508";
     const String your_redirect_url =
         "https://www.facebook.com/connect/login_success.html";
@@ -606,7 +681,6 @@ class SignInViewModel implements SignInInterface {
     );
 
     if (result != null) {
-      print('RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRrr  ' + result);
       try {
         final facebookAuthCred =
             FacebookAuthProvider.getCredential(accessToken: result);

@@ -25,14 +25,15 @@ Widget buttonList(BuildContext context) {
         SizedBox(
           height: SizeConfig.blockSizeVertical * 1.3,
         ),
-        // facebookButton(context),
-        // SizedBox(
-        //   height: SizeConfig.blockSizeVertical * 1.7,
-        // ),
+        facebookButton(context),
+        SizedBox(
+          height: SizeConfig.blockSizeVertical * 1.3,
+        ),
         appleSignInAvailable.isAvailable
                 ? appleSignInButton(context)
                 : EmptyContainer(),
-                SizedBox(
+
+        Platform.isAndroid ? EmptyContainer() : SizedBox(
           height: SizeConfig.blockSizeVertical * 1.3,
         ),
         twitterButton(context),
@@ -53,30 +54,7 @@ Widget appleSignInButton(BuildContext context) {
           cornerRadius: 0.0,
           style: ButtonStyle.white,
           type: ButtonType.continueButton,
+          onPressed:() => SignInViewModel().signInWithApple(context),
        ),
   );
 }
-
-//  Row(
-//         // crossAxisAlignment: CrossAxisAlignment.center,
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         children: <Widget>[
-//           Container(
-//             alignment: Alignment.centerLeft,
-//             child: Icon(FontAwesomeIcons.apple,
-//             size: 24,
-//             ),
-//           ),
-//           Container(
-//             child: Text('Continue with Apple',
-//              style: TextStyle(
-//                 fontSize: 24,
-//                 fontWeight: FontWeight.w500,
-//                 letterSpacing: .3,
-//                 wordSpacing: -.5,
-//                 color: Colors.black,
-//               ),),
-//             alignment: Alignment.center,
-//           )
-//         ],
-//       )

@@ -58,6 +58,10 @@ dependencies:
   rounded_loading_button: ^1.0.0
   apple_sign_in: ^0.1.0
   random_string: ^2.1.0
+  flutter_email_sender: ^3.0.1
+  open_mail_app: ^0.0.3
+  date_util: ^0.1.4
+  keyboard_visibility: ^0.5.6
   flutter_picker:
     git: git://github.com/yangyxd/flutter_picker.git
 
@@ -96,7 +100,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/logo.png
+#    - assets/images/logo.png
     - assets/images/google-login.png
     - assets/images/athlete-logo.png
     - assets/images/athlete.png

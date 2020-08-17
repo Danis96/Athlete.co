@@ -53,7 +53,7 @@ Widget weekContainer(
                 style: TextStyle(
                     color: Colors.white,
                     fontFamily: 'Roboto',
-                    fontSize: SizeConfig.safeBlockHorizontal * 6,
+                    fontSize: SizeConfig.safeBlockHorizontal * 5,
                     fontStyle: FontStyle.italic,
                     fontWeight: FontWeight.w500),
                 children: <TextSpan>[

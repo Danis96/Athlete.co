@@ -107,3 +107,6 @@ bool isFromRepsOnly = false;
 
 int numOfSeries;
 
+/// is Keyboard open 
+FocusNode focusKeyboard;
+

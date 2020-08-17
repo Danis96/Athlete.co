@@ -1,3 +1,4 @@
+import 'package:attt/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class Dialogs {
@@ -15,17 +16,21 @@ class Dialogs {
                   children: <Widget>[
                     Center(
                       child: Column(children: [
-                        CircularProgressIndicator(),
+                        CircularProgressIndicator(
+                          backgroundColor: MyColors().lightWhite,
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
+                        ),
                         SizedBox(
                           height: 10,
                         ),
                         Text(
-                          "Please Wait....",
-                          style: TextStyle(color: Colors.blueAccent),
+                          "Please wait...",
+                          style: TextStyle(color: Colors.white),
                         )
                       ]),
                     )
-            ]));
+                  ]));
         });
   }
 }

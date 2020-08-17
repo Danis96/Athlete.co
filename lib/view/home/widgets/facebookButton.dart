@@ -1,6 +1,5 @@
 import 'package:attt/utils/colors.dart';
 import 'package:attt/utils/size_config.dart';
-import 'package:attt/utils/text.dart';
 import 'package:attt/view_model/signInViewModel.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +10,7 @@ Widget facebookButton(BuildContext context) {
   return GestureDetector(
     onTap: () => SignInViewModel().signInWithFacebook(context),
     child: Container(
-        height: SizeConfig.blockSizeVertical * 6.25,
+        height: 50,
         width: SizeConfig.blockSizeHorizontal * 72,
         color: MyColors().facebookColor,
         child: Row(
@@ -20,33 +19,29 @@ Widget facebookButton(BuildContext context) {
           children: <Widget>[
             Container(
               padding: EdgeInsets.only(
-                top: SizeConfig.blockSizeVertical * 0.6,
-                left: SizeConfig.blockSizeHorizontal * 1,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(2),
-                color: Colors.white,
+                top: SizeConfig.blockSizeVertical * 0.2,
+                left: SizeConfig.blockSizeHorizontal * 4,
               ),
               height: SizeConfig.blockSizeVertical * 3.50,
               width: SizeConfig.blockSizeHorizontal * 5.50,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: Icon(
+              child: Icon(
                   FontAwesomeIcons.facebookF,
-                  color: MyColors().facebookColor,
+                  color: MyColors().white,
                   size: SizeConfig.blockSizeVertical * 3,
                 ),
-              ),
             ),
             SizedBox(
               width: SizeConfig.blockSizeHorizontal * 3,
             ),
             Text(
-              MyText().fbButton.toUpperCase(),
+              'Continue with Facebook',
               style: TextStyle(
-                  color: MyColors().white,
-                  fontSize: SizeConfig.safeBlockHorizontal * 4,
-                  fontFamily: 'Roboto'),
+                  fontSize: 19,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: .3,
+                  wordSpacing: -.5,
+                  color: Colors.white,
+                ),
             ),
           ],
         )),

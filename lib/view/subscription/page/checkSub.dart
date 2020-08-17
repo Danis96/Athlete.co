@@ -1,10 +1,13 @@
 import 'dart:convert';
 
+import 'package:attt/utils/dialog.dart';
+import 'package:attt/utils/sharedPreferences.dart';
 import 'package:attt/utils/text.dart';
 import 'package:attt/view/home/widgets/privacyTerms.dart';
 import 'package:attt/view/subscription/recieptModels/recieptModel.dart';
 import 'package:attt/view_model/settingsViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:date_util/date_util.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -14,6 +17,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_inapp_purchase/flutter_inapp_purchase.dart';
 import 'package:attt/utils/size_config.dart';
 import 'package:flutter_inapp_purchase/modules.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../utils/colors.dart';
@@ -29,6 +33,9 @@ import 'package:attt/view/subscription/page/page1.dart';
 import 'package:attt/view/subscription/page/page2.dart';
 
 import 'widgets/textReviews.dart';
+
+/// dialog key
+final GlobalKey<State> _keyLoader1 = new GlobalKey<State>();
 
 class CheckSubscription extends StatefulWidget {
   final bool userExist;
@@ -66,13 +73,18 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
   List<String> price;
   List<String> currency;
 
+  /// secret token from apple itunes
   var secretToken = '97c854b72ef64868bd6efe8fab6a1ef0';
+
+  /// date that will be saved in local storage
+  var localExpireDate;
+
+  var sharedPref = SharedPref();
 
   @override
   void initState() {
     super.initState();
     initPlatformState();
-
     _pageController = PageController();
   }
 
@@ -123,13 +135,72 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
     });
 
     _purchaseUpdatedSubscription =
-        FlutterInappPurchase.purchaseUpdated.listen((productItem) {
-      print('purchase-updated: $productItem');
-      print('Transaction ID: ' + productItem.transactionId.toString());
-      print('Transaction Date: ' + productItem.transactionDate.toString());
-      print('Original transaction identifier: ' +
-          productItem.originalTransactionIdentifierIOS.toString());
-      print('Transaction state: ' + productItem.transactionStateIOS.toString());
+        FlutterInappPurchase.purchaseUpdated.listen((productItem) async {
+      // print('purchase-updated: $productItem');
+      // print('Transaction ID: ' + productItem.transactionId.toString());
+      // print('Transaction Date: ' + productItem.transactionDate.toString());
+      // print('Original transaction identifier: ' +
+      //     productItem.originalTransactionIdentifierIOS.toString());
+      // print('Transaction state: ' + productItem.transactionStateIOS.toString());
+
+       var dateUtility = DateUtil();
+    var now = DateTime.now().toString();
+    var nowSplitted = now.split('-');
+    var month = nowSplitted[1];
+
+    var date = new DateTime(
+        DateTime.now().year, DateTime.now().month, DateTime.now().day);
+
+    String day;
+    int dayInt;
+
+    if (month == '01') {
+      dayInt = int.parse('31');
+      print('January ' + dayInt.toString());
+    } else if (month == '02') {
+      dayInt = int.parse('28');
+      print('Feb ' + dayInt.toString());
+    } else if (month == '03') {
+      dayInt = int.parse('31');
+      print('March ' + dayInt.toString());
+    } else if (month == '04') {
+      dayInt = int.parse('30');
+      print('April ' + dayInt.toString());
+    } else if (month == '05') {
+      dayInt = int.parse('31');
+      print('May ' + dayInt.toString());
+    } else if (month == '06') {
+      dayInt = int.parse('30');
+      print('June ' + dayInt.toString());
+    } else if (month == '07') {
+      dayInt = int.parse('31');
+      print('July ' + dayInt.toString());
+    } else if (month == '08') {
+      dayInt = int.parse('31');
+      print('August ' + dayInt.toString());
+    } else if (month == '09') {
+      dayInt = int.parse('30');
+      print('September ' + dayInt.toString());
+    } else if (month == '10') {
+      dayInt = int.parse('31');
+      print('October ' + dayInt.toString());
+    } else if (month == '11') {
+      dayInt = int.parse('30');
+      print('November ' + dayInt.toString());
+    } else if (month == '12') {
+      dayInt = int.parse('31');
+      print('December ' + dayInt.toString());
+    }
+
+    var newDate = new DateTime(date.year, date.month, date.day + dayInt);
+    print(newDate.millisecondsSinceEpoch.toString() + ' Date with subcription');
+    var localExpireDate = newDate.millisecondsSinceEpoch.toString();
+
+      final prefs = await SharedPreferences.getInstance();
+      print('Date checked1');
+      prefs.setString('expirationDate', localExpireDate);
+      print('Expiration Date is written into shared preffs');
+
 
       Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (_) => widget.userExist
@@ -160,7 +231,7 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
       print('purchase-error: $purchaseError');
       if (purchaseError.code == 'E_USER_CANCELLED') {
         showDeclinedDialog(
-            context, 'Purchase cancelled', 'User has cancel the purhase');
+            context, 'Purchase cancelled', 'User has cancelled the purchase');
       }
       if (purchaseError.code == 'E_UNKNOWN') {
         showDeclinedDialog(context, 'No internet',
@@ -185,7 +256,6 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
       print('${item.toString()}');
       this._items.add(item);
     }
-
     setState(() {
       this._items = items;
       this._purchases = [];
@@ -199,7 +269,6 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
       print('${item.toString()}');
       this._purchases.add(item);
     }
-
     setState(() {
       this._items = [];
       this._purchases = items;
@@ -207,6 +276,9 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
   }
 
   Future _getPurchaseHistory() async {
+    print('GET PURCHASE HISTORY');
+
+    /// GET PURCHASE HISTORY AND RECEIPTS
     List<PurchasedItem> items =
         await FlutterInappPurchase.instance.getPurchaseHistory();
     var receiptBody = {
@@ -218,43 +290,86 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
     Map resultMap = jsonDecode(result.body);
     var reciept = RecieptModel.fromJson(resultMap);
     print(reciept.receipt.inApp.last['expires_date_ms']);
+
+    /// date from receipt
     var expirationDateMS = reciept.receipt.inApp.last['expires_date_ms'];
     var thisMoment = DateTime.now().toUtc().millisecondsSinceEpoch;
-    print(thisMoment);
     print('expirationDateMS ' +
         expirationDateMS.toString() +
         '\n' +
         '          thisMoment ' +
         thisMoment.toString());
 
-    int comparedResult =
-        expirationDateMS.toString().compareTo(thisMoment.toString());
-    print(comparedResult);
-    if (comparedResult == 1) {
-      Navigator.of(context).pushReplacement(MaterialPageRoute(
-          builder: (_) => widget.userExist
-              ? widget.currentUserDocument.data['trainer'] != null &&
-                      widget.currentUserDocument.data['trainer'] != ''
-                  ? TrainingPlan(
-                      userTrainerDocument: widget.currentUserTrainerDocument,
-                      userDocument: widget.currentUserDocument,
-                    )
-                  : ChooseAthlete(
-                      userDocument: widget.currentUserDocument,
-                      name: widget.userName,
-                      email: widget.userEmail,
-                      photo: widget.userPhoto,
-                      userUID: widget.userUID,
-                    )
-              : ChooseAthlete(
-                  userDocument: widget.currentUserDocument,
-                  name: widget.userName,
-                  email: widget.userEmail,
-                  photo: widget.userPhoto,
-                  userUID: widget.userUID,
-                )));
-    } else
-      print('nije');
+    /// get local date
+    dynamic expirationDateFromShared;
+    final prefs = await SharedPreferences.getInstance();
+    expirationDateFromShared = prefs.getString('expirationDate') ?? '0';
+    print(expirationDateFromShared.toString() + ' Expiration Date From Shared');
+
+    /// check are dates the same [expirationDateFromShared vs expirationDateMS]
+    if (expirationDateMS == expirationDateFromShared) {
+      print('Jednaki su datumi');
+      int equalityResult =
+          expirationDateFromShared.compareTo(thisMoment.toString());
+      print(equalityResult);
+      if (equalityResult == 1) {
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (_) => widget.userExist
+                ? widget.currentUserDocument.data['trainer'] != null &&
+                        widget.currentUserDocument.data['trainer'] != ''
+                    ? TrainingPlan(
+                        userTrainerDocument: widget.currentUserTrainerDocument,
+                        userDocument: widget.currentUserDocument,
+                      )
+                    : ChooseAthlete(
+                        userDocument: widget.currentUserDocument,
+                        name: widget.userName,
+                        email: widget.userEmail,
+                        photo: widget.userPhoto,
+                        userUID: widget.userUID,
+                      )
+                : ChooseAthlete(
+                    userDocument: widget.currentUserDocument,
+                    name: widget.userName,
+                    email: widget.userEmail,
+                    photo: widget.userPhoto,
+                    userUID: widget.userUID,
+                  )));
+      } else {
+        print('nije');
+      }
+    } else {
+      print('Nisu jednaki');
+    }
+    // int comparedResult =
+    //     expirationDateMS.toString().compareTo(thisMoment.toString());
+    // print(comparedResult);
+
+    // if (comparedResult == 1) {
+    //   Navigator.of(context).pushReplacement(MaterialPageRoute(
+    //       builder: (_) => widget.userExist
+    //           ? widget.currentUserDocument.data['trainer'] != null &&
+    //                   widget.currentUserDocument.data['trainer'] != ''
+    //               ? TrainingPlan(
+    //                   userTrainerDocument: widget.currentUserTrainerDocument,
+    //                   userDocument: widget.currentUserDocument,
+    //                 )
+    //               : ChooseAthlete(
+    //                   userDocument: widget.currentUserDocument,
+    //                   name: widget.userName,
+    //                   email: widget.userEmail,
+    //                   photo: widget.userPhoto,
+    //                   userUID: widget.userUID,
+    //                 )
+    //           : ChooseAthlete(
+    //               userDocument: widget.currentUserDocument,
+    //               name: widget.userName,
+    //               email: widget.userEmail,
+    //               photo: widget.userPhoto,
+    //               userUID: widget.userUID,
+    //             )));
+    // } else
+    //   print('nije');
   }
 
   List<Widget> _renderInApps() {
@@ -274,7 +389,7 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
                   height: Platform.isIOS
                       ? checkIsIosTablet(context)
                           ? SizeConfig.blockSizeVertical * 13.5
-                          : SizeConfig.blockSizeVertical * 11.5
+                          : SizeConfig.blockSizeVertical * 14
                       : SizeConfig.blockSizeVertical * 15,
                   child: Padding(
                     padding: EdgeInsets.all(
@@ -452,54 +567,56 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
                       ),
                     ),
                   ),
-                  Container(
-                      margin: EdgeInsets.only(
-                        top: Platform.isIOS
-                            ? checkIsIosTablet(context)
-                                ? SizeConfig.blockSizeVertical * 12
-                                : SizeConfig.blockSizeVertical * 12.5
-                            : SizeConfig.blockSizeVertical * 30,
-                        left: SizeConfig.blockSizeHorizontal * 3,
-                      ),
-                      child: Column(
-                        children: <Widget>[
-                          Container(
-                            alignment: Alignment.centerLeft,
-                            child: Text(ReviewText().text5,
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: checkIsIosTablet(context)
-                                        ? SizeConfig.safeBlockHorizontal * 5
-                                        : Platform.isIOS
-                                            ? SizeConfig.safeBlockHorizontal *
-                                                6.0
-                                            : SizeConfig.safeBlockHorizontal *
-                                                8.0,
-                                    fontStyle: FontStyle.normal,
-                                    fontWeight: FontWeight.w400)),
-                          ),
-                          resultCont('', '-', ' Be Stronger, fitter, faster'),
-                          // resultCont('', '-', ' Improve power & conditioning'),
-                          // resultCont('', '-', ' Reduce body fat'),
-                        ],
-                      )),
+//                  Container(
+//                      margin: EdgeInsets.only(
+//                        top: Platform.isIOS
+//                            ? checkIsIosTablet(context)
+//                                ? SizeConfig.blockSizeVertical * 12
+//                                : SizeConfig.blockSizeVertical * 12.5
+//                            : SizeConfig.blockSizeVertical * 30,
+//                        left: SizeConfig.blockSizeHorizontal * 3,
+//                      ),
+//                      child: Column(
+//                        children: <Widget>[
+////                          Container(
+////                            alignment: Alignment.centerLeft,
+////                            child: Text(ReviewText().text5,
+////                                style: TextStyle(
+////                                    color: Colors.white,
+////                                    fontSize: checkIsIosTablet(context)
+////                                        ? SizeConfig.safeBlockHorizontal * 5
+////                                        : Platform.isIOS
+////                                            ? SizeConfig.safeBlockHorizontal *
+////                                                6.0
+////                                            : SizeConfig.safeBlockHorizontal *
+////                                                8.0,
+////                                    fontStyle: FontStyle.normal,
+////                                    fontWeight: FontWeight.w400)),
+////                          ),
+////                          resultCont('', '-', ' Be Stronger, fitter, faster'),
+//                          // resultCont('', '-', ' Improve power & conditioning'),
+//                          // resultCont('', '-', ' Reduce body fat'),
+//                        ],
+//                      )),
                   Container(
                     margin: EdgeInsets.only(
                         top: checkIsIosTablet(context)
                             ? SizeConfig.blockSizeVertical * 78
-                            : SizeConfig.blockSizeVertical * 75),
+                            : SizeConfig.blockSizeVertical * 82),
                     child: Text(
                         'App payments made through iTunes are controlled and managed by Apple.\nYour payment will be charged to your iTunes account at confirmation of purchase.Your subscription automatically renews unless auto-renew is turned off at least 24 hours before the end of the current period.Your Account will be charged for renewal within 24 hours prior to the end of the current, period, and the cost of the renewal will be stated.You may managed your subscription and may turn off auto-renewal by going to your iTunes Account Settings after purchase.You may cancel your purchase anytime during the 7-day trial period withouth cost,where applicable.Any unused portion of a free trial period, if offered, will be forfeited if you purchase subscription to that app, where applicable.',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                             color: Colors.white,
-                            fontSize: checkIsIosTablet(context) ? SizeConfig.safeBlockHorizontal * 2 : SizeConfig.safeBlockHorizontal * 3)),
+                            fontSize: checkIsIosTablet(context)
+                                ? SizeConfig.safeBlockHorizontal * 2
+                                : SizeConfig.safeBlockHorizontal * 2)),
                   ),
                   Container(
                     margin: EdgeInsets.only(
                         top: checkIsIosTablet(context)
                             ? SizeConfig.blockSizeVertical * 67
-                            : SizeConfig.blockSizeVertical * 57.5),
+                            : SizeConfig.blockSizeVertical * 59.5),
                     child: Text(
                         '* Cancel your 7 -days Trial any time up until 24 hours before it expires.\nOtherwise, your subscription will extend for another month for \$9.99 or for a year for \$89.99 based on your subscription selection.',
                         textAlign: TextAlign.center,
@@ -512,7 +629,7 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
                     margin: EdgeInsets.only(
                         top: checkIsIosTablet(context)
                             ? SizeConfig.blockSizeVertical * 51
-                            : SizeConfig.blockSizeVertical * 45),
+                            : SizeConfig.blockSizeVertical * 56),
                     child: Text(
                         'Monthly Subscription - Subscription will auto-renew after 1 Month\nAnnual Subscription - Subscription will auto-renew after 12 Months',
                         textAlign: TextAlign.center,
@@ -533,7 +650,7 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
                           top: checkIsIosTablet(context)
                               ? SizeConfig.blockSizeVertical * 55
                               : Platform.isIOS
-                                  ? SizeConfig.blockSizeVertical * 45.5
+                                  ? SizeConfig.blockSizeVertical * 46
                                   : SizeConfig.blockSizeVertical * 78,
                         ),
                         child: FlatButton(
@@ -553,14 +670,18 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
                     margin: EdgeInsets.only(
                         top: checkIsIosTablet(context)
                             ? SizeConfig.blockSizeVertical * 61.5
-                            : SizeConfig.blockSizeVertical * 52),
-                    width: SizeConfig.blockSizeHorizontal * 96,
+                            : SizeConfig.blockSizeVertical * 54, 
+                            left: SizeConfig.blockSizeHorizontal * 18
+                            ),
+                    width: SizeConfig.blockSizeHorizontal * 60,
                     child: RichText(
                       text: TextSpan(
                         text: MyText().byContinuing,
                         style: TextStyle(
                           color: MyColors().lightWhite,
-                          fontSize: checkIsIosTablet(context) ?  SizeConfig.safeBlockHorizontal * 1.5 : SizeConfig.safeBlockHorizontal * 3.5,
+                          fontSize: checkIsIosTablet(context)
+                              ? SizeConfig.safeBlockHorizontal * 1.5
+                              : SizeConfig.safeBlockHorizontal * 3.5,
                           fontFamily: 'Roboto',
                         ),
                         children: <TextSpan>[
@@ -570,7 +691,9 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
                             text: MyText().terms,
                             style: TextStyle(
                                 color: MyColors().lightWhite,
-                                fontSize: checkIsIosTablet(context) ?  SizeConfig.safeBlockHorizontal * 1.5 : SizeConfig.safeBlockHorizontal * 3.5,
+                                fontSize: checkIsIosTablet(context)
+                                    ? SizeConfig.safeBlockHorizontal * 1.5
+                                    : SizeConfig.safeBlockHorizontal * 3.5,
                                 fontFamily: 'Roboto',
                                 decoration: TextDecoration.underline),
                           ),
@@ -578,7 +701,9 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
                             text: ' & ',
                             style: TextStyle(
                               color: MyColors().lightWhite,
-                              fontSize: checkIsIosTablet(context) ?  SizeConfig.safeBlockHorizontal * 1.5 : SizeConfig.safeBlockHorizontal * 3.5,
+                              fontSize: checkIsIosTablet(context)
+                                  ? SizeConfig.safeBlockHorizontal * 1.5
+                                  : SizeConfig.safeBlockHorizontal * 3.5,
                               fontFamily: 'Roboto',
                             ),
                           ),
@@ -588,7 +713,9 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
                             text: MyText().privacy,
                             style: TextStyle(
                                 color: MyColors().lightWhite,
-                                fontSize: checkIsIosTablet(context) ?  SizeConfig.safeBlockHorizontal * 1.5 : SizeConfig.safeBlockHorizontal * 3.5,
+                                fontSize: checkIsIosTablet(context)
+                                    ? SizeConfig.safeBlockHorizontal * 1.5
+                                    : SizeConfig.safeBlockHorizontal * 3.5,
                                 fontFamily: 'Roboto',
                                 decoration: TextDecoration.underline),
                           ),
@@ -601,7 +728,7 @@ class _CheckSubscriptionState extends State<CheckSubscription> {
                     margin: EdgeInsets.only(
                         top: checkIsIosTablet(context)
                             ? SizeConfig.blockSizeVertical * 25
-                            : SizeConfig.blockSizeVertical * 20),
+                            : SizeConfig.blockSizeVertical * 15),
                     child: Column(
                       children: this._renderInApps(),
                     ),

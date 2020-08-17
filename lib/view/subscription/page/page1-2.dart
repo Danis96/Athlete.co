@@ -21,7 +21,7 @@ Widget pageOneToTwo(BuildContext context, PageController pageController, Functio
           width: SizeConfig.blockSizeHorizontal * 90,
           child: RaisedButton(
             color: Color.fromRGBO(255, 198, 7, 1.0),
-            onPressed: () => pageController.animateToPage(4,
+            onPressed: () => pageController.animateToPage(3,
                 duration: Duration(milliseconds: 1500),
                 curve: Curves.easeInOut),
             child: Text(
@@ -33,7 +33,7 @@ Widget pageOneToTwo(BuildContext context, PageController pageController, Functio
       ),
       Container(
         margin: EdgeInsets.only(
-          top: checkIsIosTablet(context) ? SizeConfig.blockSizeVertical * 11 : SizeConfig.blockSizeVertical * 16,
+          top: checkIsIosTablet(context) ? SizeConfig.blockSizeVertical * 11 : SizeConfig.blockSizeVertical * 11,
           left: SizeConfig.blockSizeHorizontal * 3,
         ),
         child: Text(
@@ -47,7 +47,7 @@ Widget pageOneToTwo(BuildContext context, PageController pageController, Functio
         children: <Widget>[
           Container(
               margin: EdgeInsets.only(
-                top: checkIsIosTablet(context) ? SizeConfig.blockSizeVertical * 20 : SizeConfig.blockSizeVertical * 23,
+                top: checkIsIosTablet(context) ? SizeConfig.blockSizeVertical * 20 : SizeConfig.blockSizeVertical * 17,
                 left: SizeConfig.blockSizeHorizontal * 3,
               ),
               child: centerText('Program designed by ', "Aleksandar's", ' world')),

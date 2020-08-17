@@ -7,6 +7,6 @@ Widget logo(BuildContext context) {
   return Container(
     height: SizeConfig.blockSizeVertical * 4.75,
     width: SizeConfig.blockSizeHorizontal * 59,
-    child: Image.asset(MyText().logoUrl, fit: BoxFit.fitWidth,),
+    child: Image.asset('assets/images/athlete-logo.png', fit: BoxFit.fitWidth,),
   );
 }

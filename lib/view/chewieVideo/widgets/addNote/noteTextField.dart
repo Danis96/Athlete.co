@@ -17,13 +17,29 @@ class NoteTextField extends StatefulWidget {
 }
 
 class _NoteTextFieldState extends State<NoteTextField> {
+
+ 
+
+ @protected
+void initState() {
+  super.initState();
+   focusKeyboard = new FocusNode();
+ focusKeyboard.addListener(_onFocusChange);
+}
+
+void _onFocusChange(){
+    debugPrint("Focus: "+ focusKeyboard.hasFocus.toString());
+  }
+
   @override
   Widget build(BuildContext context) {
     return widget.finishScreen == false
-        ? Material(
+        ? Container(
           color: MyColors().lightBlack,
           child: TextFormField(
-            onTap: () => isDone = true,
+            focusNode: focusKeyboard,
+            onTap: () =>
+              isDone = true,
             enableInteractiveSelection: false,
             onChanged: (input) => widget.updateNewNote(input),
             initialValue: userNotes,

@@ -55,13 +55,10 @@ Widget twitterButton(BuildContext context) {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(left:checkIsIosTablet(context) ? SizeConfig.blockSizeHorizontal * 1.4  : SizeConfig.blockSizeHorizontal * 2.5),
-              // decoration: BoxDecoration(
-              //   shape: BoxShape.circle,
-              //   color: MyColors().white,
-              // ),
-              // height: SizeConfig.blockSizeVertical * 3.75,
-              // width: SizeConfig.blockSizeHorizontal * 6.667,
+              margin: EdgeInsets.only(
+                  left: checkIsIosTablet(context)
+                      ? SizeConfig.blockSizeHorizontal * 1.4
+                      : SizeConfig.blockSizeHorizontal * 2.5),
               child: Icon(
                 FontAwesomeIcons.twitter,
                 color: Colors.white,
@@ -74,26 +71,27 @@ Widget twitterButton(BuildContext context) {
             Container(
               child: Text(
                 MyText().tButton,
-                 style: TextStyle(
+                style: TextStyle(
                   fontSize: 21,
                   fontWeight: FontWeight.w500,
                   letterSpacing: .3,
                   wordSpacing: -.5,
-                  color: Colors.white,),
+                  color: Colors.white,
                 ),
+              ),
             ),
           ],
         )),
   );
 }
 
- bool checkIsIosTablet(BuildContext context) {
-    if (MediaQuery.of(context).size.width > 800) {
-      return true;
-    } else {
-      return false;
-    }
+bool checkIsIosTablet(BuildContext context) {
+  if (MediaQuery.of(context).size.width > 800) {
+    return true;
+  } else {
+    return false;
   }
+}
 
 showAlertDialog(BuildContext context) {
   // set up the button

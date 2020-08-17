@@ -12,6 +12,7 @@ import 'package:attt/view/workout/pages/workout.dart';
 import 'package:attt/view_model/signInViewModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_appavailability/flutter_appavailability.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class TrainingPlanViewModel implements TrainingPlanInterface {
@@ -135,15 +136,20 @@ class TrainingPlanViewModel implements TrainingPlanInterface {
   }
 
   launchEmail(String userName) async {
-    String email = 'hello@athlete.co';
-    String subject = 'Customer Service Enquiry from ATHLETE.CO App';
-    String body = 'Hi, my name is $userName.\n\n';
-    if (await canLaunch("mailto:$email")) {
-      await launch("mailto:$email?subject=$subject&body=$body");
+    final Uri params = Uri(
+      scheme: 'mailto',
+      path: 'hello@athlete.co',
+      query: 'subject=Customer Service Enquiry from ATHLETE.CO App Feedback&body=Hi, my name is $userName.', //add subject and body here
+    );
+    var url = params.toString();
+    if (await canLaunch(url)) {
+      await launch(url);
     } else {
-      throw 'Could not launch';
+      throw 'Could not launch $url';
     }
   }
+
+
 
   /// launch messenger
   launchMessenger() async {

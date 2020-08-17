@@ -23,7 +23,7 @@ Widget pageTwo(BuildContext context, PageController pageController, Function che
           width: SizeConfig.blockSizeHorizontal * 90,
           child: RaisedButton(
             color: Color.fromRGBO(255, 198, 7, 1.0),
-            onPressed: () => pageController.animateToPage(4,
+            onPressed: () => pageController.animateToPage(3,
                 duration: Duration(milliseconds: 1500),
                 curve: Curves.easeInOut),
             child: Text(
@@ -34,7 +34,7 @@ Widget pageTwo(BuildContext context, PageController pageController, Function che
         ),
       ),
             Container(
-        margin: EdgeInsets.only(top: checkIsIosTablet(context) ?  SizeConfig.blockSizeVertical * 1 : SizeConfig.blockSizeVertical * 5),
+        margin: EdgeInsets.only(top: checkIsIosTablet(context) ?  SizeConfig.blockSizeVertical * 1 : SizeConfig.blockSizeVertical * 1),
         child: Column(
           children: <Widget>[
             Container(
@@ -51,7 +51,7 @@ Widget pageTwo(BuildContext context, PageController pageController, Function che
       ),
       Container(
         margin: EdgeInsets.only(
-          top: SizeConfig.blockSizeVertical * 24,
+          top: SizeConfig.blockSizeVertical * 19,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,

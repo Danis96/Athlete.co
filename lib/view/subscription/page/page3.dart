@@ -43,7 +43,6 @@ Widget pageThree(Card buildProductList, BuildContext context ,Function checkIsIo
           child: Column(
             children: <Widget>[
               Container(
-
                 alignment: Alignment.centerLeft,
                 child: Text(ReviewText().text5,
                     style: TextStyle(
